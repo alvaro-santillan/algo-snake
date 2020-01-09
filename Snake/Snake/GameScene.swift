@@ -10,29 +10,22 @@ import SpriteKit
 import GameplayKit
 
 class GameScene: SKScene {
-    
-    //1
     var gameLogo: SKLabelNode!
     var bestScore: SKLabelNode!
     var playButton: SKShapeNode!
-    //1
     var game: GameManager!
-    //3
     var currentScore: SKLabelNode!
     var playerPositions: [(Int, Int)] = []
     var gameBG: SKShapeNode!
     var gameArray: [(node: SKShapeNode, x: Int, y: Int)] = []
-    //1
     var scorePos: CGPoint?
 
-    // ie did load
+    // Spritekit vesrion of didLoad()
     override func didMove(to view: SKView) {
         initializeMenu()
         game = GameManager(scene: self)
-        //2
         initializeGameView()
         
-        //1
         let swipeRight:UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeR))
         swipeRight.direction = .right
         view.addGestureRecognizer(swipeRight)
@@ -47,7 +40,6 @@ class GameScene: SKScene {
         view.addGestureRecognizer(swipeDown)
     }
     
-    //2
     @objc func swipeR() {
 //        print("r")
         game.swipe(ID: 3)
@@ -65,9 +57,7 @@ class GameScene: SKScene {
         game.swipe(ID: 4)
     }
     
-    //3
     private func initializeGameView() {
-        //4
         currentScore = SKLabelNode(fontNamed: "ArialRoundedMTBold")
         currentScore.zPosition = 1
         currentScore.position = CGPoint(x: 0, y: (frame.size.height / -2) + 60)
@@ -76,26 +66,33 @@ class GameScene: SKScene {
         currentScore.text = "Score: 0"
         currentScore.fontColor = SKColor.white
         self.addChild(currentScore)
-        //5
-        let width = frame.size.width - 200
-        let height = frame.size.height - 300
+        
+        // Game board margins
+        let width = frame.size.width - 0
+        let height = frame.size.height - 0
         let rect = CGRect(x: -width / 2, y: -height / 2, width: width, height: height)
         gameBG = SKShapeNode(rect: rect, cornerRadius: 0.02)
         gameBG.fillColor = SKColor.darkGray
         gameBG.zPosition = 2
         gameBG.isHidden = true
         self.addChild(gameBG)
-        //6
+        
         createGameBoard(width: Int(width), height: Int(height))
     }
     
     //create a game board, initialize array of cells
     private func createGameBoard(width: Int, height: Int) {
-        let cellWidth: CGFloat = 27.5
-        let numRows = 40
-        let numCols = 20
+        let screenWidth = UIScreen.main.nativeBounds.width
+        _ = UIScreen.main.nativeBounds.height
+        print("billy-bo-billy", screenWidth)
+        
+        // Size of square
+        let cellWidth: CGFloat = 35
+        let numRows = 100
+        let numCols = 100
         var x = CGFloat(width / -2) + (cellWidth / 2)
         var y = CGFloat(height / 2) - (cellWidth / 2)
+        
         //loop through rows and columns, create cells
         for i in 0...numRows - 1 {
             for j in 0...numCols - 1 {
@@ -117,8 +114,6 @@ class GameScene: SKScene {
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
-        
-        //1
         game.update(time: currentTime)
     }
     
@@ -134,21 +129,18 @@ class GameScene: SKScene {
         }
     }
     
-    //4
     //start the game
     private func startGame() {
-        print("start game")
-        //1
         gameLogo.run(SKAction.move(by: CGVector(dx: -50, dy: 600), duration: 0.5)) {
         self.gameLogo.isHidden = true
         }
-        //2
+
         playButton.run(SKAction.scale(to: 0, duration: 0.3)) {
             self.playButton.isHidden = true
         }
-        //3
+
         let bottomCorner = CGPoint(x: 0, y: (frame.size.height / -2) + 20)
-//        bestScore.run(SKAction.move(to: bottomCorner, duration: 0.4))
+
         bestScore.run(SKAction.move(to: bottomCorner, duration: 0.4)) {
             self.gameBG.setScale(0)
         self.currentScore.setScale(0)
@@ -156,15 +148,13 @@ class GameScene: SKScene {
         self.currentScore.isHidden = false
         self.gameBG.run(SKAction.scale(to: 1, duration: 0.4))
         self.currentScore.run(SKAction.scale(to: 1, duration: 0.4))
-        //
+
         self.game.initGame()
         }
     }
     
-    //3
     private func initializeMenu() {
         //Create game title
-        //4
         gameLogo = SKLabelNode(fontNamed: "ArialRoundedMTBold")
         gameLogo.zPosition = 1
         gameLogo.position = CGPoint(x: 0, y: (frame.size.height / 2) - 200)
@@ -172,8 +162,8 @@ class GameScene: SKScene {
         gameLogo.text = "SNAKE"
         gameLogo.fontColor = SKColor.red
         self.addChild(gameLogo)
+        
         //Create best score label
-        //5
         bestScore = SKLabelNode(fontNamed: "ArialRoundedMTBold")
         bestScore.zPosition = 1
         bestScore.position = CGPoint(x: 0, y: gameLogo.position.y - 50)
@@ -181,21 +171,20 @@ class GameScene: SKScene {
         bestScore.text = "Best Score: \(UserDefaults.standard.integer(forKey: "bestScore"))"
         bestScore.fontColor = SKColor.white
         self.addChild(bestScore)
+        
         //Create play button
-        //6
         playButton = SKShapeNode()
         playButton.name = "play_button"
         playButton.zPosition = 1
         playButton.position = CGPoint(x: 0, y: (frame.size.height / -2) + 200)
         playButton.fillColor = SKColor.cyan
-        //7
+
         let topCorner = CGPoint(x: -50, y: 50)
         let bottomCorner = CGPoint(x: -50, y: -50)
         let middle = CGPoint(x: 50, y: 0)
         let path = CGMutablePath()
         path.addLine(to: topCorner)
         path.addLines(between: [topCorner, bottomCorner, middle])
-        //8
         playButton.path = path
         self.addChild(playButton)
     }
