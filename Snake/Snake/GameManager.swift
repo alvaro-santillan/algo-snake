@@ -23,9 +23,9 @@ class GameManager {
     
     func initGame() {
         //starting player position
-        scene.playerPositions.append((10, 10))
-        scene.playerPositions.append((10, 11))
-        scene.playerPositions.append((10, 12))
+        scene.snakeBodyPos.append((10, 10))
+        scene.snakeBodyPos.append((10, 11))
+        scene.snakeBodyPos.append((10, 12))
         renderChange()
         generateNewPoint()
     }
@@ -34,7 +34,7 @@ class GameManager {
         var randomX = CGFloat(arc4random_uniform(19))
         var randomY = CGFloat(arc4random_uniform(39))
 
-        while contains(a: scene.playerPositions, v: (Int(randomX), Int(randomY))) {
+        while contains(a: scene.snakeBodyPos, v: (Int(randomX), Int(randomY))) {
             randomX = CGFloat(arc4random_uniform(19))
             randomY = CGFloat(arc4random_uniform(39))
         }
@@ -66,10 +66,10 @@ class GameManager {
     }
     
     private func finishAnimation() {
-        if playerDirection == 0 && scene.playerPositions.count > 0 {
+        if playerDirection == 0 && scene.snakeBodyPos.count > 0 {
             var hasFinished = true
-            let headOfSnake = scene.playerPositions[0]
-            for position in scene.playerPositions {
+            let headOfSnake = scene.snakeBodyPos[0]
+            for position in scene.snakeBodyPos {
                 if headOfSnake != position {
                     hasFinished = false
                 }
@@ -80,11 +80,11 @@ class GameManager {
             playerDirection = 4
             //animation has completed
             scene.scorePos = nil
-            scene.playerPositions.removeAll()
+            scene.snakeBodyPos.removeAll()
             renderChange()
 
-            scene.gameBG.run(SKAction.scale(to: 0, duration: 0.4)) {
-                self.scene.gameBG.isHidden = true
+            scene.gameBackground.run(SKAction.scale(to: 0, duration: 0.4)) {
+                self.scene.gameBackground.isHidden = true
                 self.scene.gameLogo.isHidden = false
                 self.scene.gameLogo.run(SKAction.move(to: CGPoint(x: 0, y: (self.scene.frame.size.height / 2) - 200), duration: 0.5)) {
                      self.scene.playButton.isHidden = false
@@ -97,8 +97,8 @@ class GameManager {
     }
     
     private func checkForDeath() {
-        if scene.playerPositions.count > 0 {
-            var arrayOfPositions = scene.playerPositions
+        if scene.snakeBodyPos.count > 0 {
+            var arrayOfPositions = scene.snakeBodyPos
             let headOfSnake = arrayOfPositions[0]
             arrayOfPositions.remove(at: 0)
             if contains(a: arrayOfPositions, v: headOfSnake) {
@@ -109,16 +109,16 @@ class GameManager {
     
     private func checkForScore() {
         if scene.scorePos != nil {
-            let x = scene.playerPositions[0].0
-            let y = scene.playerPositions[0].1
+            let x = scene.snakeBodyPos[0].0
+            let y = scene.snakeBodyPos[0].1
             if Int((scene.scorePos?.x)!) == y && Int((scene.scorePos?.y)!) == x {
                 currentScore += 1
-                scene.currentScore.text = "Score: \(currentScore)"
+                scene.gameScore.text = "Score: \(currentScore)"
                 generateNewPoint()
                 //Grow snake by 3 blocks
-                scene.playerPositions.append(scene.playerPositions.last!)
-                scene.playerPositions.append(scene.playerPositions.last!)
-                scene.playerPositions.append(scene.playerPositions.last!)
+                scene.snakeBodyPos.append(scene.snakeBodyPos.last!)
+                scene.snakeBodyPos.append(scene.snakeBodyPos.last!)
+                scene.snakeBodyPos.append(scene.snakeBodyPos.last!)
              }
          }
     }
@@ -157,35 +157,35 @@ class GameManager {
             default:
                 break
         }
-        if scene.playerPositions.count > 0 {
-            var start = scene.playerPositions.count - 1
+        if scene.snakeBodyPos.count > 0 {
+            var start = scene.snakeBodyPos.count - 1
             while start > 0 {
-                scene.playerPositions[start] = scene.playerPositions[start - 1]
+                scene.snakeBodyPos[start] = scene.snakeBodyPos[start - 1]
                 start -= 1
             }
-            scene.playerPositions[0] = (scene.playerPositions[0].0 + yChange, scene.playerPositions[0].1 + xChange)
+            scene.snakeBodyPos[0] = (scene.snakeBodyPos[0].0 + yChange, scene.snakeBodyPos[0].1 + xChange)
         }
         
         // Wrap snake around screen
-        if scene.playerPositions.count > 0 {
-            let x = scene.playerPositions[0].1
-            let y = scene.playerPositions[0].0
+        if scene.snakeBodyPos.count > 0 {
+            let x = scene.snakeBodyPos[0].1
+            let y = scene.snakeBodyPos[0].0
             if y > 40 {
-                scene.playerPositions[0].0 = 0
+                scene.snakeBodyPos[0].0 = 0
             } else if y < 0 {
-                scene.playerPositions[0].0 = 40
+                scene.snakeBodyPos[0].0 = 40
             } else if x > 20 {
-               scene.playerPositions[0].1 = 0
+               scene.snakeBodyPos[0].1 = 0
             } else if x < 0 {
-                scene.playerPositions[0].1 = 20
+                scene.snakeBodyPos[0].1 = 20
             }
         }
         renderChange()
     }
     
     func renderChange() {
-        for (node, x, y) in scene.gameArray {
-            if contains(a: scene.playerPositions, v: (x,y)) {
+        for (node, x, y) in scene.gameBoard {
+            if contains(a: scene.snakeBodyPos, v: (x,y)) {
                 node.fillColor = SKColor.cyan
             } else {
                 node.fillColor = SKColor.clear
@@ -209,7 +209,7 @@ class GameManager {
               UserDefaults.standard.set(currentScore, forKey: "bestScore")
          }
          currentScore = 0
-         scene.currentScore.text = "Score: 0"
+         scene.gameScore.text = "Score: 0"
          scene.bestScore.text = "Best Score: \(UserDefaults.standard.integer(forKey: "bestScore"))"
     }
 }

@@ -60,14 +60,14 @@
 		3812393F23C68E290066B3FA /* Snake */ = {
 			isa = PBXGroup;
 			children = (
-				3812394023C68E290066B3FA /* AppDelegate.swift */,
-				3812394223C68E290066B3FA /* GameScene.sks */,
 				3812394623C68E290066B3FA /* GameScene.swift */,
 				3812395823C68F450066B3FA /* GameManager.swift */,
 				3812394823C68E290066B3FA /* GameViewController.swift */,
-				3812394A23C68E290066B3FA /* Main.storyboard */,
 				3812394D23C68E2C0066B3FA /* Assets.xcassets */,
+				3812394023C68E290066B3FA /* AppDelegate.swift */,
+				3812394A23C68E290066B3FA /* Main.storyboard */,
 				3812394F23C68E2C0066B3FA /* LaunchScreen.storyboard */,
+				3812394223C68E290066B3FA /* GameScene.sks */,
 				3812395223C68E2C0066B3FA /* Info.plist */,
 			);
 			path = Snake;
