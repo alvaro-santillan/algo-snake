@@ -5,6 +5,8 @@
 //  Created by Álvaro Santillan on 1/8/20.
 //  Copyright © 2020 Álvaro Santillan. All rights reserved.
 //
+//  Knwon Bugs
+//  Extra valid row on the bottom of the screen.
 
 import SpriteKit
 import GameplayKit
@@ -15,7 +17,7 @@ class GameScene: SKScene {
     var bestScore: SKLabelNode!
     var playButton: SKShapeNode!
     var playButtonTapped = false
-    var scorePos: CGPoint?
+    var foodPosition: CGPoint?
     
     // Used to store data and managing user movement.
     var game: GameManager!

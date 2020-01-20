@@ -39,18 +39,19 @@ class GameManager {
         scene.snakeBodyPos.append((10, 22))
         scene.snakeBodyPos.append((10, 23))
         renderChange()
-        generateNewPoint()
+        spawnFoodBlock()
     }
     
-    private func generateNewPoint() {
-        var randomX = CGFloat(arc4random_uniform(41))
-        var randomY = CGFloat(arc4random_uniform(73))
+    
+    private func spawnFoodBlock() {
+        let randomX = CGFloat(arc4random_uniform(41))
+        let randomY = CGFloat(arc4random_uniform(73))
 
-        while contains(a: scene.snakeBodyPos, v: (Int(randomX), Int(randomY))) {
-            randomX = CGFloat(arc4random_uniform(41))
-            randomY = CGFloat(arc4random_uniform(73))
-        }
-        scene.scorePos = CGPoint(x: randomX, y: randomY)
+//        while contains(a: scene.snakeBodyPos, v: (Int(randomX), Int(randomY))) {
+//            randomX = CGFloat(arc4random_uniform(41))
+//            randomY = CGFloat(arc4random_uniform(73))
+//        }
+        scene.foodPosition = CGPoint(x: randomX, y: randomY)
     }
     
     func swipe(ID: Int) {
@@ -78,7 +79,7 @@ class GameManager {
     }
     
     private func finishAnimation() {
-        if snakeIsAlive == true {
+        if snakeIsAlive == false {
 //            var hasFinished = true
 //            let headOfSnake = scene.snakeBodyPos[0]
 //            for position in scene.snakeBodyPos {
@@ -91,7 +92,7 @@ class GameManager {
             updateScore()
 //            playerDirection = 4
             //animation has completed
-            scene.scorePos = nil
+            scene.foodPosition = nil
             scene.snakeBodyPos.removeAll()
             renderChange()
 
@@ -113,8 +114,8 @@ class GameManager {
             // Create temp variable of snake without the head.
             var snakeBody = scene.snakeBodyPos
             snakeBody.remove(at: 0)
-            // If head is in same positoin as the body the snake is dead.
-            // The snake dies on walls becouse blocks stack on each other.
+            // If head is in same position as the body the snake is dead.
+            // The snake dies in corners becouse blocks are stacked.
             if contains(a: snakeBody, v: scene.snakeBodyPos[0]) {
                 snakeIsAlive = false
             }
@@ -122,13 +123,13 @@ class GameManager {
     }
     
     private func checkForScore() {
-        if scene.scorePos != nil {
+        if scene.foodPosition != nil {
             let x = scene.snakeBodyPos[0].0
             let y = scene.snakeBodyPos[0].1
-            if Int((scene.scorePos?.x)!) == y && Int((scene.scorePos?.y)!) == x {
+            if Int((scene.foodPosition?.x)!) == y && Int((scene.foodPosition?.y)!) == x {
                 currentScore += 1
                 scene.gameScore.text = "Score: \(currentScore)"
-                generateNewPoint()
+                spawnFoodBlock()
                 //Grow snake by 3 blocks
                 scene.snakeBodyPos.append(scene.snakeBodyPos.last!)
                 scene.snakeBodyPos.append(scene.snakeBodyPos.last!)
@@ -203,9 +204,9 @@ class GameManager {
                 node.fillColor = SKColor.cyan
             } else {
                 node.fillColor = SKColor.clear
-                if scene.scorePos != nil {
-                    if Int((scene.scorePos?.x)!) == y && Int((scene.scorePos?.y)!) == x {
-                        node.fillColor = SKColor.red
+                if scene.foodPosition != nil {
+                    if Int((scene.foodPosition?.x)!) == y && Int((scene.foodPosition?.y)!) == x {
+                        node.fillColor = SKColor.blue
                     }
                 }
             }
