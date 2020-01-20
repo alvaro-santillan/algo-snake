@@ -16,6 +16,7 @@ class GameManager {
     var timeExtension: Double = 0.1
     var playerDirection: Int = 1 // 1 == left, 2 == up, 3 == right, 4 == down
     var currentScore: Int = 0
+    var snakeDead = false
     
     init(scene: GameScene) {
         self.scene = scene
@@ -32,17 +33,22 @@ class GameManager {
         scene.snakeBodyPos.append((10, 16))
         scene.snakeBodyPos.append((10, 17))
         scene.snakeBodyPos.append((10, 18))
+        scene.snakeBodyPos.append((10, 19))
+        scene.snakeBodyPos.append((10, 20))
+        scene.snakeBodyPos.append((10, 21))
+        scene.snakeBodyPos.append((10, 22))
+        scene.snakeBodyPos.append((10, 23))
         renderChange()
         generateNewPoint()
     }
     
     private func generateNewPoint() {
-        var randomX = CGFloat(arc4random_uniform(19))
-        var randomY = CGFloat(arc4random_uniform(39))
+        var randomX = CGFloat(arc4random_uniform(41))
+        var randomY = CGFloat(arc4random_uniform(73))
 
         while contains(a: scene.snakeBodyPos, v: (Int(randomX), Int(randomY))) {
-            randomX = CGFloat(arc4random_uniform(19))
-            randomY = CGFloat(arc4random_uniform(39))
+            randomX = CGFloat(arc4random_uniform(41))
+            randomY = CGFloat(arc4random_uniform(73))
         }
         scene.scorePos = CGPoint(x: randomX, y: randomY)
     }
@@ -72,16 +78,16 @@ class GameManager {
     }
     
     private func finishAnimation() {
-        if playerDirection == 0 && scene.snakeBodyPos.count > 0 {
-            var hasFinished = true
-            let headOfSnake = scene.snakeBodyPos[0]
-            for position in scene.snakeBodyPos {
-                if headOfSnake != position {
-                    hasFinished = false
-                }
-             }
-         if hasFinished {
-            print("end game")
+        if snakeDead == true {
+//            var hasFinished = true
+//            let headOfSnake = scene.snakeBodyPos[0]
+//            for position in scene.snakeBodyPos {
+//                if headOfSnake != position {
+//                    hasFinished = false
+//                }
+//             }
+//         if hasFinished {
+//            print("end game")
             updateScore()
             playerDirection = 4
             //animation has completed
@@ -98,7 +104,7 @@ class GameManager {
                      self.scene.bestScore.run(SKAction.move(to: CGPoint(x: 0, y: self.scene.gameLogo.position.y - 50), duration: 0.3))
                    }
               }
-              }
+//              }
          }
     }
     
@@ -108,7 +114,7 @@ class GameManager {
             let headOfSnake = arrayOfPositions[0]
             arrayOfPositions.remove(at: 0)
             if contains(a: arrayOfPositions, v: headOfSnake) {
-                playerDirection = 0
+                snakeDead = true
             }
         }
     }
