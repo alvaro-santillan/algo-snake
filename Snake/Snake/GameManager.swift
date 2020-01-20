@@ -13,7 +13,7 @@ class GameManager {
     var scene: GameScene!
     var nextTime: Double?
     // Snake speed
-    var timeExtension: Double = 0.15
+    var timeExtension: Double = 0.1
     var playerDirection: Int = 1 // 1 == left, 2 == up, 3 == right, 4 == down
     var currentScore: Int = 0
     
@@ -26,6 +26,12 @@ class GameManager {
         scene.snakeBodyPos.append((10, 10))
         scene.snakeBodyPos.append((10, 11))
         scene.snakeBodyPos.append((10, 12))
+        scene.snakeBodyPos.append((10, 13))
+        scene.snakeBodyPos.append((10, 14))
+        scene.snakeBodyPos.append((10, 15))
+        scene.snakeBodyPos.append((10, 16))
+        scene.snakeBodyPos.append((10, 17))
+        scene.snakeBodyPos.append((10, 18))
         renderChange()
         generateNewPoint()
     }
@@ -149,11 +155,11 @@ class GameManager {
                 yChange = 1
                 break
             //4
-            case 0:
-                //dead
-                xChange = 0
-                yChange = 0
-                break
+//            case 0:
+//                //dead
+//                xChange = 0
+//                yChange = 0
+//                break
             default:
                 break
         }
@@ -170,14 +176,14 @@ class GameManager {
         if scene.snakeBodyPos.count > 0 {
             let x = scene.snakeBodyPos[0].1
             let y = scene.snakeBodyPos[0].0
-            if y > 40 {
-                scene.snakeBodyPos[0].0 = 0
+            if y > 73 {
+                scene.snakeBodyPos[0].0 = 73
             } else if y < 0 {
-                scene.snakeBodyPos[0].0 = 40
-            } else if x > 20 {
-               scene.snakeBodyPos[0].1 = 0
+                scene.snakeBodyPos[0].0 = 0
+            } else if x > 41 {
+               scene.snakeBodyPos[0].1 = 41
             } else if x < 0 {
-                scene.snakeBodyPos[0].1 = 20
+                scene.snakeBodyPos[0].1 = 0
             }
         }
         renderChange()

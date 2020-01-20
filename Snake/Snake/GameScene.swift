@@ -114,47 +114,44 @@ class GameScene: SKScene {
         gameScore.fontColor = SKColor.white
         self.addChild(gameScore)
         
-        // Create ShapeNode in wich the gameboard can reside.
-        let width = frame.size.width - 0
-        let height = frame.size.height - 0
-        let rect = CGRect(x: -width / 2, y: -height / 2, width: width, height: height)
-        gameBackground = SKShapeNode(rect: rect, cornerRadius: 0.02)
-        gameBackground.fillColor = SKColor.darkGray
-        gameBackground.zPosition = 1
+        // Create ShapeNode in which the gameboard can reside.
+        let rect = CGRect(x: 0, y: 0, width: 0, height: 0)
+        gameBackground = SKShapeNode(rect: rect, cornerRadius: 0.0)
+//        gameBackground.fillColor = SKColor.purple
+//        gameBackground.zPosition = 1
         gameBackground.isHidden = true
         self.addChild(gameBackground)
         
         // Create the game board.
-        createGameBoard(width: Int(width), height: Int(height))
+        createGameBoard()
     }
     
-    //create a game board, initialize array of cells
-    private func createGameBoard(width: Int, height: Int) {
-        let screenWidth = UIScreen.main.nativeBounds.width
-        _ = UIScreen.main.nativeBounds.height
-        print("billy-bo-billy", screenWidth)
+    // Create a game board, initialize array of cells.
+    private func createGameBoard() {
+        let width = frame.size.width
+        let height = frame.size.height
+//        print("billy-bo-billy", height)
         
         // Size of square
-        let cellWidth: CGFloat = 27.5
-        let numRows = 40
-        let numCols = 20
+        let cellWidth: CGFloat = 10
+        let numRows = 73
+        let numCols = 41
         var x = CGFloat(width / -2) + (cellWidth / 2)
         var y = CGFloat(height / 2) - (cellWidth / 2)
         
-        //loop through rows and columns, create cells
+        // Loop through rows and columns and create cells.
         for i in 0...numRows - 1 {
             for j in 0...numCols - 1 {
                 let cellNode = SKShapeNode(rectOf: CGSize(width: cellWidth, height: cellWidth))
                 cellNode.strokeColor = SKColor.black
-                cellNode.zPosition = 2
+//                cellNode.zPosition = 2
                 cellNode.position = CGPoint(x: x, y: y)
-                //add to array of cells -- then add to game board
+                // Add to array of cells then add it to the game board.
                 gameBoard.append((node: cellNode, x: i, y: j))
                 gameBackground.addChild(cellNode)
-                //iterate x
                 x += cellWidth
             }
-            //reset x, iterate y
+            // reset x, iterate y
             x = CGFloat(width / -2) + (cellWidth / 2)
             y -= cellWidth
         }
@@ -170,9 +167,11 @@ class GameScene: SKScene {
     
     // Start the game
     private func startGame() {
+//        newTitle.isHidden = true
         // Move the game logo off the screen.
         gameLogo.run(SKAction.move(by: CGVector(dx: -50, dy: 600), duration: 0.5)) {
             self.gameLogo.isHidden = true
+            
         }
 
         // Shrink and hide button
