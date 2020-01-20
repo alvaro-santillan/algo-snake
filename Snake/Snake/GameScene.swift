@@ -38,12 +38,15 @@ class GameScene: SKScene {
         let swipeRight:UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeR))
         swipeRight.direction = .right
         view.addGestureRecognizer(swipeRight)
+        
         let swipeLeft:UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeL))
         swipeLeft.direction = .left
         view.addGestureRecognizer(swipeLeft)
+        
         let swipeUp:UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeU))
         swipeUp.direction = .up
         view.addGestureRecognizer(swipeUp)
+        
         let swipeDown:UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeD))
         swipeDown.direction = .down
         view.addGestureRecognizer(swipeDown)
@@ -70,7 +73,7 @@ class GameScene: SKScene {
         gameLogo.position = CGPoint(x: 0, y: (frame.size.height / 2) - 200)
         gameLogo.fontSize = 60
         gameLogo.text = "SNAKE"
-        gameLogo.fontColor = SKColor.red
+        gameLogo.fontColor = SKColor.white
         // Add to the game scene
         self.addChild(gameLogo)
         
@@ -89,7 +92,7 @@ class GameScene: SKScene {
         playButton.name = "play_button"
         playButton.zPosition = 1
         playButton.position = CGPoint(x: 0, y: (frame.size.height / -2) + 200)
-        playButton.fillColor = SKColor.cyan
+        playButton.fillColor = SKColor.white
 
         // SKShapeNodes for this project due to their simplicity, this is an alternative to creating your graphics in an image editor. This line of code creates a path in the shape of a triangle.
         // Please note if you plan on building and publishing an app you should use SKSpriteNodes to load an image you have created, ShapeNodes can cause performance issues when used in large quantities as they are dynamically drawn once per frame.
@@ -119,8 +122,6 @@ class GameScene: SKScene {
         // Create ShapeNode in which the gameboard can reside.
         let rect = CGRect(x: 0, y: 0, width: 0, height: 0)
         gameBackground = SKShapeNode(rect: rect, cornerRadius: 0.0)
-//        gameBackground.fillColor = SKColor.purple
-//        gameBackground.zPosition = 1
         gameBackground.isHidden = true
         self.addChild(gameBackground)
         
@@ -132,7 +133,6 @@ class GameScene: SKScene {
     private func createGameBoard() {
         let width = frame.size.width
         let height = frame.size.height
-//        print("billy-bo-billy", height)
         
         // Size of square
         let cellWidth: CGFloat = 10
@@ -145,8 +145,7 @@ class GameScene: SKScene {
         for i in 0...numRows - 1 {
             for j in 0...numCols - 1 {
                 let cellNode = SKShapeNode(rectOf: CGSize(width: cellWidth, height: cellWidth))
-                cellNode.strokeColor = SKColor.black
-//                cellNode.zPosition = 2
+                cellNode.strokeColor = SKColor.darkGray
                 cellNode.position = CGPoint(x: x, y: y)
                 // Add to array of cells then add it to the game board.
                 gameBoard.append((node: cellNode, x: i, y: j))
@@ -169,11 +168,9 @@ class GameScene: SKScene {
     
     // Start the game
     private func startGame() {
-//        newTitle.isHidden = true
         // Move the game logo off the screen.
         gameLogo.run(SKAction.move(by: CGVector(dx: -50, dy: 600), duration: 0.5)) {
             self.gameLogo.isHidden = true
-            
         }
 
         // Shrink and hide button
@@ -184,13 +181,9 @@ class GameScene: SKScene {
         // Move best score label to the bottom of the screen.
         let bottomCorner = CGPoint(x: 0, y: (frame.size.height / -2) + 20)
         bestScore.run(SKAction.move(to: bottomCorner, duration: 0.4)) {
-//            self.gameBackground.setScale(0)
-//            self.gameScore.setScale(0)
             self.gameBackground.isHidden = false
             self.gameScore.isHidden = false
-//            self.gameBackground.run(SKAction.scale(to: 1, duration: 0.4))
-//            self.gameScore.run(SKAction.scale(to: 1, duration: 0.4))
-            self.game.initGame()
+            self.game.initiateSnakeStartingPos()
         }
     }
     

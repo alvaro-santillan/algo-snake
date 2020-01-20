@@ -9,11 +9,9 @@
 import SpriteKit
 
 class GameManager {
-    
     var scene: GameScene!
     var nextTime: Double?
-    // Snake speed
-    var timeExtension: Double = 0.1
+    var gameSpeed: Double = 0.1
     var playerDirection: Int = 1 // 1 == left, 2 == up, 3 == right, 4 == down
     var currentScore: Int = 0
     var snakeIsAlive = true
@@ -22,8 +20,7 @@ class GameManager {
         self.scene = scene
     }
     
-    func initGame() {
-        //starting player position
+    func initiateSnakeStartingPos() {
         scene.snakeBodyPos.append((10, 10))
         scene.snakeBodyPos.append((10, 11))
         scene.snakeBodyPos.append((10, 12))
@@ -38,63 +35,43 @@ class GameManager {
         scene.snakeBodyPos.append((10, 21))
         scene.snakeBodyPos.append((10, 22))
         scene.snakeBodyPos.append((10, 23))
-        renderChange()
         spawnFoodBlock()
     }
     
-    
-    private func spawnFoodBlock() {
+    func spawnFoodBlock() {
         let randomX = CGFloat(arc4random_uniform(41))
         let randomY = CGFloat(arc4random_uniform(73))
-
-//        while contains(a: scene.snakeBodyPos, v: (Int(randomX), Int(randomY))) {
-//            randomX = CGFloat(arc4random_uniform(41))
-//            randomY = CGFloat(arc4random_uniform(73))
-//        }
         scene.foodPosition = CGPoint(x: randomX, y: randomY)
     }
     
     func swipe(ID: Int) {
         if !(ID == 2 && playerDirection == 4) && !(ID == 4 && playerDirection == 2) {
             if !(ID == 1 && playerDirection == 3) && !(ID == 3 && playerDirection == 1) {
-                if playerDirection != 0 {
-                    playerDirection = ID
-                }
+                playerDirection = ID
             }
         }
     }
     
     func update(time: Double) {
         if nextTime == nil {
-            nextTime = time + timeExtension
+            nextTime = time + gameSpeed
         } else {
             if time >= nextTime! {
-                nextTime = time + timeExtension
-                updatePlayerPosition()
+                nextTime = time + gameSpeed
+                updateSnakePosition()
                 checkForScore()
                 checkForDeath()
-                finishAnimation()
+                endTheGame()
             }
         }
     }
     
-    private func finishAnimation() {
+    private func endTheGame() {
         if snakeIsAlive == false {
-//            var hasFinished = true
-//            let headOfSnake = scene.snakeBodyPos[0]
-//            for position in scene.snakeBodyPos {
-//                if headOfSnake != position {
-//                    hasFinished = false
-//                }
-//             }
-//         if hasFinished {
-//            print("end game")
             updateScore()
-//            playerDirection = 4
-            //animation has completed
             scene.foodPosition = nil
             scene.snakeBodyPos.removeAll()
-            renderChange()
+            colorGameNodes()
 
             scene.gameBackground.run(SKAction.scale(to: 0, duration: 0.4)) {
                 self.scene.gameBackground.isHidden = true
@@ -105,7 +82,6 @@ class GameManager {
                      self.scene.bestScore.run(SKAction.move(to: CGPoint(x: 0, y: self.scene.gameLogo.position.y - 50), duration: 0.3))
                    }
               }
-//              }
          }
     }
     
@@ -126,6 +102,7 @@ class GameManager {
         if scene.foodPosition != nil {
             let x = scene.snakeBodyPos[0].0
             let y = scene.snakeBodyPos[0].1
+            print("billy bo billy", scene.foodPosition, scene.snakeBodyPos[0])
             if Int((scene.foodPosition?.x)!) == y && Int((scene.foodPosition?.y)!) == x {
                 currentScore += 1
                 scene.gameScore.text = "Score: \(currentScore)"
@@ -138,7 +115,7 @@ class GameManager {
          }
     }
     
-    private func updatePlayerPosition() {
+    private func updateSnakePosition() {
         var xChange = -1
         var yChange = 0
 
@@ -163,12 +140,6 @@ class GameManager {
                 xChange = 0
                 yChange = 1
                 break
-            //4
-//            case 0:
-//                //dead
-//                xChange = 0
-//                yChange = 0
-//                break
             default:
                 break
         }
@@ -185,6 +156,7 @@ class GameManager {
         if scene.snakeBodyPos.count > 0 {
             let x = scene.snakeBodyPos[0].1
             let y = scene.snakeBodyPos[0].0
+            
             if y > 73 {
                 scene.snakeBodyPos[0].0 = 73
             } else if y < 0 {
@@ -195,18 +167,18 @@ class GameManager {
                 scene.snakeBodyPos[0].1 = 0
             }
         }
-        renderChange()
+        colorGameNodes()
     }
     
-    func renderChange() {
+    func colorGameNodes() {
         for (node, x, y) in scene.gameBoard {
             if contains(a: scene.snakeBodyPos, v: (x,y)) {
-                node.fillColor = SKColor.cyan
+                node.fillColor = SKColor.white
             } else {
                 node.fillColor = SKColor.clear
                 if scene.foodPosition != nil {
                     if Int((scene.foodPosition?.x)!) == y && Int((scene.foodPosition?.y)!) == x {
-                        node.fillColor = SKColor.blue
+                        node.fillColor = SKColor.white
                     }
                 }
             }
@@ -220,6 +192,7 @@ class GameManager {
     }
 
     private func updateScore() {
+        // Update the high score if need be.
          if currentScore > UserDefaults.standard.integer(forKey: "bestScore") {
               UserDefaults.standard.set(currentScore, forKey: "bestScore")
          }
