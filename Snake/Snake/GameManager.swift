@@ -16,7 +16,7 @@ class GameManager {
     var timeExtension: Double = 0.1
     var playerDirection: Int = 1 // 1 == left, 2 == up, 3 == right, 4 == down
     var currentScore: Int = 0
-    var snakeDead = false
+    var snakeIsAlive = true
     
     init(scene: GameScene) {
         self.scene = scene
@@ -78,7 +78,7 @@ class GameManager {
     }
     
     private func finishAnimation() {
-        if snakeDead == true {
+        if snakeIsAlive == true {
 //            var hasFinished = true
 //            let headOfSnake = scene.snakeBodyPos[0]
 //            for position in scene.snakeBodyPos {
@@ -89,7 +89,7 @@ class GameManager {
 //         if hasFinished {
 //            print("end game")
             updateScore()
-            playerDirection = 4
+//            playerDirection = 4
             //animation has completed
             scene.scorePos = nil
             scene.snakeBodyPos.removeAll()
@@ -110,11 +110,13 @@ class GameManager {
     
     private func checkForDeath() {
         if scene.snakeBodyPos.count > 0 {
-            var arrayOfPositions = scene.snakeBodyPos
-            let headOfSnake = arrayOfPositions[0]
-            arrayOfPositions.remove(at: 0)
-            if contains(a: arrayOfPositions, v: headOfSnake) {
-                snakeDead = true
+            // Create temp variable of snake without the head.
+            var snakeBody = scene.snakeBodyPos
+            snakeBody.remove(at: 0)
+            // If head is in same positoin as the body the snake is dead.
+            // The snake dies on walls becouse blocks stack on each other.
+            if contains(a: snakeBody, v: scene.snakeBodyPos[0]) {
+                snakeIsAlive = false
             }
         }
     }
