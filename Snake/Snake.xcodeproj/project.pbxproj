@@ -15,6 +15,7 @@
 		3812394E23C68E2C0066B3FA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3812394D23C68E2C0066B3FA /* Assets.xcassets */; };
 		3812395123C68E2C0066B3FA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3812394F23C68E2C0066B3FA /* LaunchScreen.storyboard */; };
 		3812395923C68F450066B3FA /* GameManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3812395823C68F450066B3FA /* GameManager.swift */; };
+		384607BE23E7ECF6001C944D /* MainMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384607BD23E7ECF6001C944D /* MainMenu.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		3812395023C68E2C0066B3FA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3812395223C68E2C0066B3FA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3812395823C68F450066B3FA /* GameManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameManager.swift; sourceTree = "<group>"; };
+		384607BD23E7ECF6001C944D /* MainMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenu.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,13 +65,22 @@
 				38BA7A4D23D3EAE300509984 /* View */,
 				3812394623C68E290066B3FA /* GameScene.swift */,
 				3812395823C68F450066B3FA /* GameManager.swift */,
-				3812394823C68E290066B3FA /* GameViewController.swift */,
+				384607BC23E7ECCD001C944D /* Controllers */,
 				3812394D23C68E2C0066B3FA /* Assets.xcassets */,
 				3812394023C68E290066B3FA /* AppDelegate.swift */,
 				3812394223C68E290066B3FA /* GameScene.sks */,
 				3812395223C68E2C0066B3FA /* Info.plist */,
 			);
 			path = Snake;
+			sourceTree = "<group>";
+		};
+		384607BC23E7ECCD001C944D /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				3812394823C68E290066B3FA /* GameViewController.swift */,
+				384607BD23E7ECF6001C944D /* MainMenu.swift */,
+			);
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 		38BA7A4D23D3EAE300509984 /* View */ = {
@@ -153,6 +164,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				384607BE23E7ECF6001C944D /* MainMenu.swift in Sources */,
 				3812394723C68E290066B3FA /* GameScene.swift in Sources */,
 				3812395923C68F450066B3FA /* GameManager.swift in Sources */,
 				3812394923C68E290066B3FA /* GameViewController.swift in Sources */,

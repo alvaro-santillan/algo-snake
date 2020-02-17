@@ -11,10 +11,13 @@ import SpriteKit
 import GameplayKit
 
 class GameViewController: UIViewController {
-
+    @IBOutlet weak var Tempbutton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+    }
+    
+    @IBAction func startMenu(_ sender: UIButton) {
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
             if let scene = SKScene(fileNamed: "GameScene") {
@@ -23,13 +26,13 @@ class GameViewController: UIViewController {
                 // Present the scene
                 view.presentScene(scene)
             }
-            
             view.ignoresSiblingOrder = true
             view.showsFPS = false
             view.showsNodeCount = false
+            Tempbutton.isHidden = true
         }
     }
-
+    
     override var shouldAutorotate: Bool {
         return false
     }

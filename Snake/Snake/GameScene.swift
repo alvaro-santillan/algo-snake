@@ -14,7 +14,7 @@ import GameplayKit
 class GameScene: SKScene {
     // Home screen var`s to store objects
     var gameLogo: SKLabelNode!
-    var bestScore: SKLabelNode!
+    var highScore: SKLabelNode!
     var playButton: SKShapeNode!
     var playButtonTapped = false
     var foodPosition: CGPoint?
@@ -78,14 +78,14 @@ class GameScene: SKScene {
         self.addChild(gameLogo)
         
         // Define best score label
-        bestScore = SKLabelNode(fontNamed: "ArialRoundedMTBold")
-        bestScore.zPosition = 1
-        bestScore.position = CGPoint(x: 0, y: gameLogo.position.y - 50)
-        bestScore.fontSize = 40
-        bestScore.text = "Best Score: \(UserDefaults.standard.integer(forKey: "bestScore"))"
-        bestScore.fontColor = SKColor.white
+        highScore = SKLabelNode(fontNamed: "ArialRoundedMTBold")
+        highScore.zPosition = 1
+        highScore.position = CGPoint(x: 0, y: gameLogo.position.y - 50)
+        highScore.fontSize = 40
+        highScore.text = "High Score: \(UserDefaults.standard.integer(forKey: "highScore"))"
+        highScore.fontColor = SKColor.white
         // Add to the game scene
-        self.addChild(bestScore)
+        self.addChild(highScore)
         
         // Define play button
         playButton = SKShapeNode()
@@ -180,10 +180,10 @@ class GameScene: SKScene {
 
         // Move best score label to the bottom of the screen.
         let bottomCorner = CGPoint(x: 0, y: (frame.size.height / -2) + 20)
-        bestScore.run(SKAction.move(to: bottomCorner, duration: 0.4)) {
+        highScore.run(SKAction.move(to: bottomCorner, duration: 0.4)) {
             self.gameBackground.isHidden = false
             self.gameScore.isHidden = false
-            self.game.initiateSnakeStartingPos()
+            self.game.initiateSnakeStartingPosition()
         }
     }
     

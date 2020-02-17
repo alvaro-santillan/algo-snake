@@ -14,13 +14,13 @@ class GameManager {
     var gameSpeed: Double = 0.1
     var playerDirection: Int = 1 // 1 == left, 2 == up, 3 == right, 4 == down
     var currentScore: Int = 0
-    var snakeIsAlive = true
     
     init(scene: GameScene) {
         self.scene = scene
     }
     
-    func initiateSnakeStartingPos() {
+    // Understood - Initiate the starting position of the snake.
+    func initiateSnakeStartingPosition() {
         scene.snakeBodyPos.append((10, 10))
         scene.snakeBodyPos.append((10, 11))
         scene.snakeBodyPos.append((10, 12))
@@ -38,10 +38,73 @@ class GameManager {
         spawnFoodBlock()
     }
     
+    // Understood - Spawn a new food block into the game.
     func spawnFoodBlock() {
         let randomX = CGFloat(arc4random_uniform(41))
         let randomY = CGFloat(arc4random_uniform(73))
         scene.foodPosition = CGPoint(x: randomX, y: randomY)
+    }
+    
+    func update(time: Double) {
+        if nextTime == nil {
+            nextTime = time + gameSpeed
+        } else {
+            if time >= nextTime! {
+                nextTime = time + gameSpeed
+                updateSnakePosition()
+                checkForFoodCollision()
+                checkForDeath()
+            }
+        }
+    }
+    
+    func endTheGame() {
+        updateScore()
+        scene.foodPosition = nil
+        scene.snakeBodyPos.removeAll()
+
+        // Ending Animation
+        scene.gameBackground.run(SKAction.scale(to: 0, duration: 0.4)) {
+            self.scene.gameBackground.isHidden = true
+            self.scene.gameLogo.isHidden = false
+            self.scene.gameLogo.run(SKAction.move(to: CGPoint(x: 0, y: (self.scene.frame.size.height / 2) - 200), duration: 0.5)) {
+                 self.scene.gameScore.isHidden = true
+                 self.scene.playButton.isHidden = false
+                 self.scene.playButton.run(SKAction.scale(to: 1, duration: 0.3))
+                 self.scene.highScore.run(SKAction.move(to: CGPoint(x: 0, y: self.scene.gameLogo.position.y - 50), duration: 0.3))
+               }
+          }
+
+    }
+    
+    func checkForDeath() {
+        if scene.snakeBodyPos.count > 0 {
+            // Create temp variable of snake without the head.
+            var snakeBody = scene.snakeBodyPos
+            snakeBody.remove(at: 0)
+            // If head is in same position as the body the snake is dead.
+            // The snake dies in corners becouse blocks are stacked.
+            if contains(a: snakeBody, v: scene.snakeBodyPos[0]) {
+                endTheGame()
+            }
+        }
+    }
+    
+    func checkForFoodCollision() {
+        if scene.foodPosition != nil {
+            let x = scene.snakeBodyPos[0].0
+            let y = scene.snakeBodyPos[0].1
+            if Int((scene.foodPosition?.x)!) == y && Int((scene.foodPosition?.y)!) == x {
+                spawnFoodBlock()
+                // Update the score
+                currentScore += 1
+                scene.gameScore.text = "Score: \(currentScore)"
+                // Grow snake by 3 blocks.
+                scene.snakeBodyPos.append(scene.snakeBodyPos.last!)
+                scene.snakeBodyPos.append(scene.snakeBodyPos.last!)
+                scene.snakeBodyPos.append(scene.snakeBodyPos.last!)
+             }
+         }
     }
     
     func swipe(ID: Int) {
@@ -52,70 +115,7 @@ class GameManager {
         }
     }
     
-    func update(time: Double) {
-        if nextTime == nil {
-            nextTime = time + gameSpeed
-        } else {
-            if time >= nextTime! {
-                nextTime = time + gameSpeed
-                updateSnakePosition()
-                checkForScore()
-                checkForDeath()
-                endTheGame()
-            }
-        }
-    }
-    
-    private func endTheGame() {
-        if snakeIsAlive == false {
-            updateScore()
-            scene.foodPosition = nil
-            scene.snakeBodyPos.removeAll()
-            colorGameNodes()
-
-            scene.gameBackground.run(SKAction.scale(to: 0, duration: 0.4)) {
-                self.scene.gameBackground.isHidden = true
-                self.scene.gameLogo.isHidden = false
-                self.scene.gameLogo.run(SKAction.move(to: CGPoint(x: 0, y: (self.scene.frame.size.height / 2) - 200), duration: 0.5)) {
-                     self.scene.playButton.isHidden = false
-                     self.scene.playButton.run(SKAction.scale(to: 1, duration: 0.3))
-                     self.scene.bestScore.run(SKAction.move(to: CGPoint(x: 0, y: self.scene.gameLogo.position.y - 50), duration: 0.3))
-                   }
-              }
-         }
-    }
-    
-    private func checkForDeath() {
-        if scene.snakeBodyPos.count > 0 {
-            // Create temp variable of snake without the head.
-            var snakeBody = scene.snakeBodyPos
-            snakeBody.remove(at: 0)
-            // If head is in same position as the body the snake is dead.
-            // The snake dies in corners becouse blocks are stacked.
-            if contains(a: snakeBody, v: scene.snakeBodyPos[0]) {
-                snakeIsAlive = false
-            }
-        }
-    }
-    
-    private func checkForScore() {
-        if scene.foodPosition != nil {
-            let x = scene.snakeBodyPos[0].0
-            let y = scene.snakeBodyPos[0].1
-            print("billy bo billy", scene.foodPosition, scene.snakeBodyPos[0])
-            if Int((scene.foodPosition?.x)!) == y && Int((scene.foodPosition?.y)!) == x {
-                currentScore += 1
-                scene.gameScore.text = "Score: \(currentScore)"
-                spawnFoodBlock()
-                //Grow snake by 3 blocks
-                scene.snakeBodyPos.append(scene.snakeBodyPos.last!)
-                scene.snakeBodyPos.append(scene.snakeBodyPos.last!)
-                scene.snakeBodyPos.append(scene.snakeBodyPos.last!)
-             }
-         }
-    }
-    
-    private func updateSnakePosition() {
+    func updateSnakePosition() {
         var xChange = -1
         var yChange = 0
 
@@ -152,7 +152,6 @@ class GameManager {
             scene.snakeBodyPos[0] = (scene.snakeBodyPos[0].0 + yChange, scene.snakeBodyPos[0].1 + xChange)
         }
         
-        // Wrap snake around screen
         if scene.snakeBodyPos.count > 0 {
             let x = scene.snakeBodyPos[0].1
             let y = scene.snakeBodyPos[0].0
@@ -191,13 +190,14 @@ class GameManager {
         return false
     }
 
-    private func updateScore() {
+    func updateScore() {
         // Update the high score if need be.
-         if currentScore > UserDefaults.standard.integer(forKey: "bestScore") {
-              UserDefaults.standard.set(currentScore, forKey: "bestScore")
+         if currentScore > UserDefaults.standard.integer(forKey: "highScore") {
+              UserDefaults.standard.set(currentScore, forKey: "highScore")
          }
+        
+        // Reset and present score variables on game menu.
          currentScore = 0
-         scene.gameScore.text = "Score: 0"
-         scene.bestScore.text = "Best Score: \(UserDefaults.standard.integer(forKey: "bestScore"))"
+         scene.highScore.text = "High Score: \(UserDefaults.standard.integer(forKey: "highScore"))"
     }
 }

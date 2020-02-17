@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // Data persistance save high score.
         let defaults = UserDefaults.standard
-        let defaultValue = ["bestScore" : 0]
+        let defaultValue = ["highScore" : 0]
         defaults.register(defaults: defaultValue)
         
         return true
