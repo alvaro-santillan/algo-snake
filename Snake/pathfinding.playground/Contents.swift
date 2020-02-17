@@ -14,7 +14,7 @@ extension MyPoint: Hashable {
 }
 
 func matrixToDictionary(mazze: Array<Array<Int>>) -> Dictionary<MyPoint, Dictionary<MyPoint, Int>> {
-    var mazeDistances = [MyPoint : [MyPoint : Int]] ()
+    var mazeDistances = [MyPoint : [MyPoint : Int]]()
     var vaildValues = [MyPoint : Int]()
 
     for(y, innerArray) in maze.enumerated() {
@@ -44,14 +44,47 @@ func matrixToDictionary(mazze: Array<Array<Int>>) -> Dictionary<MyPoint, Diction
     return mazeDistances
 }
 
-var maze = ([[11, 12, 13, 14, 15, 16],
-            [22, 22, 0, 22, 22, 22],
-            [33, 33, 99, 654, 33, 33],
-            [44, 44, 0, 44, 44, 44],
-            [55, 55, 55, 55, 55, 55]])
+var maze = ([[1, 1, 1, 1, 1, 1],
+             [1, 0, 0, 0, 0, 1],
+             [1, 0, 1, 0, 0, 1],
+             [1, 0, 0, 0, 1, 1],
+             [1, 0, 1, 0, 0, 1],
+             [1, 1, 1, 1, 1, 1]])
 
 var temp = matrixToDictionary(mazze: maze)
 
-for(i, j) in temp[MyPoint(x: 2, y: 2)]! {
+for(i, j) in temp[MyPoint(x: 1, y: 2)]! {
     print("i", i, "j", j)
+}
+
+// Breath first
+var start = [MyPoint(x: 0, y: 0)]
+var goal = [MyPoint(x: 10, y: 10)]
+
+var currentNode = [MyPoint]()
+var visitedNodes = [MyPoint]()
+var fronterNodes = [MyPoint]()
+var visitedNodeCount = 0
+var nodeAndParentNode = [MyPoint : MyPoint]()
+
+nodeAndParentNode = [start : MyPoint(x: 0, y: 0)]
+visitedNodes = [start]
+visitedNodeCount += 1
+currentNode = start
+
+while (currentNode != goal) {
+    if (currentNode, not in visitedNodes) {
+        visitedNodes.append(currentNode)
+        visitedNodeCount += 1
+    }
+    for (newNode, in (state_graph[currentNode])) {
+        if (newNode, not, in visitedNodes) {
+            if (newNode, not, in fronterNodes) {
+                fronterNodes.append(newNode)
+                nodeAndParentNode.update({newNode:currentNode})
+            }
+        }
+    }
+    currentNode = fronterNodes[0]
+    fronterNodes.pop(0)
 }
