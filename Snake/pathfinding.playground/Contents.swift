@@ -44,23 +44,44 @@ func matrixToDictionary(mazze: Array<Array<Int>>) -> Dictionary<Duple, Dictionar
     return mazeDistances
 }
 
-//var maze = ([[1, 1, 1, 1, 1, 1],
-//             [1, 0, 0, 0, 0, 1],
-//             [1, 0, 1, 0, 0, 1],
-//             [1, 1, 1, 1, 1, 1]])
+var maze = ([[1, 1, 1, 1, 1, 1],
+             [1, 0, 0, 0, 0, 1],
+             [1, 0, 1, 0, 0, 1],
+             [1, 1, 1, 1, 1, 1]])
 
-let maze = ([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-            [1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1],
-            [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-            [1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1],
-            [1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1],
-            [1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 1],
-            [1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 1],
-            [1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1],
-            [1, 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1],
-            [1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1],
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]])
+//let maze = ([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+//            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+//            [1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1],
+//            [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+//            [1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1],
+//            [1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1],
+//            [1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 1],
+//            [1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 1],
+//            [1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1],
+//            [1, 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1],
+//            [1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1],
+//            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]])
+
+var result = [Duple : Duple]()
+
+
+
+func findPath(nodeAndParentNode: [Duple : Duple], end: Duple) {
+    var child = nodeAndParentNode[end]
+    var parent = end
+//    print("parent", parent, "child", child)
+//    print(result)
+        
+    if (end == Duple(x:-1, y:-1)) {
+        print("^^^^^^", result)
+//        result = [Duple : Duple]()
+        return
+    } else {
+//        print("else hit")
+        result[parent] = child
+        findPath(nodeAndParentNode: nodeAndParentNode, end: nodeAndParentNode[end]!)
+    }
+}
 
 func breathFirstSearch(startSquare: Duple, goalSquare: Duple, gameBoard: [Duple : Dictionary<Duple, Int>]) {
     var visitedSquares = [Duple]()
@@ -68,7 +89,7 @@ func breathFirstSearch(startSquare: Duple, goalSquare: Duple, gameBoard: [Duple 
     var visitedSquareCount = 0
     var squareAndParentSquare = [Duple : Duple]()
     
-    squareAndParentSquare[startSquare] = Duple(x:1, y:1)
+    squareAndParentSquare[startSquare] = Duple(x:-1, y:-1)
     visitedSquares += [startSquare]
     visitedSquareCount += 1
     var currentSquare = startSquare
@@ -90,7 +111,8 @@ func breathFirstSearch(startSquare: Duple, goalSquare: Duple, gameBoard: [Duple 
         currentSquare = fronterSquares[0]
         fronterSquares.remove(at: 0)
     }
-    print("--", squareAndParentSquare)
+    var bfsPath = findPath(nodeAndParentNode: squareAndParentSquare, end: goalSquare)
+//    print("$$$$", squareAndParentSquare)
 }
 
-breathFirstSearch(startSquare: Duple(x:1, y:1), goalSquare: Duple(x:10, y:10), gameBoard: matrixToDictionary(mazze: maze))
+breathFirstSearch(startSquare: Duple(x:1, y:1), goalSquare: Duple(x:4, y:2), gameBoard: matrixToDictionary(mazze: maze))
