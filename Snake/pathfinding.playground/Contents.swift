@@ -44,43 +44,44 @@ func matrixToDictionary(mazze: Array<Array<Int>>) -> Dictionary<Duple, Dictionar
     return mazeDistances
 }
 
-var maze = ([[1, 1, 1, 1, 1, 1],
-             [1, 0, 0, 0, 0, 1],
-             [1, 0, 1, 0, 0, 1],
-             [1, 1, 1, 1, 1, 1]])
+//var maze = ([[1, 1, 1, 1, 1, 1],
+//             [1, 0, 0, 0, 0, 1],
+//             [1, 0, 1, 0, 0, 1],
+//             [1, 1, 1, 1, 1, 1]])
 
-//let maze = ([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-//            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-//            [1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1],
-//            [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-//            [1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1],
-//            [1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1],
-//            [1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 1],
-//            [1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 1],
-//            [1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1],
-//            [1, 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1],
-//            [1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1],
-//            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]])
+let maze = ([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+            [1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1],
+            [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+            [1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1],
+            [1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 1],
+            [1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 1],
+            [1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1],
+            [1, 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1],
+            [1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]])
 
 var result = [Duple : Duple]()
 
-
-
-func findPath(nodeAndParentNode: [Duple : Duple], end: Duple) {
-    var child = nodeAndParentNode[end]
-    var parent = end
-//    print("parent", parent, "child", child)
-//    print(result)
-        
+// https://developer.apple.com/documentation/swift/keyvaluepairs for ordered path
+func findPath(nodeAndParentNode: [Duple : Duple], end: Duple) -> [Duple : Duple] {
     if (end == Duple(x:-1, y:-1)) {
-        print("^^^^^^", result)
-//        result = [Duple : Duple]()
-        return
+        return result
     } else {
-//        print("else hit")
-        result[parent] = child
+        result[end] = nodeAndParentNode[end]
         findPath(nodeAndParentNode: nodeAndParentNode, end: nodeAndParentNode[end]!)
     }
+    return result
+}
+
+func findPathCost(path: [Duple : Duple], stateGraph: [Duple : Dictionary<Duple, Int>]) -> Int {
+    var cost = 0
+    
+    for key in path.keys {
+        cost += (stateGraph[key]![path[key]!] ?? 0)
+    }
+    return(cost)
 }
 
 func breathFirstSearch(startSquare: Duple, goalSquare: Duple, gameBoard: [Duple : Dictionary<Duple, Int>]) {
@@ -112,7 +113,8 @@ func breathFirstSearch(startSquare: Duple, goalSquare: Duple, gameBoard: [Duple 
         fronterSquares.remove(at: 0)
     }
     var bfsPath = findPath(nodeAndParentNode: squareAndParentSquare, end: goalSquare)
-//    print("$$$$", squareAndParentSquare)
+    var bfspathCost = findPathCost(path: bfsPath, stateGraph: gameBoard)
+    print(bfspathCost)
 }
 
-breathFirstSearch(startSquare: Duple(x:1, y:1), goalSquare: Duple(x:4, y:2), gameBoard: matrixToDictionary(mazze: maze))
+breathFirstSearch(startSquare: Duple(x:1, y:1), goalSquare: Duple(x:10, y:10), gameBoard: matrixToDictionary(mazze: maze))
