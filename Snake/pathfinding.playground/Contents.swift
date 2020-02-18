@@ -17,11 +17,14 @@ extension Tuple: Hashable {
 // Takes a two dimentional matrix, determins the legal squares.
 // The results are converted into a nested dictionary.
 func gameBoardMatrixToDictionary(gameBoardMatrix: Array<Array<Int>>) -> Dictionary<Tuple, Dictionary<Tuple, Int>> {
+    // Initialize the two required dictionaries.
     var mazeDictionary = [Tuple : [Tuple : Int]]()
     var vaildMoves = [Tuple : Int]()
 
+    // Loop through every cell in the maze.
     for(y, matrixRow) in gameBoardMatrix.enumerated() {
         for(x, _) in matrixRow.enumerated() {
+            // If in a square that is leagal, append valid moves to a dictionary.
             if ((gameBoardMatrix[y][x]) == 0) {
                 // Up
                 if ((gameBoardMatrix[y-1][x]) == 0) {
@@ -39,7 +42,9 @@ func gameBoardMatrixToDictionary(gameBoardMatrix: Array<Array<Int>>) -> Dictiona
                 if (gameBoardMatrix[y+1][x] == 0) {
                     vaildMoves[Tuple(x: x, y: y+1)] = 1
                 }
+                // Append the valid move dictionary to a master dictionary to create a dictionary of dictionaries.
                 mazeDictionary[Tuple(x: x, y: y)] = vaildMoves
+                // Reset the inner dictionary templet.
                 vaildMoves = [Tuple : Int]()
             }
         }
@@ -78,21 +83,36 @@ func formatSearchResults(squareAndParentSquare: [Tuple : Tuple], gameBoard: [Tup
     print(solutionPathCost)
 }
 
+// Steps in Breath First Search
+// Mark parent
+// Mark current node as visited.
+// Append children nodes if needed to the fronter.
+// Select one by one a unvisited child node to explore.
+// Do this for all the child nodes
+// Repeat untill the goal is visited.
+
 // BFS produces a dictionary in which each valid square points too only one parent.
 // Then the dictionary is processed to create a valid path.
+// The nodes are traversed in order found in the dictionary parameter.
 func breathFirstSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple : Dictionary<Tuple, Int>]) {
+    // Initalize variable and add first square manually.
     var visitedSquares = [Tuple]()
     var fronterSquares = [startSquare]
-    var visitedSquareCount = 1
-    var squareAndParentSquare = [startSquare : Tuple(x:-1, y:-1)]
     var currentSquare = startSquare
-
+    var visitedSquareCount = 1
+    // Dictionary used to find a path, every node will have only one parent.
+    var squareAndParentSquare = [startSquare : Tuple(x:-1, y:-1)]
+    
+    // Break once the goal is reached (the goals parent is noted a cycle before when it was a new node.)
     while (currentSquare != goalSquare) {
+        // Mark current node as visited. (If statement required due to first node.)
         if !(visitedSquares.contains(currentSquare)) {
             visitedSquares += [currentSquare]
             visitedSquareCount += 1
         }
         
+        // Repeat through all the nodes in the sub dictionary.
+        // Append to fronter and mark parent.
         for (newFronterSquare, _) in gameBoard[currentSquare]! {
             if !(visitedSquares.contains(newFronterSquare)) {
                 if !(visitedSquares.contains(newFronterSquare)) {
@@ -101,6 +121,7 @@ func breathFirstSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple 
                 }
             }
         }
+        // New currentNode is first in queue (BFS).
         currentSquare = fronterSquares[0]
         fronterSquares.remove(at: 0)
     }
@@ -108,21 +129,34 @@ func breathFirstSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple 
     formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: goalSquare, visitedSquareCount: visitedSquareCount, returnPathCost: true, returnSquaresVisited: true)
 }
 
+// Steps in Depth First Search
+// Mark parent
+// Mark current node as visited.
+// Append children nodes if needed to the fronter.
+// Select the last unvisited child node to explore.
+// Repeat untill the goal is visited.
+
 // DFS produces a dictionary in which each valid square points too only one parent.
 // Then the dictionary is processed to create a valid path.
 func depthFirstSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple : Dictionary<Tuple, Int>]) {
+    // Initalize variable and add first square manually.
     var visitedSquares = [Tuple]()
     var fronterSquares = [startSquare]
-    var visitedSquareCount = 1
-    var squareAndParentSquare = [startSquare : Tuple(x:-1, y:-1)]
     var currentSquare = startSquare
-
+    var visitedSquareCount = 1
+    // Dictionary used to find a path, every node will have only one parent.
+    var squareAndParentSquare = [startSquare : Tuple(x:-1, y:-1)]
+    
+    // Break once the goal is reached (the goals parent is noted a cycle before when it was a new node.)
     while (currentSquare != goalSquare) {
+        // Mark current node as visited. (If statement required due to first node.)
         if !(visitedSquares.contains(currentSquare)) {
             visitedSquares += [currentSquare]
             visitedSquareCount += 1
         }
         
+        // Repeat through all the nodes in the sub dictionary.
+        // Append to fronter and mark parent.
         for (newFronterSquare, _) in gameBoard[currentSquare]! {
             if !(visitedSquares.contains(newFronterSquare)) {
                 if !(visitedSquares.contains(newFronterSquare)) {
@@ -131,10 +165,11 @@ func depthFirstSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple :
                 }
             }
         }
+        // New currentNode is last in queue (DFS).
         currentSquare = fronterSquares.last!
         fronterSquares.popLast()
     }
-    // Genarate a path and optional statistics from the results of BFS.
+    // Genarate a path and optional statistics from the results of DFS.
     formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: goalSquare, visitedSquareCount: visitedSquareCount, returnPathCost: true, returnSquaresVisited: true)
 }
 
