@@ -53,12 +53,12 @@ func gameBoardMatrixToDictionary(gameBoardMatrix: Array<Array<Int>>) -> Dictiona
 }
 
 // Genarate a path and optional statistics from the results of BFS.
-func formatSearchResults(squareAndParentSquare: [Tuple : Tuple], gameBoard: [Tuple : Dictionary<Tuple, Int>], currentSquare: Tuple, visitedSquareCount: Int, returnPathCost: Bool, returnSquaresVisited: Bool) {
+func formatSearchResults(squareAndParentSquare: [Tuple : Tuple], gameBoard: [Tuple : Dictionary<Tuple, Int>], currentSquare: Tuple, visitedSquareCount: Int, returnPathCost: Bool, returnSquaresVisited: Bool) -> ([(Int, Int)], Int, Int) {
     var squareAndParentSquareTuplePath = [Tuple : Tuple]()
     var squareAndNoParentArrayPath = [(Int, Int)]()
 
     // Find a path using the results of the search algorthim.
-    func findPath(squareAndParentSquare: [Tuple : Tuple], currentSquare: Tuple) -> ([(Int, Int)],[Tuple : Tuple] ) {
+    func findPath(squareAndParentSquare: [Tuple : Tuple], currentSquare: Tuple) -> ([(Int, Int)],[Tuple : Tuple]) {
         if (currentSquare == Tuple(x:-1, y:-1)) {
             return (squareAndNoParentArrayPath, squareAndParentSquareTuplePath)
         } else {
@@ -79,8 +79,24 @@ func formatSearchResults(squareAndParentSquare: [Tuple : Tuple], gameBoard: [Tup
         return(cost)
     }
     let (solutionPathArray, solutionPathDuple) = findPath(squareAndParentSquare: squareAndParentSquare, currentSquare: currentSquare)
-    let solutionPathCost = findPathCost(solutionPathDuple: solutionPathDuple, gameBoard: gameBoard)
-    print(solutionPathCost)
+    
+    // Prepare and present the result returns.
+    if (returnPathCost == true) {
+        // Use the "path" method result to calculate a pathcost using the "pathcost" method.
+        let solutionPathCost = findPathCost(solutionPathDuple: solutionPathDuple, gameBoard: gameBoard)
+        
+        if (returnSquaresVisited == true) {
+            return (solutionPathArray, solutionPathCost, visitedSquareCount)
+        } else {
+            return (solutionPathArray, solutionPathCost, 0)
+        }
+    }
+    else if (returnPathCost == false) && (returnSquaresVisited == true) {
+        return (solutionPathArray, 0, visitedSquareCount)
+    }
+    else {
+        return (solutionPathArray, 0, 0)
+    }
 }
 
 // Steps in Breath First Search
@@ -94,7 +110,7 @@ func formatSearchResults(squareAndParentSquare: [Tuple : Tuple], gameBoard: [Tup
 // BFS produces a dictionary in which each valid square points too only one parent.
 // Then the dictionary is processed to create a valid path.
 // The nodes are traversed in order found in the dictionary parameter.
-func breathFirstSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple : Dictionary<Tuple, Int>]) {
+func breathFirstSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple : Dictionary<Tuple, Int>], returnPathCost: Bool, returnSquaresVisited: Bool) -> ([(Int, Int)], Int, Int) {
     // Initalize variable and add first square manually.
     var visitedSquares = [Tuple]()
     var fronterSquares = [startSquare]
@@ -126,7 +142,7 @@ func breathFirstSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple 
         fronterSquares.remove(at: 0)
     }
     // Genarate a path and optional statistics from the results of BFS.
-    formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: goalSquare, visitedSquareCount: visitedSquareCount, returnPathCost: true, returnSquaresVisited: true)
+    return(formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: goalSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited))
 }
 
 // Steps in Depth First Search
@@ -138,7 +154,7 @@ func breathFirstSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple 
 
 // DFS produces a dictionary in which each valid square points too only one parent.
 // Then the dictionary is processed to create a valid path.
-func depthFirstSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple : Dictionary<Tuple, Int>]) {
+func depthFirstSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple : Dictionary<Tuple, Int>], returnPathCost: Bool, returnSquaresVisited: Bool) -> ([(Int, Int)], Int, Int) {
     // Initalize variable and add first square manually.
     var visitedSquares = [Tuple]()
     var fronterSquares = [startSquare]
@@ -170,7 +186,7 @@ func depthFirstSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple :
         fronterSquares.popLast()
     }
     // Genarate a path and optional statistics from the results of DFS.
-    formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: goalSquare, visitedSquareCount: visitedSquareCount, returnPathCost: true, returnSquaresVisited: true)
+    return(formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: goalSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited))
 }
 
 func driver() {
@@ -192,8 +208,8 @@ func driver() {
                     [1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1],
                     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]])
 
-//    breathFirstSearch(startSquare: Tuple(x:1, y:1), goalSquare: Tuple(x:10, y:10), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: largeMaze))
-    depthFirstSearch(startSquare: Tuple(x:1, y:1), goalSquare: Tuple(x:10, y:10), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: largeMaze))
+    print(breathFirstSearch(startSquare: Tuple(x:1, y:1), goalSquare: Tuple(x:10, y:10), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: largeMaze), returnPathCost: true, returnSquaresVisited: true))
+//    print(depthFirstSearch(startSquare: Tuple(x:1, y:1), goalSquare: Tuple(x:10, y:10), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: largeMaze), returnPathCost: true, returnSquaresVisited: true))
 }
 
 driver()
