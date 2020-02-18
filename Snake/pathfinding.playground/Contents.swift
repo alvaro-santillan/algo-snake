@@ -63,17 +63,36 @@ let maze = ([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]])
 
 var result = [Duple : Duple]()
+var result2 = [Duple]()
+var result3 = [Duple]()
+var dupleArray = [(Int, Int)]()
+//dupleArray.append(("String", "String"))
+//print(dupleArray)
 
 // https://developer.apple.com/documentation/swift/keyvaluepairs for ordered path
-func findPath(nodeAndParentNode: [Duple : Duple], end: Duple) -> [Duple : Duple] {
+func findPath(nodeAndParentNode: [Duple : Duple], end: Duple) -> ([(Int, Int)],[Duple : Duple] ) {
     if (end == Duple(x:-2, y:-2)) {
-        return result
+        return (dupleArray, result)
     } else {
         result[end] = nodeAndParentNode[end]
+        dupleArray.append((end.x,end.y))
+        result3 += [nodeAndParentNode[end]!]
         findPath(nodeAndParentNode: nodeAndParentNode, end: nodeAndParentNode[end]!)
     }
-    return result
+//    print("###", dupleArray)
+    return (dupleArray, result)
 }
+
+//func findPathCost(path: [Duple : Duple], stateGraph: [Duple : Dictionary<Duple, Int>]) -> Int {
+//    var cost = 0
+//
+//    for key in path {
+////        result2 = Duple(x: key.0, y: key.1)
+//        print("---", stateGraph[Duple(x: key.0, y: key.1)])
+////        cost += (stateGraph[key]![path[key]!] ?? 0)
+//    }
+//    return(cost)
+//}
 
 func findPathCost(path: [Duple : Duple], stateGraph: [Duple : Dictionary<Duple, Int>]) -> Int {
     var cost = 0
@@ -112,9 +131,9 @@ func breathFirstSearch(startSquare: Duple, goalSquare: Duple, gameBoard: [Duple 
         currentSquare = fronterSquares[0]
         fronterSquares.remove(at: 0)
     }
-    var bfsPath = findPath(nodeAndParentNode: squareAndParentSquare, end: goalSquare)
-    var bfspathCost = findPathCost(path: bfsPath, stateGraph: gameBoard)
-    print(bfspathCost)
+    var (bfsPathArray, bsfPathDuple) = findPath(nodeAndParentNode: squareAndParentSquare, end: goalSquare)
+    var bfspathCost = findPathCost(path: bsfPathDuple, stateGraph: gameBoard)
+//    print(bfspathCost)
 }
 
 //breathFirstSearch(startSquare: Duple(x:1, y:1), goalSquare: Duple(x:10, y:10), gameBoard: matrixToDictionary(mazze: maze))
@@ -148,11 +167,10 @@ func depthFirstSearch(startSquare: Duple, goalSquare: Duple, gameBoard: [Duple :
         currentSquare = fronterSquares.last!
         fronterSquares.popLast()
     }
-    var bfsPath = findPath(nodeAndParentNode: squareAndParentSquare, end: goalSquare)
-    var bfspathCost = findPathCost(path: bfsPath, stateGraph: gameBoard)
-//    print(bfsPath)
-//    print(bfspathCost)
+    var (bfsPathArray, bsfPathDuple) = findPath(nodeAndParentNode: squareAndParentSquare, end: goalSquare)
+    var bfspathCost = findPathCost(path: bsfPathDuple, stateGraph: gameBoard)
+    print(bfsPathArray)
+    print(bfspathCost)
 }
 
 depthFirstSearch(startSquare: Duple(x:1, y:1), goalSquare: Duple(x:10, y:10), gameBoard: matrixToDictionary(mazze: maze))
-// 18,32,24,42,38,28,52
