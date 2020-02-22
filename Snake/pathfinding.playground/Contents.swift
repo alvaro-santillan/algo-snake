@@ -208,8 +208,50 @@ func driver() {
                     [1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1],
                     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]])
 
-    print(breathFirstSearch(startSquare: Tuple(x:1, y:1), goalSquare: Tuple(x:10, y:10), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: largeMaze), returnPathCost: true, returnSquaresVisited: true))
+//    print(breathFirstSearch(startSquare: Tuple(x:1, y:1), goalSquare: Tuple(x:10, y:10), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: largeMaze), returnPathCost: true, returnSquaresVisited: true))
 //    print(depthFirstSearch(startSquare: Tuple(x:1, y:1), goalSquare: Tuple(x:10, y:10), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: largeMaze), returnPathCost: true, returnSquaresVisited: true))
+    print(uniformCostSearch(startSquare: Tuple(x:1, y:1), goalSquare: Tuple(x:10, y:10), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: largeMaze), returnPathCost: false, returnSquaresVisited: false))
+}
+
+class PriorityQueue {
+    var queue:[Int : Tuple]  = [:]
+    
+    init(start: Tuple, cost: Int) {
+        add(state: start, cost: cost)
+    }
+    
+    func add(state: Tuple, cost: Int) {
+        queue[cost] = state
+    }
+    
+    func pop() -> (Int?, Tuple?) {
+        let minCostAndState = queue.min { a, b in a.key < b.key }
+        queue.removeValue(forKey: minCostAndState!.key)
+        return (minCostAndState?.key, minCostAndState?.value)
+    }
+}
+
+func uniformCostSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple : Dictionary<Tuple, Int>], returnPathCost: Bool, returnSquaresVisited: Bool) {
+    var visitedSquares = [Tuple]()
+    var priorityQueueClass = PriorityQueue(start: startSquare, cost: 0)
+    var currentSquare = startSquare
+    var visitedSquareCount = 0
+    var squareAndParentSquare = [startSquare : Tuple(x:-1, y:-1)]
+
+    
+    print(priorityQueueClass.queue)
+    priorityQueueClass.add(state: Tuple(x: 999, y: 999), cost: 888)
+    print("after adding")
+    print(priorityQueueClass.queue)
+    priorityQueueClass.add(state: Tuple(x: 333, y: 444), cost: 1)
+    print("after adding")
+    print(priorityQueueClass.queue)
+    priorityQueueClass.pop()
+    print("after popping")
+    print(priorityQueueClass.queue)
+    priorityQueueClass.pop()
+    print("after popping")
+    print(priorityQueueClass.queue)
 }
 
 driver()
