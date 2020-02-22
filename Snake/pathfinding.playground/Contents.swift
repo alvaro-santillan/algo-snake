@@ -131,10 +131,10 @@ func breathFirstSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple 
         // Append to fronter and mark parent.
         for (newFronterSquare, _) in gameBoard[currentSquare]! {
             if !(visitedSquares.contains(newFronterSquare)) {
-                if !(visitedSquares.contains(newFronterSquare)) {
-                    fronterSquares += [newFronterSquare]
-                    squareAndParentSquare[newFronterSquare] = currentSquare
-                }
+//                if !(visitedSquares.contains(newFronterSquare)) {
+                fronterSquares += [newFronterSquare]
+                squareAndParentSquare[newFronterSquare] = currentSquare
+//                }
             }
         }
         // New currentNode is first in queue (BFS).
@@ -175,10 +175,10 @@ func depthFirstSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple :
         // Append to fronter and mark parent.
         for (newFronterSquare, _) in gameBoard[currentSquare]! {
             if !(visitedSquares.contains(newFronterSquare)) {
-                if !(visitedSquares.contains(newFronterSquare)) {
-                    fronterSquares += [newFronterSquare]
-                    squareAndParentSquare[newFronterSquare] = currentSquare
-                }
+//                if !(visitedSquares.contains(newFronterSquare)) {
+                fronterSquares += [newFronterSquare]
+                squareAndParentSquare[newFronterSquare] = currentSquare
+//                }
             }
         }
         // New currentNode is last in queue (DFS).
@@ -214,44 +214,57 @@ func driver() {
 }
 
 class PriorityQueue {
-    var queue:[Int : Tuple]  = [:]
+    var heap:[Int : Tuple]  = [:]
     
     init(start: Tuple, cost: Int) {
         add(state: start, cost: cost)
     }
     
     func add(state: Tuple, cost: Int) {
-        queue[cost] = state
+        heap[cost] = state
     }
     
     func pop() -> (Int?, Tuple?) {
-        let minCostAndState = queue.min { a, b in a.key < b.key }
-        queue.removeValue(forKey: minCostAndState!.key)
+        let minCostAndState = heap.min { a, b in a.key < b.key }
+        heap.removeValue(forKey: minCostAndState!.key)
         return (minCostAndState?.key, minCostAndState?.value)
     }
 }
 
-func uniformCostSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple : Dictionary<Tuple, Int>], returnPathCost: Bool, returnSquaresVisited: Bool) {
-    var visitedSquares = [Tuple]()
-    var priorityQueueClass = PriorityQueue(start: startSquare, cost: 0)
-    var currentSquare = startSquare
+func uniformCostSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple : Dictionary<Tuple, Int>], returnPathCost: Bool, returnSquaresVisited: Bool) -> ([(Int, Int)], Int, Int) {
+    var visitedSquares = [startSquare]
+    let priorityQueueClass = PriorityQueue(start: startSquare, cost: 0)
+    let currentSquare = Tuple(x:-1, y:-1)
     var visitedSquareCount = 0
     var squareAndParentSquare = [startSquare : Tuple(x:-1, y:-1)]
 
+    print(priorityQueueClass.heap)
+    print(priorityQueueClass.heap.values.contains(startSquare))
+    while (currentSquare != goalSquare) {
+        let (currentCost, currentSquare) = priorityQueueClass.pop()
+        visitedSquares += [currentSquare!]
+        visitedSquareCount += 1
+        
+//        print(priorityQueueClass.queue)
+        for (prospectSquare, _) in gameBoard[currentSquare!]! {
+            let prospectPathCost = currentCost! + 1
+            
+            
+            if !(visitedSquares.contains(prospectSquare)) {
+//                print(prospectSquare)
+                print(priorityQueueClass.heap)
+                if (priorityQueueClass.heap.values.contains(prospectSquare)) {
+                    break
+                }
+                else {
+                    priorityQueueClass.add(state: prospectSquare, cost: prospectPathCost)
+                    squareAndParentSquare[prospectSquare] = currentSquare
+                }
+            }
+        }
+    }
     
-    print(priorityQueueClass.queue)
-    priorityQueueClass.add(state: Tuple(x: 999, y: 999), cost: 888)
-    print("after adding")
-    print(priorityQueueClass.queue)
-    priorityQueueClass.add(state: Tuple(x: 333, y: 444), cost: 1)
-    print("after adding")
-    print(priorityQueueClass.queue)
-    priorityQueueClass.pop()
-    print("after popping")
-    print(priorityQueueClass.queue)
-    priorityQueueClass.pop()
-    print("after popping")
-    print(priorityQueueClass.queue)
+    return(formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: goalSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited))
 }
 
 driver()
