@@ -231,35 +231,47 @@ class PriorityQueue {
     }
 }
 
-func uniformCostSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple : Dictionary<Tuple, Int>], returnPathCost: Bool, returnSquaresVisited: Bool) -> ([(Int, Int)], Int, Int) {
+func uniformCostSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple : Dictionary<Tuple, Float>], returnPathCost: Bool, returnSquaresVisited: Bool) -> ([(Float, Float)], Float, Float) {
     var visitedSquares = [startSquare]
     let priorityQueueClass = PriorityQueue(start: startSquare, cost: 0)
     let currentSquare = Tuple(x:-1, y:-1)
     var visitedSquareCount = 0
     var squareAndParentSquare = [startSquare : Tuple(x:-1, y:-1)]
 
-    print(priorityQueueClass.heap)
-    print(priorityQueueClass.heap.values.contains(startSquare))
+//    print("before while", priorityQueueClass.heap)
+//    print(priorityQueueClass.heap.values.contains(startSquare))
     while (currentSquare != goalSquare) {
+//        print("right before pop", priorityQueueClass.heap)
         let (currentCost, currentSquare) = priorityQueueClass.pop()
+        
+        if (currentSquare == goalSquare) {
+            break
+        }
+        
+//        print("right after pop", priorityQueueClass.heap)
         visitedSquares += [currentSquare!]
         visitedSquareCount += 1
         
 //        print(priorityQueueClass.queue)
-        for (prospectSquare, _) in gameBoard[currentSquare!]! {
-            let prospectPathCost = currentCost! + 1
+        for (prospectSquare, temp) in gameBoard[currentSquare!]! {
+            print("----------", temp)
+            let prospectPathCost = currentCost! + temp + 1.00001
+            print(prospectPathCost)
             
             
             if !(visitedSquares.contains(prospectSquare)) {
 //                print(prospectSquare)
-                print(priorityQueueClass.heap)
+//                print(priorityQueueClass.heap)
                 if (priorityQueueClass.heap.values.contains(prospectSquare)) {
                     break
                 }
                 else {
+                    print("before add", priorityQueueClass.heap)
                     priorityQueueClass.add(state: prospectSquare, cost: prospectPathCost)
+                    print("right after add", priorityQueueClass.heap)
                     squareAndParentSquare[prospectSquare] = currentSquare
                 }
+                print("parent and child", squareAndParentSquare)
             }
         }
     }
