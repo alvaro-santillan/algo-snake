@@ -16,10 +16,10 @@ extension Tuple: Hashable {
 
 // Takes a two dimentional matrix, determins the legal squares.
 // The results are converted into a nested dictionary.
-func gameBoardMatrixToDictionary(gameBoardMatrix: Array<Array<Int>>) -> Dictionary<Tuple, Dictionary<Tuple, Int>> {
+func gameBoardMatrixToDictionary(gameBoardMatrix: Array<Array<Int>>) -> Dictionary<Tuple, Dictionary<Tuple, Float>> {
     // Initialize the two required dictionaries.
-    var mazeDictionary = [Tuple : [Tuple : Int]]()
-    var vaildMoves = [Tuple : Int]()
+    var mazeDictionary = [Tuple : [Tuple : Float]]()
+    var vaildMoves = [Tuple : Float]()
 
     // Loop through every cell in the maze.
     for(y, matrixRow) in gameBoardMatrix.enumerated() {
@@ -28,24 +28,24 @@ func gameBoardMatrixToDictionary(gameBoardMatrix: Array<Array<Int>>) -> Dictiona
             if ((gameBoardMatrix[y][x]) == 0) {
                 // Up
                 if ((gameBoardMatrix[y-1][x]) == 0) {
-                    vaildMoves[Tuple(x: x, y: y-1)] = 1
+                    vaildMoves[Tuple(x: x, y: y-1)] = 1.5
                 }
                 // Right
                 if (gameBoardMatrix[y][x+1] == 0) {
-                    vaildMoves[Tuple(x: x+1, y: y)] = 1
+                    vaildMoves[Tuple(x: x+1, y: y)] = 2.5
                 }
                 // Left
                 if (gameBoardMatrix[y][x-1] == 0) {
-                    vaildMoves[Tuple(x: x-1, y: y)] = 1
+                    vaildMoves[Tuple(x: x-1, y: y)] = 3.5
                 }
                 // Down
                 if (gameBoardMatrix[y+1][x] == 0) {
-                    vaildMoves[Tuple(x: x, y: y+1)] = 1
+                    vaildMoves[Tuple(x: x, y: y+1)] = 4.5
                 }
                 // Append the valid move dictionary to a master dictionary to create a dictionary of dictionaries.
                 mazeDictionary[Tuple(x: x, y: y)] = vaildMoves
                 // Reset the inner dictionary templet.
-                vaildMoves = [Tuple : Int]()
+                vaildMoves = [Tuple : Float]()
             }
         }
     }
@@ -53,7 +53,7 @@ func gameBoardMatrixToDictionary(gameBoardMatrix: Array<Array<Int>>) -> Dictiona
 }
 
 // Genarate a path and optional statistics from the results of BFS.
-func formatSearchResults(squareAndParentSquare: [Tuple : Tuple], gameBoard: [Tuple : Dictionary<Tuple, Int>], currentSquare: Tuple, visitedSquareCount: Int, returnPathCost: Bool, returnSquaresVisited: Bool) -> ([(Int, Int)], Int, Int) {
+func formatSearchResults(squareAndParentSquare: [Tuple : Tuple], gameBoard: [Tuple : Dictionary<Tuple, Float>], currentSquare: Tuple, visitedSquareCount: Int, returnPathCost: Bool, returnSquaresVisited: Bool) -> ([(Int, Int)], Int, Int) {
     var squareAndParentSquareTuplePath = [Tuple : Tuple]()
     var squareAndNoParentArrayPath = [(Int, Int)]()
 
@@ -70,11 +70,11 @@ func formatSearchResults(squareAndParentSquare: [Tuple : Tuple], gameBoard: [Tup
     }
 
     // Calculate the path cost of the path returned by the "findPath" function.
-    func findPathCost(solutionPathDuple: [Tuple : Tuple], gameBoard: [Tuple : Dictionary<Tuple, Int>]) -> Int {
+    func findPathCost(solutionPathDuple: [Tuple : Tuple], gameBoard: [Tuple : Dictionary<Tuple, Float>]) -> Int {
         var cost = 0
         
         for square in solutionPathDuple.keys {
-            cost += (gameBoard[square]![solutionPathDuple[square]!] ?? 0)
+            cost += Int(gameBoard[square]![solutionPathDuple[square]!] ?? 0)
         }
         return(cost)
     }
@@ -110,7 +110,7 @@ func formatSearchResults(squareAndParentSquare: [Tuple : Tuple], gameBoard: [Tup
 // BFS produces a dictionary in which each valid square points too only one parent.
 // Then the dictionary is processed to create a valid path.
 // The nodes are traversed in order found in the dictionary parameter.
-func breathFirstSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple : Dictionary<Tuple, Int>], returnPathCost: Bool, returnSquaresVisited: Bool) -> ([(Int, Int)], Int, Int) {
+func breathFirstSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple : Dictionary<Tuple, Float>], returnPathCost: Bool, returnSquaresVisited: Bool) -> ([(Int, Int)], Int, Int) {
     // Initalize variable and add first square manually.
     var visitedSquares = [Tuple]()
     var fronterSquares = [startSquare]
@@ -154,7 +154,7 @@ func breathFirstSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple 
 
 // DFS produces a dictionary in which each valid square points too only one parent.
 // Then the dictionary is processed to create a valid path.
-func depthFirstSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple : Dictionary<Tuple, Int>], returnPathCost: Bool, returnSquaresVisited: Bool) -> ([(Int, Int)], Int, Int) {
+func depthFirstSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple : Dictionary<Tuple, Float>], returnPathCost: Bool, returnSquaresVisited: Bool) -> ([(Int, Int)], Int, Int) {
     // Initalize variable and add first square manually.
     var visitedSquares = [Tuple]()
     var fronterSquares = [startSquare]
@@ -214,17 +214,17 @@ func driver() {
 }
 
 class PriorityQueue {
-    var heap:[Int : Tuple]  = [:]
+    var heap:[Float : Tuple]  = [:]
     
-    init(start: Tuple, cost: Int) {
+    init(start: Tuple, cost: Float) {
         add(state: start, cost: cost)
     }
     
-    func add(state: Tuple, cost: Int) {
+    func add(state: Tuple, cost: Float) {
         heap[cost] = state
     }
     
-    func pop() -> (Int?, Tuple?) {
+    func pop() -> (Float?, Tuple?) {
         let minCostAndState = heap.min { a, b in a.key < b.key }
         heap.removeValue(forKey: minCostAndState!.key)
         return (minCostAndState?.key, minCostAndState?.value)
@@ -250,8 +250,6 @@ func uniformCostSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple 
         
         for (prospectSquare, temp) in gameBoard[currentSquare!]! {
             let prospectPathCost = currentCost! + temp + 1.00001
-            print(prospectPathCost)
-            
             
             if !(visitedSquares.contains(prospectSquare)) {
                 if (priorityQueueClass.heap.values.contains(prospectSquare)) {
