@@ -1,5 +1,7 @@
 // To-do: reverse y axix at the end.
 // To-do: https://developer.apple.com/documentation/swift/keyvaluepairs for ordered paris.
+// To-do: Optimise breaking condition in Uniform Cost Search and A*.
+// To-do: Confirm outputs are correct.
 
 // Create tuple data structure.
 struct Tuple {
@@ -28,19 +30,20 @@ func gameBoardMatrixToDictionary(gameBoardMatrix: Array<Array<Int>>) -> Dictiona
             if ((gameBoardMatrix[y][x]) == 0) {
                 // Up
                 if ((gameBoardMatrix[y-1][x]) == 0) {
-                    vaildMoves[Tuple(x: x, y: y-1)] = 1.5
+                    vaildMoves[Tuple(x: x, y: y-1)] = 1
                 }
                 // Right
                 if (gameBoardMatrix[y][x+1] == 0) {
-                    vaildMoves[Tuple(x: x+1, y: y)] = 2.5
+                    // Floats so that we can have duplicates keys in dictinaries (Swift dictionary workaround).
+                    vaildMoves[Tuple(x: x+1, y: y)] = 1.000001
                 }
                 // Left
                 if (gameBoardMatrix[y][x-1] == 0) {
-                    vaildMoves[Tuple(x: x-1, y: y)] = 3.5
+                    vaildMoves[Tuple(x: x-1, y: y)] = 1.000002
                 }
                 // Down
                 if (gameBoardMatrix[y+1][x] == 0) {
-                    vaildMoves[Tuple(x: x, y: y+1)] = 4.5
+                    vaildMoves[Tuple(x: x, y: y+1)] = 1.000003
                 }
                 // Append the valid move dictionary to a master dictionary to create a dictionary of dictionaries.
                 mazeDictionary[Tuple(x: x, y: y)] = vaildMoves
@@ -116,7 +119,7 @@ func breathFirstSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple 
     var fronterSquares = [startSquare]
     var currentSquare = startSquare
     var visitedSquareCount = 1
-    // Dictionary used to find a path, every node will have only one parent.
+    // Dictionary used to find a path, every square will have only one parent.
     var squareAndParentSquare = [startSquare : Tuple(x:-1, y:-1)]
     
     // Break once the goal is reached (the goals parent is noted a cycle before when it was a new node.)
@@ -131,10 +134,8 @@ func breathFirstSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple 
         // Append to fronter and mark parent.
         for (newFronterSquare, _) in gameBoard[currentSquare]! {
             if !(visitedSquares.contains(newFronterSquare)) {
-//                if !(visitedSquares.contains(newFronterSquare)) {
                 fronterSquares += [newFronterSquare]
                 squareAndParentSquare[newFronterSquare] = currentSquare
-//                }
             }
         }
         // New currentNode is first in queue (BFS).
@@ -154,13 +155,14 @@ func breathFirstSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple 
 
 // DFS produces a dictionary in which each valid square points too only one parent.
 // Then the dictionary is processed to create a valid path.
+// The nodes are traversed in order found in the dictionary parameter.
 func depthFirstSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple : Dictionary<Tuple, Float>], returnPathCost: Bool, returnSquaresVisited: Bool) -> ([(Int, Int)], Int, Int) {
     // Initalize variable and add first square manually.
     var visitedSquares = [Tuple]()
     var fronterSquares = [startSquare]
     var currentSquare = startSquare
     var visitedSquareCount = 1
-    // Dictionary used to find a path, every node will have only one parent.
+    // Dictionary used to find a path, every square will have only one parent.
     var squareAndParentSquare = [startSquare : Tuple(x:-1, y:-1)]
     
     // Break once the goal is reached (the goals parent is noted a cycle before when it was a new node.)
@@ -175,10 +177,8 @@ func depthFirstSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple :
         // Append to fronter and mark parent.
         for (newFronterSquare, _) in gameBoard[currentSquare]! {
             if !(visitedSquares.contains(newFronterSquare)) {
-//                if !(visitedSquares.contains(newFronterSquare)) {
                 fronterSquares += [newFronterSquare]
                 squareAndParentSquare[newFronterSquare] = currentSquare
-//                }
             }
         }
         // New currentNode is last in queue (DFS).
@@ -186,6 +186,75 @@ func depthFirstSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple :
         fronterSquares.popLast()
     }
     // Genarate a path and optional statistics from the results of DFS.
+    return(formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: goalSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited))
+}
+
+// Simulated priority queue using a simulated heap.
+class PriorityQueue {
+    var heap:[Float : Tuple]  = [:]
+    
+    init(square: Tuple, cost: Float) {
+        // Add first square manually.
+        add(square: square, cost: cost)
+    }
+    
+    // Add a passed tuple to the frontier
+    func add(square: Tuple, cost: Float) {
+        heap[cost] = square
+    }
+    
+    // Return the lowest-cost tuple, and pop it off the frontier
+    func pop() -> (Float?, Tuple?) {
+        let minSquareAndCost = heap.min { a, b in a.key < b.key }
+        heap.removeValue(forKey: minSquareAndCost!.key)
+        return (minSquareAndCost?.key, minSquareAndCost?.value)
+    }
+}
+
+// UCS produces a dictionary in which each valid square points too only one parent.
+// Then the dictionary is processed to create a valid path.
+// The nodes are traversed in order found in the dictionary parameter.
+func uniformCostSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple : Dictionary<Tuple, Float>], returnPathCost: Bool, returnSquaresVisited: Bool) -> ([(Int, Int)], Int, Int) {
+    // Initalize variable and add first square manually.
+    var visitedSquares = [startSquare]
+    // Initiate a priority queue class.
+    let priorityQueueClass = PriorityQueue(square: startSquare, cost: 0)
+    let currentSquare = Tuple(x:-1, y:-1)
+    var visitedSquareCount = 0
+    // Dictionary used to find a path, every square will have only one parent.
+    var squareAndParentSquare = [startSquare : Tuple(x:-1, y:-1)]
+
+    // Break once the goal is reached (the goals parent is noted a cycle before when it was a new node.)
+    // Note if statment bellow breaks for the while (bug to fix).
+    while (currentSquare != goalSquare) {
+        // Set the path cost and the current square equal to the lowest path node in the priority queue.
+        // Pop the square as well (mark as visited)
+        let (currentCost, currentSquare) = priorityQueueClass.pop()
+        
+        // Break the loop one goalSquare is in sight (To-Do optimize this).
+        if (currentSquare == goalSquare) {
+            break
+        }
+        
+        visitedSquares += [currentSquare!]
+        visitedSquareCount += 1
+        
+        // Repeat through all the squares in the sub dictionary.
+        // Update the info stored for the child squares.
+        for (prospectSquare, prospectSquareCost) in gameBoard[currentSquare!]! {
+            // Calculate the path cost to the new square.
+            let prospectPathCost = currentCost! + prospectSquareCost + 1
+            
+            // If the square has not been visited add to the add to the queue and mark its parent.
+            if !(visitedSquares.contains(prospectSquare)) {
+                if !(priorityQueueClass.heap.values.contains(prospectSquare)) {
+                    priorityQueueClass.add(square: prospectSquare, cost: prospectPathCost)
+                    squareAndParentSquare[prospectSquare] = currentSquare
+                }
+            }
+        }
+    }
+    // Genarate a path and optional statistics from the results of UCS.
     return(formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: goalSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited))
 }
 
@@ -210,60 +279,7 @@ func driver() {
 
 //    print(breathFirstSearch(startSquare: Tuple(x:1, y:1), goalSquare: Tuple(x:10, y:10), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: largeMaze), returnPathCost: true, returnSquaresVisited: true))
 //    print(depthFirstSearch(startSquare: Tuple(x:1, y:1), goalSquare: Tuple(x:10, y:10), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: largeMaze), returnPathCost: true, returnSquaresVisited: true))
-    print(uniformCostSearch(startSquare: Tuple(x:1, y:1), goalSquare: Tuple(x:10, y:10), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: largeMaze), returnPathCost: false, returnSquaresVisited: false))
-}
-
-class PriorityQueue {
-    var heap:[Float : Tuple]  = [:]
-    
-    init(start: Tuple, cost: Float) {
-        add(state: start, cost: cost)
-    }
-    
-    func add(state: Tuple, cost: Float) {
-        heap[cost] = state
-    }
-    
-    func pop() -> (Float?, Tuple?) {
-        let minCostAndState = heap.min { a, b in a.key < b.key }
-        heap.removeValue(forKey: minCostAndState!.key)
-        return (minCostAndState?.key, minCostAndState?.value)
-    }
-}
-
-func uniformCostSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple : Dictionary<Tuple, Float>], returnPathCost: Bool, returnSquaresVisited: Bool) -> ([(Int, Int)], Int, Int) {
-    var visitedSquares = [startSquare]
-    let priorityQueueClass = PriorityQueue(start: startSquare, cost: 0)
-    let currentSquare = Tuple(x:-1, y:-1)
-    var visitedSquareCount = 0
-    var squareAndParentSquare = [startSquare : Tuple(x:-1, y:-1)]
-
-    while (currentSquare != goalSquare) {
-        let (currentCost, currentSquare) = priorityQueueClass.pop()
-        
-        if (currentSquare == goalSquare) {
-            break
-        }
-        
-        visitedSquares += [currentSquare!]
-        visitedSquareCount += 1
-        
-        for (prospectSquare, temp) in gameBoard[currentSquare!]! {
-            let prospectPathCost = currentCost! + temp + 1.00001
-            
-            if !(visitedSquares.contains(prospectSquare)) {
-                if (priorityQueueClass.heap.values.contains(prospectSquare)) {
-                    break
-                }
-                else {
-                    priorityQueueClass.add(state: prospectSquare, cost: prospectPathCost)
-                    squareAndParentSquare[prospectSquare] = currentSquare
-                }
-            }
-        }
-    }
-    
-    return(formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: goalSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited))
+    print(uniformCostSearch(startSquare: Tuple(x:1, y:1), goalSquare: Tuple(x:10, y:10), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: largeMaze), returnPathCost: true, returnSquaresVisited: true))
 }
 
 driver()
