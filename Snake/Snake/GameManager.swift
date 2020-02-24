@@ -10,7 +10,8 @@ import SpriteKit
 
 class GameManager {
     var gameStarted = false
-    var test = [4,4,4,4,4,4,3,3,3,3,3,3,2,2,2,2,2,2,1,1,1,1,1,1]
+    var matrix = [[Int]]()
+    var test = [4]
     var scene: GameScene!
     var nextTime: Double?
     var gameSpeed: Double = 0.7
@@ -23,34 +24,49 @@ class GameManager {
     
     // Understood - Initiate the starting position of the snake.
     func initiateSnakeStartingPosition() {
-        scene.snakeBodyPos.append((10, 10))
-        scene.snakeBodyPos.append((10, 11))
-        scene.snakeBodyPos.append((10, 12))
-        scene.snakeBodyPos.append((10, 13))
-        scene.snakeBodyPos.append((10, 14))
-        scene.snakeBodyPos.append((10, 15))
-        scene.snakeBodyPos.append((10, 16))
-        scene.snakeBodyPos.append((10, 17))
-        scene.snakeBodyPos.append((10, 18))
-        scene.snakeBodyPos.append((10, 19))
-        scene.snakeBodyPos.append((10, 20))
-        scene.snakeBodyPos.append((10, 21))
-        scene.snakeBodyPos.append((10, 22))
-        scene.snakeBodyPos.append((10, 23))
+        scene.snakeBodyPos.append((3, 3))
+        matrix[3][3] = 1
+        scene.snakeBodyPos.append((3, 4))
+        matrix[3][4] = 1
+        scene.snakeBodyPos.append((3, 5))
+        matrix[3][5] = 1
+//        scene.snakeBodyPos.append((10, 13))
+//        scene.snakeBodyPos.append((10, 14))
+//        scene.snakeBodyPos.append((10, 15))
+//        scene.snakeBodyPos.append((10, 16))
+//        scene.snakeBodyPos.append((10, 17))
+//        scene.snakeBodyPos.append((10, 18))
+//        scene.snakeBodyPos.append((10, 19))
+//        scene.snakeBodyPos.append((10, 20))
+//        scene.snakeBodyPos.append((10, 21))
+//        scene.snakeBodyPos.append((10, 22))
+//        scene.snakeBodyPos.append((10, 23))
         spawnFoodBlock()
         gameStarted = true
     }
     
     // Understood - Spawn a new food block into the game.
+    var prevX = 0
+    var prevY = 0
     func spawnFoodBlock() {
         print("spawning food")
-        let randomX = CGFloat(arc4random_uniform(73))
-        let randomY = CGFloat(arc4random_uniform(41))
+        let randomX = CGFloat(arc4random_uniform(15)) //73
+        let randomY = CGFloat(arc4random_uniform(15)) //41
+        matrix[Int(randomY)][Int(randomX)] = 1
+        matrix[prevX][prevY] = 0
+        prevX = Int(randomY)
+        prevY = Int(randomX)
+        for i in 0...14 {
+            print(matrix[i])
+        }
         scene.foodPosition = CGPoint(x: randomX, y: randomY)
     }
     
+    func bringOvermatrix(tempMatrix: [[Int]]) {
+        matrix = tempMatrix
+    }
+    
     func runPredeterminedPath() {
-        
         if gameStarted == true {
             if (test.count != 0) {
 //                print("-----sdfg", test.count, test[0])
@@ -174,12 +190,12 @@ class GameManager {
             let x = scene.snakeBodyPos[0].1
             let y = scene.snakeBodyPos[0].0
             
-            if y > 41 {
-                scene.snakeBodyPos[0].0 = 41
+            if y > 15 { //41
+                scene.snakeBodyPos[0].0 = 15 //41
             } else if y < 0 {
                 scene.snakeBodyPos[0].0 = 0
-            } else if x > 73 {
-               scene.snakeBodyPos[0].1 = 73
+            } else if x > 15 { //73
+               scene.snakeBodyPos[0].1 = 15 //73
             } else if x < 0 {
                 scene.snakeBodyPos[0].1 = 0
             }

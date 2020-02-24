@@ -296,7 +296,7 @@ func driver() {
                     [1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1],
                     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]])
 
-    print(breathFirstSearch(startSquare: Tuple(x:4, y:2), goalSquare: Tuple(x:1, y:1), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: smallMaze), returnPathCost: false, returnSquaresVisited: false))
+    print(breathFirstSearch(startSquare: Tuple(x:1, y:1), goalSquare: Tuple(x:10, y:10), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: largeMaze), returnPathCost: false, returnSquaresVisited: false))
 //    print(depthFirstSearch(startSquare: Tuple(x:1, y:1), goalSquare: Tuple(x:10, y:10), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: largeMaze), returnPathCost: true, returnSquaresVisited: true))
 //    print(uniformCostSearch(startSquare: Tuple(x:1, y:1), goalSquare: Tuple(x:10, y:10), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: smallMaze), returnPathCost: true, returnSquaresVisited: true))
 }

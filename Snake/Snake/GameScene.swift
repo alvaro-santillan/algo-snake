@@ -129,6 +129,8 @@ class GameScene: SKScene {
         createGameBoard()
     }
     
+    var matrix = [[Int]]()
+    var row = [Int]()
     // Create a game board, initialize array of cells.
     private func createGameBoard() {
         let width = frame.size.width
@@ -136,8 +138,10 @@ class GameScene: SKScene {
         
         // Size of square
         let cellWidth: CGFloat = 10
-        let numRows = 41
-        let numCols = 73
+//        let numRows = 41
+//        let numCols = 73
+        let numRows = 15
+        let numCols = 15
         var x = CGFloat(width / -2) + (cellWidth / 2)
         var y = CGFloat(height / 2) - (cellWidth / 2)
         
@@ -147,15 +151,21 @@ class GameScene: SKScene {
                 let cellNode = SKShapeNode(rectOf: CGSize(width: cellWidth, height: cellWidth))
                 cellNode.strokeColor = SKColor.darkGray
                 cellNode.position = CGPoint(x: x, y: y)
+                row.append(0)
                 // Add to array of cells then add it to the game board.
                 gameBoard.append((node: cellNode, x: i, y: j))
                 gameBackground.addChild(cellNode)
                 x += cellWidth
             }
+            matrix.append(row)
+            row = [Int]()
             // reset x, iterate y
             x = CGFloat(width / -2) + (cellWidth / 2)
             y -= cellWidth
         }
+        // Print Results
+
+        game.bringOvermatrix(tempMatrix: matrix)
     }
     
     // Called when the play button is tapped.
