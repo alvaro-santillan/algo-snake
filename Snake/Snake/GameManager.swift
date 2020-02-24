@@ -9,9 +9,11 @@
 import SpriteKit
 
 class GameManager {
+    var gameStarted = false
+    var test = [4,4,4,4,4,4,3,3,3,3,3,3,2,2,2,2,2,2,1,1,1,1,1,1]
     var scene: GameScene!
     var nextTime: Double?
-    var gameSpeed: Double = 0.1
+    var gameSpeed: Double = 0.7
     var playerDirection: Int = 1 // 1 == left, 2 == up, 3 == right, 4 == down
     var currentScore: Int = 0
     
@@ -36,13 +38,26 @@ class GameManager {
         scene.snakeBodyPos.append((10, 22))
         scene.snakeBodyPos.append((10, 23))
         spawnFoodBlock()
+        gameStarted = true
     }
     
     // Understood - Spawn a new food block into the game.
     func spawnFoodBlock() {
-        let randomX = CGFloat(arc4random_uniform(41))
-        let randomY = CGFloat(arc4random_uniform(73))
+        print("spawning food")
+        let randomX = CGFloat(arc4random_uniform(73))
+        let randomY = CGFloat(arc4random_uniform(41))
         scene.foodPosition = CGPoint(x: randomX, y: randomY)
+    }
+    
+    func runPredeterminedPath() {
+        
+        if gameStarted == true {
+            if (test.count != 0) {
+//                print("-----sdfg", test.count, test[0])
+                swipe(ID: test[0])
+                test.remove(at: 0)
+            }
+        }
     }
     
     func update(time: Double) {
@@ -51,6 +66,7 @@ class GameManager {
         } else {
             if time >= nextTime! {
                 nextTime = time + gameSpeed
+                runPredeterminedPath()
                 updateSnakePosition()
                 checkForFoodCollision()
                 checkForDeath()
@@ -77,7 +93,9 @@ class GameManager {
 
     }
     
+    // this is run when game hasent started. fix for optimization.
     func checkForDeath() {
+//        print("checked---------")
         if scene.snakeBodyPos.count > 0 {
             // Create temp variable of snake without the head.
             var snakeBody = scene.snakeBodyPos
@@ -116,7 +134,7 @@ class GameManager {
     }
     
     func updateSnakePosition() {
-        var xChange = -1
+        var xChange = 0
         var yChange = 0
 
         switch playerDirection {
@@ -156,12 +174,12 @@ class GameManager {
             let x = scene.snakeBodyPos[0].1
             let y = scene.snakeBodyPos[0].0
             
-            if y > 73 {
-                scene.snakeBodyPos[0].0 = 73
+            if y > 41 {
+                scene.snakeBodyPos[0].0 = 41
             } else if y < 0 {
                 scene.snakeBodyPos[0].0 = 0
-            } else if x > 41 {
-               scene.snakeBodyPos[0].1 = 41
+            } else if x > 73 {
+               scene.snakeBodyPos[0].1 = 73
             } else if x < 0 {
                 scene.snakeBodyPos[0].1 = 0
             }
