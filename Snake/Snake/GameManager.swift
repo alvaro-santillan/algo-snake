@@ -4,7 +4,7 @@
 //
 //  Created by Álvaro Santillan on 1/8/20.
 //  Copyright © 2020 Álvaro Santillan. All rights reserved.
-//
+//  Bug Seg-fault when reach gameboard end.
 
 import SpriteKit
 
@@ -56,9 +56,9 @@ class GameManager {
         matrix[prevX][prevY] = 0
         prevX = Int(randomY)
         prevY = Int(randomX)
-        for i in 0...14 {
-            print(matrix[i])
-        }
+//        for i in 0...14 {
+//            print(matrix[i])
+//        }
         scene.foodPosition = CGPoint(x: randomX, y: randomY)
     }
     
@@ -135,8 +135,8 @@ class GameManager {
                 scene.gameScore.text = "Score: \(currentScore)"
                 // Grow snake by 3 blocks.
                 scene.snakeBodyPos.append(scene.snakeBodyPos.last!)
-                scene.snakeBodyPos.append(scene.snakeBodyPos.last!)
-                scene.snakeBodyPos.append(scene.snakeBodyPos.last!)
+//                scene.snakeBodyPos.append(scene.snakeBodyPos.last!)
+//                scene.snakeBodyPos.append(scene.snakeBodyPos.last!)
              }
          }
     }
@@ -148,6 +148,7 @@ class GameManager {
             }
         }
     }
+    
     
     func updateSnakePosition() {
         var xChange = 0
@@ -178,12 +179,28 @@ class GameManager {
                 break
         }
         if scene.snakeBodyPos.count > 0 {
+            
             var start = scene.snakeBodyPos.count - 1
+            matrix[scene.snakeBodyPos[start].0][scene.snakeBodyPos[start].1] = 0
             while start > 0 {
                 scene.snakeBodyPos[start] = scene.snakeBodyPos[start - 1]
+//                print(scene.snakeBodyPos[start])
+//                print(scene.snakeBodyPos)
                 start -= 1
             }
+//            print("---")
             scene.snakeBodyPos[0] = (scene.snakeBodyPos[0].0 + yChange, scene.snakeBodyPos[0].1 + xChange)
+//            print(scene.snakeBodyPos)
+            
+//            print(scene.snakeBodyPos[0])
+//            print(scene.snakeBodyPos[1])
+//            print(scene.snakeBodyPos[2])
+            matrix[scene.snakeBodyPos[0].0][scene.snakeBodyPos[0].1] = 1
+            matrix[scene.snakeBodyPos[1].0][scene.snakeBodyPos[1].1] = 1
+            matrix[scene.snakeBodyPos[2].0][scene.snakeBodyPos[2].1] = 1
+            for i in 0...14 {
+                print(matrix[i])
+            }
         }
         
         if scene.snakeBodyPos.count > 0 {
