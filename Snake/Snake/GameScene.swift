@@ -136,8 +136,8 @@ class GameScene: SKScene {
         
         // Size of square
         let cellWidth: CGFloat = 10
-        let numRows = 73
-        let numCols = 41
+        let numRows = 41
+        let numCols = 73
         var x = CGFloat(width / -2) + (cellWidth / 2)
         var y = CGFloat(height / 2) - (cellWidth / 2)
         

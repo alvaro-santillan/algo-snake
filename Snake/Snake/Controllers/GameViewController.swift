@@ -11,13 +11,22 @@ import SpriteKit
 import GameplayKit
 
 class GameViewController: UIViewController {
-    @IBOutlet weak var Tempbutton: UIButton!
+    @IBOutlet weak var settingsButton: UIButton!
+    @IBOutlet weak var startButton: UIButton!
+    @IBOutlet weak var highScoreLabel: UITextField!
+    @IBOutlet weak var lastScoreLabel: UITextField!
+    @IBOutlet weak var titleLabel: UITextField!
+    @IBOutlet weak var segControl: UISegmentedControl!
+    @IBOutlet weak var segControlWindow: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
     @IBAction func startMenu(_ sender: UIButton) {
+
+    }
+    @IBAction func StartButton(_ sender: UIButton) {
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
             if let scene = SKScene(fileNamed: "GameScene") {
@@ -29,7 +38,13 @@ class GameViewController: UIViewController {
             view.ignoresSiblingOrder = true
             view.showsFPS = false
             view.showsNodeCount = false
-            Tempbutton.isHidden = true
+            settingsButton.isHidden = true
+            startButton.isHidden = true
+            highScoreLabel.isHidden = true
+            lastScoreLabel.isHidden = true
+            titleLabel.isHidden = true
+            segControl.isHidden = true
+            segControlWindow.isHidden = true
         }
     }
     
