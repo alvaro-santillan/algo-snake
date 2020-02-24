@@ -2,6 +2,7 @@
 // To-do: https://developer.apple.com/documentation/swift/keyvaluepairs for ordered paris.
 // To-do: Optimise breaking condition in Uniform Cost Search and A*.
 // To-do: Confirm outputs are correct.
+// To-do: Startsquare and goalSquare are swapped.
 
 // Create tuple data structure.
 struct Tuple {
@@ -59,6 +60,8 @@ func gameBoardMatrixToDictionary(gameBoardMatrix: Array<Array<Int>>) -> Dictiona
 func formatSearchResults(squareAndParentSquare: [Tuple : Tuple], gameBoard: [Tuple : Dictionary<Tuple, Float>], currentSquare: Tuple, visitedSquareCount: Int, returnPathCost: Bool, returnSquaresVisited: Bool) -> ([(Int, Int)], Int, Int) {
     var squareAndParentSquareTuplePath = [Tuple : Tuple]()
     var squareAndNoParentArrayPath = [(Int, Int)]()
+    // 1 == left, 2 == up, 3 == right, 4 == down
+    var movePath = [String]()
 
     // Find a path using the results of the search algorthim.
     func findPath(squareAndParentSquare: [Tuple : Tuple], currentSquare: Tuple) -> ([(Int, Int)],[Tuple : Tuple]) {
@@ -67,8 +70,26 @@ func formatSearchResults(squareAndParentSquare: [Tuple : Tuple], gameBoard: [Tup
         } else {
             squareAndParentSquareTuplePath[currentSquare] = squareAndParentSquare[currentSquare]
             squareAndNoParentArrayPath.append((currentSquare.x,currentSquare.y))
+            let xValue = currentSquare.x - squareAndParentSquare[currentSquare]!.x
+            let yValue = currentSquare.y - squareAndParentSquare[currentSquare]!.y
+            print("AAAA", currentSquare, squareAndParentSquare[currentSquare], xValue, yValue)
+            // Down
+            if (xValue == 0 && yValue == 1) {
+                movePath.append("down")
+            // Up
+            } else if (xValue == 0 && yValue == -1) {
+                movePath.append("up")
+            // Left
+            } else if (xValue == 1 && yValue == 0) {
+                movePath.append("left")
+            // Right
+            } else if (xValue == -1 && yValue == 0) {
+                movePath.append("right")
+            }
+            
             findPath(squareAndParentSquare: squareAndParentSquare, currentSquare: squareAndParentSquare[currentSquare]!)
         }
+        print(movePath)
         return (squareAndNoParentArrayPath, squareAndParentSquareTuplePath)
     }
 
@@ -277,9 +298,9 @@ func driver() {
                     [1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1],
                     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]])
 
-//    print(breathFirstSearch(startSquare: Tuple(x:1, y:1), goalSquare: Tuple(x:10, y:10), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: largeMaze), returnPathCost: true, returnSquaresVisited: true))
+    print(breathFirstSearch(startSquare: Tuple(x:4, y:2), goalSquare: Tuple(x:1, y:1), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: smallMaze), returnPathCost: false, returnSquaresVisited: false))
 //    print(depthFirstSearch(startSquare: Tuple(x:1, y:1), goalSquare: Tuple(x:10, y:10), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: largeMaze), returnPathCost: true, returnSquaresVisited: true))
-    print(uniformCostSearch(startSquare: Tuple(x:1, y:1), goalSquare: Tuple(x:10, y:10), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: largeMaze), returnPathCost: true, returnSquaresVisited: true))
+//    print(uniformCostSearch(startSquare: Tuple(x:1, y:1), goalSquare: Tuple(x:10, y:10), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: smallMaze), returnPathCost: true, returnSquaresVisited: true))
 }
 
 driver()
