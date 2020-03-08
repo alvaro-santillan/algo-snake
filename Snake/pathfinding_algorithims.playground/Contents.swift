@@ -17,45 +17,6 @@ extension Tuple: Hashable {
     }
 }
 
-//// Takes a two dimentional matrix, determins the legal squares.
-//// The results are converted into a nested dictionary.
-//func gameBoardMatrixToDictionary(gameBoardMatrix: Array<Array<Int>>) -> Dictionary<Tuple, Dictionary<Tuple, Float>> {
-//    // Initialize the two required dictionaries.
-//    var mazeDictionary = [Tuple : [Tuple : Float]]()
-//    var vaildMoves = [Tuple : Float]()
-//
-//    // Loop through every cell in the maze.
-//    for(y, matrixRow) in gameBoardMatrix.enumerated() {
-//        for(x, _) in matrixRow.enumerated() {
-//            // If in a square that is leagal, append valid moves to a dictionary.
-//            if ((gameBoardMatrix[y][x]) == 0) {
-//                // Up
-//                if ((gameBoardMatrix[y-1][x]) == 0) {
-//                    vaildMoves[Tuple(x: x, y: y-1)] = 1
-//                }
-//                // Right
-//                if (gameBoardMatrix[y][x+1] == 0) {
-//                    // Floats so that we can have duplicates keys in dictinaries (Swift dictionary workaround).
-//                    vaildMoves[Tuple(x: x+1, y: y)] = 1.000001
-//                }
-//                // Left
-//                if (gameBoardMatrix[y][x-1] == 0) {
-//                    vaildMoves[Tuple(x: x-1, y: y)] = 1.000002
-//                }
-//                // Down
-//                if (gameBoardMatrix[y+1][x] == 0) {
-//                    vaildMoves[Tuple(x: x, y: y+1)] = 1.000003
-//                }
-//                // Append the valid move dictionary to a master dictionary to create a dictionary of dictionaries.
-//                mazeDictionary[Tuple(x: x, y: y)] = vaildMoves
-//                // Reset the inner dictionary templet.
-//                vaildMoves = [Tuple : Float]()
-//            }
-//        }
-//    }
-//    return mazeDictionary
-//}
-
 // Takes a two dimentional matrix, determins the legal squares.
 // The results are converted into a nested dictionary.
 func gameBoardMatrixToDictionary(gameBoardMatrix: Array<Array<Int>>) -> Dictionary<Tuple, Dictionary<Tuple, Float>> {
@@ -67,7 +28,7 @@ func gameBoardMatrixToDictionary(gameBoardMatrix: Array<Array<Int>>) -> Dictiona
     for(y, matrixRow) in gameBoardMatrix.enumerated() {
         for(x, _) in matrixRow.enumerated() {
             // If in a square that is leagal, append valid moves to a dictionary.
-            if ((gameBoardMatrix[y][x]) == 0) {
+            if (gameBoardMatrix[y][x] == 0 || gameBoardMatrix[y][x] == 2) {
                 let isYNegIndex = gameBoardMatrix.indices.contains(y-1)
                 let isYIndex = gameBoardMatrix.indices.contains(y+1)
 //                let isXNegIndex = gameBoardMatrix.indices.contains(x-1)
@@ -79,15 +40,13 @@ func gameBoardMatrixToDictionary(gameBoardMatrix: Array<Array<Int>>) -> Dictiona
                     // Up
 //                    if y-1 != -1 {
                     if isYNegIndex {
-//                        print("xxx", x)
-//                        print("yyy", y-1)
-                        if ((gameBoardMatrix[y-1][x]) == 0) {
+                        if (gameBoardMatrix[y-1][x] == 0 || gameBoardMatrix[y-1][x] == 2) {
                             vaildMoves[Tuple(x: x, y: y-1)] = 1
                         }
                     }
                     // Right
                     if isXIndex {
-                        if (gameBoardMatrix[y][x+1] == 0) {
+                        if (gameBoardMatrix[y][x+1] == 0 || gameBoardMatrix[y][x+1] == 2) {
                             // Floats so that we can have duplicates keys in dictinaries (Swift dictionary workaround).
                             vaildMoves[Tuple(x: x+1, y: y)] = 1.000001
                         }
@@ -95,13 +54,13 @@ func gameBoardMatrixToDictionary(gameBoardMatrix: Array<Array<Int>>) -> Dictiona
                     // Left
 //                    if isXNegIndex {
                     if x-1 != -1 {
-                        if (gameBoardMatrix[y][x-1] == 0) {
+                        if (gameBoardMatrix[y][x-1] == 0 || gameBoardMatrix[y][x-1] == 2) {
                             vaildMoves[Tuple(x: x-1, y: y)] = 1.000002
                         }
                     }
                     // Down
                     if isYIndex {
-                        if (gameBoardMatrix[y+1][x] == 0) {
+                        if (gameBoardMatrix[y+1][x] == 0 || gameBoardMatrix[y+1][x] == 2) {
                             vaildMoves[Tuple(x: x, y: y+1)] = 1.000003
                             }
                         }
@@ -339,11 +298,7 @@ func uniformCostSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple 
 }
 
 func driver() {
-    let smallMaze = ([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-                     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-                     [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1],
-                     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]])
-    
+
 //    let smallMaze = ([[1, 1, 1, 1, 1, 1],
 //                     [1, 0, 0, 0, 0, 1],
 //                     [1, 0, 1, 0, 0, 1],
@@ -361,8 +316,14 @@ func driver() {
                     [1, 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1],
                     [1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1],
                     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]])
+    
+    let smallMaze = ([[1, 1, 1, 1],
+                     [1, 0, 2, 1],
+                     [1, 2, 0, 1],
+                     [1, 1, 1, 1]])
+    
 // 1 == left, 2 == up, 3 == right, 4 == down
-    print(breathFirstSearch(startSquare: Tuple(x:9, y:2), goalSquare: Tuple(x:1, y:2), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: smallMaze), returnPathCost: false, returnSquaresVisited: false))
+    print(breathFirstSearch(startSquare: Tuple(x:1, y:2), goalSquare: Tuple(x:2, y:1), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: smallMaze), returnPathCost: false, returnSquaresVisited: false))
 //    print(depthFirstSearch(startSquare: Tuple(x:1, y:1), goalSquare: Tuple(x:10, y:10), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: largeMaze), returnPathCost: true, returnSquaresVisited: true))
 //    print(uniformCostSearch(startSquare: Tuple(x:1, y:1), goalSquare: Tuple(x:10, y:10), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: smallMaze), returnPathCost: true, returnSquaresVisited: true))
 }

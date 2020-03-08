@@ -31,7 +31,7 @@ func gameBoardMatrixToDictionary(gameBoardMatrix: Array<Array<Int>>) -> Dictiona
     for(y, matrixRow) in gameBoardMatrix.enumerated() {
         for(x, _) in matrixRow.enumerated() {
             // If in a square that is leagal, append valid moves to a dictionary.
-            if ((gameBoardMatrix[y][x]) == 0) {
+            if (gameBoardMatrix[y][x] == 0 || gameBoardMatrix[y][x] == 2) {
                 let isYNegIndex = gameBoardMatrix.indices.contains(y-1)
                 let isYIndex = gameBoardMatrix.indices.contains(y+1)
 //                let isXNegIndex = gameBoardMatrix.indices.contains(x-1)
@@ -43,15 +43,13 @@ func gameBoardMatrixToDictionary(gameBoardMatrix: Array<Array<Int>>) -> Dictiona
                     // Up
 //                    if y-1 != -1 {
                     if isYNegIndex {
-//                        print("xxx", x)
-//                        print("yyy", y-1)
-                        if ((gameBoardMatrix[y-1][x]) == 0) {
+                        if (gameBoardMatrix[y-1][x] == 0 || gameBoardMatrix[y-1][x] == 2) {
                             vaildMoves[Tuple(x: x, y: y-1)] = 1
                         }
                     }
                     // Right
                     if isXIndex {
-                        if (gameBoardMatrix[y][x+1] == 0) {
+                        if (gameBoardMatrix[y][x+1] == 0 || gameBoardMatrix[y][x+1] == 2) {
                             // Floats so that we can have duplicates keys in dictinaries (Swift dictionary workaround).
                             vaildMoves[Tuple(x: x+1, y: y)] = 1.000001
                         }
@@ -59,13 +57,13 @@ func gameBoardMatrixToDictionary(gameBoardMatrix: Array<Array<Int>>) -> Dictiona
                     // Left
 //                    if isXNegIndex {
                     if x-1 != -1 {
-                        if (gameBoardMatrix[y][x-1] == 0) {
+                        if (gameBoardMatrix[y][x-1] == 0 || gameBoardMatrix[y][x-1] == 2) {
                             vaildMoves[Tuple(x: x-1, y: y)] = 1.000002
                         }
                     }
                     // Down
                     if isYIndex {
-                        if (gameBoardMatrix[y+1][x] == 0) {
+                        if (gameBoardMatrix[y+1][x] == 0 || gameBoardMatrix[y+1][x] == 2) {
                             vaildMoves[Tuple(x: x, y: y+1)] = 1.000003
                             }
                         }
@@ -99,10 +97,10 @@ func formatSearchResults(squareAndParentSquare: [Tuple : Tuple], gameBoard: [Tup
             let yValue = currentSquare.y - squareAndParentSquare[currentSquare]!.y
             // 1 == left, 2 == up, 3 == right, 4 == down
             if (xValue == 0 && yValue == 1) {
-                movePath.append(4)
+                movePath.append(2)
             // 1 == left, 2 == up, 3 == right, 4 == down
             } else if (xValue == 0 && yValue == -1) {
-                movePath.append(2)
+                movePath.append(4)
             // 1 == left, 2 == up, 3 == right, 4 == down
             } else if (xValue == 1 && yValue == 0) {
                 movePath.append(1)
@@ -196,7 +194,7 @@ import SpriteKit
 class GameManager {
     var gameStarted = false
     var matrix = [[Int]]()
-    var test = [4,3]
+    var test = [Int]()
     var scene: GameScene!
     var nextTime: Double?
     var gameSpeed: Double = 0.7
@@ -210,11 +208,11 @@ class GameManager {
     // Understood - Initiate the starting position of the snake.
     func initiateSnakeStartingPosition() {
         scene.snakeBodyPos.append((3, 3))
-        matrix[3][3] = 1
+        matrix[3][3] = 2
         scene.snakeBodyPos.append((3, 4))
-        matrix[3][4] = 1
+        matrix[3][4] = 2
         scene.snakeBodyPos.append((3, 5))
-        matrix[3][5] = 1
+        matrix[3][5] = 2
 //        scene.snakeBodyPos.append((10, 13))
 //        scene.snakeBodyPos.append((10, 14))
 //        scene.snakeBodyPos.append((10, 15))
@@ -233,15 +231,18 @@ class GameManager {
     // Understood - Spawn a new food block into the game.
     var prevX = 0
     var prevY = 0
+    
     func spawnFoodBlock() {
         print("spawning food")
         let randomX = CGFloat(arc4random_uniform(15)) //73
         let randomY = CGFloat(arc4random_uniform(15)) //41
-        matrix[Int(randomY)][Int(randomX)] = 1
+        matrix[Int(randomY)][Int(randomX)] = 2
         matrix[prevX][prevY] = 0
-        print(matrix)
-        print(breathFirstSearch(startSquare: Tuple(x:1, y:1), goalSquare: Tuple(x:2, y:2), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: matrix), returnPathCost: false, returnSquaresVisited: false))
-        print("EXITTTTTED")
+//        print(matrix)
+        let snakeHead = scene.snakeBodyPos[0]
+//        print(snakeHead.0, snakeHead.1)
+        let path = breathFirstSearch(startSquare: Tuple(x:Int(randomX), y:Int(randomY)), goalSquare: Tuple(x:snakeHead.0, y:snakeHead.1), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: matrix), returnPathCost: false, returnSquaresVisited: false)
+        test = path.0
         prevX = Int(randomY)
         prevY = Int(randomX)
         
@@ -387,9 +388,9 @@ class GameManager {
             matrix[scene.snakeBodyPos[0].0][scene.snakeBodyPos[0].1] = 1
             matrix[scene.snakeBodyPos[1].0][scene.snakeBodyPos[1].1] = 1
             matrix[scene.snakeBodyPos[2].0][scene.snakeBodyPos[2].1] = 1
-            for i in 0...14 {
-                print(matrix[i])
-            }
+//            for i in 0...14 {
+//                print(matrix[i])
+//            }
         }
         
         if scene.snakeBodyPos.count > 0 {
