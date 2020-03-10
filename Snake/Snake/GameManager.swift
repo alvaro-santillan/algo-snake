@@ -198,7 +198,7 @@ class GameManager {
     var onPathMode = false
     var scene: GameScene!
     var nextTime: Double?
-    var gameSpeed: Double = 0.4
+    var gameSpeed: Double = 0.05
     var playerDirection: Int = 1 // 1 == left, 2 == up, 3 == right, 4 == down
     var currentScore: Int = 0
     
@@ -211,20 +211,16 @@ class GameManager {
         scene.snakeBodyPos.append((3, 3))
         matrix[3][3] = 2
         scene.snakeBodyPos.append((3, 4))
-        matrix[3][4] = 2
+        matrix[3][4] = 1
         scene.snakeBodyPos.append((3, 5))
-        matrix[3][5] = 2
-//        scene.snakeBodyPos.append((10, 13))
-//        scene.snakeBodyPos.append((10, 14))
-//        scene.snakeBodyPos.append((10, 15))
-//        scene.snakeBodyPos.append((10, 16))
-//        scene.snakeBodyPos.append((10, 17))
-//        scene.snakeBodyPos.append((10, 18))
-//        scene.snakeBodyPos.append((10, 19))
-//        scene.snakeBodyPos.append((10, 20))
-//        scene.snakeBodyPos.append((10, 21))
-//        scene.snakeBodyPos.append((10, 22))
-//        scene.snakeBodyPos.append((10, 23))
+        matrix[3][5] = 1
+        scene.snakeBodyPos.append((3, 6))
+        matrix[3][5] = 1
+        scene.snakeBodyPos.append((3, 7))
+        matrix[3][5] = 1
+        scene.snakeBodyPos.append((3, 8))
+        matrix[3][5] = 1
+
         spawnFoodBlock()
         gameStarted = true
     }
@@ -239,11 +235,17 @@ class GameManager {
         let randomY = CGFloat(arc4random_uniform(15)) //41
         matrix[Int(randomY)][Int(randomX)] = 2
         matrix[prevX][prevY] = 0
-//        print(matrix)
         let snakeHead = scene.snakeBodyPos[0]
-//        print(snakeHead.0, snakeHead.1)
-        let path = breathFirstSearch(startSquare: Tuple(x:Int(randomX), y:Int(randomY)), goalSquare: Tuple(x:snakeHead.0, y:snakeHead.1), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: matrix), returnPathCost: false, returnSquaresVisited: false)
+        print("official head",snakeHead)
+        print("head x", snakeHead.1, "head y", snakeHead.0)
+        print("food", Int(randomX), "-", Int(randomY))
+        for i in 0...14 {
+            print(matrix[i])
+        }
+        let path = breathFirstSearch(startSquare: Tuple(x:Int(randomX), y:Int(randomY)), goalSquare: Tuple(x:snakeHead.1, y:snakeHead.0), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: matrix), returnPathCost: false, returnSquaresVisited: false)
+        print("path", path.0)
         test = path.0
+        // 1 == left, 2 == up, 3 == right, 4 == down
         prevX = Int(randomY)
         prevY = Int(randomX)
         
@@ -276,6 +278,7 @@ class GameManager {
         } else {
             if time >= nextTime! {
                 nextTime = time + gameSpeed
+//                print(matrix)
                 runPredeterminedPath()
                 updateSnakePosition()
                 checkForFoodCollision()
@@ -376,11 +379,19 @@ class GameManager {
         //6
         if scene.snakeBodyPos.count > 0 {
             var start = scene.snakeBodyPos.count - 1
+            matrix[scene.snakeBodyPos[start].0][scene.snakeBodyPos[start].1] = 0
             while start > 0 {
                 scene.snakeBodyPos[start] = scene.snakeBodyPos[start - 1]
                 start -= 1
             }
             scene.snakeBodyPos[0] = (scene.snakeBodyPos[0].0 + yChange, scene.snakeBodyPos[0].1 + xChange)
+            matrix[scene.snakeBodyPos[0].0][scene.snakeBodyPos[0].1] = 1
+            matrix[scene.snakeBodyPos[1].0][scene.snakeBodyPos[1].1] = 1
+            matrix[scene.snakeBodyPos[2].0][scene.snakeBodyPos[2].1] = 1
+            for i in 0...14 {
+                print(matrix[i])
+            }
+            print("----")
         }
         
         if scene.snakeBodyPos.count > 0 {
