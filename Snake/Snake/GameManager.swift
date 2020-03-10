@@ -195,9 +195,10 @@ class GameManager {
     var gameStarted = false
     var matrix = [[Int]]()
     var test = [Int]()
+    var onPathMode = false
     var scene: GameScene!
     var nextTime: Double?
-    var gameSpeed: Double = 0.7
+    var gameSpeed: Double = 0.4
     var playerDirection: Int = 1 // 1 == left, 2 == up, 3 == right, 4 == down
     var currentScore: Int = 0
     
@@ -262,6 +263,9 @@ class GameManager {
 //                print("-----sdfg", test.count, test[0])
                 swipe(ID: test[0])
                 test.remove(at: 0)
+                onPathMode = true
+            } else {
+                onPathMode = false
             }
         }
     }
@@ -301,6 +305,7 @@ class GameManager {
     
     // this is run when game hasent started. fix for optimization.
     func checkForDeath() {
+        return
 //        print("checked---------")
         if scene.snakeBodyPos.count > 0 {
             // Create temp variable of snake without the head.
@@ -332,18 +337,18 @@ class GameManager {
     }
     
     func swipe(ID: Int) {
-        if !(ID == 2 && playerDirection == 4) && !(ID == 4 && playerDirection == 2) {
-            if !(ID == 1 && playerDirection == 3) && !(ID == 3 && playerDirection == 1) {
+//        if !(ID == 2 && playerDirection == 4) && !(ID == 4 && playerDirection == 2) {
+//            if !(ID == 1 && playerDirection == 3) && !(ID == 3 && playerDirection == 1) {
                 playerDirection = ID
-            }
-        }
+//            }
+//        }
     }
     
-    
-    func updateSnakePosition() {
-        var xChange = 0
+    private func updateSnakePosition() {
+        //4
+        var xChange = -1
         var yChange = 0
-
+        //5
         switch playerDirection {
             case 1:
                 //left
@@ -368,53 +373,62 @@ class GameManager {
             default:
                 break
         }
+        //6
         if scene.snakeBodyPos.count > 0 {
-            
             var start = scene.snakeBodyPos.count - 1
-            matrix[scene.snakeBodyPos[start].0][scene.snakeBodyPos[start].1] = 0
             while start > 0 {
                 scene.snakeBodyPos[start] = scene.snakeBodyPos[start - 1]
-//                print(scene.snakeBodyPos[start])
-//                print(scene.snakeBodyPos)
                 start -= 1
             }
-//            print("---")
             scene.snakeBodyPos[0] = (scene.snakeBodyPos[0].0 + yChange, scene.snakeBodyPos[0].1 + xChange)
-//            print(scene.snakeBodyPos)
-            
-//            print(scene.snakeBodyPos[0])
-//            print(scene.snakeBodyPos[1])
-//            print(scene.snakeBodyPos[2])
-            matrix[scene.snakeBodyPos[0].0][scene.snakeBodyPos[0].1] = 1
-            matrix[scene.snakeBodyPos[1].0][scene.snakeBodyPos[1].1] = 1
-            matrix[scene.snakeBodyPos[2].0][scene.snakeBodyPos[2].1] = 1
-//            for i in 0...14 {
-//                print(matrix[i])
-//            }
         }
         
         if scene.snakeBodyPos.count > 0 {
             let x = scene.snakeBodyPos[0].1
             let y = scene.snakeBodyPos[0].0
-            
-            if y > 15 { //41
-                scene.snakeBodyPos[0].0 = 15 //41
-            } else if y < 0 {
+            if y > 15 {
                 scene.snakeBodyPos[0].0 = 0
-            } else if x > 15 { //73
-               scene.snakeBodyPos[0].1 = 15 //73
+            } else if y < 0 {
+                scene.snakeBodyPos[0].0 = 15
+            } else if x > 15 {
+               scene.snakeBodyPos[0].1 = 0
             } else if x < 0 {
-                scene.snakeBodyPos[0].1 = 0
+                scene.snakeBodyPos[0].1 = 15
             }
         }
+        //7
         colorGameNodes()
     }
     
+//    func colorGameNodes() {
+//        for (node, x, y) in scene.gameBoard {
+//            if contains(a: scene.snakeBodyPos, v: (x,y)) {
+//                node.fillColor = SKColor.white
+//            } else {
+//                node.fillColor = SKColor.clear
+//                if scene.foodPosition != nil {
+//                    if Int((scene.foodPosition?.x)!) == y && Int((scene.foodPosition?.y)!) == x {
+//                        node.fillColor = SKColor.white
+//                    }
+//                }
+//            }
+//        }
+//    }
+    
     func colorGameNodes() {
         for (node, x, y) in scene.gameBoard {
+
             if contains(a: scene.snakeBodyPos, v: (x,y)) {
-                node.fillColor = SKColor.white
-            } else {
+                if (onPathMode == false) {
+                    node.fillColor = SKColor.white
+                }
+            }
+            if contains(a: scene.snakeBodyPos, v: (x,y)) {
+                if (onPathMode == true) {
+                    node.fillColor = SKColor.green
+                }
+            }
+            else {
                 node.fillColor = SKColor.clear
                 if scene.foodPosition != nil {
                     if Int((scene.foodPosition?.x)!) == y && Int((scene.foodPosition?.y)!) == x {
