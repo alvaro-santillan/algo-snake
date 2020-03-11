@@ -19,7 +19,8 @@ extension Tuple: Hashable {
         return x.hashValue ^ y.hashValue
     }
 }
-
+    
+    
 // Takes a two dimentional matrix, determins the legal squares.
 // The results are converted into a nested dictionary.
 func gameBoardMatrixToDictionary(gameBoardMatrix: Array<Array<Int>>) -> Dictionary<Tuple, Dictionary<Tuple, Float>> {
@@ -75,7 +76,7 @@ func gameBoardMatrixToDictionary(gameBoardMatrix: Array<Array<Int>>) -> Dictiona
             }
         }
     }
-//    print(mazeDictionary)
+    print("mazetoDictionary Returned")
     return mazeDictionary
 }
 
@@ -111,6 +112,7 @@ func formatSearchResults(squareAndParentSquare: [Tuple : Tuple], gameBoard: [Tup
             
             findPath(squareAndParentSquare: squareAndParentSquare, currentSquare: squareAndParentSquare[currentSquare]!)
         }
+        print("findPath Returned")
         return (movePath, squareAndNoParentArrayPath, squareAndParentSquareTuplePath)
     }
 
@@ -121,6 +123,7 @@ func formatSearchResults(squareAndParentSquare: [Tuple : Tuple], gameBoard: [Tup
         for square in solutionPathDuple.keys {
             cost += Int(gameBoard[square]![solutionPathDuple[square]!] ?? 0)
         }
+        print("findPathCost Returned")
         return(cost)
     }
     let (solutionPathMoves, solutionPathArray, solutionPathDuple) = findPath(squareAndParentSquare: squareAndParentSquare, currentSquare: currentSquare)
@@ -140,6 +143,7 @@ func formatSearchResults(squareAndParentSquare: [Tuple : Tuple], gameBoard: [Tup
         return (solutionPathMoves, 0, visitedSquareCount)
     }
     else {
+        print("solutionPathMoves, 0, 0")
         return (solutionPathMoves, 0, 0)
     }
 }
@@ -156,6 +160,60 @@ func formatSearchResults(squareAndParentSquare: [Tuple : Tuple], gameBoard: [Tup
 // Then the dictionary is processed to create a valid path.
 // The nodes are traversed in order found in the dictionary parameter.
 func breathFirstSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple : Dictionary<Tuple, Float>], returnPathCost: Bool, returnSquaresVisited: Bool) -> ([Int], Int, Int) {
+    // Initalize variable and add first square manually.
+    print("BFS Entered")
+    var visitedSquares = [Tuple]()
+    var fronterSquares = [startSquare]
+    var currentSquare = startSquare
+    var visitedSquareCount = 1
+    var counter = 0
+    // Dictionary used to find a path, every square will have only one parent.
+    var squareAndParentSquare = [startSquare : Tuple(x:-1, y:-1)]
+    
+    // Break once the goal is reached (the goals parent is noted a cycle before when it was a new node.)
+    while (currentSquare != goalSquare) {
+        counter += 1
+//        print("BFS while loop entered.", counter)
+//        print("visitedSquareCount", visitedSquareCount)
+        // Mark current node as visited. (If statement required due to first node.)
+        print("current square", currentSquare)
+        if !(visitedSquares.contains(currentSquare)) {
+            print("if hit")
+            visitedSquares += [currentSquare]
+            
+            visitedSquareCount += 1
+        }
+        
+        // Repeat through all the nodes in the sub dictionary.
+        // Append to fronter and mark parent.
+        for (newFronterSquare, _) in gameBoard[currentSquare]! {
+            print("for hit")
+            if !(visitedSquares.contains(newFronterSquare)) {
+                print("if 2 hit")
+                fronterSquares += [newFronterSquare]
+                squareAndParentSquare[newFronterSquare] = currentSquare
+            }
+        }
+        // New currentNode is first in queue (BFS).
+        currentSquare = fronterSquares[0]
+        fronterSquares.remove(at: 0)
+    }
+    // Genarate a path and optional statistics from the results of BFS.
+    print("BFS Completed")
+    return(formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: goalSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited))
+}
+
+// Steps in Depth First Search
+// Mark parent
+// Mark current node as visited.
+// Append children nodes if needed to the fronter.
+// Select the last unvisited child node to explore.
+// Repeat untill the goal is visited.
+
+// DFS produces a dictionary in which each valid square points too only one parent.
+// Then the dictionary is processed to create a valid path.
+// The nodes are traversed in order found in the dictionary parameter.
+func depthFirstSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple : Dictionary<Tuple, Float>], returnPathCost: Bool, returnSquaresVisited: Bool) -> ([Int], Int, Int) {
     // Initalize variable and add first square manually.
     var visitedSquares = [Tuple]()
     var fronterSquares = [startSquare]
@@ -180,11 +238,15 @@ func breathFirstSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple 
                 squareAndParentSquare[newFronterSquare] = currentSquare
             }
         }
-        // New currentNode is first in queue (BFS).
-        currentSquare = fronterSquares[0]
-        fronterSquares.remove(at: 0)
+        // New currentNode is last in queue (DFS).
+//        if (fronterSquares.count) != 0 {
+            currentSquare = fronterSquares.last!
+            fronterSquares.popLast()
+//        } else {
+//
+//        }
     }
-    // Genarate a path and optional statistics from the results of BFS.
+    // Genarate a path and optional statistics from the results of DFS.
     return(formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: goalSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited))
 }
 ////--------
@@ -198,7 +260,7 @@ class GameManager {
     var onPathMode = false
     var scene: GameScene!
     var nextTime: Double?
-    var gameSpeed: Double = 0.05
+    var gameSpeed: Double = 0.0
     var playerDirection: Int = 1 // 1 == left, 2 == up, 3 == right, 4 == down
     var currentScore: Int = 0
     
@@ -209,6 +271,7 @@ class GameManager {
     // Understood - Initiate the starting position of the snake.
     func initiateSnakeStartingPosition() {
         scene.snakeBodyPos.append((3, 3))
+//        scene.snakeHeadPos = [scene.snakeBodyPos[0]]
         matrix[3][3] = 2
         scene.snakeBodyPos.append((3, 4))
         matrix[3][4] = 1
@@ -230,6 +293,7 @@ class GameManager {
     var prevY = 0
     
     func spawnFoodBlock() {
+        algoirthChoice()
         print("spawning food")
         let randomX = CGFloat(arc4random_uniform(15)) //73
         let randomY = CGFloat(arc4random_uniform(15)) //41
@@ -242,7 +306,7 @@ class GameManager {
         for i in 0...14 {
             print(matrix[i])
         }
-        let path = breathFirstSearch(startSquare: Tuple(x:Int(randomX), y:Int(randomY)), goalSquare: Tuple(x:snakeHead.1, y:snakeHead.0), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: matrix), returnPathCost: false, returnSquaresVisited: false)
+        let path = depthFirstSearch(startSquare: Tuple(x:Int(randomX), y:Int(randomY)), goalSquare: Tuple(x:snakeHead.1, y:snakeHead.0), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: matrix), returnPathCost: false, returnSquaresVisited: false)
         print("path", path.0)
         test = path.0
         // 1 == left, 2 == up, 3 == right, 4 == down
@@ -308,7 +372,6 @@ class GameManager {
     
     // this is run when game hasent started. fix for optimization.
     func checkForDeath() {
-        return
 //        print("checked---------")
         if scene.snakeBodyPos.count > 0 {
             // Create temp variable of snake without the head.
@@ -333,8 +396,8 @@ class GameManager {
                 scene.gameScore.text = "Score: \(currentScore)"
                 // Grow snake by 3 blocks.
                 scene.snakeBodyPos.append(scene.snakeBodyPos.last!)
-//                scene.snakeBodyPos.append(scene.snakeBodyPos.last!)
-//                scene.snakeBodyPos.append(scene.snakeBodyPos.last!)
+                scene.snakeBodyPos.append(scene.snakeBodyPos.last!)
+                scene.snakeBodyPos.append(scene.snakeBodyPos.last!)
              }
          }
     }
@@ -437,6 +500,9 @@ class GameManager {
             if contains(a: scene.snakeBodyPos, v: (x,y)) {
                 if (onPathMode == true) {
                     node.fillColor = SKColor.green
+                    if contains(a: [scene.snakeBodyPos.first!], v: (x,y)) {
+                        node.fillColor = SKColor.red
+                    }
                 }
             }
             else {
@@ -454,6 +520,15 @@ class GameManager {
         let (c1, c2) = v
         for (v1, v2) in a { if v1 == c1 && v2 == c2 { return true } }
         return false
+    }
+    
+    func algoirthChoice() {
+        if scene.algoithimChoice == 0 {
+            print("DFS")
+        }
+        if scene.algoithimChoice == 1 {
+            print("BFS")
+        }
     }
 
     func updateScore() {

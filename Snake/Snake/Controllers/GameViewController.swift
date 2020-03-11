@@ -18,6 +18,8 @@ class GameViewController: UIViewController {
     @IBOutlet weak var titleLabel: UITextField!
     @IBOutlet weak var segControl: UISegmentedControl!
     @IBOutlet weak var segControlWindow: UIView!
+    @IBOutlet weak var DFS: UIButton!
+    var selectDFS: Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +28,12 @@ class GameViewController: UIViewController {
     @IBAction func startMenu(_ sender: UIButton) {
 
     }
+    
+    @IBAction func DFSButton(_ sender: UIButton) {
+        selectDFS = 1
+        print("changed to 1")
+    }
+    
     @IBAction func StartButton(_ sender: UIButton) {
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'

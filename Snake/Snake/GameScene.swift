@@ -19,14 +19,22 @@ class GameScene: SKScene {
     var playButtonTapped = false
     var foodPosition: CGPoint?
     
+    var carry: GameViewController!
+    
+    
+    
     // Used to store data and managing user movement.
     var game: GameManager!
     
     // Used for storing keystone game information.
     var snakeBodyPos: [(Int, Int)] = []
+    var snakeHeadPos: [(Int, Int)] = []
+    var algoithimChoice: Int = 0
     var gameScore: SKLabelNode!
     var gameBackground: SKShapeNode!
     var gameBoard: [(node: SKShapeNode, x: Int, y: Int)] = []
+    
+
     
     // Spritekit vesrion of didLoad() ie gameScene has loaded.
     override func didMove(to view: SKView) {
@@ -67,20 +75,22 @@ class GameScene: SKScene {
     
     // Welcome menu objects defined
     private func initializeWelcomeScreen() {
+//        algoithimChoice = carry.selectDFS
+        
         // Define game title
-        gameLogo = SKLabelNode(fontNamed: "ArialRoundedMTBold")
-        gameLogo.zPosition = 1
-        gameLogo.position = CGPoint(x: 0, y: (frame.size.height / 2) - 200)
-        gameLogo.fontSize = 60
-        gameLogo.text = "SNAKE"
-        gameLogo.fontColor = SKColor.white
+//        gameLogo = SKLabelNode(fontNamed: "ArialRoundedMTBold")
+//        gameLogo.zPosition = 1
+//        gameLogo.position = CGPoint(x: 0, y: (frame.size.height / 2) - 200)
+//        gameLogo.fontSize = 60
+//        gameLogo.text = "SNAKE"
+//        gameLogo.fontColor = SKColor.white
         // Add to the game scene
-        self.addChild(gameLogo)
+//        self.addChild(gameLogo)
         
         // Define best score label
         highScore = SKLabelNode(fontNamed: "ArialRoundedMTBold")
         highScore.zPosition = 1
-        highScore.position = CGPoint(x: 0, y: gameLogo.position.y - 50)
+//        highScore.position = CGPoint(x: 0, y: gameLogo.position.y - 50)
         highScore.fontSize = 40
         highScore.text = "High Score: \(UserDefaults.standard.integer(forKey: "highScore"))"
         highScore.fontColor = SKColor.white
@@ -88,24 +98,25 @@ class GameScene: SKScene {
         self.addChild(highScore)
         
         // Define play button
-        playButton = SKShapeNode()
-        playButton.name = "play_button"
-        playButton.zPosition = 1
-        playButton.position = CGPoint(x: 0, y: (frame.size.height / -2) + 200)
-        playButton.fillColor = SKColor.white
-
-        // SKShapeNodes for this project due to their simplicity, this is an alternative to creating your graphics in an image editor. This line of code creates a path in the shape of a triangle.
-        // Please note if you plan on building and publishing an app you should use SKSpriteNodes to load an image you have created, ShapeNodes can cause performance issues when used in large quantities as they are dynamically drawn once per frame.
-        let topCorner = CGPoint(x: -50, y: 50)
-        let bottomCorner = CGPoint(x: -50, y: -50)
-        let middle = CGPoint(x: 50, y: 0)
-        let path = CGMutablePath()
-        path.addLine(to: topCorner)
-        path.addLines(between: [topCorner, bottomCorner, middle])
-
-        // Set the triangular path we created to the playButton sprite and add to the GameScene.
-        playButton.path = path
-        self.addChild(playButton)
+//        playButton = SKShapeNode()
+//        playButton.name = "play_button"
+//        playButton.zPosition = 1
+//        playButton.position = CGPoint(x: 0, y: (frame.size.height / -2) + 200)
+//        playButton.fillColor = SKColor.white
+//
+//        // SKShapeNodes for this project due to their simplicity, this is an alternative to creating your graphics in an image editor. This line of code creates a path in the shape of a triangle.
+//        // Please note if you plan on building and publishing an app you should use SKSpriteNodes to load an image you have created, ShapeNodes can cause performance issues when used in large quantities as they are dynamically drawn once per frame.
+//        let topCorner = CGPoint(x: -50, y: 50)
+//        let bottomCorner = CGPoint(x: -50, y: -50)
+//        let middle = CGPoint(x: 50, y: 0)
+//        let path = CGMutablePath()
+//        path.addLine(to: topCorner)
+//        path.addLines(between: [topCorner, bottomCorner, middle])
+//
+//        // Set the triangular path we created to the playButton sprite and add to the GameScene.
+//        playButton.path = path
+//        self.addChild(playButton)
+        startGame()
     }
     
     private func initializeGameView() {
@@ -170,23 +181,24 @@ class GameScene: SKScene {
     
     // Called when the play button is tapped.
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if playButtonTapped == false {
-            startGame()
-            playButtonTapped = true
-        }
+//        startGame()
+//        if playButtonTapped == false {
+//            startGame()
+//            playButtonTapped = true
+//        }
     }
     
     // Start the game
     private func startGame() {
         // Move the game logo off the screen.
-        gameLogo.run(SKAction.move(by: CGVector(dx: -50, dy: 600), duration: 0.5)) {
-            self.gameLogo.isHidden = true
-        }
+//        gameLogo.run(SKAction.move(by: CGVector(dx: -50, dy: 600), duration: 0.5)) {
+//            self.gameLogo.isHidden = true
+//        }
 
         // Shrink and hide button
-        playButton.run(SKAction.scale(to: 0, duration: 0.3)) {
-            self.playButton.isHidden = true
-        }
+//        playButton.run(SKAction.scale(to: 0, duration: 0.3)) {
+//            self.playButton.isHidden = true
+//        }
 
         // Move best score label to the bottom of the screen.
         let bottomCorner = CGPoint(x: 0, y: (frame.size.height / -2) + 20)
@@ -197,8 +209,12 @@ class GameScene: SKScene {
         }
     }
     
+    
+    
     // Called before each frame is rendered
     override func update(_ currentTime: TimeInterval) {
         game.update(time: currentTime)
     }
+    
+    
 }
