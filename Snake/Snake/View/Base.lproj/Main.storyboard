@@ -137,6 +137,9 @@
                                     <segment title="Barrier"/>
                                     <segment title="VS"/>
                                 </segments>
+                                <connections>
+                                    <action selector="segControlOption:" destination="BV1-FR-VrT" eventType="valueChanged" id="YQn-jb-5x6"/>
+                                </connections>
                             </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -162,6 +165,7 @@
                         <outlet property="segControl" destination="yaF-nE-mbW" id="Nyz-H9-xgz"/>
                         <outlet property="settingsButton" destination="l5o-q0-oD3" id="IbF-6G-fUA"/>
                         <outlet property="startButton" destination="JGo-DO-Zbt" id="7hM-ep-wBT"/>
+                        <outlet property="tableVIew" destination="ZpZ-XN-DRd" id="srA-uD-L7y"/>
                         <outlet property="titleLabel" destination="OaO-jX-FWi" id="3NX-KN-YzA"/>
                     </connections>
                 </viewController>
