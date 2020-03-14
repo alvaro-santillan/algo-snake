@@ -10,15 +10,31 @@ import UIKit
 import SpriteKit
 import GameplayKit
 
-class GameViewController: UIViewController {
+class GameViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    
+    let pathFindingAlgorithmList = ["Breath First Search", "Depth First Search", "Greedy Depth First Search", "Uniform Cost Search", "Dijstras Search", "A-Star Search"]
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return pathFindingAlgorithmList.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell  = UITableViewCell(style: UITableViewCell.CellStyle.default, reuseIdentifier: "cell")
+        cell.textLabel?.text = pathFindingAlgorithmList[indexPath.row]
+        
+        return cell
+    }
+    
     @IBOutlet weak var settingsButton: UIButton!
     @IBOutlet weak var startButton: UIButton!
     @IBOutlet weak var highScoreLabel: UITextField!
     @IBOutlet weak var lastScoreLabel: UITextField!
     @IBOutlet weak var titleLabel: UITextField!
     @IBOutlet weak var segControl: UISegmentedControl!
+    @IBOutlet weak var rightView: UIView!
     @IBOutlet weak var segControlWindow: UIView!
     @IBOutlet weak var DFS: UIButton!
+    @IBOutlet weak var leftView: UIView!
     var selectDFS: Int = 0
     
     override func viewDidLoad() {
@@ -52,7 +68,9 @@ class GameViewController: UIViewController {
             lastScoreLabel.isHidden = true
             titleLabel.isHidden = true
             segControl.isHidden = true
-            segControlWindow.isHidden = true
+            leftView.isHidden = true
+            rightView.isHidden = true
+//            segControlWindow.isHidden = true
         }
     }
     
