@@ -12,6 +12,8 @@ import GameplayKit
 
 class GameViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    let imageNames = ["optimalIMG", "guaranteedIMG"]
+    
     let pathFindingAlgorithmList = ["Breath First Search", "Depth First Search", "Greedy Depth First Search", "Uniform Cost Search", "Dijstras Search", "A-Star Search"]
     let mazeGenrationAlgorithims = ["Recursive backtracking algorithm", "Hunt and kill algorithm", "Eller's algorithm", "Sidewinder algorithm", "Prim's algorithm", "Kruskal's algorithm", "Depth-first search", "Breadth-first search"]
     let vsList = ["Player","Breath First Search", "Depth First Search", "Greedy Depth First Search", "Uniform Cost Search", "Dijstras Search", "A-Star Search"]
@@ -23,9 +25,19 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell  = UITableViewCell(style: UITableViewCell.CellStyle.default, reuseIdentifier: "cell")
-        cell.textLabel?.text = tableViewDisplayList[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ViewControllerTableViewCell
         
+        cell.myImage.image = UIImage(named: "garrenteed.pdf")
+        cell.myImage.layer.borderWidth = 1
+        cell.myImage.layer.cornerRadius = cell.myImage.frame.size.width/2
+        cell.myImage.clipsToBounds = true
+        
+        cell.myImage2.image = UIImage(named: "optimal.jpg")
+        cell.myImage2.layer.borderWidth = 1
+        cell.myImage2.layer.cornerRadius = cell.myImage2.frame.height/2
+        cell.myImage2.clipsToBounds = true
+        
+        cell.myLabel.text = tableViewDisplayList[indexPath.row]
         return cell
     }
     
@@ -44,6 +56,9 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        settingsButton.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
+//        startButton.imageView?.contentMode = .scaleAspectFit
+//        startButton.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
     }
     
     @IBAction func segControlOption(_ sender: UISegmentedControl) {
