@@ -43,12 +43,33 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="28"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
-                                    <textField opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Highscore: 0" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gJU-qy-YPl">
-                                        <rect key="frame" x="194" y="80" width="154" height="34"/>
-                                        <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Lastscore: 0" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FCi-3a-UgI">
+                                        <rect key="frame" x="20" y="80" width="154" height="34"/>
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="154" id="Bdl-yh-LDp"/>
+                                            <constraint firstAttribute="height" constant="34" id="vgt-f3-zlL"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Highscore: 0" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gJU-qy-YPl">
+                                        <rect key="frame" x="194" y="80" width="154" height="34"/>
+                                        <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l5o-q0-oD3">
+                                        <rect key="frame" x="20" y="334" width="60" height="60.333333333333343"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="60" id="3hS-M8-6uE"/>
+                                            <constraint firstAttribute="height" constant="60" id="q4G-k6-1A7"/>
+                                        </constraints>
+                                        <state key="normal" backgroundImage="gear" catalog="system">
+                                            <color key="titleColor" red="0.081654049460000003" green="0.2107998431" blue="0.2279785275" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JGo-DO-Zbt">
                                         <rect key="frame" x="100" y="334" width="248" height="60"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -64,40 +85,26 @@
                                             <action selector="StartButton:" destination="BV1-FR-VrT" eventType="touchUpInside" id="cds-Bw-uFG"/>
                                         </connections>
                                     </button>
-                                    <textField opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Lastscore: 0" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FCi-3a-UgI">
-                                        <rect key="frame" x="20" y="80" width="154" height="34"/>
-                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                    </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l5o-q0-oD3">
-                                        <rect key="frame" x="20" y="334" width="60" height="60.333333333333343"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="60" id="3hS-M8-6uE"/>
-                                            <constraint firstAttribute="height" constant="60" id="q4G-k6-1A7"/>
-                                        </constraints>
-                                        <state key="normal" backgroundImage="gear" catalog="system">
-                                            <color key="titleColor" red="0.081654049460000003" green="0.2107998431" blue="0.2279785275" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        </state>
-                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="JGo-DO-Zbt" secondAttribute="bottom" constant="20" id="3lk-Hg-len"/>
+                                    <constraint firstItem="FCi-3a-UgI" firstAttribute="baseline" secondItem="gJU-qy-YPl" secondAttribute="baseline" id="4QT-zS-1e9"/>
                                     <constraint firstAttribute="trailing" secondItem="JGo-DO-Zbt" secondAttribute="trailing" constant="20" id="7Vy-PW-z8X"/>
                                     <constraint firstItem="OaO-jX-FWi" firstAttribute="top" secondItem="OZL-bp-kcR" secondAttribute="top" constant="20" id="7XH-ge-mxT"/>
                                     <constraint firstAttribute="height" constant="414" id="AmX-0k-VlY"/>
+                                    <constraint firstItem="FCi-3a-UgI" firstAttribute="bottom" secondItem="gJU-qy-YPl" secondAttribute="bottom" id="I0B-uW-YnM"/>
                                     <constraint firstAttribute="width" constant="368" id="JbX-Ip-5p7"/>
                                     <constraint firstItem="JGo-DO-Zbt" firstAttribute="leading" secondItem="l5o-q0-oD3" secondAttribute="trailing" constant="20" id="OXy-1j-UeF"/>
                                     <constraint firstAttribute="bottom" secondItem="l5o-q0-oD3" secondAttribute="bottom" constant="20" id="PGw-Jm-ZIJ"/>
                                     <constraint firstItem="l5o-q0-oD3" firstAttribute="leading" secondItem="OZL-bp-kcR" secondAttribute="leading" constant="20" id="RbW-bu-ufN"/>
-                                    <constraint firstItem="FCi-3a-UgI" firstAttribute="leading" secondItem="OZL-bp-kcR" secondAttribute="leading" constant="20" id="ZKP-Xy-9WN"/>
+                                    <constraint firstItem="FCi-3a-UgI" firstAttribute="top" secondItem="OaO-jX-FWi" secondAttribute="bottom" constant="20" id="TQo-vP-8RU"/>
                                     <constraint firstAttribute="trailing" secondItem="OaO-jX-FWi" secondAttribute="trailing" constant="20" id="dIw-VF-vao"/>
                                     <constraint firstAttribute="trailing" secondItem="gJU-qy-YPl" secondAttribute="trailing" constant="20" id="ehf-Fm-rxF"/>
                                     <constraint firstItem="gJU-qy-YPl" firstAttribute="top" secondItem="OaO-jX-FWi" secondAttribute="bottom" constant="20" id="pwh-W6-c30"/>
+                                    <constraint firstItem="FCi-3a-UgI" firstAttribute="leading" secondItem="OaO-jX-FWi" secondAttribute="leading" id="pzh-ex-vMu"/>
+                                    <constraint firstItem="gJU-qy-YPl" firstAttribute="leading" secondItem="FCi-3a-UgI" secondAttribute="trailing" constant="20" id="r1I-LB-VIA"/>
                                     <constraint firstItem="OaO-jX-FWi" firstAttribute="leading" secondItem="OZL-bp-kcR" secondAttribute="leading" constant="20" id="tgd-cP-78N"/>
-                                    <constraint firstItem="FCi-3a-UgI" firstAttribute="top" secondItem="OaO-jX-FWi" secondAttribute="bottom" constant="20" id="zNZ-hK-F0V"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GwY-Km-gxB" userLabel="Left View">
