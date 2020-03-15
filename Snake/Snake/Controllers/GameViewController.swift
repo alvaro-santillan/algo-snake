@@ -12,11 +12,9 @@ import GameplayKit
 
 class GameViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    let imageNames = ["optimalIMG", "guaranteedIMG"]
-    
-    let pathFindingAlgorithmList = ["Breath First Search", "Depth First Search", "Greedy Depth First Search", "Uniform Cost Search", "Dijstras Search", "A-Star Search"]
-    let mazeGenrationAlgorithims = ["Recursive backtracking algorithm", "Hunt and kill algorithm", "Eller's algorithm", "Sidewinder algorithm", "Prim's algorithm", "Kruskal's algorithm", "Depth-first search", "Breadth-first search"]
-    let vsList = ["Player","Breath First Search", "Depth First Search", "Greedy Depth First Search", "Uniform Cost Search", "Dijstras Search", "A-Star Search"]
+    let pathFindingAlgorithmList = [["Breath First Search","1","0"], ["Depth First Search","1","0"], ["Greedy Depth First Search","1","0"], ["Uniform Cost Search","1","1"], ["Dijstras Search","1","1"], ["A-Star Search","1","1"]]
+    let mazeGenrationAlgorithims = [["Recursive backtracking algorithm","1","1"], ["Hunt and kill algorithm","1","1"], ["Eller's algorithm","1","1"], ["Sidewinder algorithm","1","1"], ["Prim's algorithm","1","1"], ["Kruskal's algorithm","1","1"], ["Depth-first search","1","0"], ["Breadth-first search","1","0"]]
+    let vsList = [["Player","0","0"],["Breath First Search","1","0"], ["Depth First Search","1","0"], ["Greedy Depth First Search","1","0"], ["Uniform Cost Search","1","1"], ["Dijstras Search","1","1"], ["A-Star Search","1","1"]]
     
     lazy var tableViewDisplayList = pathFindingAlgorithmList
     
@@ -27,17 +25,27 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ViewControllerTableViewCell
         
-        cell.myImage.image = UIImage(named: "garrenteed.pdf")
-        cell.myImage.layer.borderWidth = 1
-        cell.myImage.layer.cornerRadius = cell.myImage.frame.size.width/2
-        cell.myImage.clipsToBounds = true
+        cell.myLabel.text = tableViewDisplayList[indexPath.row][0]
         
-        cell.myImage2.image = UIImage(named: "optimal.jpg")
-        cell.myImage2.layer.borderWidth = 1
-        cell.myImage2.layer.cornerRadius = cell.myImage2.frame.height/2
-        cell.myImage2.clipsToBounds = true
+        if tableViewDisplayList[indexPath.row][1] == "1" {
+            cell.myImage.image = UIImage(named: "garrenteed.pdf")
+            cell.myImage.layer.borderWidth = 1
+            cell.myImage.layer.cornerRadius = cell.myImage.frame.size.width/2
+            cell.myImage.clipsToBounds = true
+        } else if tableViewDisplayList[indexPath.row][1] == "0" {
+            cell.myImage.image = UIImage(named: "")
+            cell.myImage.layer.borderWidth = 0
+        }
         
-        cell.myLabel.text = tableViewDisplayList[indexPath.row]
+        if tableViewDisplayList[indexPath.row][2] == "1" {
+            cell.myImage2.image = UIImage(named: "optimal.jpg")
+            cell.myImage2.layer.borderWidth = 1
+            cell.myImage2.layer.cornerRadius = cell.myImage2.frame.height/2
+            cell.myImage2.clipsToBounds = true
+        } else if tableViewDisplayList[indexPath.row][2] == "0" {
+            cell.myImage2.image = UIImage(named: "")
+            cell.myImage2.layer.borderWidth = 0
+        }
         return cell
     }
     
@@ -48,7 +56,6 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var titleLabel: UITextField!
     @IBOutlet weak var segControl: UISegmentedControl!
     @IBOutlet weak var rightView: UIView!
-    @IBOutlet weak var segControlWindow: UIView!
     @IBOutlet weak var DFS: UIButton!
     @IBOutlet weak var tableVIew: UITableView!
     @IBOutlet weak var leftView: UIView!
