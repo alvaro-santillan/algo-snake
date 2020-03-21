@@ -16,8 +16,6 @@
 		3812395123C68E2C0066B3FA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3812394F23C68E2C0066B3FA /* LaunchScreen.storyboard */; };
 		3812395923C68F450066B3FA /* GameManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3812395823C68F450066B3FA /* GameManager.swift */; };
 		384607BE23E7ECF6001C944D /* MainMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384607BD23E7ECF6001C944D /* MainMenu.swift */; };
-		385F07D2241DE9A800001B35 /* cog-solid.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 385F07D0241DE9A800001B35 /* cog-solid.pdf */; };
-		385F07D3241DE9A800001B35 /* play-solid.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 385F07D1241DE9A800001B35 /* play-solid.pdf */; };
 		387FD13B241DC51C0004FD78 /* ViewControllerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387FD13A241DC51C0004FD78 /* ViewControllerTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -33,8 +31,6 @@
 		3812395223C68E2C0066B3FA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3812395823C68F450066B3FA /* GameManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameManager.swift; sourceTree = "<group>"; };
 		384607BD23E7ECF6001C944D /* MainMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenu.swift; sourceTree = "<group>"; };
-		385F07D0241DE9A800001B35 /* cog-solid.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "cog-solid.pdf"; sourceTree = "<group>"; };
-		385F07D1241DE9A800001B35 /* play-solid.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "play-solid.pdf"; sourceTree = "<group>"; };
 		387FD13A241DC51C0004FD78 /* ViewControllerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -74,8 +70,6 @@
 				3812395823C68F450066B3FA /* GameManager.swift */,
 				384607BC23E7ECCD001C944D /* Controllers */,
 				3812394D23C68E2C0066B3FA /* Assets.xcassets */,
-				385F07D0241DE9A800001B35 /* cog-solid.pdf */,
-				385F07D1241DE9A800001B35 /* play-solid.pdf */,
 				3812394023C68E290066B3FA /* AppDelegate.swift */,
 				3812394223C68E290066B3FA /* GameScene.sks */,
 				3812395223C68E2C0066B3FA /* Info.plist */,
@@ -159,9 +153,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				385F07D3241DE9A800001B35 /* play-solid.pdf in Resources */,
 				3812394C23C68E290066B3FA /* Main.storyboard in Resources */,
-				385F07D2241DE9A800001B35 /* cog-solid.pdf in Resources */,
 				3812394323C68E290066B3FA /* GameScene.sks in Resources */,
 				3812394E23C68E2C0066B3FA /* Assets.xcassets in Resources */,
 				3812395123C68E2C0066B3FA /* LaunchScreen.storyboard in Resources */,
