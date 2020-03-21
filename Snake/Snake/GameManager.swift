@@ -260,7 +260,7 @@ class GameManager {
     var onPathMode = false
     var scene: GameScene!
     var nextTime: Double?
-    var gameSpeed: Double = 0.0
+    var gameSpeed: Double = 0.4
     var playerDirection: Int = 1 // 1 == left, 2 == up, 3 == right, 4 == down
     var currentScore: Int = 0
     

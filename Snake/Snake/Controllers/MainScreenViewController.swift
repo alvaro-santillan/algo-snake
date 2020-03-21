@@ -92,44 +92,45 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
         print("changed to 1")
     }
     
-    @IBAction func StartButton(_ sender: UIButton) {
+//    @IBAction func StartButton(_ sender: UIButton) {
 //        if let view = GameScreenViewController.view as! SKView? {
-        if let view = self.view as! SKView? {
-            // Load the SKScene from 'GameScene.sks'
-            if let scene = SKScene(fileNamed: "GameScene") {
-                // Set the scale mode to scale to fit the window
-//                scene.scaleMode = .fill
-                // Present the scene
-                view.presentScene(scene)
-            }
-            view.ignoresSiblingOrder = true
-            view.showsFPS = false
-            view.showsNodeCount = false
-            settingsButton.isHidden = true
-            startButton.isHidden = true
-            highScoreLabel.isHidden = true
-            lastScoreLabel.isHidden = true
-            titleLabel.isHidden = true
-            segControl.isHidden = true
-            leftView.isHidden = true
-            rightView.isHidden = true
-//            segControlWindow.isHidden = true
-        }
-    }
+//        _ = self.view
+//        if let view = self.view as! SKView? {
+//            // Load the SKScene from 'GameScene.sks'
+//            if let scene = SKScene(fileNamed: "GameScene") {
+//                // Set the scale mode to scale to fit the window
+////                scene.scaleMode = .fill
+//                // Present the scene
+//                view.presentScene(scene)
+//            }
+//            view.ignoresSiblingOrder = true
+//            view.showsFPS = false
+//            view.showsNodeCount = false
+//            settingsButton.isHidden = true
+//            startButton.isHidden = true
+//            highScoreLabel.isHidden = true
+//            lastScoreLabel.isHidden = true
+//            titleLabel.isHidden = true
+//            segControl.isHidden = true
+//            leftView.isHidden = true
+//            rightView.isHidden = true
+////            segControlWindow.isHidden = true
+//        }
+//    }
     
-    override var shouldAutorotate: Bool {
-        return false
-    }
-
-    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            return .allButUpsideDown
-        } else {
-            return .all
-        }
-    }
-
-    override var prefersStatusBarHidden: Bool {
-        return true
-    }
+//    override var shouldAutorotate: Bool {
+//        return false
+//    }
+//
+//    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+//        if UIDevice.current.userInterfaceIdiom == .phone {
+//            return .allButUpsideDown
+//        } else {
+//            return .all
+//        }
+//    }
+//
+//    override var prefersStatusBarHidden: Bool {
+//        return true
+//    }
 }

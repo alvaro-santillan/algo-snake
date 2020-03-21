@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="bKH-RY-faG">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BV1-FR-VrT">
     <device id="retina5_5" orientation="landscape" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -139,7 +139,7 @@
                                             <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
                                         </state>
                                         <connections>
-                                            <action selector="StartButton:" destination="BV1-FR-VrT" eventType="touchUpInside" id="cds-Bw-uFG"/>
+                                            <segue destination="bKH-RY-faG" kind="show" id="Spf-Xu-6Bl"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -199,7 +199,6 @@
                         <outlet property="rightView" destination="OZL-bp-kcR" id="U0R-qj-Ha5"/>
                         <outlet property="segControl" destination="yaF-nE-mbW" id="Nyz-H9-xgz"/>
                         <outlet property="settingsButton" destination="l5o-q0-oD3" id="IbF-6G-fUA"/>
-                        <outlet property="startButton" destination="JGo-DO-Zbt" id="7hM-ep-wBT"/>
                         <outlet property="tableVIew" destination="ZpZ-XN-DRd" id="srA-uD-L7y"/>
                         <outlet property="titleLabel" destination="OaO-jX-FWi" id="3NX-KN-YzA"/>
                     </connections>
@@ -399,7 +398,7 @@
         <scene sceneID="wct-s6-TV9">
             <objects>
                 <viewController id="bKH-RY-faG" customClass="GameScreenViewController" customModule="Snake" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="V6u-dH-R6S">
+                    <view key="view" contentMode="scaleToFill" id="V6u-dH-R6S" customClass="SKView">
                         <rect key="frame" x="0.0" y="0.0" width="736" height="414"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -464,6 +463,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="lMT-5a-1pP"/>
                     </view>
+                    <navigationItem key="navigationItem" id="3h6-dv-rTv"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Yxn-nk-StT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -581,7 +581,7 @@
         <image name="weight-hanging-solid" width="512" height="512"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="HB8-7U-962"/>
-        <segue reference="Bhq-DF-cdl"/>
+        <segue reference="f62-Ey-MOA"/>
+        <segue reference="8G7-g3-Hcu"/>
     </inferredMetricsTieBreakers>
 </document>
