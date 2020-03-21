@@ -183,7 +183,7 @@
                         <outlet property="rightView" destination="OZL-bp-kcR" id="U0R-qj-Ha5"/>
                         <outlet property="segControl" destination="yaF-nE-mbW" id="Nyz-H9-xgz"/>
                         <outlet property="settingsButton" destination="l5o-q0-oD3" id="IbF-6G-fUA"/>
-                        <outlet property="tableVIew" destination="ZpZ-XN-DRd" id="srA-uD-L7y"/>
+                        <outlet property="tableVIew" destination="ZpZ-XN-DRd" id="LEd-PV-iKZ"/>
                         <outlet property="titleLabel" destination="OaO-jX-FWi" id="3NX-KN-YzA"/>
                     </connections>
                 </viewController>
@@ -215,10 +215,10 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="34" id="Nju-Ya-EcK">
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell2" rowHeight="34" id="Nju-Ya-EcK" customClass="SettingsScreenTableViewCell" customModule="Snake" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="28" width="268" height="34"/>
                                                 <autoresizingMask key="autoresizingMask"/>
-                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Nju-Ya-EcK" id="yrd-gP-fDt">
+                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Nju-Ya-EcK" id="yrd-gP-fDt" customClass="SettingsScreenTableViewCell" customModule="Snake" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="0.0" width="268" height="34"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
@@ -227,16 +227,29 @@
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uPu-Cm-ISl">
-                                                            <rect key="frame" x="39" y="5" width="221" height="25"/>
+                                                            <rect key="frame" x="72" y="5" width="188" height="25"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OAJ-YF-dc9">
+                                                            <rect key="frame" x="39" y="5" width="25" height="25"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        </imageView>
                                                     </subviews>
                                                 </tableViewCellContentView>
+                                                <connections>
+                                                    <outlet property="myImage22" destination="OAJ-YF-dc9" id="SV0-FU-4BU"/>
+                                                    <outlet property="myImagee" destination="FH3-5z-Mbe" id="USD-N6-MHV"/>
+                                                    <outlet property="myLabell" destination="uPu-Cm-ISl" id="lMw-a9-9NN"/>
+                                                </connections>
                                             </tableViewCell>
                                         </prototypes>
+                                        <connections>
+                                            <outlet property="dataSource" destination="x7L-u7-4Ti" id="cg4-u4-OMM"/>
+                                            <outlet property="delegate" destination="x7L-u7-4Ti" id="EQR-3Q-beI"/>
+                                        </connections>
                                     </tableView>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -373,6 +386,9 @@
                         <viewLayoutGuide key="safeArea" id="WOg-PK-6B8"/>
                     </view>
                     <navigationItem key="navigationItem" id="nZT-ks-2kZ"/>
+                    <connections>
+                        <outlet property="tableVIew" destination="PIt-eS-dbd" id="5F5-F9-MYi"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oGy-II-PWs" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -566,6 +582,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="f62-Ey-MOA"/>
-        <segue reference="8G7-g3-Hcu"/>
+        <segue reference="Bhq-DF-cdl"/>
     </inferredMetricsTieBreakers>
 </document>

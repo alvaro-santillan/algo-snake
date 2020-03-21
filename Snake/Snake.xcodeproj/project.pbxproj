@@ -18,7 +18,8 @@
 		3868F97C2426960C008F7B34 /* HelpScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3868F97B2426960C008F7B34 /* HelpScreenViewController.swift */; };
 		3868F97E24269985008F7B34 /* GameScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3868F97D24269985008F7B34 /* GameScreenViewController.swift */; };
 		3868F98024269C1C008F7B34 /* SettingsScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3868F97F24269C1C008F7B34 /* SettingsScreenViewController.swift */; };
-		387FD13B241DC51C0004FD78 /* ViewControllerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387FD13A241DC51C0004FD78 /* ViewControllerTableViewCell.swift */; };
+		3868F9822426B5EC008F7B34 /* SettingsScreenTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3868F9812426B5EC008F7B34 /* SettingsScreenTableViewCell.swift */; };
+		387FD13B241DC51C0004FD78 /* MainScreenTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387FD13A241DC51C0004FD78 /* MainScreenTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,7 +36,8 @@
 		3868F97B2426960C008F7B34 /* HelpScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpScreenViewController.swift; sourceTree = "<group>"; };
 		3868F97D24269985008F7B34 /* GameScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScreenViewController.swift; sourceTree = "<group>"; };
 		3868F97F24269C1C008F7B34 /* SettingsScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsScreenViewController.swift; sourceTree = "<group>"; };
-		387FD13A241DC51C0004FD78 /* ViewControllerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerTableViewCell.swift; sourceTree = "<group>"; };
+		3868F9812426B5EC008F7B34 /* SettingsScreenTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsScreenTableViewCell.swift; sourceTree = "<group>"; };
+		387FD13A241DC51C0004FD78 /* MainScreenTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,7 +70,8 @@
 		3812393F23C68E290066B3FA /* Snake */ = {
 			isa = PBXGroup;
 			children = (
-				387FD13A241DC51C0004FD78 /* ViewControllerTableViewCell.swift */,
+				387FD13A241DC51C0004FD78 /* MainScreenTableViewCell.swift */,
+				3868F9812426B5EC008F7B34 /* SettingsScreenTableViewCell.swift */,
 				38BA7A4D23D3EAE300509984 /* View */,
 				3812394623C68E290066B3FA /* GameScene.swift */,
 				3812395823C68F450066B3FA /* GameManager.swift */,
@@ -174,9 +177,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				3868F97C2426960C008F7B34 /* HelpScreenViewController.swift in Sources */,
+				3868F9822426B5EC008F7B34 /* SettingsScreenTableViewCell.swift in Sources */,
 				3868F97E24269985008F7B34 /* GameScreenViewController.swift in Sources */,
 				3812394723C68E290066B3FA /* GameScene.swift in Sources */,
-				387FD13B241DC51C0004FD78 /* ViewControllerTableViewCell.swift in Sources */,
+				387FD13B241DC51C0004FD78 /* MainScreenTableViewCell.swift in Sources */,
 				3812395923C68F450066B3FA /* GameManager.swift in Sources */,
 				3812394923C68E290066B3FA /* MainScreenViewController.swift in Sources */,
 				3812394123C68E290066B3FA /* AppDelegate.swift in Sources */,
