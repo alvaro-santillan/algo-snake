@@ -93,6 +93,7 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     @IBAction func StartButton(_ sender: UIButton) {
+//        if let view = GameScreenViewController.view as! SKView? {
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
             if let scene = SKScene(fileNamed: "GameScene") {

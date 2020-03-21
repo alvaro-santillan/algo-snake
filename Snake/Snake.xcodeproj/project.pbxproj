@@ -10,12 +10,14 @@
 		3812394123C68E290066B3FA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3812394023C68E290066B3FA /* AppDelegate.swift */; };
 		3812394323C68E290066B3FA /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 3812394223C68E290066B3FA /* GameScene.sks */; };
 		3812394723C68E290066B3FA /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3812394623C68E290066B3FA /* GameScene.swift */; };
-		3812394923C68E290066B3FA /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3812394823C68E290066B3FA /* GameViewController.swift */; };
+		3812394923C68E290066B3FA /* MainScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3812394823C68E290066B3FA /* MainScreenViewController.swift */; };
 		3812394C23C68E290066B3FA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3812394A23C68E290066B3FA /* Main.storyboard */; };
 		3812394E23C68E2C0066B3FA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3812394D23C68E2C0066B3FA /* Assets.xcassets */; };
 		3812395123C68E2C0066B3FA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3812394F23C68E2C0066B3FA /* LaunchScreen.storyboard */; };
 		3812395923C68F450066B3FA /* GameManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3812395823C68F450066B3FA /* GameManager.swift */; };
-		384607BE23E7ECF6001C944D /* MainMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384607BD23E7ECF6001C944D /* MainMenu.swift */; };
+		3868F97C2426960C008F7B34 /* HelpScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3868F97B2426960C008F7B34 /* HelpScreenViewController.swift */; };
+		3868F97E24269985008F7B34 /* GameScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3868F97D24269985008F7B34 /* GameScreenViewController.swift */; };
+		3868F98024269C1C008F7B34 /* SettingsScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3868F97F24269C1C008F7B34 /* SettingsScreenViewController.swift */; };
 		387FD13B241DC51C0004FD78 /* ViewControllerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387FD13A241DC51C0004FD78 /* ViewControllerTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -24,13 +26,15 @@
 		3812394023C68E290066B3FA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3812394223C68E290066B3FA /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		3812394623C68E290066B3FA /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
-		3812394823C68E290066B3FA /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
+		3812394823C68E290066B3FA /* MainScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenViewController.swift; sourceTree = "<group>"; };
 		3812394B23C68E290066B3FA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3812394D23C68E2C0066B3FA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3812395023C68E2C0066B3FA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3812395223C68E2C0066B3FA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3812395823C68F450066B3FA /* GameManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameManager.swift; sourceTree = "<group>"; };
-		384607BD23E7ECF6001C944D /* MainMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenu.swift; sourceTree = "<group>"; };
+		3868F97B2426960C008F7B34 /* HelpScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpScreenViewController.swift; sourceTree = "<group>"; };
+		3868F97D24269985008F7B34 /* GameScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScreenViewController.swift; sourceTree = "<group>"; };
+		3868F97F24269C1C008F7B34 /* SettingsScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsScreenViewController.swift; sourceTree = "<group>"; };
 		387FD13A241DC51C0004FD78 /* ViewControllerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -80,8 +84,10 @@
 		384607BC23E7ECCD001C944D /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				3812394823C68E290066B3FA /* GameViewController.swift */,
-				384607BD23E7ECF6001C944D /* MainMenu.swift */,
+				3868F97B2426960C008F7B34 /* HelpScreenViewController.swift */,
+				3868F97D24269985008F7B34 /* GameScreenViewController.swift */,
+				3812394823C68E290066B3FA /* MainScreenViewController.swift */,
+				3868F97F24269C1C008F7B34 /* SettingsScreenViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -167,12 +173,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				384607BE23E7ECF6001C944D /* MainMenu.swift in Sources */,
+				3868F97C2426960C008F7B34 /* HelpScreenViewController.swift in Sources */,
+				3868F97E24269985008F7B34 /* GameScreenViewController.swift in Sources */,
 				3812394723C68E290066B3FA /* GameScene.swift in Sources */,
 				387FD13B241DC51C0004FD78 /* ViewControllerTableViewCell.swift in Sources */,
 				3812395923C68F450066B3FA /* GameManager.swift in Sources */,
-				3812394923C68E290066B3FA /* GameViewController.swift in Sources */,
+				3812394923C68E290066B3FA /* MainScreenViewController.swift in Sources */,
 				3812394123C68E290066B3FA /* AppDelegate.swift in Sources */,
+				3868F98024269C1C008F7B34 /* SettingsScreenViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
