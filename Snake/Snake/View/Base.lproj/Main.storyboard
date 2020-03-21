@@ -16,21 +16,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="736" height="414"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zOM-za-Bce">
-                                <rect key="frame" x="524" y="156" width="10" height="15"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Depth First Search">
-                                    <color key="titleColor" systemColor="systemPinkColor" red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="DFSButton:" destination="BV1-FR-VrT" eventType="touchUpInside" id="lxb-jS-n56"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gPf-oZ-KYc">
-                                <rect key="frame" x="522" y="154" width="12" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Breath First Search"/>
-                            </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GwY-Km-gxB" userLabel="Left View">
                                 <rect key="frame" x="0.0" y="0.0" width="369" height="414"/>
                                 <subviews>
@@ -192,7 +177,6 @@
                     </view>
                     <navigationItem key="navigationItem" id="cf4-id-TKf"/>
                     <connections>
-                        <outlet property="DFS" destination="zOM-za-Bce" id="QgG-xE-3jV"/>
                         <outlet property="highScoreLabel" destination="gJU-qy-YPl" id="ie6-zz-4zG"/>
                         <outlet property="lastScoreLabel" destination="FCi-3a-UgI" id="4mG-fI-T6J"/>
                         <outlet property="leftView" destination="GwY-Km-gxB" id="hc9-Gb-3zU"/>

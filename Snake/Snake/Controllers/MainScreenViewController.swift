@@ -17,10 +17,8 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var titleLabel: UITextField!
     @IBOutlet weak var segControl: UISegmentedControl!
     @IBOutlet weak var rightView: UIView!
-    @IBOutlet weak var DFS: UIButton!
     @IBOutlet weak var tableVIew: UITableView!
     @IBOutlet weak var leftView: UIView!
-    var selectDFS: Int = 0
     
     let pathFindingAlgorithmList = [["Player","0","0"], ["Breath First Search","1","0"], ["Depth First Search","1","0"], ["Greedy Depth First Search","1","0"], ["Uniform Cost Search","1","1"], ["Dijkstra's Search","1","1"], ["A-Star Search","1","1"]]
     let mazeGenrationAlgorithims = [["None","0","0"], ["Recursive backtracking algorithm","1","1"], ["Hunt and kill algorithm","1","1"], ["Eller's algorithm","1","1"], ["Sidewinder algorithm","1","1"], ["Prim's algorithm","1","1"], ["Kruskal's algorithm","1","1"], ["Depth-first search","1","0"], ["Breadth-first search","1","0"]]
@@ -77,10 +75,5 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
             tableViewDisplayList = vsList
             tableVIew.reloadData()
         }
-    }
-    
-    @IBAction func DFSButton(_ sender: UIButton) {
-        selectDFS = 1
-        print("changed to 1")
     }
 }
