@@ -15,9 +15,9 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         super.viewDidLoad()
     }
     
-    let legendData = [["Player", 1], ["Player", 0]]
+    let legendData = [["Snake", 0], ["Food", 3], ["Path", 17], ["Visited Squares", 5], ["Queued Squares", 15], ["Unvisited Squares", 13], ["Barrier", 7], ["Weight", 19]]
     
-    let colors = [
+    let colors = [ // Range 0 to 19
             UIColor(red:0.10, green:0.74, blue:0.61, alpha:1.00), // Teal Turquoise
             UIColor(red:0.09, green:0.63, blue:0.52, alpha:1.00), // Teal GreenSea
             UIColor(red:0.18, green:0.80, blue:0.44, alpha:1.00), // Green Emerald
@@ -49,7 +49,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         cell2.myLabell.text = legendData[indexPath.row][0] as? String
         cell2.myImagee.backgroundColor = colors[(legendData[indexPath.row][1] as? Int)!]
         cell2.myImagee.layer.borderWidth = 1
-        cell2.myImagee.layer.cornerRadius = cell2.myImagee.frame.size.width/2
+        cell2.myImagee.layer.cornerRadius = cell2.myImagee.frame.size.width/4
         cell2.myImagee.clipsToBounds = true
         
         return cell2
