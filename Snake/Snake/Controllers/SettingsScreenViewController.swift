@@ -10,9 +10,21 @@ import UIKit
 
 class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource  {
     @IBOutlet weak var tableVIew: UITableView!
+    @IBOutlet weak var returnToLastScreenButton: UIButton!
+    @IBOutlet weak var soundButton: UIButton!
+    @IBOutlet weak var helpButton: UIButton!
+    @IBOutlet weak var stepOrPlayPauseButton: UIButton!
+    @IBOutlet weak var darkOrLightModeButton: UIButton!
+    @IBOutlet weak var homeButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        returnToLastScreenButton.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
+        soundButton.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
+        helpButton.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
+        stepOrPlayPauseButton.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
+        darkOrLightModeButton.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
+        homeButton.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
     }
     
     let legendData = [["Snake", 0], ["Food", 3], ["Path", 17], ["Visited Squares", 5], ["Queued Squares", 15], ["Unvisited Squares", 13], ["Barrier", 7], ["Weight", 19]]

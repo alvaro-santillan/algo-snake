@@ -323,7 +323,7 @@
                                         <rect key="frame" x="21" y="352" width="45" height="45"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" title="Button" image="chevron-down-solid">
+                                        <state key="normal" image="chevron-down-solid">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                     </button>
@@ -331,7 +331,7 @@
                                         <rect key="frame" x="155" y="352" width="45" height="45"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" title="Button" image="volume-down-solid">
+                                        <state key="normal" image="volume-down-solid">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                     </button>
@@ -339,7 +339,7 @@
                                         <rect key="frame" x="210" y="352" width="45" height="45"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" title="Button" image="question-solid">
+                                        <state key="normal" image="question-solid">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
@@ -350,7 +350,7 @@
                                         <rect key="frame" x="267" y="352" width="45" height="45"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" title="Button" image="shoe-prints-solid">
+                                        <state key="normal" image="shoe-prints-solid">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                     </button>
@@ -358,7 +358,7 @@
                                         <rect key="frame" x="323" y="352" width="45" height="45"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" title="Button" image="adjust-solid">
+                                        <state key="normal" image="adjust-solid">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                     </button>
@@ -366,7 +366,7 @@
                                         <rect key="frame" x="379" y="352" width="45" height="45"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" title="Button" image="home-solid">
+                                        <state key="normal" image="home-solid">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
@@ -382,6 +382,12 @@
                     </view>
                     <navigationItem key="navigationItem" id="nZT-ks-2kZ"/>
                     <connections>
+                        <outlet property="darkOrLightModeButton" destination="NXh-5F-g45" id="bRt-7t-iWt"/>
+                        <outlet property="helpButton" destination="upX-fy-FEE" id="pcl-Ng-vjy"/>
+                        <outlet property="homeButton" destination="e4T-iy-Fyn" id="bKX-xJ-7yc"/>
+                        <outlet property="returnToLastScreenButton" destination="yqy-yh-N6D" id="d0F-Ag-yLP"/>
+                        <outlet property="soundButton" destination="rF9-Fn-yKR" id="bBc-g9-Njf"/>
+                        <outlet property="stepOrPlayPauseButton" destination="GfL-tN-qLN" id="o3V-bq-97q"/>
                         <outlet property="tableVIew" destination="PIt-eS-dbd" id="5F5-F9-MYi"/>
                     </connections>
                 </viewController>
