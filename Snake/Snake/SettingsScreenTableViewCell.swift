@@ -9,10 +9,8 @@
 import UIKit
 
 class SettingsScreenTableViewCell: UITableViewCell {
-    @IBOutlet weak var img1: UIImageView!
     @IBOutlet weak var myImagee: UIImageView!
     @IBOutlet weak var myLabell: UILabel!
-    @IBOutlet weak var myImage22: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
