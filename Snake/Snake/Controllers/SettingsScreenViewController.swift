@@ -115,7 +115,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         homeButton.layer.shadowOffset = .zero
     }
     
-    let legendData = [["Snake", 0], ["Food", 3], ["Path", 17], ["Visited Square", 5], ["Queued Square", 15], ["Unvisited Square", 13], ["Barrier", 7], ["Weight", 19]]
+    var legendData = [["Snake", 0], ["Food", 3], ["Path", 17], ["Visited Square", 5], ["Queued Square", 15], ["Unvisited Square", 13], ["Barrier", 7], ["Weight", 19]]
     
     let colors = [ // Range 0 to 19
             UIColor(red:0.10, green:0.74, blue:0.61, alpha:1.00), // Teal Turquoise
@@ -154,6 +154,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         cell2.selectionStyle = UITableViewCell.SelectionStyle.none
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
         tapGestureRecognizer.numberOfTapsRequired = 1
+        cell2.myImagee.tag = indexPath.row
         cell2.myImagee.isUserInteractionEnabled = true
         cell2.myImagee.addGestureRecognizer(tapGestureRecognizer)
         return cell2
@@ -162,7 +163,10 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     // method to run when imageview is tapped
     @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
         let imgView = tapGestureRecognizer.view as! UIImageView
-        imgView.backgroundColor = UIColor(red:0.95, green:0.61, blue:0.07, alpha:1.00)
+        var colorID = (legendData[imgView.tag][1] as! Int) + 1
+        if colorID == colors.count {colorID = 0}
+        legendData[imgView.tag][1] = colorID
+        tableVIew.reloadData()
     }
     
     @IBAction func godButton(_ sender: UIButton) {
