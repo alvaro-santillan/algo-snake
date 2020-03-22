@@ -11,9 +11,18 @@ import SpriteKit
 import GameplayKit
 
 class GameScreenViewController: UIViewController {
-
+    @IBOutlet weak var stepOrPlayPauseButton: UIButton!
+    @IBOutlet weak var weightButton: UIButton!
+    @IBOutlet weak var homeButton: UIButton!
+    @IBOutlet weak var settingsButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        stepOrPlayPauseButton.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
+        weightButton.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
+        homeButton.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
+        settingsButton.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
+        
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
             if let scene = SKScene(fileNamed: "GameScene") {
