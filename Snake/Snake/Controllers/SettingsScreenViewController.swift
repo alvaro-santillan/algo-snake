@@ -28,12 +28,80 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // Text Buttons
+        clearAllButton.layer.cornerRadius = 6
+        clearAllButton.layer.shadowColor = UIColor.darkGray.cgColor
+        clearAllButton.layer.shadowRadius = 2
+        clearAllButton.layer.shadowOpacity = 0.2
+        clearAllButton.layer.shadowOffset = CGSize(width: 0, height: 3)
+        clearBarrierButton.layer.cornerRadius = 6
+        clearBarrierButton.layer.shadowColor = UIColor.darkGray.cgColor
+        clearBarrierButton.layer.shadowRadius = 2
+        clearBarrierButton.layer.shadowOpacity = 0.2
+        clearBarrierButton.layer.shadowOffset = CGSize(width: 0, height: 3)
+        clearPathButton.layer.cornerRadius = 6
+        clearPathButton.layer.shadowColor = UIColor.darkGray.cgColor
+        clearPathButton.layer.shadowRadius = 2
+        clearPathButton.layer.shadowOpacity = 0.2
+        clearPathButton.layer.shadowOffset = CGSize(width: 0, height: 3)
+        godModeButton.layer.cornerRadius = 6
+        godModeButton.layer.shadowColor = UIColor.darkGray.cgColor
+        godModeButton.layer.shadowRadius = 2
+        godModeButton.layer.shadowOpacity = 0.2
+        godModeButton.layer.shadowOffset = CGSize(width: 0, height: 3)
+        snakeSpeedButton.layer.cornerRadius = 6
+        snakeSpeedButton.layer.shadowColor = UIColor.darkGray.cgColor
+        snakeSpeedButton.layer.shadowRadius = 2
+        snakeSpeedButton.layer.shadowOpacity = 0.2
+        snakeSpeedButton.layer.shadowOffset = CGSize(width: 0, height: 3)
+        foodWeightButton.layer.cornerRadius = 6
+        foodWeightButton.layer.shadowColor = UIColor.darkGray.cgColor
+        foodWeightButton.layer.shadowRadius = 2
+        foodWeightButton.layer.shadowOpacity = 0.2
+        foodWeightButton.layer.shadowOffset = CGSize(width: 0, height: 3)
+        foodCountButton.layer.cornerRadius = 6
+        foodCountButton.layer.shadowColor = UIColor.darkGray.cgColor
+        foodCountButton.layer.shadowRadius = 2
+        foodCountButton.layer.shadowOpacity = 0.2
+        foodCountButton.layer.shadowOffset = CGSize(width: 0, height: 3)
+        
+        // Icon Buttons
         returnToLastScreenButton.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
+        returnToLastScreenButton.layer.cornerRadius = 6
+        returnToLastScreenButton.layer.shadowColor = UIColor.darkGray.cgColor
+        returnToLastScreenButton.layer.shadowRadius = 5
+        returnToLastScreenButton.layer.shadowOpacity = 0.5
+        returnToLastScreenButton.layer.shadowOffset = CGSize(width: 0, height: 3)
         soundButton.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
+        soundButton.layer.cornerRadius = 6
+        soundButton.layer.shadowColor = UIColor.darkGray.cgColor
+        soundButton.layer.shadowRadius = 5
+        soundButton.layer.shadowOpacity = 0.5
+        soundButton.layer.shadowOffset = CGSize(width: 0, height: 3)
         helpButton.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
+        helpButton.layer.cornerRadius = 6
+        helpButton.layer.shadowColor = UIColor.darkGray.cgColor
+        helpButton.layer.shadowRadius = 5
+        helpButton.layer.shadowOpacity = 0.5
+        helpButton.layer.shadowOffset = CGSize(width: 0, height: 3)
         stepOrPlayPauseButton.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
+        stepOrPlayPauseButton.layer.cornerRadius = 6
+        stepOrPlayPauseButton.layer.shadowColor = UIColor.darkGray.cgColor
+        stepOrPlayPauseButton.layer.shadowRadius = 5
+        stepOrPlayPauseButton.layer.shadowOpacity = 0.5
+        stepOrPlayPauseButton.layer.shadowOffset = CGSize(width: 0, height: 3)
         darkOrLightModeButton.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
+        darkOrLightModeButton.layer.cornerRadius = 6
+        darkOrLightModeButton.layer.shadowColor = UIColor.darkGray.cgColor
+        darkOrLightModeButton.layer.shadowRadius = 5
+        darkOrLightModeButton.layer.shadowOpacity = 0.5
+        darkOrLightModeButton.layer.shadowOffset = CGSize(width: 0, height: 3)
         homeButton.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
+        homeButton.layer.cornerRadius = 6
+        homeButton.layer.shadowColor = UIColor.darkGray.cgColor
+        homeButton.layer.shadowRadius = 5
+        homeButton.layer.shadowOpacity = 0.5
+        homeButton.layer.shadowOffset = CGSize(width: 0, height: 3)
     }
     
     let legendData = [["Snake", 0], ["Food", 3], ["Path", 17], ["Visited Squares", 5], ["Queued Squares", 15], ["Unvisited Squares", 13], ["Barrier", 7], ["Weight", 19]]
