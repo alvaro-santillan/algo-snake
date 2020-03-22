@@ -11,6 +11,7 @@ import SpriteKit
 import GameplayKit
 
 class GameScreenViewController: UIViewController {
+    @IBOutlet weak var scoreButton: UIButton!
     @IBOutlet weak var stepOrPlayPauseButton: UIButton!
     @IBOutlet weak var weightButton: UIButton!
     @IBOutlet weak var homeButton: UIButton!
@@ -18,10 +19,37 @@ class GameScreenViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // Buttons
+        scoreButton.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
+        scoreButton.layer.cornerRadius = 6
+        scoreButton.layer.shadowColor = UIColor.darkGray.cgColor
+        scoreButton.layer.shadowRadius = 5
+        scoreButton.layer.shadowOpacity = 0.5
+        scoreButton.layer.shadowOffset = .zero
         stepOrPlayPauseButton.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
+        stepOrPlayPauseButton.layer.cornerRadius = 6
+        stepOrPlayPauseButton.layer.shadowColor = UIColor.darkGray.cgColor
+        stepOrPlayPauseButton.layer.shadowRadius = 5
+        stepOrPlayPauseButton.layer.shadowOpacity = 0.5
+        stepOrPlayPauseButton.layer.shadowOffset = .zero
         weightButton.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
+        weightButton.layer.cornerRadius = 6
+        weightButton.layer.shadowColor = UIColor.darkGray.cgColor
+        weightButton.layer.shadowRadius = 5
+        weightButton.layer.shadowOpacity = 0.5
+        weightButton.layer.shadowOffset = .zero
         homeButton.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
+        homeButton.layer.cornerRadius = 6
+        homeButton.layer.shadowColor = UIColor.darkGray.cgColor
+        homeButton.layer.shadowRadius = 5
+        homeButton.layer.shadowOpacity = 0.5
+        homeButton.layer.shadowOffset = .zero
         settingsButton.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
+        settingsButton.layer.cornerRadius = 6
+        settingsButton.layer.shadowColor = UIColor.darkGray.cgColor
+        settingsButton.layer.shadowRadius = 5
+        settingsButton.layer.shadowOpacity = 0.5
+        settingsButton.layer.shadowOffset = .zero
         
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'

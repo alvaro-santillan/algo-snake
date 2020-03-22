@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="9gE-ur-Y08">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="bKH-RY-faG">
     <device id="retina5_5" orientation="landscape" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -477,6 +477,7 @@
                     <navigationItem key="navigationItem" id="3h6-dv-rTv"/>
                     <connections>
                         <outlet property="homeButton" destination="0t6-qA-ACA" id="xQU-UB-ZTw"/>
+                        <outlet property="scoreButton" destination="e4D-Zx-S5h" id="beZ-6w-uxL"/>
                         <outlet property="settingsButton" destination="00f-v8-ibJ" id="MQ6-Jd-AZ9"/>
                         <outlet property="stepOrPlayPauseButton" destination="5GO-jV-W0k" id="oKx-xX-90K"/>
                         <outlet property="weightButton" destination="gjg-eF-i5t" id="w8a-VG-I5R"/>
