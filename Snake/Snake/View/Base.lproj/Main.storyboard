@@ -586,11 +586,12 @@
                     <navigationItem key="navigationItem" id="rwE-td-HZQ"/>
                     <connections>
                         <outlet property="backToPreviousScreenButton" destination="7gV-6f-ISG" id="Fdo-Ln-nsL"/>
-                        <outlet property="githubButton" destination="dOa-dg-iZM" id="Bbd-v6-Hv3"/>
+                        <outlet property="githubButton" destination="bjA-tu-N8I" id="5UL-jm-HJh"/>
                         <outlet property="homeButton" destination="KzI-oe-N6e" id="XFw-uN-OpP"/>
                         <outlet property="leftView" destination="Jid-tj-SUa" id="Bm4-An-nem"/>
                         <outlet property="linkedInButton" destination="5bU-CR-ltO" id="XhP-t1-KgH"/>
                         <outlet property="rateButton" destination="pbF-dl-b7y" id="06e-Jb-DK2"/>
+                        <outlet property="websiteButton" destination="dOa-dg-iZM" id="SLw-F6-90c"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dR2-3Z-khx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -612,7 +613,7 @@
         <image name="weight-hanging-solid" width="512" height="512"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="f62-Ey-MOA"/>
-        <segue reference="Bhq-DF-cdl"/>
+        <segue reference="v5l-4k-cTX"/>
+        <segue reference="TDt-jw-j1F"/>
     </inferredMetricsTieBreakers>
 </document>
