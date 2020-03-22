@@ -24,8 +24,8 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     // Icon Buttons
     @IBOutlet weak var tableVIew: UITableView!
     @IBOutlet weak var returnToLastScreenButton: UIButton!
-    @IBOutlet weak var soundButton: UIButton!
     @IBOutlet weak var helpButton: UIButton!
+    @IBOutlet weak var soundButton: UIButton!
     @IBOutlet weak var stepOrPlayPauseButton: UIButton!
     @IBOutlet weak var darkOrLightModeButton: UIButton!
     @IBOutlet weak var homeButton: UIButton!
@@ -83,18 +83,18 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         returnToLastScreenButton.layer.shadowRadius = 5
         returnToLastScreenButton.layer.shadowOpacity = 0.5
         returnToLastScreenButton.layer.shadowOffset = .zero
-        soundButton.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
-        soundButton.layer.cornerRadius = 6
-        soundButton.layer.shadowColor = UIColor.darkGray.cgColor
-        soundButton.layer.shadowRadius = 5
-        soundButton.layer.shadowOpacity = 0.5
-        soundButton.layer.shadowOffset = .zero
         helpButton.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
         helpButton.layer.cornerRadius = 6
         helpButton.layer.shadowColor = UIColor.darkGray.cgColor
         helpButton.layer.shadowRadius = 5
         helpButton.layer.shadowOpacity = 0.5
         helpButton.layer.shadowOffset = .zero
+        soundButton.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
+        soundButton.layer.cornerRadius = 6
+        soundButton.layer.shadowColor = UIColor.darkGray.cgColor
+        soundButton.layer.shadowRadius = 5
+        soundButton.layer.shadowOpacity = 0.5
+        soundButton.layer.shadowOffset = .zero
         stepOrPlayPauseButton.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
         stepOrPlayPauseButton.layer.cornerRadius = 6
         stepOrPlayPauseButton.layer.shadowColor = UIColor.darkGray.cgColor
@@ -115,7 +115,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         homeButton.layer.shadowOffset = .zero
     }
     
-    let legendData = [["Snake", 0], ["Food", 3], ["Path", 17], ["Visited Squares", 5], ["Queued Squares", 15], ["Unvisited Squares", 13], ["Barrier", 7], ["Weight", 19]]
+    let legendData = [["Snake", 0], ["Food", 3], ["Path", 17], ["Visited Square", 5], ["Queued Square", 15], ["Unvisited Square", 13], ["Barrier", 7], ["Weight", 19]]
     
     let colors = [ // Range 0 to 19
             UIColor(red:0.10, green:0.74, blue:0.61, alpha:1.00), // Teal Turquoise
