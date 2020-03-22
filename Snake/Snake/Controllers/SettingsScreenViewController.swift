@@ -9,6 +9,15 @@
 import UIKit
 
 class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource  {
+    // Text Buttons
+    @IBOutlet weak var clearAllButton: UIButton!
+    @IBOutlet weak var clearBarrierButton: UIButton!
+    @IBOutlet weak var clearPathButton: UIButton!
+    @IBOutlet weak var godModeButton: UIButton!
+    @IBOutlet weak var snakeSpeedButton: UIButton!
+    @IBOutlet weak var foodWeightButton: UIButton!
+    @IBOutlet weak var foodCountButton: UIButton!
+    // Icon Buttons
     @IBOutlet weak var tableVIew: UITableView!
     @IBOutlet weak var returnToLastScreenButton: UIButton!
     @IBOutlet weak var soundButton: UIButton!
@@ -65,6 +74,12 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         cell2.myImagee.clipsToBounds = true
         
         return cell2
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let cell = tableView.cellForRow(at: indexPath) as? SettingsScreenTableViewCell {
+            cell.myImagee.backgroundColor = UIColor(red:0.95, green:0.61, blue:0.07, alpha:1.00)
+        }
     }
     
     @IBAction func godButton(_ sender: UIButton) {
