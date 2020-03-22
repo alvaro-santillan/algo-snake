@@ -9,6 +9,10 @@
 import UIKit
 
 class HelpViewController: UIViewController {
+    @IBOutlet weak var leftView: UIView!
+    @IBOutlet weak var linkedInButton: UIButton!
+    @IBOutlet weak var githubButton: UIButton!
+    @IBOutlet weak var rateButton: UIButton!
     @IBOutlet weak var backToPreviousScreenButton: UIButton!
     @IBOutlet weak var homeButton: UIButton!
     
