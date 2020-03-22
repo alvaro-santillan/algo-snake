@@ -11,15 +11,16 @@ import SpriteKit
 import GameplayKit
 
 class GameViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    @IBOutlet weak var settingsButton: UIButton!
-    @IBOutlet weak var highScoreLabel: UITextField!
-    @IBOutlet weak var lastScoreLabel: UITextField!
-    @IBOutlet weak var titleLabel: UITextField!
-    @IBOutlet weak var segControl: UISegmentedControl!
-    @IBOutlet weak var rightView: UIView!
-    @IBOutlet weak var tableVIew: UITableView!
     @IBOutlet weak var leftView: UIView!
-    
+    @IBOutlet weak var segControl: UISegmentedControl!
+    @IBOutlet weak var tableVIew: UITableView!
+    @IBOutlet weak var rightView: UIView!
+    @IBOutlet weak var titleLabel: UITextField!
+    @IBOutlet weak var lastScoreLabel: UITextField!
+    @IBOutlet weak var highScoreLabel: UITextField!
+    @IBOutlet weak var settingsButton: UIButton!
+    @IBOutlet weak var startButton: UIButton!
+
     let pathFindingAlgorithmList = [["Player","0","0"], ["Breath First Search","1","0"], ["Depth First Search","1","0"], ["Greedy Depth First Search","1","0"], ["Uniform Cost Search","1","1"], ["Dijkstra's Search","1","1"], ["A-Star Search","1","1"]]
     let mazeGenrationAlgorithims = [["None","0","0"], ["Recursive backtracking algorithm","1","1"], ["Hunt and kill algorithm","1","1"], ["Eller's algorithm","1","1"], ["Sidewinder algorithm","1","1"], ["Prim's algorithm","1","1"], ["Kruskal's algorithm","1","1"], ["Depth-first search","1","0"], ["Breadth-first search","1","0"]]
     let vsList = [["Player","0","0"],["Breath First Search","1","0"], ["Depth First Search","1","0"], ["Greedy Depth First Search","1","0"], ["Uniform Cost Search","1","1"], ["Dijkstra's Search","1","1"], ["A-Star Search","1","1"]]
@@ -28,7 +29,25 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // Views
+        leftView.layer.shadowColor = UIColor.darkGray.cgColor
+        leftView.layer.shadowRadius = 10
+        leftView.layer.shadowOpacity = 0.5
+        leftView.layer.shadowOffset = .zero
+        
+        // Buttons
         settingsButton.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
+        settingsButton.layer.cornerRadius = 6
+        settingsButton.layer.shadowColor = UIColor.darkGray.cgColor
+        settingsButton.layer.shadowRadius = 5
+        settingsButton.layer.shadowOpacity = 0.2
+        settingsButton.layer.shadowOffset = .zero
+        startButton.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
+        startButton.layer.cornerRadius = 6
+        startButton.layer.shadowColor = UIColor.darkGray.cgColor
+        startButton.layer.shadowRadius = 5
+        startButton.layer.shadowOpacity = 0.2
+        startButton.layer.shadowOffset = .zero
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
