@@ -151,14 +151,18 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         cell2.myImagee.layer.borderWidth = 1
         cell2.myImagee.layer.cornerRadius = cell2.myImagee.frame.size.width/4
         cell2.myImagee.clipsToBounds = true
-        
+        cell2.selectionStyle = UITableViewCell.SelectionStyle.none
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
+        tapGestureRecognizer.numberOfTapsRequired = 1
+        cell2.myImagee.isUserInteractionEnabled = true
+        cell2.myImagee.addGestureRecognizer(tapGestureRecognizer)
         return cell2
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let cell = tableView.cellForRow(at: indexPath) as? SettingsScreenTableViewCell {
-            cell.myImagee.backgroundColor = UIColor(red:0.95, green:0.61, blue:0.07, alpha:1.00)
-        }
+    // method to run when imageview is tapped
+    @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
+        let imgView = tapGestureRecognizer.view as! UIImageView
+        imgView.backgroundColor = UIColor(red:0.95, green:0.61, blue:0.07, alpha:1.00)
     }
     
     @IBAction func godButton(_ sender: UIButton) {
