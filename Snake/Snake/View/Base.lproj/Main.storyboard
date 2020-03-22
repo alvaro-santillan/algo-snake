@@ -537,7 +537,7 @@
                                         <rect key="frame" x="21" y="352" width="45" height="45"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" title="Button" image="chevron-down-solid">
+                                        <state key="normal" image="chevron-down-solid">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
@@ -548,7 +548,7 @@
                                         <rect key="frame" x="379" y="352" width="45" height="45"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" title="Button" image="home-solid">
+                                        <state key="normal" image="home-solid">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
@@ -563,6 +563,10 @@
                         <viewLayoutGuide key="safeArea" id="klF-hv-Frw"/>
                     </view>
                     <navigationItem key="navigationItem" id="rwE-td-HZQ"/>
+                    <connections>
+                        <outlet property="backToPreviousScreenButton" destination="7gV-6f-ISG" id="Fdo-Ln-nsL"/>
+                        <outlet property="homeButton" destination="KzI-oe-N6e" id="XFw-uN-OpP"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dR2-3Z-khx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -582,7 +586,7 @@
         <image name="weight-hanging-solid" width="512" height="512"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="f62-Ey-MOA"/>
-        <segue reference="Bhq-DF-cdl"/>
+        <segue reference="v5l-4k-cTX"/>
+        <segue reference="TDt-jw-j1F"/>
     </inferredMetricsTieBreakers>
 </document>
