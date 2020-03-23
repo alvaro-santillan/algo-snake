@@ -169,7 +169,12 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         tableVIew.reloadData()
     }
     
-    @IBAction func godButton(_ sender: UIButton) {
-        print("god button pushed")
+    @IBAction func godButtonPressed(_ sender: UIButton) {
+        godModeButton.setTitle("God Mode: On",for: .normal)
     }
+    
+    @IBAction func soundButtonPressed(_ sender: UIButton) {
+        sender.setImage(UIImage(named: "volume-mute-solid.pdf"), for: .normal)
+    }
+    
 }
