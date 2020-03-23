@@ -238,13 +238,8 @@ func depthFirstSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple :
                 squareAndParentSquare[newFronterSquare] = currentSquare
             }
         }
-        // New currentNode is last in queue (DFS).
-//        if (fronterSquares.count) != 0 {
-            currentSquare = fronterSquares.last!
-            fronterSquares.popLast()
-//        } else {
-//
-//        }
+        currentSquare = fronterSquares.last!
+        fronterSquares.popLast()
     }
     // Genarate a path and optional statistics from the results of DFS.
     return(formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: goalSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited))
@@ -260,7 +255,7 @@ class GameManager {
     var onPathMode = false
     var scene: GameScene!
     var nextTime: Double?
-    var gameSpeed: Double = 0.4
+    var gameSpeed: Double = 0.2
     var playerDirection: Int = 1 // 1 == left, 2 == up, 3 == right, 4 == down
     var currentScore: Int = 0
     
@@ -473,21 +468,6 @@ class GameManager {
         //7
         colorGameNodes()
     }
-    
-//    func colorGameNodes() {
-//        for (node, x, y) in scene.gameBoard {
-//            if contains(a: scene.snakeBodyPos, v: (x,y)) {
-//                node.fillColor = SKColor.white
-//            } else {
-//                node.fillColor = SKColor.clear
-//                if scene.foodPosition != nil {
-//                    if Int((scene.foodPosition?.x)!) == y && Int((scene.foodPosition?.y)!) == x {
-//                        node.fillColor = SKColor.white
-//                    }
-//                }
-//            }
-//        }
-//    }
     
     func colorGameNodes() {
         for (node, x, y) in scene.gameBoard {

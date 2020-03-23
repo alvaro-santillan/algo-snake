@@ -63,6 +63,16 @@ class GameScreenViewController: UIViewController {
         }
     }
     
+    @IBAction func stepOrPlayPauseButtonPressed(_ sender: UIButton) {
+        if sender.tag == 0 {
+            sender.setImage(UIImage(named: "play-solid.pdf"), for: .normal)
+            sender.tag = 1
+        } else {
+            sender.setImage(UIImage(named: "pause-solid.pdf"), for: .normal)
+            sender.tag = 0
+        }
+    }
+    
     @IBAction func weightButton(_ sender: UIButton) {
         print("weight pushed")
     }
