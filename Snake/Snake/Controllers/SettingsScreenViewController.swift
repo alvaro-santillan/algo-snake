@@ -174,7 +174,32 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     @IBAction func soundButtonPressed(_ sender: UIButton) {
-        sender.setImage(UIImage(named: "volume-mute-solid.pdf"), for: .normal)
+        if sender.tag == 0 {
+            sender.setImage(UIImage(named: "volume-mute-solid.pdf"), for: .normal)
+            sender.tag = 1
+        } else {
+            sender.setImage(UIImage(named: "volume-down-solid.pdf"), for: .normal)
+            sender.tag = 0
+        }
     }
     
+    @IBAction func stepOrPlayPauseButtonPressed(_ sender: UIButton) {
+        if sender.tag == 0 {
+            sender.setImage(UIImage(named: "step-forward-solid.pdf"), for: .normal)
+            sender.tag = 1
+        } else {
+            sender.setImage(UIImage(named: "shoe-prints-solid.pdf"), for: .normal)
+            sender.tag = 0
+        }
+    }
+    
+    @IBAction func darkOrLightModeButtonPressed(_ sender: UIButton) {
+        if sender.tag == 0 {
+            sender.setImage(UIImage(named: "adjust-flipped-solid.pdf"), for: .normal)
+            sender.tag = 1
+        } else {
+            sender.setImage(UIImage(named: "adjust-solid.pdf"), for: .normal)
+            sender.tag = 0
+        }
+    }
 }
