@@ -249,6 +249,7 @@ func depthFirstSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple :
 import SpriteKit
 
 class GameManager {
+    var viewController: GameScreenViewController!
     var gameStarted = false
     var matrix = [[Int]]()
     var test = [Int]()
@@ -289,21 +290,21 @@ class GameManager {
     
     func spawnFoodBlock() {
         algoirthChoice()
-        print("spawning food")
+//        print("spawning food")
         let randomX = CGFloat(arc4random_uniform(15)) //73
         let randomY = CGFloat(arc4random_uniform(15)) //41
         matrix[Int(randomY)][Int(randomX)] = 2
         matrix[prevX][prevY] = 0
         let snakeHead = scene.snakeBodyPos[0]
-        print("official head",snakeHead)
-        print("head x", snakeHead.1, "head y", snakeHead.0)
-        print("food", Int(randomX), "-", Int(randomY))
-        for i in 0...14 {
-            print(matrix[i])
-        }
-        let path = depthFirstSearch(startSquare: Tuple(x:Int(randomX), y:Int(randomY)), goalSquare: Tuple(x:snakeHead.1, y:snakeHead.0), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: matrix), returnPathCost: false, returnSquaresVisited: false)
-        print("path", path.0)
-        test = path.0
+//        print("official head",snakeHead)
+//        print("head x", snakeHead.1, "head y", snakeHead.0)
+//        print("food", Int(randomX), "-", Int(randomY))
+//        for i in 0...14 {
+//            print(matrix[i])
+//        }
+//        let path = depthFirstSearch(startSquare: Tuple(x:Int(randomX), y:Int(randomY)), goalSquare: Tuple(x:snakeHead.1, y:snakeHead.0), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: matrix), returnPathCost: false, returnSquaresVisited: false)
+//        print("path", path.0)
+//        test = path.0
         // 1 == left, 2 == up, 3 == right, 4 == down
         prevX = Int(randomY)
         prevY = Int(randomX)
@@ -352,16 +353,16 @@ class GameManager {
         scene.snakeBodyPos.removeAll()
 
         // Ending Animation
-        scene.gameBackground.run(SKAction.scale(to: 0, duration: 0.4)) {
-            self.scene.gameBackground.isHidden = true
-            self.scene.gameLogo.isHidden = false
-            self.scene.gameLogo.run(SKAction.move(to: CGPoint(x: 0, y: (self.scene.frame.size.height / 2) - 200), duration: 0.5)) {
-                 self.scene.gameScore.isHidden = true
-                 self.scene.playButton.isHidden = false
-                 self.scene.playButton.run(SKAction.scale(to: 1, duration: 0.3))
-                 self.scene.highScore.run(SKAction.move(to: CGPoint(x: 0, y: self.scene.gameLogo.position.y - 50), duration: 0.3))
-               }
-          }
+//        scene.gameBackground.run(SKAction.scale(to: 0, duration: 0.4)) {
+//            self.scene.gameBackground.isHidden = true
+//            self.scene.gameLogo.isHidden = false
+//            self.scene.gameLogo.run(SKAction.move(to: CGPoint(x: 0, y: (self.scene.frame.size.height / 2) - 200), duration: 0.5)) {
+//                 self.scene.gameScore.isHidden = true
+//                 self.scene.playButton.isHidden = false
+//                 self.scene.playButton.run(SKAction.scale(to: 1, duration: 0.3))
+//                 self.scene.highScore.run(SKAction.move(to: CGPoint(x: 0, y: self.scene.gameLogo.position.y - 50), duration: 0.3))
+//               }
+//          }
 
     }
     
@@ -389,6 +390,12 @@ class GameManager {
                 // Update the score
                 currentScore += 1
                 scene.gameScore.text = "Score: \(currentScore)"
+                
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                if let vc = appDelegate.window?.rootViewController {
+                    self.viewController = vc as! GameScreenViewController
+                    self.viewController?.scoreButton.setTitle(String(currentScore), for: .normal)
+                }
                 // Grow snake by 3 blocks.
                 scene.snakeBodyPos.append(scene.snakeBodyPos.last!)
                 scene.snakeBodyPos.append(scene.snakeBodyPos.last!)
@@ -446,10 +453,10 @@ class GameManager {
             matrix[scene.snakeBodyPos[0].0][scene.snakeBodyPos[0].1] = 1
             matrix[scene.snakeBodyPos[1].0][scene.snakeBodyPos[1].1] = 1
             matrix[scene.snakeBodyPos[2].0][scene.snakeBodyPos[2].1] = 1
-            for i in 0...14 {
-                print(matrix[i])
-            }
-            print("----")
+//            for i in 0...14 {
+//                print(matrix[i])
+//            }
+//            print("----")
         }
         
         if scene.snakeBodyPos.count > 0 {

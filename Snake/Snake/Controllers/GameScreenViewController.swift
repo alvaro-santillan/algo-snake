@@ -11,6 +11,8 @@ import SpriteKit
 import GameplayKit
 
 class GameScreenViewController: UIViewController {
+//    var currentGame: GameScene?
+    var currentGame: GameManager?
     @IBOutlet weak var scoreButton: UIButton!
     @IBOutlet weak var stepOrPlayPauseButton: UIButton!
     @IBOutlet weak var weightButton: UIButton!
@@ -53,24 +55,41 @@ class GameScreenViewController: UIViewController {
         
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
+//            if let scene = SKScene(fileNamed: "GameScene") {
+//                // Present the scene
+//                view.presentScene(scene)
+//                currentGame = scene as? GameScene
+//                currentGame?.viewController = self
+//            }
             if let scene = SKScene(fileNamed: "GameScene") {
                 // Present the scene
                 view.presentScene(scene)
+                currentGame = scene as? GameManager
+                currentGame?.viewController = self
             }
             view.ignoresSiblingOrder = true
             view.showsFPS = false
             view.showsNodeCount = false
         }
     }
+//    print("-----dfgdfgdfgdfg---", currentGame?.gameScore.text)
     
     @IBAction func stepOrPlayPauseButtonPressed(_ sender: UIButton) {
         if sender.tag == 0 {
             sender.setImage(UIImage(named: "play-solid.pdf"), for: .normal)
             sender.tag = 1
+//            print("888", currentGame?.gameScore.text!!)
+            scoreButton.setTitle("d", for: .normal)
+//            scoreButton.setTitle("Bil",for: .normal)
         } else {
             sender.setImage(UIImage(named: "pause-solid.pdf"), for: .normal)
             sender.tag = 0
+//            scoreButton.setTitle("Bob",for: .normal)
         }
+    }
+    
+    func printStuff() {
+        print("printing stuff")
     }
     
     @IBAction func weightButton(_ sender: UIButton) {

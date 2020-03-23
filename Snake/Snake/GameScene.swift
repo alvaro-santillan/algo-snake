@@ -12,14 +12,14 @@ import SpriteKit
 import GameplayKit
 
 class GameScene: SKScene {
+//    var viewController: GameScreenViewController!
+    
     // Home screen var`s to store objects
     var gameLogo: SKLabelNode!
     var highScore: SKLabelNode!
     var playButton: SKShapeNode!
     var playButtonTapped = false
     var foodPosition: CGPoint?
-    
-    var carry: GameViewController!
     
     // Used to store data and managing user movement.
     var game: GameManager!
@@ -38,6 +38,12 @@ class GameScene: SKScene {
         // Used to store data and managing user movement.
         game = GameManager(scene: self)
         initializeGameView()
+        
+//        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+//        if let vc = appDelegate.window?.rootViewController {
+//            self.viewController = vc as! GameScreenViewController
+//            self.viewController?.scoreButton.setTitle("0", for: .normal)
+//        }
         
         let swipeRight:UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeR))
         swipeRight.direction = .right
@@ -74,11 +80,12 @@ class GameScene: SKScene {
         // Define best score label
         highScore = SKLabelNode(fontNamed: "ArialRoundedMTBold")
         highScore.zPosition = 1
-        highScore.fontSize = 40
+        highScore.fontSize = 10
         highScore.text = "High Score: \(UserDefaults.standard.integer(forKey: "highScore"))"
         highScore.fontColor = SKColor.white
         // Add to the game scene
         self.addChild(highScore)
+//        self.viewController?.scoreButton.isHidden = true
         startGame()
     }
     
@@ -143,6 +150,7 @@ class GameScene: SKScene {
     
     // Start the game
     private func startGame() {
+//        viewController.scoreButton.setTitle("0", for: .normal)
         // Move best score label to the bottom of the screen.
         let bottomCorner = CGPoint(x: 0, y: (frame.size.height / -2) + 20)
         highScore.run(SKAction.move(to: bottomCorner, duration: 0.4)) {
