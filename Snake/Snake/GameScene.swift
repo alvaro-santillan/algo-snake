@@ -39,12 +39,6 @@ class GameScene: SKScene {
         game = GameManager(scene: self)
         initializeGameView()
         
-//        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-//        if let vc = appDelegate.window?.rootViewController {
-//            self.viewController = vc as! GameScreenViewController
-//            self.viewController?.scoreButton.setTitle("0", for: .normal)
-//        }
-        
         let swipeRight:UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeR))
         swipeRight.direction = .right
         view.addGestureRecognizer(swipeRight)
@@ -85,21 +79,10 @@ class GameScene: SKScene {
         highScore.fontColor = SKColor.white
         // Add to the game scene
         self.addChild(highScore)
-//        self.viewController?.scoreButton.isHidden = true
         startGame()
     }
     
     private func initializeGameView() {
-        // Initialize current game score label.
-        gameScore = SKLabelNode(fontNamed: "ArialRoundedMTBold")
-        gameScore.zPosition = 2
-        gameScore.position = CGPoint(x: 0, y: (frame.size.height / -2) + 60)
-        gameScore.fontSize = 40
-        gameScore.isHidden = true
-        gameScore.text = "Score: 0"
-        gameScore.fontColor = SKColor.white
-        self.addChild(gameScore)
-        
         // Create ShapeNode in which the gameboard can reside.
         let rect = CGRect(x: 0, y: 0, width: 0, height: 0)
         gameBackground = SKShapeNode(rect: rect, cornerRadius: 0.0)
@@ -150,12 +133,10 @@ class GameScene: SKScene {
     
     // Start the game
     private func startGame() {
-//        viewController.scoreButton.setTitle("0", for: .normal)
         // Move best score label to the bottom of the screen.
         let bottomCorner = CGPoint(x: 0, y: (frame.size.height / -2) + 20)
         highScore.run(SKAction.move(to: bottomCorner, duration: 0.4)) {
             self.gameBackground.isHidden = false
-            self.gameScore.isHidden = false
             self.game.initiateSnakeStartingPosition()
         }
     }

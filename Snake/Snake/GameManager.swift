@@ -389,7 +389,6 @@ class GameManager {
                 spawnFoodBlock()
                 // Update the score
                 currentScore += 1
-                scene.gameScore.text = "Score: \(currentScore)"
                 
                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
                 if let vc = appDelegate.window?.rootViewController {
