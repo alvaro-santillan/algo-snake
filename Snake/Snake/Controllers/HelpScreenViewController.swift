@@ -46,6 +46,10 @@ class HelpViewController: UIViewController {
         homeButton.layer.shadowOffset = .zero
     }
 
+    @IBAction func personalWebisteButtonPressed(_ sender: UIButton) {
+        UIApplication.shared.open(URL(string: "http://alvarosantillan.com/")! as URL, options: [:], completionHandler: nil)
+    }
+    
     @IBAction func rateButton(_ sender: UIButton) {
         print("Rate pushed")
     }

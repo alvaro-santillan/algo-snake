@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="x7L-u7-4Ti">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="9gE-ur-Y08">
     <device id="retina5_5" orientation="landscape" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -578,6 +578,9 @@
                                         <rect key="frame" x="118" y="108" width="60" height="60"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" title="Button" image="globe-americas-solid"/>
+                                        <connections>
+                                            <action selector="personalWebisteButtonPressed:" destination="9gE-ur-Y08" eventType="touchUpInside" id="CfQ-zT-hfN"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bjA-tu-N8I" userLabel="Github">
                                         <rect key="frame" x="192" y="108" width="60" height="60"/>
@@ -642,6 +645,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="v5l-4k-cTX"/>
-        <segue reference="Bhq-DF-cdl"/>
+        <segue reference="TDt-jw-j1F"/>
     </inferredMetricsTieBreakers>
 </document>
