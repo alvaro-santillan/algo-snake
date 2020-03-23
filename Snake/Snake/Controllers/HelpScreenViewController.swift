@@ -71,6 +71,17 @@ class HelpViewController: UIViewController {
     }
     
     @IBAction func rateButton(_ sender: UIButton) {
-        print("Rate pushed")
+        var webURL = "https://www.linkedin.com/in/álvarosantillan"
+        webURL = webURL.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
+
+        let appID = "1287000522"
+        var appURL = "http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=\(appID)&pageNumber=0&sortOrdering=2&type=Purple+Software&mt=8"
+        appURL = appURL.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
+
+        if UIApplication.shared.canOpenURL(URL(string: appURL)! as URL) {
+            UIApplication.shared.open(URL(string: appURL)! as URL, options: [:], completionHandler: nil)
+        } else {
+            UIApplication.shared.open(URL(string: webURL)! as URL, options: [:], completionHandler: nil)
+        }
     }
 }
