@@ -573,6 +573,9 @@
                                         <rect key="frame" x="44" y="108" width="60" height="60"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" title="Button" image="linkedin-brands"/>
+                                        <connections>
+                                            <action selector="linkedInButtonPressed:" destination="9gE-ur-Y08" eventType="touchUpInside" id="iBZ-nH-3qc"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dOa-dg-iZM" userLabel="Github">
                                         <rect key="frame" x="118" y="108" width="60" height="60"/>
@@ -586,6 +589,9 @@
                                         <rect key="frame" x="192" y="108" width="60" height="60"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" title="Button" image="github-square-brands"/>
+                                        <connections>
+                                            <action selector="githubButtonPressed:" destination="9gE-ur-Y08" eventType="touchUpInside" id="ScO-5C-eJF"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pbF-dl-b7y">
                                         <rect key="frame" x="80" y="181" width="134" height="45"/>

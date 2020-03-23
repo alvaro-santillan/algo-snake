@@ -87,10 +87,10 @@
 		384607BC23E7ECCD001C944D /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				3868F97B2426960C008F7B34 /* HelpScreenViewController.swift */,
-				3868F97D24269985008F7B34 /* GameScreenViewController.swift */,
 				3812394823C68E290066B3FA /* MainScreenViewController.swift */,
+				3868F97D24269985008F7B34 /* GameScreenViewController.swift */,
 				3868F97F24269C1C008F7B34 /* SettingsScreenViewController.swift */,
+				3868F97B2426960C008F7B34 /* HelpScreenViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";

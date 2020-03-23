@@ -46,8 +46,28 @@ class HelpViewController: UIViewController {
         homeButton.layer.shadowOffset = .zero
     }
 
+    @IBAction func linkedInButtonPressed(_ sender: UIButton) {
+        var webURL = "https://www.linkedin.com/in/álvarosantillan"
+        webURL = webURL.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
+
+        var appURL = "linkedin://in/álvarosantillan"
+        appURL = appURL.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
+
+        if UIApplication.shared.canOpenURL(URL(string: appURL)! as URL) {
+            UIApplication.shared.open(URL(string: appURL)! as URL, options: [:], completionHandler: nil)
+        } else {
+            UIApplication.shared.open(URL(string: webURL)! as URL, options: [:], completionHandler: nil)
+        }
+    }
+    
     @IBAction func personalWebisteButtonPressed(_ sender: UIButton) {
         UIApplication.shared.open(URL(string: "http://alvarosantillan.com/")! as URL, options: [:], completionHandler: nil)
+    }
+    
+    @IBAction func githubButtonPressed(_ sender: UIButton) {
+        var webURL = "https://github.com/AFSM1995"
+        webURL = webURL.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
+        UIApplication.shared.open(URL(string: webURL)! as URL, options: [:], completionHandler: nil)
     }
     
     @IBAction func rateButton(_ sender: UIButton) {
