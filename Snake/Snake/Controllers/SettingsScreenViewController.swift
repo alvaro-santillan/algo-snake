@@ -169,8 +169,76 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         tableVIew.reloadData()
     }
     
+    @IBAction func clearAllButton(_ sender: UIButton) {
+        sender.setTitle("Gameboard Cleared",for: .normal)
+        clearBarrierButton.setTitle("Barriers Cleared",for: .normal)
+        clearPathButton.setTitle("Path Cleared",for: .normal)
+    }
+    
+    @IBAction func clearBarrierButtonPressed(_ sender: UIButton) {
+        sender.setTitle("Barriers Cleared",for: .normal)
+    }
+    
+    @IBAction func clearPathButtonPressed(_ sender: UIButton) {
+        sender.setTitle("Path Cleared",for: .normal)
+    }
+    
+    @IBAction func snakeSpeedButtonPressed(_ sender: UIButton) {
+        if sender.tag == 0 {
+            sender.setTitle("Speed: Fast", for: .normal)
+            sender.tag = 1
+        } else if sender.tag == 1 {
+            sender.setTitle("Speed: Extreme", for: .normal)
+            sender.tag = 2
+        } else if sender.tag == 2 {
+            sender.setTitle("Speed: Slow", for: .normal)
+            sender.tag = 3
+        } else {
+            sender.setTitle("Speed: Normal", for: .normal)
+            sender.tag = 0
+        }
+    }
+    
+    @IBAction func foodWeightButtonPressed(_ sender: UIButton) {
+        if sender.tag == 0 {
+            sender.setTitle("Food Weight: 2", for: .normal)
+            sender.tag = 1
+        } else if sender.tag == 1 {
+            sender.setTitle("Food Weight: 3", for: .normal)
+            sender.tag = 2
+        } else if sender.tag == 2 {
+            sender.setTitle("Food Weight: 5", for: .normal)
+            sender.tag = 3
+        } else {
+            sender.setTitle("Food Weight: 1", for: .normal)
+            sender.tag = 0
+        }
+    }
+    
+    @IBAction func foodCountButtonPressed(_ sender: UIButton) {
+        if sender.tag == 0 {
+            sender.setTitle("Food Count: 2", for: .normal)
+            sender.tag = 1
+        } else if sender.tag == 1 {
+            sender.setTitle("Food Count: 3", for: .normal)
+            sender.tag = 2
+        } else if sender.tag == 2 {
+            sender.setTitle("Food Count: 5", for: .normal)
+            sender.tag = 3
+        } else {
+            sender.setTitle("Food Count: 1", for: .normal)
+            sender.tag = 0
+        }
+    }
+    
     @IBAction func godButtonPressed(_ sender: UIButton) {
-        godModeButton.setTitle("God Mode: On",for: .normal)
+        if sender.tag == 0 {
+            sender.setTitle("God Mode: On",for: .normal)
+            sender.tag = 1
+        } else {
+            sender.setTitle("God Mode: Off",for: .normal)
+            sender.tag = 0
+        }
     }
     
     @IBAction func soundButtonPressed(_ sender: UIButton) {
