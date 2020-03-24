@@ -20,6 +20,7 @@ class GameScene: SKScene {
     var playButton: SKShapeNode!
     var playButtonTapped = false
     var foodPosition: CGPoint?
+    var playOrPause = true
     
     // Used to store data and managing user movement.
     var game: GameManager!
@@ -38,6 +39,12 @@ class GameScene: SKScene {
         // Used to store data and managing user movement.
         game = GameManager(scene: self)
         initializeGameView()
+        
+        if let gameInfo = self.userData?.value(forKey: "playOrNot") {
+            print("gameInfo is :\(gameInfo)")
+            playOrPause = gameInfo as! Bool
+        }
+        print("------------------")
         
         let swipeRight:UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeR))
         swipeRight.direction = .right
@@ -143,6 +150,7 @@ class GameScene: SKScene {
     
     // Called before each frame is rendered
     override func update(_ currentTime: TimeInterval) {
+//        print("play statis is", playOrPause)
         game.update(time: currentTime)
     }
 }

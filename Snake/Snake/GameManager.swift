@@ -112,7 +112,7 @@ func formatSearchResults(squareAndParentSquare: [Tuple : Tuple], gameBoard: [Tup
             
             findPath(squareAndParentSquare: squareAndParentSquare, currentSquare: squareAndParentSquare[currentSquare]!)
         }
-        print("findPath Returned")
+//        print("findPath Returned")
         return (movePath, squareAndNoParentArrayPath, squareAndParentSquareTuplePath)
     }
 
@@ -250,13 +250,15 @@ import SpriteKit
 
 class GameManager {
     var viewController: GameScreenViewController!
+    var play = true
+    
     var gameStarted = false
     var matrix = [[Int]]()
     var test = [Int]()
     var onPathMode = false
     var scene: GameScene!
     var nextTime: Double?
-    var gameSpeed: Double = 0.2
+    var gameSpeed: Double = 1
     var playerDirection: Int = 1 // 1 == left, 2 == up, 3 == right, 4 == down
     var currentScore: Int = 0
     
@@ -302,9 +304,9 @@ class GameManager {
 //        for i in 0...14 {
 //            print(matrix[i])
 //        }
-//        let path = depthFirstSearch(startSquare: Tuple(x:Int(randomX), y:Int(randomY)), goalSquare: Tuple(x:snakeHead.1, y:snakeHead.0), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: matrix), returnPathCost: false, returnSquaresVisited: false)
+        let path = depthFirstSearch(startSquare: Tuple(x:Int(randomX), y:Int(randomY)), goalSquare: Tuple(x:snakeHead.1, y:snakeHead.0), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: matrix), returnPathCost: false, returnSquaresVisited: false)
 //        print("path", path.0)
-//        test = path.0
+        test = path.0
         // 1 == left, 2 == up, 3 == right, 4 == down
         prevX = Int(randomY)
         prevY = Int(randomX)
@@ -333,6 +335,7 @@ class GameManager {
     }
     
     func update(time: Double) {
+//        print("play or pause", play)
         if nextTime == nil {
             nextTime = time + gameSpeed
         } else {
@@ -341,9 +344,21 @@ class GameManager {
 //                print(matrix)
                 runPredeterminedPath()
                 updateSnakePosition()
+                checkIfPaused()
                 checkForFoodCollision()
                 checkForDeath()
             }
+        }
+    }
+    
+    func checkIfPaused() {
+        if scene.playOrPause == false {
+            print("the game is now paused")
+            gameSpeed = 10
+            
+        } else {
+            print("the game is unpaused")
+            gameSpeed = 0.3
         }
     }
     
@@ -511,9 +526,11 @@ class GameManager {
     func algoirthChoice() {
         if scene.algoithimChoice == 0 {
             print("DFS")
+            
         }
         if scene.algoithimChoice == 1 {
             print("BFS")
+            
         }
     }
 
