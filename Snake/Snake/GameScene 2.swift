@@ -17,7 +17,7 @@ class GameScene: SKScene {
     // Home screen var`s to store objects
     var gameLogo: SKLabelNode!
     var highScore: SKLabelNode!
-    var playPauseButton: SKShapeNode!
+    var playButton: SKShapeNode!
     var playButtonTapped = false
     var foodPosition: CGPoint?
     var playOrPause = true
@@ -40,11 +40,19 @@ class GameScene: SKScene {
         game = GameManager(scene: self)
         initializeGameView()
         
+<<<<<<< HEAD
         if let gameInfo = self.userData?.value(forKey: "playOrNot") {
-//            print("gameInfo is :\(gameInfo)")
+            print("gameInfo is :\(gameInfo)")
             playOrPause = gameInfo as! Bool
         }
-//        print("------------------")
+        print("------------------")
+=======
+//        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+//        if let vc = appDelegate.window?.rootViewController {
+//            self.viewController = vc as! GameScreenViewController
+//            self.viewController?.scoreButton.setTitle("0", for: .normal)
+//        }
+>>>>>>> parent of c7f10d3... Cleaned Up Refrences Relating To Old Score Label.
         
         let swipeRight:UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeR))
         swipeRight.direction = .right
@@ -76,43 +84,8 @@ class GameScene: SKScene {
         game.swipe(ID: 4)
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for touch in touches {
-            let location = touch.location(in: self)
-            let touchedNode = self.nodes(at: location)
-            for node in touchedNode {
-                if node.name == "play_button" {
-                    print("Arrow clicked")
-                    if playOrPause == false {
-                        playOrPause = true
-                    } else {
-                        playOrPause = false
-                    }
-                }
-            }
-        }
-    }
-    
     // Welcome menu objects defined
     private func initializeWelcomeScreen() {
-    
-        playPauseButton = SKShapeNode()
-        playPauseButton.name = "play_button"
-        playPauseButton.zPosition = 1
-        playPauseButton.position = CGPoint(x: 0, y: (frame.size.height / -2) + 200)
-        playPauseButton.fillColor = SKColor.lightGray
-        let topLeftCorner = CGPoint(x: -50, y: 50)
-        let bottomLeftCorner = CGPoint(x: -50, y: -50)
-        let topRightCorner = CGPoint(x: 50, y: 50)
-        let bottomRightCorner = CGPoint(x: -50, y: -50)
-        
-        let middle = CGPoint(x: 50, y: 0)
-        let path = CGMutablePath()
-        path.addLine(to: topLeftCorner)
-        path.addLines(between: [topLeftCorner, bottomLeftCorner, topRightCorner, bottomRightCorner])
-        playPauseButton.path = UIBezierPath(roundedRect: CGRect(x: -128, y: -128, width: 256, height: 256), cornerRadius: 64).cgPath
-        self.addChild(playPauseButton)
-        
         // Define best score label
         highScore = SKLabelNode(fontNamed: "ArialRoundedMTBold")
         highScore.zPosition = 1
@@ -121,10 +94,21 @@ class GameScene: SKScene {
         highScore.fontColor = SKColor.white
         // Add to the game scene
         self.addChild(highScore)
+//        self.viewController?.scoreButton.isHidden = true
         startGame()
     }
     
     private func initializeGameView() {
+        // Initialize current game score label.
+        gameScore = SKLabelNode(fontNamed: "ArialRoundedMTBold")
+        gameScore.zPosition = 2
+        gameScore.position = CGPoint(x: 0, y: (frame.size.height / -2) + 60)
+        gameScore.fontSize = 40
+        gameScore.isHidden = true
+        gameScore.text = "Score: 0"
+        gameScore.fontColor = SKColor.white
+        self.addChild(gameScore)
+        
         // Create ShapeNode in which the gameboard can reside.
         let rect = CGRect(x: 0, y: 0, width: 0, height: 0)
         gameBackground = SKShapeNode(rect: rect, cornerRadius: 0.0)
@@ -175,10 +159,12 @@ class GameScene: SKScene {
     
     // Start the game
     private func startGame() {
+//        viewController.scoreButton.setTitle("0", for: .normal)
         // Move best score label to the bottom of the screen.
         let bottomCorner = CGPoint(x: 0, y: (frame.size.height / -2) + 20)
         highScore.run(SKAction.move(to: bottomCorner, duration: 0.4)) {
             self.gameBackground.isHidden = false
+            self.gameScore.isHidden = false
             self.game.initiateSnakeStartingPosition()
         }
     }

@@ -76,7 +76,7 @@ func gameBoardMatrixToDictionary(gameBoardMatrix: Array<Array<Int>>) -> Dictiona
             }
         }
     }
-//    print("mazetoDictionary Returned")
+    print("mazetoDictionary Returned")
     return mazeDictionary
 }
 
@@ -123,7 +123,7 @@ func formatSearchResults(squareAndParentSquare: [Tuple : Tuple], gameBoard: [Tup
         for square in solutionPathDuple.keys {
             cost += Int(gameBoard[square]![solutionPathDuple[square]!] ?? 0)
         }
-//        print("findPathCost Returned")
+        print("findPathCost Returned")
         return(cost)
     }
     let (solutionPathMoves, solutionPathArray, solutionPathDuple) = findPath(squareAndParentSquare: squareAndParentSquare, currentSquare: currentSquare)
@@ -143,7 +143,7 @@ func formatSearchResults(squareAndParentSquare: [Tuple : Tuple], gameBoard: [Tup
         return (solutionPathMoves, 0, visitedSquareCount)
     }
     else {
-//        print("solutionPathMoves, 0, 0")
+        print("solutionPathMoves, 0, 0")
         return (solutionPathMoves, 0, 0)
     }
 }
@@ -161,7 +161,7 @@ func formatSearchResults(squareAndParentSquare: [Tuple : Tuple], gameBoard: [Tup
 // The nodes are traversed in order found in the dictionary parameter.
 func breathFirstSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple : Dictionary<Tuple, Float>], returnPathCost: Bool, returnSquaresVisited: Bool) -> ([Int], Int, Int) {
     // Initalize variable and add first square manually.
-//    print("BFS Entered")
+    print("BFS Entered")
     var visitedSquares = [Tuple]()
     var fronterSquares = [startSquare]
     var currentSquare = startSquare
@@ -176,9 +176,9 @@ func breathFirstSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple 
 //        print("BFS while loop entered.", counter)
 //        print("visitedSquareCount", visitedSquareCount)
         // Mark current node as visited. (If statement required due to first node.)
-//        print("current square", currentSquare)
+        print("current square", currentSquare)
         if !(visitedSquares.contains(currentSquare)) {
-//            print("if hit")
+            print("if hit")
             visitedSquares += [currentSquare]
             
             visitedSquareCount += 1
@@ -187,9 +187,9 @@ func breathFirstSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple 
         // Repeat through all the nodes in the sub dictionary.
         // Append to fronter and mark parent.
         for (newFronterSquare, _) in gameBoard[currentSquare]! {
-//            print("for hit")
+            print("for hit")
             if !(visitedSquares.contains(newFronterSquare)) {
-//                print("if 2 hit")
+                print("if 2 hit")
                 fronterSquares += [newFronterSquare]
                 squareAndParentSquare[newFronterSquare] = currentSquare
             }
@@ -199,7 +199,7 @@ func breathFirstSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple 
         fronterSquares.remove(at: 0)
     }
     // Genarate a path and optional statistics from the results of BFS.
-//    print("BFS Completed")
+    print("BFS Completed")
     return(formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: goalSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited))
 }
 
@@ -338,11 +338,7 @@ class GameManager {
 //        print("play or pause", play)
         if nextTime == nil {
             nextTime = time + gameSpeed
-        } else if (gameSpeed == 100) {
-//            If the game is paused keep chicking if its paused.
-            checkIfPaused()
-        }
-        else {
+        } else {
             if time >= nextTime! {
                 nextTime = time + gameSpeed
 //                print(matrix)
@@ -357,11 +353,11 @@ class GameManager {
     
     func checkIfPaused() {
         if scene.playOrPause == false {
-//            print("the game is now paused")
-            gameSpeed = 100
+            print("the game is now paused")
+            gameSpeed = 10
             
         } else {
-//            print("the game is unpaused")
+            print("the game is unpaused")
             gameSpeed = 0.3
         }
     }
@@ -408,6 +404,7 @@ class GameManager {
                 spawnFoodBlock()
                 // Update the score
                 currentScore += 1
+                scene.gameScore.text = "Score: \(currentScore)"
                 
                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
                 if let vc = appDelegate.window?.rootViewController {
@@ -529,11 +526,11 @@ class GameManager {
     
     func algoirthChoice() {
         if scene.algoithimChoice == 0 {
-//            print("DFS")
+            print("DFS")
             
         }
         if scene.algoithimChoice == 1 {
-//            print("BFS")
+            print("BFS")
             
         }
     }
