@@ -166,6 +166,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         var colorID = (legendData[imgView.tag][1] as! Int) + 1
         if colorID == colors.count {colorID = 0}
         legendData[imgView.tag][1] = colorID
+        print("COLLOr ID", colorID)
         tableVIew.reloadData()
     }
     

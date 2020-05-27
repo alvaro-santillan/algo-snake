@@ -11,6 +11,7 @@ import GameplayKit
 
 class GameScreenViewController: UIViewController {
     var currentGame: GameManager?
+    var colorNumbertTest = 999
     @IBOutlet weak var scoreButton: UIButton!
     @IBOutlet weak var stepOrPlayPauseButton: UIButton!
     @IBOutlet weak var weightButton: UIButton!

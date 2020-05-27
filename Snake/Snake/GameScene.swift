@@ -19,9 +19,11 @@ class GameScene: SKScene {
     var playButtonTapped = false
     var foodPosition: CGPoint?
     var playOrPause = true
+    var snakeColor = 888
     
     // Used to store data and managing user movement.
     var game: GameManager!
+    
     
     // Used for storing keystone game information.
     var snakeBodyPos: [(Int, Int)] = []
@@ -40,6 +42,7 @@ class GameScene: SKScene {
         
         if let gameInfo = self.userData?.value(forKey: "playOrNot") {
             playOrPause = gameInfo as! Bool
+            snakeColor = gameInfo as! Int
         }
         
         let swipeRight:UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeR))
@@ -197,6 +200,7 @@ class GameScene: SKScene {
     }
     
     // Called before each frame is rendered
+    // perhapse this can be used to pass in settings? maybe
     override func update(_ currentTime: TimeInterval) {
         game.update(time: currentTime)
     }

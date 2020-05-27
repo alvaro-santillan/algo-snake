@@ -228,6 +228,7 @@ import SpriteKit
 
 class GameManager {
     var viewController: GameScreenViewController!
+    
     var play = true
     
     var gameStarted = false
@@ -235,6 +236,7 @@ class GameManager {
     var test = [Int]()
     var onPathMode = false
     var scene: GameScene!
+    
     var nextTime: Double?
     var gameSpeed: Double = 1
     var playerDirection: Int = 1 // 1 == left, 2 == up, 3 == right, 4 == down
@@ -318,9 +320,11 @@ class GameManager {
     func checkIfPaused() {
         if scene.playOrPause == false {
             gameSpeed = 100
+            print("snakeColor", scene.snakeColor)
             
         } else {
             gameSpeed = 0.3
+            print("snakeColor", scene.snakeColor)
         }
     }
     
@@ -446,7 +450,7 @@ class GameManager {
             }
             if contains(a: scene.snakeBodyPos, v: (x,y)) {
                 if (onPathMode == true) {
-                    node.fillColor = SKColor.green
+                    node.fillColor = UIColor(red:0.93, green:0.94, blue:0.95, alpha:1.00)
                     if contains(a: [scene.snakeBodyPos.first!], v: (x,y)) {
                         node.fillColor = SKColor.red
                     }
