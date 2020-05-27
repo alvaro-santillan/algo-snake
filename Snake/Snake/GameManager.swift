@@ -35,14 +35,8 @@ func gameBoardMatrixToDictionary(gameBoardMatrix: Array<Array<Int>>) -> Dictiona
             if (gameBoardMatrix[y][x] == 0 || gameBoardMatrix[y][x] == 2) {
                 let isYNegIndex = gameBoardMatrix.indices.contains(y-1)
                 let isYIndex = gameBoardMatrix.indices.contains(y+1)
-//                let isXNegIndex = gameBoardMatrix.indices.contains(x-1)
                 let isXIndex = gameBoardMatrix.indices.contains(x+1)
-//                let isY = gameBoardMatrix.indices.contains(y)
                 
-                
-//                if isYIndexValid && isYNegIndexValid && isXNegIndexValid && isXIndexValid {
-                    // Up
-//                    if y-1 != -1 {
                     if isYNegIndex {
                         if (gameBoardMatrix[y-1][x] == 0 || gameBoardMatrix[y-1][x] == 2) {
                             vaildMoves[Tuple(x: x, y: y-1)] = 1
@@ -56,7 +50,6 @@ func gameBoardMatrixToDictionary(gameBoardMatrix: Array<Array<Int>>) -> Dictiona
                         }
                     }
                     // Left
-//                    if isXNegIndex {
                     if x-1 != -1 {
                         if (gameBoardMatrix[y][x-1] == 0 || gameBoardMatrix[y][x-1] == 2) {
                             vaildMoves[Tuple(x: x-1, y: y)] = 1.000002
@@ -72,11 +65,9 @@ func gameBoardMatrixToDictionary(gameBoardMatrix: Array<Array<Int>>) -> Dictiona
                 mazeDictionary[Tuple(x: x, y: y)] = vaildMoves
                 // Reset the inner dictionary templet.
                 vaildMoves = [Tuple : Float]()
-//                }
             }
         }
     }
-//    print("mazetoDictionary Returned")
     return mazeDictionary
 }
 
@@ -112,7 +103,6 @@ func formatSearchResults(squareAndParentSquare: [Tuple : Tuple], gameBoard: [Tup
             
             findPath(squareAndParentSquare: squareAndParentSquare, currentSquare: squareAndParentSquare[currentSquare]!)
         }
-//        print("findPath Returned")
         return (movePath, squareAndNoParentArrayPath, squareAndParentSquareTuplePath)
     }
 
@@ -123,7 +113,6 @@ func formatSearchResults(squareAndParentSquare: [Tuple : Tuple], gameBoard: [Tup
         for square in solutionPathDuple.keys {
             cost += Int(gameBoard[square]![solutionPathDuple[square]!] ?? 0)
         }
-//        print("findPathCost Returned")
         return(cost)
     }
     let (solutionPathMoves, solutionPathArray, solutionPathDuple) = findPath(squareAndParentSquare: squareAndParentSquare, currentSquare: currentSquare)
@@ -143,7 +132,6 @@ func formatSearchResults(squareAndParentSquare: [Tuple : Tuple], gameBoard: [Tup
         return (solutionPathMoves, 0, visitedSquareCount)
     }
     else {
-//        print("solutionPathMoves, 0, 0")
         return (solutionPathMoves, 0, 0)
     }
 }
@@ -161,7 +149,6 @@ func formatSearchResults(squareAndParentSquare: [Tuple : Tuple], gameBoard: [Tup
 // The nodes are traversed in order found in the dictionary parameter.
 func breathFirstSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple : Dictionary<Tuple, Float>], returnPathCost: Bool, returnSquaresVisited: Bool) -> ([Int], Int, Int) {
     // Initalize variable and add first square manually.
-//    print("BFS Entered")
     var visitedSquares = [Tuple]()
     var fronterSquares = [startSquare]
     var currentSquare = startSquare
@@ -173,23 +160,16 @@ func breathFirstSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple 
     // Break once the goal is reached (the goals parent is noted a cycle before when it was a new node.)
     while (currentSquare != goalSquare) {
         counter += 1
-//        print("BFS while loop entered.", counter)
-//        print("visitedSquareCount", visitedSquareCount)
         // Mark current node as visited. (If statement required due to first node.)
-//        print("current square", currentSquare)
         if !(visitedSquares.contains(currentSquare)) {
-//            print("if hit")
             visitedSquares += [currentSquare]
-            
             visitedSquareCount += 1
         }
         
         // Repeat through all the nodes in the sub dictionary.
         // Append to fronter and mark parent.
         for (newFronterSquare, _) in gameBoard[currentSquare]! {
-//            print("for hit")
             if !(visitedSquares.contains(newFronterSquare)) {
-//                print("if 2 hit")
                 fronterSquares += [newFronterSquare]
                 squareAndParentSquare[newFronterSquare] = currentSquare
             }
@@ -199,7 +179,6 @@ func breathFirstSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple 
         fronterSquares.remove(at: 0)
     }
     // Genarate a path and optional statistics from the results of BFS.
-//    print("BFS Completed")
     return(formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: goalSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited))
 }
 
@@ -244,7 +223,6 @@ func depthFirstSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple :
     // Genarate a path and optional statistics from the results of DFS.
     return(formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: goalSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited))
 }
-////--------
 
 import SpriteKit
 
@@ -269,7 +247,6 @@ class GameManager {
     // Understood - Initiate the starting position of the snake.
     func initiateSnakeStartingPosition() {
         scene.snakeBodyPos.append((3, 3))
-//        scene.snakeHeadPos = [scene.snakeBodyPos[0]]
         matrix[3][3] = 2
         scene.snakeBodyPos.append((3, 4))
         matrix[3][4] = 1
@@ -281,7 +258,6 @@ class GameManager {
         matrix[3][5] = 1
         scene.snakeBodyPos.append((3, 8))
         matrix[3][5] = 1
-
         spawnFoodBlock()
         gameStarted = true
     }
@@ -291,29 +267,16 @@ class GameManager {
     var prevY = 0
     
     func spawnFoodBlock() {
-        algoirthChoice()
-//        print("spawning food")
         let randomX = CGFloat(arc4random_uniform(15)) //73
         let randomY = CGFloat(arc4random_uniform(15)) //41
         matrix[Int(randomY)][Int(randomX)] = 2
         matrix[prevX][prevY] = 0
         let snakeHead = scene.snakeBodyPos[0]
-//        print("official head",snakeHead)
-//        print("head x", snakeHead.1, "head y", snakeHead.0)
-//        print("food", Int(randomX), "-", Int(randomY))
-//        for i in 0...14 {
-//            print(matrix[i])
-//        }
         let path = depthFirstSearch(startSquare: Tuple(x:Int(randomX), y:Int(randomY)), goalSquare: Tuple(x:snakeHead.1, y:snakeHead.0), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: matrix), returnPathCost: false, returnSquaresVisited: false)
-//        print("path", path.0)
         test = path.0
         // 1 == left, 2 == up, 3 == right, 4 == down
         prevX = Int(randomY)
         prevY = Int(randomX)
-        
-//        for i in 0...14 {
-//            print(matrix[i])
-//        }
         scene.foodPosition = CGPoint(x: randomX, y: randomY)
     }
     
@@ -324,7 +287,6 @@ class GameManager {
     func runPredeterminedPath() {
         if gameStarted == true {
             if (test.count != 0) {
-//                print("-----sdfg", test.count, test[0])
                 swipe(ID: test[0])
                 test.remove(at: 0)
                 onPathMode = true
@@ -335,7 +297,6 @@ class GameManager {
     }
     
     func update(time: Double) {
-//        print("play or pause", play)
         if nextTime == nil {
             nextTime = time + gameSpeed
         } else if (gameSpeed == 100) {
@@ -345,7 +306,6 @@ class GameManager {
         else {
             if time >= nextTime! {
                 nextTime = time + gameSpeed
-//                print(matrix)
                 runPredeterminedPath()
                 updateSnakePosition()
                 checkIfPaused()
@@ -357,11 +317,9 @@ class GameManager {
     
     func checkIfPaused() {
         if scene.playOrPause == false {
-//            print("the game is now paused")
             gameSpeed = 100
             
         } else {
-//            print("the game is unpaused")
             gameSpeed = 0.3
         }
     }
@@ -370,24 +328,10 @@ class GameManager {
         updateScore()
         scene.foodPosition = nil
         scene.snakeBodyPos.removeAll()
-
-        // Ending Animation
-//        scene.gameBackground.run(SKAction.scale(to: 0, duration: 0.4)) {
-//            self.scene.gameBackground.isHidden = true
-//            self.scene.gameLogo.isHidden = false
-//            self.scene.gameLogo.run(SKAction.move(to: CGPoint(x: 0, y: (self.scene.frame.size.height / 2) - 200), duration: 0.5)) {
-//                 self.scene.gameScore.isHidden = true
-//                 self.scene.playButton.isHidden = false
-//                 self.scene.playButton.run(SKAction.scale(to: 1, duration: 0.3))
-//                 self.scene.highScore.run(SKAction.move(to: CGPoint(x: 0, y: self.scene.gameLogo.position.y - 50), duration: 0.3))
-//               }
-//          }
-
     }
     
     // this is run when game hasent started. fix for optimization.
     func checkForDeath() {
-//        print("checked---------")
         if scene.snakeBodyPos.count > 0 {
             // Create temp variable of snake without the head.
             var snakeBody = scene.snakeBodyPos
@@ -431,10 +375,9 @@ class GameManager {
     }
     
     private func updateSnakePosition() {
-        //4
         var xChange = -1
         var yChange = 0
-        //5
+
         switch playerDirection {
             case 1:
                 //left
@@ -459,7 +402,7 @@ class GameManager {
             default:
                 break
         }
-        //6
+
         if scene.snakeBodyPos.count > 0 {
             var start = scene.snakeBodyPos.count - 1
             matrix[scene.snakeBodyPos[start].0][scene.snakeBodyPos[start].1] = 0
@@ -490,7 +433,6 @@ class GameManager {
                 scene.snakeBodyPos[0].1 = 15
             }
         }
-        //7
         colorGameNodes()
     }
     
@@ -509,8 +451,7 @@ class GameManager {
                         node.fillColor = SKColor.red
                     }
                 }
-            }
-            else {
+            } else {
                 node.fillColor = SKColor.clear
                 if scene.foodPosition != nil {
                     if Int((scene.foodPosition?.x)!) == y && Int((scene.foodPosition?.y)!) == x {
@@ -525,17 +466,6 @@ class GameManager {
         let (c1, c2) = v
         for (v1, v2) in a { if v1 == c1 && v2 == c2 { return true } }
         return false
-    }
-    
-    func algoirthChoice() {
-        if scene.algoithimChoice == 0 {
-//            print("DFS")
-            
-        }
-        if scene.algoithimChoice == 1 {
-//            print("BFS")
-            
-        }
     }
 
     func updateScore() {

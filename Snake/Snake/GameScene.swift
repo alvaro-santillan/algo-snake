@@ -12,8 +12,6 @@ import SpriteKit
 import GameplayKit
 
 class GameScene: SKScene {
-//    var viewController: GameScreenViewController!
-    
     // Home screen var`s to store objects
     var gameLogo: SKLabelNode!
     var highScore: SKLabelNode!
@@ -41,10 +39,8 @@ class GameScene: SKScene {
         initializeGameView()
         
         if let gameInfo = self.userData?.value(forKey: "playOrNot") {
-//            print("gameInfo is :\(gameInfo)")
             playOrPause = gameInfo as! Bool
         }
-//        print("------------------")
         
         let swipeRight:UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeR))
         swipeRight.direction = .right
@@ -81,12 +77,21 @@ class GameScene: SKScene {
             let location = touch.location(in: self)
             let touchedNode = self.nodes(at: location)
             for node in touchedNode {
-                if node.name == "play_button" {
-                    print("Arrow clicked")
-                    if playOrPause == false {
-                        playOrPause = true
-                    } else {
-                        playOrPause = false
+                if let tappedBalloon = node as? SKSpriteNode {
+                    if node.name == "playPauseButton" {
+                        if playOrPause == false {
+                            playOrPause = true
+                            tappedBalloon.texture = SKTexture(imageNamed: "pause-solid.pdf")
+                        } else {
+                            playOrPause = false
+                            tappedBalloon.texture = SKTexture(imageNamed: "play-solid.pdf")
+                        }
+                    }
+                    if node.name == "settingsButton" {
+                        print("Settings Tapped")
+                    }
+                    if node.name == "homeButton" {
+                        print("homeButton Tapped")
                     }
                 }
             }
@@ -95,23 +100,31 @@ class GameScene: SKScene {
     
     // Welcome menu objects defined
     private func initializeWelcomeScreen() {
-    
-        playPauseButton = SKShapeNode()
-        playPauseButton.name = "play_button"
-        playPauseButton.zPosition = 1
-        playPauseButton.position = CGPoint(x: 0, y: (frame.size.height / -2) + 200)
-        playPauseButton.fillColor = SKColor.lightGray
-        let topLeftCorner = CGPoint(x: -50, y: 50)
-        let bottomLeftCorner = CGPoint(x: -50, y: -50)
-        let topRightCorner = CGPoint(x: 50, y: 50)
-        let bottomRightCorner = CGPoint(x: -50, y: -50)
         
-        let middle = CGPoint(x: 50, y: 0)
-        let path = CGMutablePath()
-        path.addLine(to: topLeftCorner)
-        path.addLines(between: [topLeftCorner, bottomLeftCorner, topRightCorner, bottomRightCorner])
-        playPauseButton.path = UIBezierPath(roundedRect: CGRect(x: -128, y: -128, width: 256, height: 256), cornerRadius: 64).cgPath
+        let settingsButton = SKSpriteNode(imageNamed: "cog-solid.pdf")
+        settingsButton.name = "settingsButton"
+        settingsButton.size = CGSize(width: 45, height: 45)
+        settingsButton.position = CGPoint(x: 325, y: -170)
+        self.addChild(settingsButton)
+        
+        let homeButton = SKSpriteNode(imageNamed: "home-solid.pdf")
+        homeButton.name = "homeButton"
+        homeButton.size = CGSize(width: 45, height: 45)
+        homeButton.position = CGPoint(x: 270, y: -170)
+        self.addChild(homeButton)
+        
+        let weightButton = SKSpriteNode(imageNamed: "weight-hanging-solid.pdf")
+        weightButton.name = "weightButton"
+        weightButton.size = CGSize(width: 45, height: 45)
+        weightButton.position = CGPoint(x: 215, y: -170)
+        self.addChild(weightButton)
+        
+        let playPauseButton = SKSpriteNode(imageNamed: "pause-solid.pdf")
+        playPauseButton.name = "playPauseButton"
+        playPauseButton.size = CGSize(width: 45, height: 45)
+        playPauseButton.position = CGPoint(x: 155, y: -170)
         self.addChild(playPauseButton)
+    
         
         // Define best score label
         highScore = SKLabelNode(fontNamed: "ArialRoundedMTBold")
@@ -185,7 +198,6 @@ class GameScene: SKScene {
     
     // Called before each frame is rendered
     override func update(_ currentTime: TimeInterval) {
-//        print("play statis is", playOrPause)
         game.update(time: currentTime)
     }
 }
