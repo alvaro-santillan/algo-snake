@@ -39,6 +39,8 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     var savedGodButton = Int()
     var muteButton = Int()
     var stopOrPlayButton = Int()
+    var darkOrLightButton = Int()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -180,6 +182,13 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             stepOrPlayPauseButton.setImage(UIImage(named: "step-forward-solid.pdf"), for: .normal)
         } else {
             stepOrPlayPauseButton.setImage(UIImage(named: "shoe-prints-solid.pdf"), for: .normal)
+        }
+        
+        darkOrLightButton = defaults.integer(forKey: "darkOrLightButton")
+        if darkOrLightButton == 1 {
+            darkOrLightModeButton.setImage(UIImage(named: "adjust-flipped-solid.pdf"), for: .normal)
+        } else {
+            darkOrLightModeButton.setImage(UIImage(named: "adjust-solid.pdf"), for: .normal)
         }
     }
     
@@ -348,6 +357,8 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     @IBAction func darkOrLightModeButtonPressed(_ sender: UIButton) {
+        darkOrLightButton = defaults.integer(forKey: "darkOrLightButton")
+        sender.tag = darkOrLightButton
         if sender.tag == 0 {
             sender.setImage(UIImage(named: "adjust-flipped-solid.pdf"), for: .normal)
             sender.tag = 1
@@ -355,5 +366,6 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             sender.setImage(UIImage(named: "adjust-solid.pdf"), for: .normal)
             sender.tag = 0
         }
+        defaults.set(sender.tag, forKey: "darkOrLightButton")
     }
 }
