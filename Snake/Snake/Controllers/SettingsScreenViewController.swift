@@ -30,6 +30,10 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     @IBOutlet weak var darkOrLightModeButton: UIButton!
     @IBOutlet weak var homeButton: UIButton!
     
+    let defaults = UserDefaults.standard
+    var legendData = [["Snake", 0], ["Food", 3], ["Path", 17], ["Visited Square", 5], ["Queued Square", 15], ["Unvisited Square", 13], ["Barrier", 7], ["Weight", 19]]
+    var SavedlegendData = [[Any]]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -113,9 +117,11 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         homeButton.layer.shadowRadius = 5
         homeButton.layer.shadowOpacity = 0.5
         homeButton.layer.shadowOffset = .zero
+        
+        SavedlegendData = (defaults.array(forKey: "legendPrefences") as? [[Any]])!
+        legendData = SavedlegendData
     }
     
-    var legendData = [["Snake", 0], ["Food", 3], ["Path", 17], ["Visited Square", 5], ["Queued Square", 15], ["Unvisited Square", 13], ["Barrier", 7], ["Weight", 19]]
     
     let colors = [ // Range 0 to 19
         UIColor(red:0.93, green:0.94, blue:0.95, alpha:1.00), // White Clouds
@@ -166,7 +172,8 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         var colorID = (legendData[imgView.tag][1] as! Int) + 1
         if colorID == colors.count {colorID = 0}
         legendData[imgView.tag][1] = colorID
-        print("COLLOr ID", colorID)
+        print(legendData)
+        defaults.set(legendData, forKey: "legendPrefences")
         tableVIew.reloadData()
     }
     

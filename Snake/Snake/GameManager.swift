@@ -320,11 +320,11 @@ class GameManager {
     func checkIfPaused() {
         if scene.playOrPause == false {
             gameSpeed = 100
-            print("snakeColor", scene.snakeColor)
+//            print("snakeColor", scene.snakeColor)
             
         } else {
             gameSpeed = 0.3
-            print("snakeColor", scene.snakeColor)
+//            print("snakeColor", scene.snakeColor)
         }
     }
     
