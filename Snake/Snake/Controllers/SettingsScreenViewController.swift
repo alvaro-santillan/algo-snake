@@ -38,6 +38,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     var savedFoodCount = Int()
     var savedGodButton = Int()
     var muteButton = Int()
+    var stopOrPlayButton = Int()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -172,6 +173,13 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             soundButton.setImage(UIImage(named: "volume-mute-solid.pdf"), for: .normal)
         } else {
             soundButton.setImage(UIImage(named: "volume-down-solid.pdf"), for: .normal)
+        }
+        
+        stopOrPlayButton = defaults.integer(forKey: "stopOrPlayButtonSetting")
+        if stopOrPlayButton == 1 {
+            stepOrPlayPauseButton.setImage(UIImage(named: "step-forward-solid.pdf"), for: .normal)
+        } else {
+            stepOrPlayPauseButton.setImage(UIImage(named: "shoe-prints-solid.pdf"), for: .normal)
         }
     }
     
@@ -327,6 +335,8 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     @IBAction func stepOrPlayPauseButtonPressed(_ sender: UIButton) {
+        stopOrPlayButton = defaults.integer(forKey: "stopOrPlayButtonSetting")
+        sender.tag = stopOrPlayButton
         if sender.tag == 0 {
             sender.setImage(UIImage(named: "step-forward-solid.pdf"), for: .normal)
             sender.tag = 1
@@ -334,6 +344,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             sender.setImage(UIImage(named: "shoe-prints-solid.pdf"), for: .normal)
             sender.tag = 0
         }
+        defaults.set(sender.tag, forKey: "stopOrPlayButtonSetting")
     }
     
     @IBAction func darkOrLightModeButtonPressed(_ sender: UIButton) {
