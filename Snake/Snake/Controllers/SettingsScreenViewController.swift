@@ -159,11 +159,11 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             foodCountButton.setTitle("Food Count: 1", for: .normal)
         }
         
-        savedGodButton = defaults.integer(forKey: "GodModeSetting")
-        if savedGodButton == 0 {
-            godModeButton.setTitle("God Mooode: On", for: .normal)
+        savedGodButton = defaults.integer(forKey: "GodButtonSetting")
+        if savedGodButton == 1 {
+            godModeButton.setTitle("God Mode: On", for: .normal)
         } else {
-            godModeButton.setTitle("God Mooode: Off", for: .normal)
+            godModeButton.setTitle("God Mode: Off", for: .normal)
         }
     }
     

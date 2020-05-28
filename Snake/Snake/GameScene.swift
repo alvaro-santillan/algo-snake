@@ -18,7 +18,7 @@ class GameScene: SKScene {
     var playPauseButton: SKShapeNode!
     var playButtonTapped = false
     var foodPosition: CGPoint?
-    var playOrPause = true
+    var playOrPause = false
     var snakeColor = 888
     
     // Used to store data and managing user movement.
