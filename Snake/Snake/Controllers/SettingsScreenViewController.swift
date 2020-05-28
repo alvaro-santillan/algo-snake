@@ -37,6 +37,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     var foodWeight = Int()
     var savedFoodCount = Int()
     var savedGodButton = Int()
+    var muteButton = Int()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -164,6 +165,13 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             godModeButton.setTitle("God Mode: On", for: .normal)
         } else {
             godModeButton.setTitle("God Mode: Off", for: .normal)
+        }
+        
+        muteButton = defaults.integer(forKey: "muteButtonSetting")
+        if muteButton == 1 {
+            soundButton.setImage(UIImage(named: "volume-mute-solid.pdf"), for: .normal)
+        } else {
+            soundButton.setImage(UIImage(named: "volume-down-solid.pdf"), for: .normal)
         }
     }
     
@@ -306,6 +314,8 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     @IBAction func soundButtonPressed(_ sender: UIButton) {
+        muteButton = defaults.integer(forKey: "muteButtonSetting")
+        sender.tag = muteButton
         if sender.tag == 0 {
             sender.setImage(UIImage(named: "volume-mute-solid.pdf"), for: .normal)
             sender.tag = 1
@@ -313,6 +323,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             sender.setImage(UIImage(named: "volume-down-solid.pdf"), for: .normal)
             sender.tag = 0
         }
+        defaults.set(sender.tag, forKey: "muteButtonSetting")
     }
     
     @IBAction func stepOrPlayPauseButtonPressed(_ sender: UIButton) {
