@@ -36,6 +36,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     var SavedSpeed = Int()
     var foodWeight = Int()
     var savedFoodCount = Int()
+    var savedGodButton = Int()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -156,6 +157,13 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             foodCountButton.setTitle("Food Count: 5", for: .normal)
         } else {
             foodCountButton.setTitle("Food Count: 1", for: .normal)
+        }
+        
+        savedGodButton = defaults.integer(forKey: "GodModeSetting")
+        if savedGodButton == 0 {
+            godModeButton.setTitle("God Mooode: On", for: .normal)
+        } else {
+            godModeButton.setTitle("God Mooode: Off", for: .normal)
         }
     }
     
@@ -285,6 +293,8 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     @IBAction func godButtonPressed(_ sender: UIButton) {
+        savedGodButton = defaults.integer(forKey: "GodButtonSetting")
+        sender.tag = savedGodButton
         if sender.tag == 0 {
             sender.setTitle("God Mode: On",for: .normal)
             sender.tag = 1
@@ -292,6 +302,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             sender.setTitle("God Mode: Off",for: .normal)
             sender.tag = 0
         }
+        defaults.set(sender.tag, forKey: "GodButtonSetting")
     }
     
     @IBAction func soundButtonPressed(_ sender: UIButton) {
