@@ -34,6 +34,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     var legendData = [["Snake", 0], ["Food", 3], ["Path", 17], ["Visited Square", 5], ["Queued Square", 15], ["Unvisited Square", 13], ["Barrier", 7], ["Weight", 19]]
     var SavedlegendData = [[Any]]()
     var SavedSpeed = Int()
+    var foodWeight = Int()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -119,11 +120,11 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         homeButton.layer.shadowOpacity = 0.5
         homeButton.layer.shadowOffset = .zero
         
+//        Settings data percestence
         SavedlegendData = (defaults.array(forKey: "legendPrefences") as? [[Any]])!
         legendData = SavedlegendData
         
         SavedSpeed = defaults.integer(forKey: "SavedSpeedSetting")
-//        sender.tag = SavedSpeed
         if SavedSpeed == 1 {
             snakeSpeedButton.setTitle("Speed: Fast", for: .normal)
         } else if SavedSpeed == 2 {
@@ -132,6 +133,18 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             snakeSpeedButton.setTitle("Speed: Slow", for: .normal)
         } else {
             snakeSpeedButton.setTitle("Speed: Normal", for: .normal)
+        }
+
+        foodWeight = defaults.integer(forKey: "FoodWeightSetting")
+        print("======", foodWeight)
+        if foodWeight == 1 {
+            foodWeightButton.setTitle("Food Weight: 2", for: .normal)
+        } else if foodWeight == 2 {
+            foodWeightButton.setTitle("Food Weight: 3", for: .normal)
+        } else if foodWeight == 3 {
+            foodWeightButton.setTitle("Food Weight: 5", for: .normal)
+        } else {
+            foodWeightButton.setTitle("Food Weight: 1", for: .normal)
         }
     }
     
@@ -224,6 +237,8 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     @IBAction func foodWeightButtonPressed(_ sender: UIButton) {
+        foodWeight = defaults.integer(forKey: "FoodWeightSetting")
+        sender.tag = foodWeight
         if sender.tag == 0 {
             sender.setTitle("Food Weight: 2", for: .normal)
             sender.tag = 1
@@ -237,6 +252,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             sender.setTitle("Food Weight: 1", for: .normal)
             sender.tag = 0
         }
+        defaults.set(sender.tag, forKey: "FoodWeightSetting")
     }
     
     @IBAction func foodCountButtonPressed(_ sender: UIButton) {
