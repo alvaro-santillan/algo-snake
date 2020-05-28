@@ -35,6 +35,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     var SavedlegendData = [[Any]]()
     var SavedSpeed = Int()
     var foodWeight = Int()
+    var savedFoodCount = Int()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -136,7 +137,6 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         }
 
         foodWeight = defaults.integer(forKey: "FoodWeightSetting")
-        print("======", foodWeight)
         if foodWeight == 1 {
             foodWeightButton.setTitle("Food Weight: 2", for: .normal)
         } else if foodWeight == 2 {
@@ -146,8 +146,18 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         } else {
             foodWeightButton.setTitle("Food Weight: 1", for: .normal)
         }
+        
+        savedFoodCount = defaults.integer(forKey: "FoodCountSetting")
+        if savedFoodCount == 1 {
+            foodCountButton.setTitle("Food Count: 2", for: .normal)
+        } else if savedFoodCount == 2 {
+            foodCountButton.setTitle("Food Count: 3", for: .normal)
+        } else if savedFoodCount == 3 {
+            foodCountButton.setTitle("Food Count: 5", for: .normal)
+        } else {
+            foodCountButton.setTitle("Food Count: 1", for: .normal)
+        }
     }
-    
     
     let colors = [ // Range 0 to 19
         UIColor(red:0.93, green:0.94, blue:0.95, alpha:1.00), // White Clouds
@@ -256,6 +266,8 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     @IBAction func foodCountButtonPressed(_ sender: UIButton) {
+        savedFoodCount = defaults.integer(forKey: "FoodCountSetting")
+        sender.tag = savedFoodCount
         if sender.tag == 0 {
             sender.setTitle("Food Count: 2", for: .normal)
             sender.tag = 1
@@ -269,6 +281,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             sender.setTitle("Food Count: 1", for: .normal)
             sender.tag = 0
         }
+        defaults.set(sender.tag, forKey: "FoodCountSetting")
     }
     
     @IBAction func godButtonPressed(_ sender: UIButton) {
