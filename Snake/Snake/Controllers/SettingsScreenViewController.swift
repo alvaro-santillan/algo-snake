@@ -33,6 +33,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     let defaults = UserDefaults.standard
     var legendData = [["Snake", 0], ["Food", 3], ["Path", 17], ["Visited Square", 5], ["Queued Square", 15], ["Unvisited Square", 13], ["Barrier", 7], ["Weight", 19]]
     var SavedlegendData = [[Any]]()
+    var SavedSpeed = Int()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -120,6 +121,18 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         
         SavedlegendData = (defaults.array(forKey: "legendPrefences") as? [[Any]])!
         legendData = SavedlegendData
+        
+        SavedSpeed = defaults.integer(forKey: "SavedSpeedSetting")
+//        sender.tag = SavedSpeed
+        if SavedSpeed == 1 {
+            snakeSpeedButton.setTitle("Speed: Fast", for: .normal)
+        } else if SavedSpeed == 2 {
+            snakeSpeedButton.setTitle("Speed: Extreme", for: .normal)
+        } else if SavedSpeed == 3 {
+            snakeSpeedButton.setTitle("Speed: Slow", for: .normal)
+        } else {
+            snakeSpeedButton.setTitle("Speed: Normal", for: .normal)
+        }
     }
     
     
@@ -192,6 +205,8 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     @IBAction func snakeSpeedButtonPressed(_ sender: UIButton) {
+        SavedSpeed = defaults.integer(forKey: "SavedSpeedSetting")
+        sender.tag = SavedSpeed
         if sender.tag == 0 {
             sender.setTitle("Speed: Fast", for: .normal)
             sender.tag = 1
@@ -205,6 +220,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             sender.setTitle("Speed: Normal", for: .normal)
             sender.tag = 0
         }
+        defaults.set(sender.tag, forKey: "SavedSpeedSetting")
     }
     
     @IBAction func foodWeightButtonPressed(_ sender: UIButton) {
