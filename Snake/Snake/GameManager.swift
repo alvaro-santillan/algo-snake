@@ -450,7 +450,7 @@ class GameManager {
             }
             if contains(a: scene.snakeBodyPos, v: (x,y)) {
                 if (onPathMode == true) {
-                    node.fillColor = UIColor(red:0.93, green:0.94, blue:0.95, alpha:1.00)
+                    node.fillColor = scene.snakeColor
                     if contains(a: [scene.snakeBodyPos.first!], v: (x,y)) {
                         node.fillColor = SKColor.red
                     }

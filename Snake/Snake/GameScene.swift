@@ -19,7 +19,7 @@ class GameScene: SKScene {
     var playButtonTapped = false
     var foodPosition: CGPoint?
     var playOrPause = false
-    var snakeColor = 888
+    var snakeColor = UIColor(red:0.75, green:0.22, blue:0.17, alpha:1.00)
     
     // Used to store data and managing user movement.
     var game: GameManager!
@@ -42,7 +42,7 @@ class GameScene: SKScene {
         
         if let gameInfo = self.userData?.value(forKey: "playOrNot") {
             playOrPause = gameInfo as! Bool
-            snakeColor = gameInfo as! Int
+            snakeColor = gameInfo as! UIColor
         }
         
         let swipeRight:UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeR))

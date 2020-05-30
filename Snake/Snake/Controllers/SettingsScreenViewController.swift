@@ -8,6 +8,32 @@
 
 import UIKit
 
+extension UserDefaults {
+    func setColor(color: UIColor?, forKey key: String) {
+        var colorData: NSData?
+        if let color = color {
+            do {
+                colorData = try NSKeyedArchiver.archivedData(withRootObject: color, requiringSecureCoding: false) as NSData?
+                set(colorData, forKey: key)
+            } catch let err {
+                print("error archiving color data", err)
+            }
+        }
+    }
+    
+    func colorForKey(key: String) -> UIColor? {
+        var color: UIColor?
+        if let colorData = data(forKey: "StringColorTest") {
+            do {
+                color = try NSKeyedUnarchiver.unarchivedObject(ofClass: UIColor.self, from: colorData)
+            } catch let err {
+                print("error unarchiving color data", err)
+            }
+        }
+        return color
+    }
+}
+
 class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource  {
     // Views
     @IBOutlet weak var rightView: UIView!
@@ -31,7 +57,14 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     @IBOutlet weak var homeButton: UIButton!
     
     let defaults = UserDefaults.standard
-    var legendData = [["Snake", 0], ["Food", 3], ["Path", 17], ["Visited Square", 5], ["Queued Square", 15], ["Unvisited Square", 13], ["Barrier", 7], ["Weight", 19]]
+    var legendData = [["Snake", 0],
+                      ["Food", 3],
+                      ["Path", 17],
+                      ["Visited Square", 5],
+                      ["Queued Square", 15],
+                      ["Unvisited Square", 13],
+                      ["Barrier", 7],
+                      ["Weight", 19]]
     var SavedlegendData = [[Any]]()
     var SavedSpeed = Int()
     var foodWeight = Int()
@@ -40,7 +73,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     var muteButton = Int()
     var stopOrPlayButton = Int()
     var darkOrLightButton = Int()
-    
+    var color = UIColor()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -126,8 +159,11 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         homeButton.layer.shadowOpacity = 0.5
         homeButton.layer.shadowOffset = .zero
         
+        color = defaults.colorForKey(key: "StringColorTest") ?? .white
+        print("COLORCOLOR", color)
+        
 //        Settings data percestence
-        SavedlegendData = (defaults.array(forKey: "legendPrefences") as? [[Any]])!
+        SavedlegendData = (defaults.array(forKey: "legendPrefences") as? [[Any]] ?? legendData)
         legendData = SavedlegendData
         
         SavedSpeed = defaults.integer(forKey: "SavedSpeedSetting")
@@ -241,8 +277,11 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         var colorID = (legendData[imgView.tag][1] as! Int) + 1
         if colorID == colors.count {colorID = 0}
         legendData[imgView.tag][1] = colorID
+        print(legendData[imgView.tag][1])
+        print(colors[(legendData[imgView.tag][1] as? Int)!])
         print(legendData)
         defaults.set(legendData, forKey: "legendPrefences")
+        defaults.setColor(color: UIColor(red:0.16, green:0.50, blue:0.73, alpha:1.00), forKey: "StringColorTest")
         tableVIew.reloadData()
     }
     
