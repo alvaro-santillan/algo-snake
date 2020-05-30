@@ -23,7 +23,7 @@ extension UserDefaults {
     
     func colorForKey(key: String) -> UIColor? {
         var color: UIColor?
-        if let colorData = data(forKey: "StringColorTest") {
+        if let colorData = data(forKey: key) {
             do {
                 color = try NSKeyedUnarchiver.unarchivedObject(ofClass: UIColor.self, from: colorData)
             } catch let err {
@@ -57,14 +57,14 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     @IBOutlet weak var homeButton: UIButton!
     
     let defaults = UserDefaults.standard
-    var legendData = [["Snake", 0],
-                      ["Food", 3],
-                      ["Path", 17],
-                      ["Visited Square", 5],
-                      ["Queued Square", 15],
-                      ["Unvisited Square", 13],
-                      ["Barrier", 7],
-                      ["Weight", 19]]
+    var legendData = [["Snake", 0, 888],
+                      ["Food", 3, 888],
+                      ["Path", 17, 888],
+                      ["Visited Square", 5, 888],
+                      ["Queued Square", 15, 888],
+                      ["Unvisited Square", 13, 888],
+                      ["Barrier", 7, 888],
+                      ["Weight", 19, 888]]
     var SavedlegendData = [[Any]]()
     var SavedSpeed = Int()
     var foodWeight = Int()
@@ -73,7 +73,15 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     var muteButton = Int()
     var stopOrPlayButton = Int()
     var darkOrLightButton = Int()
-    var color = UIColor()
+    
+    var snake = UIColor()
+    var food = UIColor()
+    var path = UIColor()
+    var visitedSquare = UIColor()
+    var queuedSquare = UIColor()
+    var unvisitedSquare = UIColor()
+    var barrier = UIColor()
+    var weight = UIColor()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -159,8 +167,22 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         homeButton.layer.shadowOpacity = 0.5
         homeButton.layer.shadowOffset = .zero
         
-        color = defaults.colorForKey(key: "StringColorTest") ?? .white
-        print("COLORCOLOR", color)
+        snake = defaults.colorForKey(key: "Snake") ?? colors[legendData[0][1] as! Int]
+        print("Saved to percestance", snake)
+        food = defaults.colorForKey(key: "Food") ?? colors[legendData[1][1] as! Int]
+        print("Saved to percestance", food)
+        path = defaults.colorForKey(key: "Path") ?? colors[legendData[2][1] as! Int]
+        print("Saved to percestance", path)
+        visitedSquare = defaults.colorForKey(key: "Visited Square") ?? colors[legendData[3][1] as! Int]
+        print("Saved to percestance", visitedSquare)
+        queuedSquare = defaults.colorForKey(key: "Queued Square") ?? colors[legendData[4][1] as! Int]
+        print("Saved to percestance", queuedSquare)
+        unvisitedSquare = defaults.colorForKey(key: "Unvisited Square") ?? colors[legendData[5][1] as! Int]
+        print("Saved to percestance", unvisitedSquare)
+        barrier = defaults.colorForKey(key: "Barrier") ?? colors[legendData[6][1] as! Int]
+        print("Saved to percestance", barrier)
+        weight = defaults.colorForKey(key: "Weight") ?? colors[legendData[7][1] as! Int]
+        print("Saved to percestance", weight)
         
 //        Settings data percestence
         SavedlegendData = (defaults.array(forKey: "legendPrefences") as? [[Any]] ?? legendData)
@@ -277,11 +299,8 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         var colorID = (legendData[imgView.tag][1] as! Int) + 1
         if colorID == colors.count {colorID = 0}
         legendData[imgView.tag][1] = colorID
-        print(legendData[imgView.tag][1])
-        print(colors[(legendData[imgView.tag][1] as? Int)!])
-        print(legendData)
         defaults.set(legendData, forKey: "legendPrefences")
-        defaults.setColor(color: UIColor(red:0.16, green:0.50, blue:0.73, alpha:1.00), forKey: "StringColorTest")
+        defaults.setColor(color: colors[(legendData[imgView.tag][1] as? Int)!], forKey: legendData[imgView.tag][0] as! String)
         tableVIew.reloadData()
     }
     
