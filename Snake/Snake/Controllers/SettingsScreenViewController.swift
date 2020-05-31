@@ -316,7 +316,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             sender.tag = 2
         } else if sender.tag == 2 {
             sender.setTitle("Speed: Slow", for: .normal)
-            sender.tag = 3
+            sender.tag = 4
         } else {
             sender.setTitle("Speed: Normal", for: .normal)
             sender.tag = 0
@@ -354,7 +354,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             sender.tag = 2
         } else if sender.tag == 2 {
             sender.setTitle("Food Count: 5", for: .normal)
-            sender.tag = 3
+            sender.tag = 4
         } else {
             sender.setTitle("Food Count: 1", for: .normal)
             sender.tag = 0

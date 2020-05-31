@@ -217,8 +217,14 @@ func depthFirstSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple :
                 squareAndParentSquare[newFronterSquare] = currentSquare
             }
         }
-        currentSquare = fronterSquares.last!
-        fronterSquares.popLast()
+        
+        if fronterSquares.count != 0 {
+            currentSquare = fronterSquares.last!
+            fronterSquares.popLast()
+        } else {
+            print("DFS else hit")
+            return(formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: currentSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited))
+        }
     }
     // Genarate a path and optional statistics from the results of DFS.
     return(formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: goalSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited))
@@ -275,7 +281,8 @@ class GameManager {
         matrix[prevX][prevY] = 0
         let snakeHead = scene.snakeBodyPos[0]
         let path = depthFirstSearch(startSquare: Tuple(x:Int(randomX), y:Int(randomY)), goalSquare: Tuple(x:snakeHead.1, y:snakeHead.0), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: matrix), returnPathCost: false, returnSquaresVisited: false)
-        test = path.0
+//        test = path.0
+        test = []
         // 1 == left, 2 == up, 3 == right, 4 == down
         prevX = Int(randomY)
         prevY = Int(randomX)
@@ -323,7 +330,7 @@ class GameManager {
 //            print("snakeColor", scene.snakeColor)
             
         } else {
-            gameSpeed = 0.3
+            gameSpeed = 0.2
 //            print("snakeColor", scene.snakeColor)
         }
     }
@@ -342,7 +349,7 @@ class GameManager {
             snakeBody.remove(at: 0)
             // If head is in same position as the body the snake is dead.
             // The snake dies in corners becouse blocks are stacked.
-            if contains(a: snakeBody, v: scene.snakeBodyPos[0]) {
+            if contains(a: snakeBody, v: scene.snakeBodyPos[0]) && UserDefaults.standard.integer(forKey: "GodButtonSetting") == 0 {
                 endTheGame()
             }
         }
@@ -453,7 +460,7 @@ class GameManager {
                 if (onPathMode == true) {
                     node.fillColor = UserDefaults.standard.colorForKey(key: "Snake")!
                     if contains(a: [scene.snakeBodyPos.first!], v: (x,y)) {
-                        node.fillColor = UserDefaults.standard.colorForKey(key: "Snake")!
+                        node.fillColor = UserDefaults.standard.colorForKey(key: "Visited Square")!
                     }
                 }
             } else {
