@@ -60,6 +60,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     var legendData = [["Snake", 0], ["Food", 3], ["Path", 17], ["Visited Square", 5], ["Queued Square", 15], ["Unvisited Square", 13], ["Barrier", 7], ["Weight", 19]]
     var SavedlegendData = [[Any]]()
     var SavedSpeed = Int()
+    var gameMoveSpeed = Float()
     var foodWeight = Int()
     var savedFoodCount = Int()
     var savedGodButton = Int()
@@ -308,20 +309,26 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     @IBAction func snakeSpeedButtonPressed(_ sender: UIButton) {
         SavedSpeed = defaults.integer(forKey: "SavedSpeedSetting")
         sender.tag = SavedSpeed
+        gameMoveSpeed = defaults.float(forKey: "gameSpeed")
         if sender.tag == 0 {
             sender.setTitle("Speed: Fast", for: .normal)
             sender.tag = 1
+            gameMoveSpeed = 0.1
         } else if sender.tag == 1 {
             sender.setTitle("Speed: Extreme", for: .normal)
             sender.tag = 2
+            gameMoveSpeed = 0.01
         } else if sender.tag == 2 {
             sender.setTitle("Speed: Slow", for: .normal)
             sender.tag = 4
+            gameMoveSpeed = 0.5
         } else {
             sender.setTitle("Speed: Normal", for: .normal)
             sender.tag = 0
+            gameMoveSpeed = 0.25
         }
         defaults.set(sender.tag, forKey: "SavedSpeedSetting")
+        defaults.set(gameMoveSpeed, forKey: "gameSpeed")
     }
     
     @IBAction func foodWeightButtonPressed(_ sender: UIButton) {

@@ -245,6 +245,7 @@ class GameManager {
     
     var nextTime: Double?
     var gameSpeed: Double = 1
+    var paused = false
     var playerDirection: Int = 1 // 1 == left, 2 == up, 3 == right, 4 == down
     var currentScore: Int = 0
     
@@ -308,7 +309,7 @@ class GameManager {
     func update(time: Double) {
         if nextTime == nil {
             nextTime = time + gameSpeed
-        } else if (gameSpeed == 100) {
+        } else if (paused == true) {
 //            If the game is paused keep chicking if its paused.
             checkIfPaused()
         }
@@ -325,12 +326,11 @@ class GameManager {
     }
     
     func checkIfPaused() {
-        if scene.playOrPause == false {
-            gameSpeed = 100
+        if scene.playOrPause == true {
+            paused = true
 //            print("snakeColor", scene.snakeColor)
-            
         } else {
-            gameSpeed = 0.2
+            gameSpeed = Double(UserDefaults.standard.float(forKey: "gameSpeed"))
 //            print("snakeColor", scene.snakeColor)
         }
     }
@@ -347,6 +347,7 @@ class GameManager {
             // Create temp variable of snake without the head.
             var snakeBody = scene.snakeBodyPos
             snakeBody.remove(at: 0)
+            // Implement wraping snake in god mode.
             // If head is in same position as the body the snake is dead.
             // The snake dies in corners becouse blocks are stacked.
             if contains(a: snakeBody, v: scene.snakeBodyPos[0]) && UserDefaults.standard.integer(forKey: "GodButtonSetting") == 0 {
