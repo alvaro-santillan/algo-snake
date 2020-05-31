@@ -363,9 +363,10 @@ class GameManager {
                     self.viewController?.scoreButton.setTitle(String(currentScore), for: .normal)
                 }
                 // Grow snake by 3 blocks.
-                scene.snakeBodyPos.append(scene.snakeBodyPos.last!)
-                scene.snakeBodyPos.append(scene.snakeBodyPos.last!)
-                scene.snakeBodyPos.append(scene.snakeBodyPos.last!)
+                let max = UserDefaults.standard.integer(forKey: "FoodWeightSetting")
+                for _ in 1...max+1 {
+                    scene.snakeBodyPos.append(scene.snakeBodyPos.last!)
+                }
              }
          }
     }

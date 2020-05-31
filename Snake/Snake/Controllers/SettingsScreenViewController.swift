@@ -184,12 +184,14 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             snakeSpeedButton.setTitle("Speed: Normal", for: .normal)
         }
 
+        // can probilby be reduced in size.
         foodWeight = defaults.integer(forKey: "FoodWeightSetting")
+        print("Food weight", foodWeight)
         if foodWeight == 1 {
             foodWeightButton.setTitle("Food Weight: 2", for: .normal)
         } else if foodWeight == 2 {
             foodWeightButton.setTitle("Food Weight: 3", for: .normal)
-        } else if foodWeight == 3 {
+        } else if foodWeight == 4 {
             foodWeightButton.setTitle("Food Weight: 5", for: .normal)
         } else {
             foodWeightButton.setTitle("Food Weight: 1", for: .normal)
@@ -333,7 +335,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             sender.tag = 2
         } else if sender.tag == 2 {
             sender.setTitle("Food Weight: 5", for: .normal)
-            sender.tag = 3
+            sender.tag = 4
         } else {
             sender.setTitle("Food Weight: 1", for: .normal)
             sender.tag = 0
