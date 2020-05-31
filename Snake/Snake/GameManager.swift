@@ -244,7 +244,7 @@ class GameManager {
     var scene: GameScene!
     
     var nextTime: Double?
-    var gameSpeed: Double = 1
+    var gameSpeed: Float = 1
     var paused = false
     var playerDirection: Int = 1 // 1 == left, 2 == up, 3 == right, 4 == down
     var currentScore: Int = 0
@@ -308,14 +308,14 @@ class GameManager {
     
     func update(time: Double) {
         if nextTime == nil {
-            nextTime = time + gameSpeed
+            nextTime = time + Double(gameSpeed)
         } else if (paused == true) {
 //            If the game is paused keep chicking if its paused.
             checkIfPaused()
         }
         else {
             if time >= nextTime! {
-                nextTime = time + gameSpeed
+                nextTime = time + Double(gameSpeed)
                 runPredeterminedPath()
                 updateSnakePosition()
                 checkIfPaused()
@@ -330,7 +330,7 @@ class GameManager {
             paused = true
 //            print("snakeColor", scene.snakeColor)
         } else {
-            gameSpeed = Double(UserDefaults.standard.float(forKey: "gameSpeed"))
+            gameSpeed = UserDefaults.standard.float(forKey: "gameSpeed")
 //            print("snakeColor", scene.snakeColor)
         }
     }
