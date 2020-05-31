@@ -450,16 +450,16 @@ class GameManager {
             }
             if contains(a: scene.snakeBodyPos, v: (x,y)) {
                 if (onPathMode == true) {
-                    node.fillColor = scene.snakeColor
+                    node.fillColor = UserDefaults.standard.colorForKey(key: "Snake")!
                     if contains(a: [scene.snakeBodyPos.first!], v: (x,y)) {
-                        node.fillColor = SKColor.red
+                        node.fillColor = UserDefaults.standard.colorForKey(key: "Snake")!
                     }
                 }
             } else {
                 node.fillColor = SKColor.clear
                 if scene.foodPosition != nil {
                     if Int((scene.foodPosition?.x)!) == y && Int((scene.foodPosition?.y)!) == x {
-                        node.fillColor = SKColor.white
+                        node.fillColor = UserDefaults.standard.colorForKey(key: "Food")!
                     }
                 }
             }

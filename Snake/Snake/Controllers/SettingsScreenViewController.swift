@@ -57,14 +57,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     @IBOutlet weak var homeButton: UIButton!
     
     let defaults = UserDefaults.standard
-    var legendData = [["Snake", 0, 888],
-                      ["Food", 3, 888],
-                      ["Path", 17, 888],
-                      ["Visited Square", 5, 888],
-                      ["Queued Square", 15, 888],
-                      ["Unvisited Square", 13, 888],
-                      ["Barrier", 7, 888],
-                      ["Weight", 19, 888]]
+    var legendData = [["Snake", 0], ["Food", 3], ["Path", 17], ["Visited Square", 5], ["Queued Square", 15], ["Unvisited Square", 13], ["Barrier", 7], ["Weight", 19]]
     var SavedlegendData = [[Any]]()
     var SavedSpeed = Int()
     var foodWeight = Int()
@@ -168,21 +161,13 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         homeButton.layer.shadowOffset = .zero
         
         snake = defaults.colorForKey(key: "Snake") ?? colors[legendData[0][1] as! Int]
-        print("Saved to percestance", snake)
         food = defaults.colorForKey(key: "Food") ?? colors[legendData[1][1] as! Int]
-        print("Saved to percestance", food)
         path = defaults.colorForKey(key: "Path") ?? colors[legendData[2][1] as! Int]
-        print("Saved to percestance", path)
         visitedSquare = defaults.colorForKey(key: "Visited Square") ?? colors[legendData[3][1] as! Int]
-        print("Saved to percestance", visitedSquare)
         queuedSquare = defaults.colorForKey(key: "Queued Square") ?? colors[legendData[4][1] as! Int]
-        print("Saved to percestance", queuedSquare)
         unvisitedSquare = defaults.colorForKey(key: "Unvisited Square") ?? colors[legendData[5][1] as! Int]
-        print("Saved to percestance", unvisitedSquare)
         barrier = defaults.colorForKey(key: "Barrier") ?? colors[legendData[6][1] as! Int]
-        print("Saved to percestance", barrier)
         weight = defaults.colorForKey(key: "Weight") ?? colors[legendData[7][1] as! Int]
-        print("Saved to percestance", weight)
         
 //        Settings data percestence
         SavedlegendData = (defaults.array(forKey: "legendPrefences") as? [[Any]] ?? legendData)
