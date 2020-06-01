@@ -289,7 +289,7 @@ class GameManager {
         for _ in 1...foodPalletsNeeded {
             let randomX = CGFloat(arc4random_uniform(15)) //73
             let randomY = CGFloat(arc4random_uniform(15)) //41
-            matrix[Int(randomY)][Int(randomX)] = 2
+            matrix[Int(randomX)][Int(randomY)] = 2
             foodLocationArray.append([randomX,randomY])
             let DistanceFromSnake = abs(snakeHead.0 - Int(randomX)) + abs(snakeHead.1 - Int(randomY))
             print("Spawning food, x:", randomX, "y =", randomY, "distance:", DistanceFromSnake)

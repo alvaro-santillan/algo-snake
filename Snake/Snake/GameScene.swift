@@ -21,7 +21,7 @@ class GameScene: SKScene {
 //    var ttt = [CGPoint]()
 //    ttt.append(CGPoint(x: 2, y: 3))
 
-    var playOrPause = false
+    var playOrPause = true
     var snakeColor = UIColor(red:0.75, green:0.22, blue:0.17, alpha:1.00)
     
     // Used to store data and managing user movement.
