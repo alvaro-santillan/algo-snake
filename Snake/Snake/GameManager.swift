@@ -294,11 +294,11 @@ class GameManager {
             print("Spawning food, x:", randomX, "y =", randomY, "distance:", DistanceFromSnake)
             foodDistanceFromHead.append(DistanceFromSnake)
         }
+        print(foodLocationArray, "__", foodDistanceFromHead)
         let temp = foodDistanceFromHead.min()!
         let minX = foodLocationArray[foodDistanceFromHead.firstIndex(of: temp)!][0]
         let minY = foodLocationArray[foodDistanceFromHead.firstIndex(of: temp)!][1]
-        foodLocationArray[foodDistanceFromHead.firstIndex(of: temp)!][0] = 0
-        foodLocationArray[foodDistanceFromHead.firstIndex(of: temp)!][1] = 0
+        foodLocationArray.remove(at: [foodDistanceFromHead.firstIndex(of: temp)!][0])
         foodDistanceFromHead.remove(at: foodDistanceFromHead.firstIndex(of: temp)!)
         print(minX,minY)
 //        let path = depthFirstSearch(startSquare: Tuple(x:min(Int(foodLocationArray[foodDistanceFromHead[0]])), y:Int(min(foodLocationArray[foodDistanceFromHead[1]]))), goalSquare: Tuple(x:snakeHead.1, y:snakeHead.0), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: matrix), returnPathCost: false, returnSquaresVisited: false)
@@ -388,7 +388,7 @@ class GameManager {
                 
                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
                 if let vc = appDelegate.window?.rootViewController {
-                    self.viewController = vc as! GameScreenViewController
+                    self.viewController = vc as? GameScreenViewController
                     self.viewController?.scoreButton.setTitle(String(currentScore), for: .normal)
                 }
                 // Grow snake by 3 blocks.
@@ -448,10 +448,10 @@ class GameManager {
             matrix[scene.snakeBodyPos[0].0][scene.snakeBodyPos[0].1] = 1
             matrix[scene.snakeBodyPos[1].0][scene.snakeBodyPos[1].1] = 1
             matrix[scene.snakeBodyPos[2].0][scene.snakeBodyPos[2].1] = 1
-//            for i in 0...14 {
-//                print(matrix[i])
-//            }
-//            print("----")
+            for i in 0...14 {
+                print(matrix[i])
+            }
+            print("----")
         }
         
         if scene.snakeBodyPos.count > 0 {
