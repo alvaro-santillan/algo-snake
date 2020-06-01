@@ -203,7 +203,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             foodCountButton.setTitle("Food Count: 2", for: .normal)
         } else if savedFoodCount == 2 {
             foodCountButton.setTitle("Food Count: 3", for: .normal)
-        } else if savedFoodCount == 3 {
+        } else if savedFoodCount == 4 {
             foodCountButton.setTitle("Food Count: 5", for: .normal)
         } else {
             foodCountButton.setTitle("Food Count: 1", for: .normal)

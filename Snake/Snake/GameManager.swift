@@ -274,20 +274,40 @@ class GameManager {
     // Understood - Spawn a new food block into the game.
     var prevX = 0
     var prevY = 0
+    var foodLocationArray: [[CGFloat]] = []
+    var foodDistanceFromHead: [Int] = []
+//    var minX: CGFloat
+//    var minY: CGFloat
     
     func spawnFoodBlock() {
-        let randomX = CGFloat(arc4random_uniform(15)) //73
-        let randomY = CGFloat(arc4random_uniform(15)) //41
-        matrix[Int(randomY)][Int(randomX)] = 2
         matrix[prevX][prevY] = 0
+        let foodSpawnMax = (UserDefaults.standard.integer(forKey: "FoodCountSetting"))+1
+        let foodPalletsNeeded = (foodSpawnMax - foodLocationArray.count)
         let snakeHead = scene.snakeBodyPos[0]
-        let path = depthFirstSearch(startSquare: Tuple(x:Int(randomX), y:Int(randomY)), goalSquare: Tuple(x:snakeHead.1, y:snakeHead.0), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: matrix), returnPathCost: false, returnSquaresVisited: false)
+        // need to use queue.
+        for _ in 1...foodPalletsNeeded {
+            let randomX = CGFloat(arc4random_uniform(15)) //73
+            let randomY = CGFloat(arc4random_uniform(15)) //41
+            matrix[Int(randomY)][Int(randomX)] = 2
+            foodLocationArray.append([randomX,randomY])
+            let DistanceFromSnake = abs(snakeHead.0 - Int(randomX)) + abs(snakeHead.1 - Int(randomY))
+            print("Spawning food, x:", randomX, "y =", randomY, "distance:", DistanceFromSnake)
+            foodDistanceFromHead.append(DistanceFromSnake)
+        }
+        let temp = foodDistanceFromHead.min()!
+        let minX = foodLocationArray[foodDistanceFromHead.firstIndex(of: temp)!][0]
+        let minY = foodLocationArray[foodDistanceFromHead.firstIndex(of: temp)!][1]
+        foodLocationArray[foodDistanceFromHead.firstIndex(of: temp)!][0] = 0
+        foodLocationArray[foodDistanceFromHead.firstIndex(of: temp)!][1] = 0
+        foodDistanceFromHead.remove(at: foodDistanceFromHead.firstIndex(of: temp)!)
+        print(minX,minY)
+//        let path = depthFirstSearch(startSquare: Tuple(x:min(Int(foodLocationArray[foodDistanceFromHead[0]])), y:Int(min(foodLocationArray[foodDistanceFromHead[1]]))), goalSquare: Tuple(x:snakeHead.1, y:snakeHead.0), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: matrix), returnPathCost: false, returnSquaresVisited: false)
 //        test = path.0
         test = []
         // 1 == left, 2 == up, 3 == right, 4 == down
-        prevX = Int(randomY)
-        prevY = Int(randomX)
-        scene.foodPosition = CGPoint(x: randomX, y: randomY)
+        prevX = Int(minY)
+        prevY = Int(minX)
+        scene.foodPosition = CGPoint(x: minY, y: minX)
     }
     
     func bringOvermatrix(tempMatrix: [[Int]]) {
@@ -331,6 +351,7 @@ class GameManager {
 //            print("snakeColor", scene.snakeColor)
         } else {
             gameSpeed = UserDefaults.standard.float(forKey: "gameSpeed")
+            paused = false
 //            print("snakeColor", scene.snakeColor)
         }
     }
@@ -457,6 +478,7 @@ class GameManager {
                     node.fillColor = SKColor.white
                 }
             }
+            // add snake head option to legend
             if contains(a: scene.snakeBodyPos, v: (x,y)) {
                 if (onPathMode == true) {
                     node.fillColor = UserDefaults.standard.colorForKey(key: "Snake")!
@@ -465,6 +487,8 @@ class GameManager {
                     }
                 }
             } else {
+                // error loading colors on first lanch for food pellet.
+                // error snake speed on first load.
                 node.fillColor = SKColor.clear
                 if scene.foodPosition != nil {
                     if Int((scene.foodPosition?.x)!) == y && Int((scene.foodPosition?.y)!) == x {
