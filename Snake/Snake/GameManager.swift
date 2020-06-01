@@ -293,6 +293,8 @@ class GameManager {
             let DistanceFromSnake = abs(snakeHead.0 - Int(randomX)) + abs(snakeHead.1 - Int(randomY))
             print("Spawning food, x:", randomX, "y =", randomY, "distance:", DistanceFromSnake)
             foodDistanceFromHead.append(DistanceFromSnake)
+            scene.foodPosition.append(CGPoint(x: randomY, y: randomX))
+//            scene.foodPosition = CGPoint(x: randomX, y: randomY)
         }
         print(foodLocationArray, "__", foodDistanceFromHead)
         let temp = foodDistanceFromHead.min()!
@@ -307,7 +309,6 @@ class GameManager {
         // 1 == left, 2 == up, 3 == right, 4 == down
         prevX = Int(minY)
         prevY = Int(minX)
-        scene.foodPosition = CGPoint(x: minY, y: minX)
     }
     
     func bringOvermatrix(tempMatrix: [[Int]]) {
@@ -358,7 +359,7 @@ class GameManager {
     
     func endTheGame() {
         updateScore()
-        scene.foodPosition = nil
+        scene.foodPosition.removeAll()
         scene.snakeBodyPos.removeAll()
     }
     
@@ -381,22 +382,26 @@ class GameManager {
         if scene.foodPosition != nil {
             let x = scene.snakeBodyPos[0].0
             let y = scene.snakeBodyPos[0].1
-            if Int((scene.foodPosition?.x)!) == y && Int((scene.foodPosition?.y)!) == x {
-                spawnFoodBlock()
-                // Update the score
-                currentScore += 1
-                
-                let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                if let vc = appDelegate.window?.rootViewController {
-                    self.viewController = vc as? GameScreenViewController
-                    self.viewController?.scoreButton.setTitle(String(currentScore), for: .normal)
+            
+            for i in (scene.foodPosition) {
+//                if Int((scene.foodPosition?.x)!) == y && Int((scene.foodPosition?.y)!) == x {
+                if Int((i.x)) == y && Int((i.y)) == x {
+                    spawnFoodBlock()
+                    // Update the score
+                    currentScore += 1
+                    
+                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                    if let vc = appDelegate.window?.rootViewController {
+                        self.viewController = vc as? GameScreenViewController
+                        self.viewController?.scoreButton.setTitle(String(currentScore), for: .normal)
+                    }
+                    // Grow snake by 3 blocks.
+                    let max = UserDefaults.standard.integer(forKey: "FoodWeightSetting")
+                    for _ in 1...max+1 {
+                        scene.snakeBodyPos.append(scene.snakeBodyPos.last!)
+                    }
                 }
-                // Grow snake by 3 blocks.
-                let max = UserDefaults.standard.integer(forKey: "FoodWeightSetting")
-                for _ in 1...max+1 {
-                    scene.snakeBodyPos.append(scene.snakeBodyPos.last!)
-                }
-             }
+            }
          }
     }
     
@@ -479,6 +484,7 @@ class GameManager {
                 }
             }
             // add snake head option to legend
+            // add closest food pellet to legend
             if contains(a: scene.snakeBodyPos, v: (x,y)) {
                 if (onPathMode == true) {
                     node.fillColor = UserDefaults.standard.colorForKey(key: "Snake")!
@@ -490,9 +496,12 @@ class GameManager {
                 // error loading colors on first lanch for food pellet.
                 // error snake speed on first load.
                 node.fillColor = SKColor.clear
-                if scene.foodPosition != nil {
-                    if Int((scene.foodPosition?.x)!) == y && Int((scene.foodPosition?.y)!) == x {
-                        node.fillColor = UserDefaults.standard.colorForKey(key: "Food")!
+                if scene.foodPosition.isEmpty != true {
+                    
+                    for i in (scene.foodPosition) {
+                        if Int((i.x)) == y && Int((i.y)) == x {
+                            node.fillColor = UserDefaults.standard.colorForKey(key: "Food")!
+                        }
                     }
                 }
             }

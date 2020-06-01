@@ -17,7 +17,10 @@ class GameScene: SKScene {
     var highScore: SKLabelNode!
     var playPauseButton: SKShapeNode!
     var playButtonTapped = false
-    var foodPosition: CGPoint?
+    var foodPosition = [CGPoint]()
+//    var ttt = [CGPoint]()
+//    ttt.append(CGPoint(x: 2, y: 3))
+
     var playOrPause = false
     var snakeColor = UIColor(red:0.75, green:0.22, blue:0.17, alpha:1.00)
     
