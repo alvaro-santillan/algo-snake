@@ -55,22 +55,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "F969C93E-2B88-47EC-B1EF-1AA578065A49"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Snake/GameManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "459"
-            endingLineNumber = "459"
-            landmarkName = "updateSnakePosition()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "BE9CB6B8-4566-4A78-98FA-4EC334173CC1"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -78,8 +62,8 @@
             filePath = "Snake/GameManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "499"
-            endingLineNumber = "499"
+            startingLineNumber = "507"
+            endingLineNumber = "507"
             landmarkName = "colorGameNodes()"
             landmarkType = "7">
          </BreakpointContent>

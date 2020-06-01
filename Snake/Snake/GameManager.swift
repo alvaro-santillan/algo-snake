@@ -276,12 +276,13 @@ class GameManager {
     var prevY = 0
     var foodLocationArray: [[CGFloat]] = []
     var foodDistanceFromHead: [Int] = []
+    var foodCollisionPoint = Int()
 //    var minX: CGFloat
 //    var minY: CGFloat
     
     func spawnFoodBlock() {
-        matrix[prevX][prevY] = 0
-        let foodSpawnMax = (UserDefaults.standard.integer(forKey: "FoodCountSetting"))+1
+//        print(prevX,prevY)
+        let foodSpawnMax = (UserDefaults.standard.integer(forKey: "FoodCountSetting"))+2
         let foodPalletsNeeded = (foodSpawnMax - foodLocationArray.count)
         let snakeHead = scene.snakeBodyPos[0]
         // need to use queue.
@@ -301,8 +302,9 @@ class GameManager {
         let minX = foodLocationArray[foodDistanceFromHead.firstIndex(of: temp)!][0]
         let minY = foodLocationArray[foodDistanceFromHead.firstIndex(of: temp)!][1]
         foodLocationArray.remove(at: [foodDistanceFromHead.firstIndex(of: temp)!][0])
+        scene.foodPosition.remove(at: foodCollisionPoint)
         foodDistanceFromHead.remove(at: foodDistanceFromHead.firstIndex(of: temp)!)
-        print(minX,minY)
+//        print(minX,minY)
 //        let path = depthFirstSearch(startSquare: Tuple(x:min(Int(foodLocationArray[foodDistanceFromHead[0]])), y:Int(min(foodLocationArray[foodDistanceFromHead[1]]))), goalSquare: Tuple(x:snakeHead.1, y:snakeHead.0), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: matrix), returnPathCost: false, returnSquaresVisited: false)
 //        test = path.0
         test = []
@@ -382,10 +384,15 @@ class GameManager {
         if scene.foodPosition != nil {
             let x = scene.snakeBodyPos[0].0
             let y = scene.snakeBodyPos[0].1
+            var counter = 0
             
             for i in (scene.foodPosition) {
 //                if Int((scene.foodPosition?.x)!) == y && Int((scene.foodPosition?.y)!) == x {
                 if Int((i.x)) == y && Int((i.y)) == x {
+//                    matrix[Int(i.x)][Int(i.y)] = 0
+                    matrix[Int(i.y)][Int(i.x)] = 0
+                    foodCollisionPoint = counter
+                    
                     spawnFoodBlock()
                     // Update the score
                     currentScore += 1
@@ -401,6 +408,7 @@ class GameManager {
                         scene.snakeBodyPos.append(scene.snakeBodyPos.last!)
                     }
                 }
+                counter += 1
             }
          }
     }
@@ -484,7 +492,7 @@ class GameManager {
                 }
             }
             // add snake head option to legend
-            // add closest food pellet to legend
+            // add cl;osest food to legend
             if contains(a: scene.snakeBodyPos, v: (x,y)) {
                 if (onPathMode == true) {
                     node.fillColor = UserDefaults.standard.colorForKey(key: "Snake")!
