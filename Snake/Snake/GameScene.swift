@@ -135,7 +135,7 @@ class GameScene: SKScene {
         // Define best score label
         highScore = SKLabelNode(fontNamed: "ArialRoundedMTBold")
         highScore.zPosition = 1
-        highScore.fontSize = 10
+        highScore.fontSize = 15
         highScore.text = "High Score: \(UserDefaults.standard.integer(forKey: "highScore"))"
         highScore.fontColor = SKColor.white
         // Add to the game scene

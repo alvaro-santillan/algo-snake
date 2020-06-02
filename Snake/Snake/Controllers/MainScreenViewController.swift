@@ -29,6 +29,7 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        highScoreLabel.text = "High Score: \(UserDefaults.standard.integer(forKey: "highScore"))"
         if UserDefaults.standard.integer(forKey: "darkOrLightButton") == 0 {
             overrideUserInterfaceStyle = .dark
         } else {
