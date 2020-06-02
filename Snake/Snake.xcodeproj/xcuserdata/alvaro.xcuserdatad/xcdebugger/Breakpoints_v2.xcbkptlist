@@ -62,8 +62,8 @@
             filePath = "Snake/GameManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "518"
-            endingLineNumber = "518"
+            startingLineNumber = "525"
+            endingLineNumber = "525"
             landmarkName = "colorGameNodes()"
             landmarkType = "7">
          </BreakpointContent>
@@ -71,15 +71,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "CBB1A51D-39E1-4C7B-8172-DAE97E2AE5F4"
-            shouldBeEnabled = "Yes"
+            uuid = "E9850DF1-E9B5-44D2-9E40-7718CB5E35B2"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Snake/GameManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "299"
-            endingLineNumber = "299"
+            startingLineNumber = "313"
+            endingLineNumber = "313"
             landmarkName = "spawnFoodBlock()"
             landmarkType = "7">
          </BreakpointContent>

@@ -248,6 +248,7 @@ class GameManager {
     var paused = false
     var playerDirection: Int = 1 // 1 == left, 2 == up, 3 == right, 4 == down
     var currentScore: Int = 0
+    var playPauseMode = UserDefaults.standard.integer(forKey: "stopOrPlayButtonSetting")
     
     init(scene: GameScene) {
         self.scene = scene
@@ -307,6 +308,11 @@ class GameManager {
             print("new path", minX, minY)
             closetFoodBlockHit = false
             let path = depthFirstSearch(startSquare: Tuple(x: Int(minY), y: Int(minX)), goalSquare: Tuple(x:snakeHead.1, y:snakeHead.0), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: matrix), returnPathCost: false, returnSquaresVisited: false)
+            print("playPauseMode", playPauseMode)
+            if playPauseMode == 0 {
+                scene.playOrPause = true
+                checkIfPaused()
+            }
             test = path.0
         }
 //        test = []
