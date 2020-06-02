@@ -29,6 +29,11 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if UserDefaults.standard.integer(forKey: "darkOrLightButton") == 0 {
+            overrideUserInterfaceStyle = .dark
+        } else {
+            overrideUserInterfaceStyle = .light
+        }
         // Views
         leftView.layer.shadowColor = UIColor.darkGray.cgColor
         leftView.layer.shadowRadius = 10

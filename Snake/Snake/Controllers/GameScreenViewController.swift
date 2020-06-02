@@ -20,6 +20,11 @@ class GameScreenViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if UserDefaults.standard.integer(forKey: "darkOrLightButton") == 0 {
+            overrideUserInterfaceStyle = .dark
+        } else {
+            overrideUserInterfaceStyle = .light
+        }
         // Buttons
         scoreButton.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
         scoreButton.layer.cornerRadius = 6
