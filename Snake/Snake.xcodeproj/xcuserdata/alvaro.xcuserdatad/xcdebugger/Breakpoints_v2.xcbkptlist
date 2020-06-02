@@ -46,8 +46,8 @@
             filePath = "Snake/Controllers/SettingsScreenViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "385"
-            endingLineNumber = "385"
+            startingLineNumber = "387"
+            endingLineNumber = "387"
             landmarkName = "godButtonPressed(_:)"
             landmarkType = "7">
          </BreakpointContent>

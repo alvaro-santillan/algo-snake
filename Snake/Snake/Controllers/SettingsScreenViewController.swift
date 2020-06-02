@@ -424,5 +424,11 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             sender.tag = 0
         }
         defaults.set(sender.tag, forKey: "darkOrLightButton")
+        
+        if defaults.integer(forKey: "darkOrLightButton") == 0 {
+            overrideUserInterfaceStyle = .dark
+        } else {
+            overrideUserInterfaceStyle = .light
+        }
     }
 }
