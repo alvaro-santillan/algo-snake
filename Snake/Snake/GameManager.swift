@@ -315,7 +315,7 @@ class GameManager {
             }
             test = path.0
         }
-//        test = []
+        test = []
         // 1 == left, 2 == up, 3 == right, 4 == down
         prevX = Int(minY)
         prevY = Int(minX)
@@ -350,8 +350,8 @@ class GameManager {
                 runPredeterminedPath()
                 updateSnakePosition()
                 checkIfPaused()
-                checkForFoodCollision()
                 checkForDeath()
+                checkForFoodCollision()
             }
         }
     }
@@ -416,9 +416,10 @@ class GameManager {
                     
                     let appDelegate = UIApplication.shared.delegate as! AppDelegate
                     if let vc = appDelegate.window?.rootViewController {
-                        self.viewController = vc as? GameScreenViewController
+                        self.viewController = (vc as! GameScreenViewController)
                         self.viewController?.scoreButton.setTitle(String(currentScore), for: .normal)
                     }
+                    
                     // Grow snake by 3 blocks.
                     let max = UserDefaults.standard.integer(forKey: "FoodWeightSetting")
                     for _ in 1...max+1 {
@@ -547,6 +548,7 @@ class GameManager {
          }
         
         // Reset and present score variables on game menu.
+        UserDefaults.standard.set(currentScore, forKey: "lastScore")
          currentScore = 0
          scene.highScore.text = "High Score: \(UserDefaults.standard.integer(forKey: "highScore"))"
     }
