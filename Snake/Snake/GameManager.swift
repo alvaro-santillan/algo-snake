@@ -72,7 +72,7 @@ func gameBoardMatrixToDictionary(gameBoardMatrix: Array<Array<Int>>) -> Dictiona
 }
 
 // Genarate a path and optional statistics from the results of BFS.
-func formatSearchResults(squareAndParentSquare: [Tuple : Tuple], gameBoard: [Tuple : Dictionary<Tuple, Float>], currentSquare: Tuple, visitedSquareCount: Int, returnPathCost: Bool, returnSquaresVisited: Bool) -> ([Int], Int, Int) {
+func formatSearchResults(squareAndParentSquare: [Tuple : Tuple], gameBoard: [Tuple : Dictionary<Tuple, Float>], currentSquare: Tuple, visitedSquareCount: Int, returnPathCost: Bool, returnSquaresVisited: Bool) -> ([Int], [(Int, Int)], Int, Int) {
     var squareAndParentSquareTuplePath = [Tuple : Tuple]()
     var squareAndNoParentArrayPath = [(Int, Int)]()
     // 1 == left, 2 == up, 3 == right, 4 == down
@@ -123,16 +123,16 @@ func formatSearchResults(squareAndParentSquare: [Tuple : Tuple], gameBoard: [Tup
         let solutionPathCost = findPathCost(solutionPathDuple: solutionPathDuple, gameBoard: gameBoard)
         
         if (returnSquaresVisited == true) {
-            return (solutionPathMoves, solutionPathCost, visitedSquareCount)
+            return (solutionPathMoves, squareAndNoParentArrayPath, solutionPathCost, visitedSquareCount)
         } else {
-            return (solutionPathMoves, solutionPathCost, 0)
+            return (solutionPathMoves, squareAndNoParentArrayPath, solutionPathCost, 0)
         }
     }
     else if (returnPathCost == false) && (returnSquaresVisited == true) {
-        return (solutionPathMoves, 0, visitedSquareCount)
+        return (solutionPathMoves, squareAndNoParentArrayPath, 0, visitedSquareCount)
     }
     else {
-        return (solutionPathMoves, 0, 0)
+        return (solutionPathMoves, squareAndNoParentArrayPath, 0, 0)
     }
 }
 
@@ -147,7 +147,7 @@ func formatSearchResults(squareAndParentSquare: [Tuple : Tuple], gameBoard: [Tup
 // BFS produces a dictionary in which each valid square points too only one parent.
 // Then the dictionary is processed to create a valid path.
 // The nodes are traversed in order found in the dictionary parameter.
-func breathFirstSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple : Dictionary<Tuple, Float>], returnPathCost: Bool, returnSquaresVisited: Bool) -> ([Int], Int, Int) {
+func breathFirstSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple : Dictionary<Tuple, Float>], returnPathCost: Bool, returnSquaresVisited: Bool) -> ([Int], [(Int, Int)], Int, Int) {
     // Initalize variable and add first square manually.
     var visitedSquares = [Tuple]()
     var fronterSquares = [startSquare]
@@ -192,7 +192,7 @@ func breathFirstSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple 
 // DFS produces a dictionary in which each valid square points too only one parent.
 // Then the dictionary is processed to create a valid path.
 // The nodes are traversed in order found in the dictionary parameter.
-func depthFirstSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple : Dictionary<Tuple, Float>], returnPathCost: Bool, returnSquaresVisited: Bool) -> ([Int], Int, Int) {
+func depthFirstSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple : Dictionary<Tuple, Float>], returnPathCost: Bool, returnSquaresVisited: Bool) -> ([Int], [(Int, Int)], Int, Int) {
     // Initalize variable and add first square manually.
     var visitedSquares = [Tuple]()
     var fronterSquares = [startSquare]
@@ -240,6 +240,7 @@ class GameManager {
     var gameStarted = false
     var matrix = [[Int]]()
     var test = [Int]()
+    var pathBlockCordinates = [(Int, Int)]()
     var onPathMode = false
     var scene: GameScene!
     
@@ -314,6 +315,7 @@ class GameManager {
                 checkIfPaused()
             }
             test = path.0
+            pathBlockCordinates = path.1
         }
 //        test = []
         // 1 == left, 2 == up, 3 == right, 4 == down
@@ -330,6 +332,7 @@ class GameManager {
             if (test.count != 0) {
                 swipe(ID: test[0])
                 test.remove(at: 0)
+                pathBlockCordinates.remove(at: 0)
                 onPathMode = true
             } else {
                 onPathMode = false
@@ -503,13 +506,12 @@ class GameManager {
     
     func colorGameNodes() {
         for (node, x, y) in scene.gameBoard {
-
+            
             if contains(a: scene.snakeBodyPos, v: (x,y)) {
                 if (onPathMode == false) {
                     node.fillColor = SKColor.white
                 }
             }
-            // add snake head option to legend
             // add closest food to legend
             if contains(a: scene.snakeBodyPos, v: (x,y)) {
                 if (onPathMode == true) {
@@ -528,6 +530,20 @@ class GameManager {
                     for i in (scene.foodPosition) {
                         if Int((i.x)) == y && Int((i.y)) == x {
                             node.fillColor = UserDefaults.standard.colorForKey(key: "Food")!
+                        }
+                    }
+                    
+                    // if this works its more effietient.
+                    //            if onPathMode == true {
+                    //                if contains(a: pathBlockCordinates, v: (x,y)) {
+                    //                    node.fillColor = UserDefaults.standard.colorForKey(key: "Path")!
+                    //                }
+                    //            }
+                    
+                    for i in (pathBlockCordinates) {
+                        if Int((i.0)) == y && Int((i.1)) == x {
+        //                    print("HIIIIT")
+                            node.fillColor = UserDefaults.standard.colorForKey(key: "Path")!
                         }
                     }
                 }
