@@ -231,8 +231,10 @@ func depthFirstSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple :
 }
 
 import SpriteKit
+import AVFoundation
 
 class GameManager {
+    var player: AVAudioPlayer?
     var viewController: GameScreenViewController!
     
     var play = true
@@ -414,11 +416,16 @@ class GameManager {
                     
                     
                     spawnFoodBlock()
+                    playSound(selectedSoundFileName: "sfx_coin_single3")
+                    
+                    
                     // Update the score
                     currentScore += 1
                     
+                    
                     let appDelegate = UIApplication.shared.delegate as! AppDelegate
                     if let vc = appDelegate.window?.rootViewController {
+                        print("VC", vc)
                         self.viewController = (vc as! GameScreenViewController)
                         self.viewController?.scoreButton.setTitle(String(currentScore), for: .normal)
                     }
@@ -432,6 +439,23 @@ class GameManager {
                 counter += 1
             }
          }
+    }
+    
+    func playSound(selectedSoundFileName: String) {
+        let musicPath = Bundle.main.path(forResource: selectedSoundFileName, ofType:"wav")!
+        let url = URL(fileURLWithPath: musicPath)
+        
+        do {
+            // Open cd player put in disk
+            let sound = try AVAudioPlayer(contentsOf: url)
+            self.player = sound
+            //sound.numberOfLoops = 0
+            //sound.prepareToPlay()
+            sound.play()
+        } catch {
+            print("error loading file")
+            // couldn't load file :(
+        }
     }
     
     func swipe(ID: Int) {
