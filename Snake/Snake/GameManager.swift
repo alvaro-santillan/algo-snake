@@ -545,7 +545,7 @@ class GameManager {
                 if (onPathMode == true) {
                     node.fillColor = UserDefaults.standard.colorForKey(key: "Snake")!
                     if contains(a: [scene.snakeBodyPos.first!], v: (x,y)) {
-                        node.fillColor = UserDefaults.standard.colorForKey(key: "Head")!
+                        node.fillColor = UserDefaults.standard.colorForKey(key: "Snake Head")!
                     }
                 }
             } else {
