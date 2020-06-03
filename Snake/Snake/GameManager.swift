@@ -299,6 +299,7 @@ class GameManager {
             foodDistanceFromHead.append(DistanceFromSnake)
             scene.foodPosition.append(CGPoint(x: randomY, y: randomX))
 //            scene.foodPosition = CGPoint(x: randomX, y: randomY)
+//            playSound(selectedSoundFileName: "sfx_coin_double3")
         }
         // Calculation for closest food block is wrong mathamaticlly sometimes.
         print(foodLocationArray, "|||", foodDistanceFromHead, "Head", snakeHead)
@@ -335,6 +336,7 @@ class GameManager {
                 swipe(ID: test[0])
                 test.remove(at: 0)
                 pathBlockCordinates.remove(at: 0)
+                playSound(selectedSoundFileName: "sfx_coin_single3")
                 onPathMode = true
             } else {
                 onPathMode = false
@@ -416,7 +418,7 @@ class GameManager {
                     
                     
                     spawnFoodBlock()
-                    playSound(selectedSoundFileName: "sfx_coin_single3")
+                    playSound(selectedSoundFileName: "sfx_coin_double3")
                     
                     
                     // Update the score

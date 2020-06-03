@@ -21,6 +21,7 @@
 		3868F9822426B5EC008F7B34 /* SettingsScreenTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3868F9812426B5EC008F7B34 /* SettingsScreenTableViewCell.swift */; };
 		387FD13B241DC51C0004FD78 /* MainScreenTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387FD13A241DC51C0004FD78 /* MainScreenTableViewCell.swift */; };
 		38B35F34248858D9009E2613 /* sfx_coin_single3.wav in Resources */ = {isa = PBXBuildFile; fileRef = 38B35F33248858D9009E2613 /* sfx_coin_single3.wav */; };
+		38B35F3624885B11009E2613 /* sfx_coin_double3.wav in Resources */ = {isa = PBXBuildFile; fileRef = 38B35F3524885B11009E2613 /* sfx_coin_double3.wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 		3868F9812426B5EC008F7B34 /* SettingsScreenTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsScreenTableViewCell.swift; sourceTree = "<group>"; };
 		387FD13A241DC51C0004FD78 /* MainScreenTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenTableViewCell.swift; sourceTree = "<group>"; };
 		38B35F33248858D9009E2613 /* sfx_coin_single3.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = sfx_coin_single3.wav; sourceTree = "<group>"; };
+		38B35F3524885B11009E2613 /* sfx_coin_double3.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = sfx_coin_double3.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +82,7 @@
 				384607BC23E7ECCD001C944D /* Controllers */,
 				3812394D23C68E2C0066B3FA /* Assets.xcassets */,
 				3812394023C68E290066B3FA /* AppDelegate.swift */,
+				38B35F3524885B11009E2613 /* sfx_coin_double3.wav */,
 				38B35F33248858D9009E2613 /* sfx_coin_single3.wav */,
 				3812394223C68E290066B3FA /* GameScene.sks */,
 				3812395223C68E2C0066B3FA /* Info.plist */,
@@ -169,6 +172,7 @@
 				3812394C23C68E290066B3FA /* Main.storyboard in Resources */,
 				3812394323C68E290066B3FA /* GameScene.sks in Resources */,
 				3812394E23C68E2C0066B3FA /* Assets.xcassets in Resources */,
+				38B35F3624885B11009E2613 /* sfx_coin_double3.wav in Resources */,
 				3812395123C68E2C0066B3FA /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
