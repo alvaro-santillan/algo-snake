@@ -315,7 +315,7 @@ class GameManager {
             }
             test = path.0
         }
-        test = []
+//        test = []
         // 1 == left, 2 == up, 3 == right, 4 == down
         prevX = Int(minY)
         prevY = Int(minX)
@@ -515,7 +515,7 @@ class GameManager {
                 if (onPathMode == true) {
                     node.fillColor = UserDefaults.standard.colorForKey(key: "Snake")!
                     if contains(a: [scene.snakeBodyPos.first!], v: (x,y)) {
-                        node.fillColor = UserDefaults.standard.colorForKey(key: "Visited Square")!
+                        node.fillColor = UserDefaults.standard.colorForKey(key: "Head")!
                     }
                 }
             } else {
