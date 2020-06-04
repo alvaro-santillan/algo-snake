@@ -306,21 +306,35 @@ class GameManager {
         let temp = foodDistanceFromHead.min()!
         let minX = foodLocationArray[foodDistanceFromHead.firstIndex(of: temp)!][0]
         let minY = foodLocationArray[foodDistanceFromHead.firstIndex(of: temp)!][1]
-
+        let mainScreenAlgoChoice = UserDefaults.standard.integer(forKey: "Algorithim Choice")
+        let path: ([Int], [(Int, Int)], Int, Int)
         print(minX, minY)
         if (((prevX == -1) && prevY == -1) || closetFoodBlockHit == true) {
             print("new path", minX, minY)
             closetFoodBlockHit = false
-            let path = depthFirstSearch(startSquare: Tuple(x: Int(minY), y: Int(minX)), goalSquare: Tuple(x:snakeHead.1, y:snakeHead.0), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: matrix), returnPathCost: false, returnSquaresVisited: false)
+            if mainScreenAlgoChoice == 0 {
+                test = []
+            } else if mainScreenAlgoChoice == 1 {
+                path = breathFirstSearch(startSquare: Tuple(x: Int(minY), y: Int(minX)), goalSquare: Tuple(x:snakeHead.1, y:snakeHead.0), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: matrix), returnPathCost: false, returnSquaresVisited: false)
+                test = path.0
+                pathBlockCordinates = path.1
+            } else if mainScreenAlgoChoice == 2 {
+                path = depthFirstSearch(startSquare: Tuple(x: Int(minY), y: Int(minX)), goalSquare: Tuple(x:snakeHead.1, y:snakeHead.0), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: matrix), returnPathCost: false, returnSquaresVisited: false)
+                test = path.0
+                pathBlockCordinates = path.1
+            } else {
+                test = []
+            }
+
             print("playPauseMode", playPauseMode)
             if playPauseMode == 0 {
                 scene.playOrPause = true
                 checkIfPaused()
             }
-            test = path.0
-            pathBlockCordinates = path.1
+//            test = path.0
+//            pathBlockCordinates = path.1
         }
-//        test = []
+//
         // 1 == left, 2 == up, 3 == right, 4 == down
         prevX = Int(minY)
         prevY = Int(minX)
@@ -428,7 +442,7 @@ class GameManager {
                     let appDelegate = UIApplication.shared.delegate as! AppDelegate
                     if let vc = appDelegate.window?.rootViewController {
                         print("VC", vc)
-                        self.viewController = (vc as! GameScreenViewController)
+                        self.viewController = (vc as? GameScreenViewController)
                         self.viewController?.scoreButton.setTitle(String(currentScore), for: .normal)
                     }
                     
