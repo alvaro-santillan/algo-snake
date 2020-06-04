@@ -29,6 +29,8 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+//        self.clearsSelectionOnViewWillAppear = false
         highScoreLabel.text = "High Score: \(UserDefaults.standard.integer(forKey: "highScore"))"
         lastScoreLabel.text = "Last Score: \(UserDefaults.standard.integer(forKey: "lastScore"))"
         if UserDefaults.standard.integer(forKey: "darkOrLightButton") == 0 {
@@ -36,6 +38,7 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
         } else {
             overrideUserInterfaceStyle = .light
         }
+        
         // Views
         leftView.layer.shadowColor = UIColor.darkGray.cgColor
         leftView.layer.shadowRadius = 10
@@ -85,7 +88,34 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
             cell.myImage2.image = UIImage(named: "")
             cell.myImage2.layer.borderWidth = 0
         }
+        
         return cell
+    }
+    
+    var selectedCell: IndexPath = []
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("This cell from the chat list was selected: \(indexPath.row)")
+        selectedCell = indexPath
+
+    }
+    
+//    override func viewDidAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//        let indexPath = IndexPath(row: 0, section: 0)
+//        tableVIew.selectRow(at: indexPath, animated: true, scrollPosition: .bottom)
+//    }
+    
+     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if segControl.selectedSegmentIndex == 0 {
+            let indexPath = IndexPath(row: 0, section: 0)
+                tableView.selectRow(at: indexPath, animated: false, scrollPosition: UITableView.ScrollPosition.none)
+        }
+        
+        if segControl.selectedSegmentIndex == 1 {
+            let indexPath = IndexPath(row: 0, section: 0)
+                tableView.selectRow(at: indexPath, animated: false, scrollPosition: UITableView.ScrollPosition.none)
+        }
     }
     
     @IBAction func segControlOption(_ sender: UISegmentedControl) {
