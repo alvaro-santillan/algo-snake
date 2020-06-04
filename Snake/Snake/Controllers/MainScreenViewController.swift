@@ -92,28 +92,26 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
         return cell
     }
     
-    var selectedCell: IndexPath = []
+    var algoChoice = 0
+    var barrierChoice = 0
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("This cell from the chat list was selected: \(indexPath.row)")
-        selectedCell = indexPath
-
+        if segControl.selectedSegmentIndex == 0 {
+            algoChoice = indexPath.row
+        }
+        if segControl.selectedSegmentIndex == 1 {
+            barrierChoice = indexPath.row
+        }
     }
-    
-//    override func viewDidAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//        let indexPath = IndexPath(row: 0, section: 0)
-//        tableVIew.selectRow(at: indexPath, animated: true, scrollPosition: .bottom)
-//    }
     
      func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if segControl.selectedSegmentIndex == 0 {
-            let indexPath = IndexPath(row: 0, section: 0)
+            let indexPath = IndexPath(row: algoChoice, section: 0)
                 tableView.selectRow(at: indexPath, animated: false, scrollPosition: UITableView.ScrollPosition.none)
         }
         
         if segControl.selectedSegmentIndex == 1 {
-            let indexPath = IndexPath(row: 0, section: 0)
+            let indexPath = IndexPath(row: barrierChoice, section: 0)
                 tableView.selectRow(at: indexPath, animated: false, scrollPosition: UITableView.ScrollPosition.none)
         }
     }
