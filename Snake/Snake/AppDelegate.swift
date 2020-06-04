@@ -19,6 +19,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let defaults = UserDefaults.standard
         let defaultValue = ["highScore" : 0]
         defaults.register(defaults: defaultValue)
+        UserDefaults.standard.set(0, forKey: "Algorithim Choice")
+        UserDefaults.standard.set(0, forKey: "Barrier Choice")
         
         return true
     }
@@ -38,10 +40,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    }
-    
-    private func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch. Here you can out the code you want.
-        return true
     }
 }

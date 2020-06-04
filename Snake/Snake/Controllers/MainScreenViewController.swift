@@ -92,15 +92,17 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
         return cell
     }
     
-    var algoChoice = 0
-    var barrierChoice = 0
+    var algoChoice = UserDefaults.standard.integer(forKey: "Algorithim Choice")
+    var barrierChoice = UserDefaults.standard.integer(forKey: "Barrier Choice")
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if segControl.selectedSegmentIndex == 0 {
             algoChoice = indexPath.row
+            UserDefaults.standard.set(indexPath.row, forKey: "Algorithim Choice")
         }
         if segControl.selectedSegmentIndex == 1 {
             barrierChoice = indexPath.row
+            UserDefaults.standard.set(indexPath.row, forKey: "Barrier Choice")
         }
     }
     
