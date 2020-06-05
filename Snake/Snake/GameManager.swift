@@ -158,6 +158,13 @@ class GameManager {
             return (solutionPathMoves, squareAndNoParentArrayPath, 0, 0)
         }
     }
+    
+    func colorVisitedSquares(visitedX: Int, visitedY: Int) {
+//        let nodeIndex = scene.gameBoard.firstIndex(where: { $0.self.x == 9})!
+        let node = scene.gameBoard.first(where: {$0.x == visitedX && $0.y == visitedY})?.node
+//        let node = (scene.gameBoard.remove(at: nodeIndex)).node
+        node!.fillColor = UserDefaults.standard.colorForKey(key: "Visited Square")!
+    }
 
     // Steps in Breath First Search
     // Mark parent
@@ -186,6 +193,7 @@ class GameManager {
             // Mark current node as visited. (If statement required due to first node.)
             if !(visitedSquares.contains(currentSquare)) {
                 visitedSquares += [currentSquare]
+                colorVisitedSquares(visitedX: currentSquare.y, visitedY: currentSquare.x)
                 visitedSquareCount += 1
             }
             
@@ -229,6 +237,7 @@ class GameManager {
             // Mark current node as visited. (If statement required due to first node.)
             if !(visitedSquares.contains(currentSquare)) {
                 visitedSquares += [currentSquare]
+                colorVisitedSquares(visitedX: currentSquare.x, visitedY: currentSquare.y)
                 visitedSquareCount += 1
             }
             
@@ -590,13 +599,6 @@ class GameManager {
                 }
             }
         }
-    }
-    
-    func colorVisitedSquares(visited: [Tuple]) {
-//        let nodeIndex = scene.gameBoard.firstIndex(where: { $0.self.x == 9})!
-        let node = scene.gameBoard.first(where: {$0.x == 9 && $0.y == 9})?.node
-//        let node = (scene.gameBoard.remove(at: nodeIndex)).node
-        node!.fillColor = UserDefaults.standard.colorForKey(key: "Visited Square")!
     }
     
     func contains(a:[(Int, Int)], v:(Int,Int)) -> Bool {
