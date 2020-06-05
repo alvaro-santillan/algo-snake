@@ -99,6 +99,7 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
         if segControl.selectedSegmentIndex == 0 {
             algoChoice = indexPath.row
             UserDefaults.standard.set(indexPath.row, forKey: "Algorithim Choice")
+            UserDefaults.standard.set(pathFindingAlgorithmList[indexPath.row][0], forKey: "Algorithim Choice Name")
         }
         if segControl.selectedSegmentIndex == 1 {
             barrierChoice = indexPath.row

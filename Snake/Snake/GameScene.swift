@@ -15,6 +15,7 @@ class GameScene: SKScene {
     // Home screen var`s to store objects
     var gameLogo: SKLabelNode!
     var highScore: SKLabelNode!
+    var Algo: SKLabelNode!
     var playPauseButton: SKShapeNode!
     var playButtonTapped = false
     var foodPosition = [CGPoint]()
@@ -131,6 +132,16 @@ class GameScene: SKScene {
         playPauseButton.position = CGPoint(x: 155, y: -170)
         self.addChild(playPauseButton)
     
+        // Define algorithim score label
+        Algo = SKLabelNode(fontNamed: "ArialRoundedMTBold")
+        Algo.horizontalAlignmentMode = .center
+        Algo.position = CGPoint(x: 0, y: 185)
+        Algo.zPosition = 1
+        Algo.fontSize = 15
+        Algo.text = UserDefaults.standard.string(forKey: "Algorithim Choice Name")
+        Algo.fontColor = SKColor.white
+        // Add to the game scene
+        self.addChild(Algo)
         
         // Define best score label
         highScore = SKLabelNode(fontNamed: "ArialRoundedMTBold")
