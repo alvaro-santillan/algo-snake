@@ -159,11 +159,13 @@ class GameManager {
         }
     }
     
+    var visitedNodeArray = [SKShapeNode]()
+    
     func colorVisitedSquares(visitedX: Int, visitedY: Int) {
-//        let nodeIndex = scene.gameBoard.firstIndex(where: { $0.self.x == 9})!
         let node = scene.gameBoard.first(where: {$0.x == visitedX && $0.y == visitedY})?.node
-//        let node = (scene.gameBoard.remove(at: nodeIndex)).node
-        node!.fillColor = UserDefaults.standard.colorForKey(key: "Visited Square")!
+        visitedNodeArray.append(node!)
+//        node!.fillColor = UserDefaults.standard.colorForKey(key: "Visited Square")!
+        print("Node at:", visitedX, visitedY)
     }
 
     // Steps in Breath First Search
@@ -254,7 +256,7 @@ class GameManager {
                 currentSquare = fronterSquares.last!
                 fronterSquares.popLast()
             } else {
-                print("DFS else hit")
+//                print("DFS else hit")
                 return(formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: currentSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited))
             }
         }
@@ -309,15 +311,15 @@ class GameManager {
 //            playSound(selectedSoundFileName: "sfx_coin_double3")
         }
         // Calculation for closest food block is wrong mathamaticlly sometimes.
-        print(foodLocationArray, "|||", foodDistanceFromHead, "Head", snakeHead)
+//        print(foodLocationArray, "|||", foodDistanceFromHead, "Head", snakeHead)
         let temp = foodDistanceFromHead.min()!
         let minX = foodLocationArray[foodDistanceFromHead.firstIndex(of: temp)!][0]
         let minY = foodLocationArray[foodDistanceFromHead.firstIndex(of: temp)!][1]
         let mainScreenAlgoChoice = UserDefaults.standard.integer(forKey: "Algorithim Choice")
         let path: ([Int], [(Int, Int)], Int, Int)
-        print(minX, minY)
+//        print(minX, minY)
         if (((prevX == -1) && prevY == -1) || closetFoodBlockHit == true) {
-            print("new path", minX, minY)
+//            print("new path", minX, minY)
             closetFoodBlockHit = false
             if mainScreenAlgoChoice == 0 {
                 test = []
@@ -333,7 +335,7 @@ class GameManager {
                 test = []
             }
 
-            print("playPauseMode", playPauseMode)
+//            print("playPauseMode", playPauseMode)
             if playPauseMode == 0 {
                 scene.playOrPause = true
                 checkIfPaused()
@@ -372,6 +374,12 @@ class GameManager {
 //            If the game is paused keep chicking if its paused.
             checkIfPaused()
         }
+//        else if (generateVisited == true) {
+//            nextTime = time + Double(gameSpeed)
+//            print("update hit")
+////            colorGameNodes()
+////            checkIfPaused()
+//        }
         else {
             if time >= nextTime! {
                 nextTime = time + Double(gameSpeed)
@@ -426,7 +434,7 @@ class GameManager {
 //                if Int((scene.foodPosition?.x)!) == y && Int((scene.foodPosition?.y)!) == x {
                 if Int((i.x)) == y && Int((i.y)) == x {
                     if prevX == Int((i.x)) && prevY == Int((i.y)) {
-                        print("closet hit")
+//                        print("closet hit")
                         closetFoodBlockHit = true
                     }
                     
@@ -448,7 +456,7 @@ class GameManager {
                     
                     let appDelegate = UIApplication.shared.delegate as! AppDelegate
                     if let vc = appDelegate.window?.rootViewController {
-                        print("VC", vc)
+//                        print("VC", vc)
                         self.viewController = (vc as? GameScreenViewController)
                         self.viewController?.scoreButton.setTitle(String(currentScore), for: .normal)
                     }
@@ -592,7 +600,7 @@ class GameManager {
                     
                     for i in (pathBlockCordinates) {
                         if Int((i.0)) == y && Int((i.1)) == x {
-                            print("-")
+//                            print("-")
 //                            node.fillColor = UserDefaults.standard.colorForKey(key: "Path")!
                         }
                     }

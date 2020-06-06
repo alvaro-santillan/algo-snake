@@ -213,9 +213,29 @@ class GameScene: SKScene {
         }
     }
     
+    func spawnShootyThing() {
+        let node = game!.visitedNodeArray[0]
+        node.fillColor = UserDefaults.standard.colorForKey(key: "Visited Square")!
+        print("ran")
+    }
+    
     // Called before each frame is rendered
     // perhapse this can be used to pass in settings? maybe
     override func update(_ currentTime: TimeInterval) {
+//        print("new frame")
+        if game!.visitedNodeArray.count > 0 {
+//            for i in game!.visitedNodeArray {
+//                
+//            }
+            let node = game!.visitedNodeArray[0]
+            node.fillColor = UserDefaults.standard.colorForKey(key: "Visited Square")!
+            print("ran")
+//            let wait1 = SKAction.wait(forDuration: 1)
+//            let spawn = SKAction.run { self.spawnShootyThing() }
+
+//            let action = SKAction.sequence([wait1, spawn])
+//            SKAction.repeat(action, count: 3)
+        }
         game.update(time: currentTime)
     }
 }
