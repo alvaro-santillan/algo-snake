@@ -288,38 +288,33 @@ class GameManager {
     var prevX = -1
     var prevY = -1
     var closetFoodBlockHit = false
-    var foodLocationArray: [[CGFloat]] = []
+    var foodLocationArray: [[Int]] = []
     var foodDistanceFromHead: [Int] = []
     var foodCollisionPoint = Int()
+    let foodSpawnMax = (UserDefaults.standard.integer(forKey: "FoodCountSetting"))+1
+    let mainScreenAlgoChoice = UserDefaults.standard.integer(forKey: "Algorithim Choice")
     
     func spawnFoodBlock() {
-//        print(prevX,prevY)
-        let foodSpawnMax = (UserDefaults.standard.integer(forKey: "FoodCountSetting"))+1
         let foodPalletsNeeded = (foodSpawnMax - foodLocationArray.count)
         let snakeHead = scene.snakeBodyPos[0]
+        
         // need to use queue.
         for _ in 1...foodPalletsNeeded {
-            let randomX = CGFloat(arc4random_uniform(15)) //73
-            let randomY = CGFloat(arc4random_uniform(15)) //41
-            matrix[Int(randomX)][Int(randomY)] = 2
+            let randomX = Int(arc4random_uniform(15)) //73
+            let randomY = Int(arc4random_uniform(15)) //41
+            matrix[randomX][randomY] = 2
             foodLocationArray.append([randomX,randomY])
-            let DistanceFromSnake = abs(snakeHead.0 - Int(randomX)) + abs(snakeHead.1 - Int(randomY))
-//            print("Spawning food, x:", randomX, "y =", randomY, "distance:", DistanceFromSnake)
+            let DistanceFromSnake = abs(snakeHead.0 - randomX) + abs(snakeHead.1 - randomY)
             foodDistanceFromHead.append(DistanceFromSnake)
             scene.foodPosition.append(CGPoint(x: randomY, y: randomX))
-//            scene.foodPosition = CGPoint(x: randomX, y: randomY)
-//            playSound(selectedSoundFileName: "sfx_coin_double3")
         }
         // Calculation for closest food block is wrong mathamaticlly sometimes.
-//        print(foodLocationArray, "|||", foodDistanceFromHead, "Head", snakeHead)
         let temp = foodDistanceFromHead.min()!
         let minX = foodLocationArray[foodDistanceFromHead.firstIndex(of: temp)!][0]
         let minY = foodLocationArray[foodDistanceFromHead.firstIndex(of: temp)!][1]
-        let mainScreenAlgoChoice = UserDefaults.standard.integer(forKey: "Algorithim Choice")
+        
         let path: ([Int], [(Int, Int)], Int, Int)
-//        print(minX, minY)
         if (((prevX == -1) && prevY == -1) || closetFoodBlockHit == true) {
-//            print("new path", minX, minY)
             closetFoodBlockHit = false
             if mainScreenAlgoChoice == 0 {
                 test = []
@@ -335,15 +330,11 @@ class GameManager {
                 test = []
             }
 
-//            print("playPauseMode", playPauseMode)
             if playPauseMode == 0 {
                 scene.playOrPause = true
                 checkIfPaused()
             }
-//            test = path.0
-//            pathBlockCordinates = path.1
         }
-//
         // 1 == left, 2 == up, 3 == right, 4 == down
         prevX = Int(minY)
         prevY = Int(minX)
@@ -492,11 +483,13 @@ class GameManager {
     }
     
     func swipe(ID: Int) {
-//        if !(ID == 2 && playerDirection == 4) && !(ID == 4 && playerDirection == 2) {
-//            if !(ID == 1 && playerDirection == 3) && !(ID == 3 && playerDirection == 1) {
+        if onPathMode == false {
+            if !(ID == 2 && playerDirection == 4) && !(ID == 4 && playerDirection == 2) {
+                if !(ID == 1 && playerDirection == 3) && !(ID == 3 && playerDirection == 1) {
                 playerDirection = ID
-//            }
-//        }
+                }
+            }
+        }
     }
     
     private func updateSnakePosition() {

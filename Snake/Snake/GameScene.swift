@@ -224,15 +224,17 @@ class GameScene: SKScene {
     override func update(_ currentTime: TimeInterval) {
 //        print("new frame")
         if game!.visitedNodeArray.count > 0 {
+            
 //            for i in game!.visitedNodeArray {
-//                
+//                i.fillColor = UserDefaults.standard.colorForKey(key: "Visited Square")!
+//                SKAction.wait(forDuration: 10)
 //            }
-            let node = game!.visitedNodeArray[0]
-            node.fillColor = UserDefaults.standard.colorForKey(key: "Visited Square")!
-            print("ran")
+//            let node = game!.visitedNodeArray[0]
+//            node.fillColor = UserDefaults.standard.colorForKey(key: "Visited Square")!
+////            print("ran")
 //            let wait1 = SKAction.wait(forDuration: 1)
 //            let spawn = SKAction.run { self.spawnShootyThing() }
-
+//
 //            let action = SKAction.sequence([wait1, spawn])
 //            SKAction.repeat(action, count: 3)
         }
