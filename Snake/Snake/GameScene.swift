@@ -80,6 +80,13 @@ class GameScene: SKScene {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        let touch:UITouch = touches.first!
+//        let positionInScene = touch.location(in: self)
+//        let touchedNode = self.atPoint(positionInScene)
+//
+//        let node = touchedNode
+//        node.run(SKAction.rotate(byAngle: (CGFloat(M_PI)), duration: 2.0))
+        
         for touch in touches {
             let location = touch.location(in: self)
             let touchedNode = self.nodes(at: location)
@@ -100,9 +107,33 @@ class GameScene: SKScene {
                     if node.name == "homeButton" {
                         print("homeButton Tapped")
                     }
+//                    node.run(SKAction.rotate(byAngle: (CGFloat(M_PI)), duration: 2.0))
                 }
             }
         }
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        print("touc")
+        let touch = touches.first
+        let location = touch!.location(in: self)
+        
+        if let touchedNode = selectNodeForTouch(location) {
+            print("sdf")
+            touchedNode.run(SKAction.rotate(byAngle: (CGFloat(M_PI)), duration: 2.0))
+        }
+    }
+    
+    func selectNodeForTouch(_ touchLocation: CGPoint) -> SKNode? {
+        let nodes = self.nodes(at: touchLocation)
+        for node in nodes {
+            if node.name != "gameBackground" {
+                if node is SKNode {
+                    return (node as! SKNode)
+                }
+            }
+        }
+        return nil
     }
     
     // Welcome menu objects defined
@@ -158,7 +189,7 @@ class GameScene: SKScene {
         // Create ShapeNode in which the gameboard can reside.
         let rect = CGRect(x: 0, y: 0, width: 0, height: 0)
         gameBackground = SKShapeNode(rect: rect, cornerRadius: 0.0)
-        gameBackground.isHidden = true
+//        gameBackground.isHidden = true
         self.addChild(gameBackground)
         
         // Create the game board.
@@ -173,7 +204,7 @@ class GameScene: SKScene {
         let height = frame.size.height
         
         // Size of square
-        let cellWidth: CGFloat = 20
+        let cellWidth: CGFloat = 25
 //        let numRows = 41
 //        let numCols = 73
         let numRows = 15
@@ -182,6 +213,7 @@ class GameScene: SKScene {
         var y = CGFloat(height / 2) - (cellWidth / 2)
         
         // Loop through rows and columns and create cells.
+        gameBackground.name = "gameBackground"
         for i in 0...numRows - 1 {
             for j in 0...numCols - 1 {
                 let cellNode = SKShapeNode.init(rectOf: CGSize(width: cellWidth-1.5, height: cellWidth-1.5), cornerRadius: 3.5)
@@ -192,6 +224,7 @@ class GameScene: SKScene {
                 row.append(0)
                 // Add to array of cells then add it to the game board.
                 gameBoard.append((node: cellNode, x: i, y: j))
+
                 gameBackground.addChild(cellNode)
                 x += cellWidth
             }
@@ -210,15 +243,10 @@ class GameScene: SKScene {
         // Move best score label to the bottom of the screen.
         let bottomCorner = CGPoint(x: 0, y: (frame.size.height / -2) + 20)
         highScore.run(SKAction.move(to: bottomCorner, duration: 0.4)) {
-            self.gameBackground.isHidden = false
+//            self.gameBackground.isHidden = false
+            self.gameBackground.fillColor = UIColor.red
             self.game.initiateSnakeStartingPosition()
         }
-    }
-    
-    func spawnShootyThing() {
-        let node = game!.visitedNodeArray[0]
-        node.fillColor = UserDefaults.standard.colorForKey(key: "Visited Square")!
-        print("ran")
     }
     
     // Called before each frame is rendered
