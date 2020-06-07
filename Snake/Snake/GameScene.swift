@@ -184,8 +184,9 @@ class GameScene: SKScene {
         // Loop through rows and columns and create cells.
         for i in 0...numRows - 1 {
             for j in 0...numCols - 1 {
-                let cellNode = SKShapeNode(rectOf: CGSize(width: cellWidth, height: cellWidth))
-                cellNode.strokeColor = SKColor.darkGray
+                let cellNode = SKShapeNode.init(rectOf: CGSize(width: cellWidth-1.5, height: cellWidth-1.5), cornerRadius: 3.5)
+//                SKShapeNode(rectOf: CGSize(width: cellWidth, height: cellWidth))
+                cellNode.strokeColor = UIColor(red:0.93, green:0.94, blue:0.95, alpha:0.00)
                 cellNode.position = CGPoint(x: x, y: y)
                 row.append(0)
                 // Add to array of cells then add it to the game board.
@@ -225,11 +226,11 @@ class GameScene: SKScene {
     var called = false
     override func update(_ currentTime: TimeInterval) {
         if game!.fronteerSquareArray.count > 0 && called == false {
-            let wait = SKAction.wait(forDuration: 0.10)
+            let wait = SKAction.wait(forDuration: 0.0)
             let sequance = SKAction.sequence([wait])
                 let node = game!.fronteerSquareArray[0]
-                node.fillColor = UserDefaults.standard.colorForKey(key: "Queued Square")!
                 node.run(sequance)
+                node.fillColor = UserDefaults.standard.colorForKey(key: "Queued Square")!
                 game!.fronteerSquareArray.remove(at: 0)
         }
         
@@ -237,8 +238,8 @@ class GameScene: SKScene {
             let wait = SKAction.wait(forDuration: 1.0)
             let sequance = SKAction.sequence([wait])
                 let node = game!.visitedNodeArray[0]
-                node.fillColor = UserDefaults.standard.colorForKey(key: "Visited Square")!
                 node.run(sequance)
+                node.fillColor = UserDefaults.standard.colorForKey(key: "Visited Square")!
                 game!.visitedNodeArray.remove(at: 0)
         }
         game.update(time: currentTime)
