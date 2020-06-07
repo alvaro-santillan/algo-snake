@@ -594,7 +594,7 @@ class GameManager {
                     for i in (pathBlockCordinates) {
                         if Int((i.0)) == y && Int((i.1)) == x {
 //                            print("-")
-//                            node.fillColor = UserDefaults.standard.colorForKey(key: "Path")!
+                            node.fillColor = UserDefaults.standard.colorForKey(key: "Path")!
                         }
                     }
                 }
