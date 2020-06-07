@@ -160,6 +160,7 @@ class GameManager {
     }
     
     var visitedNodeArray = [SKShapeNode]()
+    var fronteerSquareArray = [SKShapeNode]()
     
     func colorVisitedSquares(visitedX: Int, visitedY: Int) {
         let node = scene.gameBoard.first(where: {$0.x == visitedX && $0.y == visitedY})?.node
@@ -167,6 +168,13 @@ class GameManager {
 //        node!.fillColor = UserDefaults.standard.colorForKey(key: "Visited Square")!
         print("Node at:", visitedX, visitedY)
     }
+    
+        func fronteerSquares(visitedX: Int, visitedY: Int) {
+            let node = scene.gameBoard.first(where: {$0.x == visitedY && $0.y == visitedX})?.node
+            fronteerSquareArray.append(node!)
+    //        node!.fillColor = UserDefaults.standard.colorForKey(key: "Visited Square")!
+            print("Node at:", visitedX, visitedY)
+        }
 
     // Steps in Breath First Search
     // Mark parent
@@ -204,6 +212,7 @@ class GameManager {
             for (newFronterSquare, _) in gameBoard[currentSquare]! {
                 if !(visitedSquares.contains(newFronterSquare)) {
                     fronterSquares += [newFronterSquare]
+                    fronteerSquares(visitedX: newFronterSquare.y, visitedY: newFronterSquare.x)
                     squareAndParentSquare[newFronterSquare] = currentSquare
                 }
             }
@@ -248,6 +257,7 @@ class GameManager {
             for (newFronterSquare, _) in gameBoard[currentSquare]! {
                 if !(visitedSquares.contains(newFronterSquare)) {
                     fronterSquares += [newFronterSquare]
+                    fronteerSquares(visitedX: newFronterSquare.y, visitedY: newFronterSquare.x)
                     squareAndParentSquare[newFronterSquare] = currentSquare
                 }
             }

@@ -224,20 +224,22 @@ class GameScene: SKScene {
     
     var called = false
     override func update(_ currentTime: TimeInterval) {
-        if game!.visitedNodeArray.count > 0 && called == false {
-//            let hide = SKAction.hide()
-            let wait = SKAction.wait(forDuration: 1.0)
-//            let unhide = SKAction.unhide()
+        if game!.fronteerSquareArray.count > 0 && called == false {
+            let wait = SKAction.wait(forDuration: 0.10)
             let sequance = SKAction.sequence([wait])
-            
-//            for node in game!.visitedNodeArray {
+                let node = game!.fronteerSquareArray[0]
+                node.fillColor = UserDefaults.standard.colorForKey(key: "Queued Square")!
+                node.run(sequance)
+                game!.fronteerSquareArray.remove(at: 0)
+        }
+        
+        if game!.visitedNodeArray.count > 0 && called == false {
+            let wait = SKAction.wait(forDuration: 1.0)
+            let sequance = SKAction.sequence([wait])
                 let node = game!.visitedNodeArray[0]
                 node.fillColor = UserDefaults.standard.colorForKey(key: "Visited Square")!
                 node.run(sequance)
                 game!.visitedNodeArray.remove(at: 0)
-//            }
-
-//            called = true
         }
         game.update(time: currentTime)
     }
