@@ -186,6 +186,7 @@ class GameScene: SKScene {
             for j in 0...numCols - 1 {
                 let cellNode = SKShapeNode.init(rectOf: CGSize(width: cellWidth-1.5, height: cellWidth-1.5), cornerRadius: 3.5)
 //                SKShapeNode(rectOf: CGSize(width: cellWidth, height: cellWidth))
+                cellNode.fillColor = UserDefaults.standard.colorForKey(key: "Unvisited Square")!
                 cellNode.strokeColor = UIColor(red:0.93, green:0.94, blue:0.95, alpha:0.00)
                 cellNode.position = CGPoint(x: x, y: y)
                 row.append(0)
