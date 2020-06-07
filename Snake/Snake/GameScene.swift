@@ -221,22 +221,22 @@ class GameScene: SKScene {
     
     // Called before each frame is rendered
     // perhapse this can be used to pass in settings? maybe
+    
+    var called = false
     override func update(_ currentTime: TimeInterval) {
-//        print("new frame")
-        if game!.visitedNodeArray.count > 0 {
+        if game!.visitedNodeArray.count > 0 && called == false {
+            let hide = SKAction.hide()
+            let wait = SKAction.wait(forDuration: 1.0)
+            let unhide = SKAction.unhide()
+            let sequance = SKAction.sequence([hide, wait, unhide])
             
-//            for i in game!.visitedNodeArray {
-//                i.fillColor = UserDefaults.standard.colorForKey(key: "Visited Square")!
-//                SKAction.wait(forDuration: 10)
+//            for node in game!.visitedNodeArray {
+            let node = game!.visitedNodeArray[0]
+            node.fillColor = UserDefaults.standard.colorForKey(key: "Visited Square")!
+            node.run(sequance)
 //            }
-//            let node = game!.visitedNodeArray[0]
-//            node.fillColor = UserDefaults.standard.colorForKey(key: "Visited Square")!
-////            print("ran")
-//            let wait1 = SKAction.wait(forDuration: 1)
-//            let spawn = SKAction.run { self.spawnShootyThing() }
 //
-//            let action = SKAction.sequence([wait1, spawn])
-//            SKAction.repeat(action, count: 3)
+            called = true
         }
         game.update(time: currentTime)
     }
