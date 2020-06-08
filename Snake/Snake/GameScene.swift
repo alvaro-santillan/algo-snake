@@ -121,6 +121,14 @@ class GameScene: SKScene {
         if let touchedNode = selectNodeForTouch(location) {
 //            print("sdf")
             touchedNode.fillColor = UserDefaults.standard.colorForKey(key: "Barrier")!
+            let grow = SKAction.scale(by: 1.05, duration: 0.10)
+            let shrink = SKAction.scale(by: 0.95, duration: 0.10)
+            let wait = SKAction.wait(forDuration: 0.16)
+            let scale = SKAction.scale(to: 1.0, duration: 0.12)
+            let shrink2 = SKAction.scale(by: 0.97, duration: 0.05)
+            let wait2 = SKAction.wait(forDuration: 0.07)
+            touchedNode.run(SKAction.sequence([grow, wait, shrink, wait, scale, shrink2, wait2, scale]))
+//            touchedNode.run(SKAction.scale(to: 1.0, duration: 1.0))
 //            touchedNode.run(SKAction.rotate(byAngle: (CGFloat(M_PI)), duration: 2.0))
         }
     }
