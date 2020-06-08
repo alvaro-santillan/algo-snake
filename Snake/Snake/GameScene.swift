@@ -23,6 +23,7 @@ class GameScene: SKScene {
 //    ttt.append(CGPoint(x: 2, y: 3))
 
     var playOrPause = false
+    var addOrRemoveWall = false
     var snakeColor = UIColor(red:0.75, green:0.22, blue:0.17, alpha:1.00)
     
     // Used to store data and managing user movement.
@@ -101,6 +102,15 @@ class GameScene: SKScene {
                             tappedBalloon.texture = SKTexture(imageNamed: "play-solid.pdf")
                         }
                     }
+                    if node.name == "weightButton" {
+                        if addOrRemoveWall == false {
+                            addOrRemoveWall = true
+                            tappedBalloon.texture = SKTexture(imageNamed: "minus.pdf")
+                        } else {
+                            addOrRemoveWall = false
+                            tappedBalloon.texture = SKTexture(imageNamed: "plus.pdf")
+                        }
+                    }
                     if node.name == "settingsButton" {
                         print("Settings Tapped")
                     }
@@ -167,7 +177,7 @@ class GameScene: SKScene {
         homeButton.position = CGPoint(x: 270, y: -170)
         self.addChild(homeButton)
         
-        let weightButton = SKSpriteNode(imageNamed: "weight-hanging-solid.pdf")
+        let weightButton = SKSpriteNode(imageNamed: "minus.pdf")
         weightButton.name = "weightButton"
         weightButton.size = CGSize(width: 45, height: 45)
         weightButton.position = CGPoint(x: 215, y: -170)
