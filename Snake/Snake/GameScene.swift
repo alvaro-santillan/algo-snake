@@ -119,17 +119,18 @@ class GameScene: SKScene {
         let location = touch!.location(in: self)
         
         if let touchedNode = selectNodeForTouch(location) {
-            print("sdf")
-            touchedNode.run(SKAction.rotate(byAngle: (CGFloat(M_PI)), duration: 2.0))
+//            print("sdf")
+            touchedNode.fillColor = UserDefaults.standard.colorForKey(key: "Barrier")!
+//            touchedNode.run(SKAction.rotate(byAngle: (CGFloat(M_PI)), duration: 2.0))
         }
     }
     
-    func selectNodeForTouch(_ touchLocation: CGPoint) -> SKNode? {
+    func selectNodeForTouch(_ touchLocation: CGPoint) -> SKShapeNode? {
         let nodes = self.nodes(at: touchLocation)
         for node in nodes {
-            if node.name != "gameBackground" {
-                if node is SKNode {
-                    return (node as! SKNode)
+            if node.name == nil {
+                if node is SKShapeNode {
+                    return (node as! SKShapeNode)
                 }
             }
         }
@@ -187,8 +188,10 @@ class GameScene: SKScene {
     
     private func initializeGameView() {
         // Create ShapeNode in which the gameboard can reside.
-        let rect = CGRect(x: 0, y: 0, width: 0, height: 0)
+        let rect = CGRect(x: 0-frame.size.width/2, y: 0-frame.size.height/2, width: frame.size.width, height: frame.size.height)
         gameBackground = SKShapeNode(rect: rect, cornerRadius: 0.0)
+        gameBackground.fillColor = UIColor.darkGray
+        gameBackground.strokeColor = UIColor.darkGray
 //        gameBackground.isHidden = true
         self.addChild(gameBackground)
         
@@ -207,13 +210,15 @@ class GameScene: SKScene {
         let cellWidth: CGFloat = 25
 //        let numRows = 41
 //        let numCols = 73
-        let numRows = 15
-        let numCols = 15
-        var x = CGFloat(width / -2) + (cellWidth / 2)
-        var y = CGFloat(height / 2) - (cellWidth / 2)
+        let numRows = 17
+        let numCols = 30
+        let xx = CGFloat(0 - (Int(cellWidth) * numCols)/2)
+        let yy = CGFloat(0 + (Int(cellWidth) * numRows)/2)
+        var x = CGFloat(xx + 12.5)
+        var y = CGFloat(yy - 12.5)
         
-        // Loop through rows and columns and create cells.
         gameBackground.name = "gameBackground"
+        // Loop through rows and columns and create cells.
         for i in 0...numRows - 1 {
             for j in 0...numCols - 1 {
                 let cellNode = SKShapeNode.init(rectOf: CGSize(width: cellWidth-1.5, height: cellWidth-1.5), cornerRadius: 3.5)
@@ -231,7 +236,7 @@ class GameScene: SKScene {
             matrix.append(row)
             row = [Int]()
             // reset x, iterate y
-            x = CGFloat(width / -2) + (cellWidth / 2)
+            x = CGFloat(x - CGFloat(Int(cellWidth) * numCols))
             y -= cellWidth
         }
         // Print Results
@@ -244,7 +249,7 @@ class GameScene: SKScene {
         let bottomCorner = CGPoint(x: 0, y: (frame.size.height / -2) + 20)
         highScore.run(SKAction.move(to: bottomCorner, duration: 0.4)) {
 //            self.gameBackground.isHidden = false
-            self.gameBackground.fillColor = UIColor.red
+//            self.gameBackground.fillColor = UIColor.red
             self.game.initiateSnakeStartingPosition()
         }
     }
@@ -260,6 +265,9 @@ class GameScene: SKScene {
                 let node = game!.fronteerSquareArray[0]
                 node.run(sequance)
                 node.fillColor = UserDefaults.standard.colorForKey(key: "Queued Square")!
+//            node.run(SKAction.scale(by: 0.8, duration: 1.0))
+//            node.run(SKAction.scale(to: 1.0, duration: 1.0))
+            node.run(SKAction.wait(forDuration: 1.0))
                 game!.fronteerSquareArray.remove(at: 0)
         }
         
