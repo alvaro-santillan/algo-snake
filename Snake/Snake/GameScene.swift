@@ -138,14 +138,14 @@ class GameScene: SKScene {
             
 //            let shrink3 = SKAction.scale(to: 0.05, duration: 0.15)
             
-            if touchedNode.name != "Touched" {
+            if addOrRemoveWall == false {
                 touchedNode.fillColor = UserDefaults.standard.colorForKey(key: "Barrier")!
-                touchedNode.name = "Touched"
+//                touchedNode.name = "Touched"
                 touchedNode.run(SKAction.sequence([grow, wait, shrink, wait, scale, shrink2, wait2, scale]))
             } else {
                 touchedNode.fillColor = UserDefaults.standard.colorForKey(key: "Unvisited Square")!
                 touchedNode.run(SKAction.sequence([grow, wait, shrink, wait, scale, shrink2, wait2, scale]))
-                touchedNode.name = nil
+//                touchedNode.name = nil
             }
         }
     }
@@ -153,7 +153,7 @@ class GameScene: SKScene {
     func selectNodeForTouch(_ touchLocation: CGPoint) -> SKShapeNode? {
         let nodes = self.nodes(at: touchLocation)
         for node in nodes {
-            if node.name == nil || node.name == "Touched" {
+            if node.name == nil {
                 if node is SKShapeNode {
                     return (node as! SKShapeNode)
                 }
