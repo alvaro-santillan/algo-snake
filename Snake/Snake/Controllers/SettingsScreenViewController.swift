@@ -309,25 +309,25 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         
         
         
-//        for element in self.view.subviews {
-//        element.removeFromSuperview()
-//        }
-//        self.dismiss(animated: true) {
-//        if let view = self.view as! SKView? {
-//        // Load the SKScene
-//        var scene: SKScene
-//        scene = GameScene()
-//        // Set the scale mode
-//        scene.scaleMode = .aspectFill
-//        let transition = SKTransition.moveIn(with: .up, duration: 0.2)
-//        // Present the scene
-//        view.presentScene(scene, transition: transition)
-//        view.ignoresSiblingOrder = true
-//        view.showsFPS = false
-//        view.showsNodeCount = false
-//        view.showsPhysics = false
-//        }
-//        }
+        for element in self.view.subviews {
+        element.removeFromSuperview()
+        }
+        self.dismiss(animated: true) {
+        if let view = self.view as! SKView? {
+        // Load the SKScene
+        var scene: SKScene
+        scene = GameScene()
+        // Set the scale mode
+        scene.scaleMode = .aspectFill
+        let transition = SKTransition.moveIn(with: .up, duration: 0.2)
+        // Present the scene
+        view.presentScene(scene, transition: transition)
+        view.ignoresSiblingOrder = true
+        view.showsFPS = false
+        view.showsNodeCount = false
+        view.showsPhysics = false
+        }
+        }
     }
     
     @IBAction func clearAllButton(_ sender: UIButton) {
