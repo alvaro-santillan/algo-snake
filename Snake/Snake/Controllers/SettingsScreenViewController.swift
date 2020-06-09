@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import SpriteKit
+import GameplayKit
 
 extension UserDefaults {
     func setColor(color: UIColor?, forKey key: String) {
@@ -297,6 +299,35 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         defaults.set(legendData, forKey: "legendPrefences")
         defaults.setColor(color: colors[(legendData[imgView.tag][1] as? Int)!], forKey: legendData[imgView.tag][0] as! String)
         tableVIew.reloadData()
+    }
+    
+    @IBAction func returnToPrevView(_ sender: UIButton) {
+        print("tapped")
+//        self.view?.window?.rootViewController?.dismiss(animated: true, completion: nil)
+//        let viewController:UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "GameScreen") as UIViewController
+//        self.present(viewController, animated: false, completion: nil)
+        
+        
+        
+//        for element in self.view.subviews {
+//        element.removeFromSuperview()
+//        }
+//        self.dismiss(animated: true) {
+//        if let view = self.view as! SKView? {
+//        // Load the SKScene
+//        var scene: SKScene
+//        scene = GameScene()
+//        // Set the scale mode
+//        scene.scaleMode = .aspectFill
+//        let transition = SKTransition.moveIn(with: .up, duration: 0.2)
+//        // Present the scene
+//        view.presentScene(scene, transition: transition)
+//        view.ignoresSiblingOrder = true
+//        view.showsFPS = false
+//        view.showsNodeCount = false
+//        view.showsPhysics = false
+//        }
+//        }
     }
     
     @IBAction func clearAllButton(_ sender: UIButton) {
