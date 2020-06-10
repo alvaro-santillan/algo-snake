@@ -75,7 +75,7 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
         cell.myLabel.text = tableViewDisplayList[indexPath.row][0]
         
         if tableViewDisplayList[indexPath.row][1] == "1" {
-            cell.myImage.image = UIImage(named: "garrenteed.pdf")
+            cell.myImage.image = UIImage(named: "Guaranteed_Icon.pdf")
             cell.myImage.layer.borderWidth = 1
             cell.myImage.layer.cornerRadius = cell.myImage.frame.size.width/2
             cell.myImage.clipsToBounds = true
@@ -85,7 +85,7 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         
         if tableViewDisplayList[indexPath.row][2] == "1" {
-            cell.myImage2.image = UIImage(named: "optimal.jpg")
+            cell.myImage2.image = UIImage(named: "Optimal_Icon.pdf")
             cell.myImage2.layer.borderWidth = 1
             cell.myImage2.layer.cornerRadius = cell.myImage2.frame.height/2
             cell.myImage2.clipsToBounds = true

@@ -84,10 +84,10 @@ class GameScreenViewController: UIViewController {
     
     @IBAction func stepOrPlayPauseButtonPressed(_ sender: UIButton) {
         if sender.tag == 0 {
-            sender.setImage(UIImage(named: "play-solid.pdf"), for: .normal)
+            sender.setImage(UIImage(named: "Play_Icon.pdf"), for: .normal)
             sender.tag = 1
         } else {
-            sender.setImage(UIImage(named: "pause-solid.pdf"), for: .normal)
+            sender.setImage(UIImage(named: "Pause_Icon.pdf"), for: .normal)
             sender.tag = 0
         }
     }

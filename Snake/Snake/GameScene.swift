@@ -99,7 +99,7 @@ class GameScene: SKScene {
                 if let tappedBalloon = node as? SKSpriteNode {
                     if node.name == "playPauseButton" {
                         if gamePaused == false {
-                            tappedBalloon.texture = SKTexture(imageNamed: "pause-solid.pdf")
+                            tappedBalloon.texture = SKTexture(imageNamed: "Pause_Icon.pdf")
                             gamePaused = true
                         } else {
                             tappedBalloon.texture = SKTexture(imageNamed: "Play_Icon.pdf")
@@ -109,10 +109,10 @@ class GameScene: SKScene {
                     if node.name == "weightButton" {
                         if addOrRemoveWall == false {
                             addOrRemoveWall = true
-                            tappedBalloon.texture = SKTexture(imageNamed: "minus.pdf")
+                            tappedBalloon.texture = SKTexture(imageNamed: "Minus_Icon.pdf")
                         } else {
                             addOrRemoveWall = false
-                            tappedBalloon.texture = SKTexture(imageNamed: "plus.pdf")
+                            tappedBalloon.texture = SKTexture(imageNamed: "Plus_Icon.pdf")
                         }
                     }
                     if node.name == "settingsButton" {
@@ -199,19 +199,19 @@ class GameScene: SKScene {
     // Welcome menu objects defined
     private func initializeWelcomeScreen() {
         
-        let settingsButton = SKSpriteNode(imageNamed: "cog-solid.pdf")
+        let settingsButton = SKSpriteNode(imageNamed: "Settings_Icon.pdf")
         settingsButton.name = "settingsButton"
         settingsButton.size = CGSize(width: 45, height: 45)
         settingsButton.position = CGPoint(x: 325, y: -170)
         self.addChild(settingsButton)
         
-        let homeButton = SKSpriteNode(imageNamed: "home-solid.pdf")
+        let homeButton = SKSpriteNode(imageNamed: "Home_Icon.pdf")
         homeButton.name = "homeButton"
         homeButton.size = CGSize(width: 45, height: 45)
         homeButton.position = CGPoint(x: 270, y: -170)
         self.addChild(homeButton)
         
-        let weightButton = SKSpriteNode(imageNamed: "minus.pdf")
+        let weightButton = SKSpriteNode(imageNamed: "Minus_Icon.pdf")
         weightButton.name = "weightButton"
         weightButton.size = CGSize(width: 45, height: 45)
         weightButton.position = CGPoint(x: 215, y: -170)
@@ -219,7 +219,7 @@ class GameScene: SKScene {
         
         var playPauseButton = SKSpriteNode()
         if UserDefaults.standard.integer(forKey: "Step Mode Setting") == 1 {
-            playPauseButton = SKSpriteNode(imageNamed: "pause-solid.pdf")
+            playPauseButton = SKSpriteNode(imageNamed: "Pause_Icon.pdf")
             gamePaused = false
         } else {
             playPauseButton = SKSpriteNode(imageNamed: "Play_Icon.pdf")

@@ -239,23 +239,23 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         
         muteButton = defaults.integer(forKey: "muteButtonSetting")
         if muteButton == 1 {
-            soundButton.setImage(UIImage(named: "volume-mute-solid.pdf"), for: .normal)
+            soundButton.setImage(UIImage(named: "Volume_Mute_Icon.pdf"), for: .normal)
         } else {
-            soundButton.setImage(UIImage(named: "volume-down-solid.pdf"), for: .normal)
+            soundButton.setImage(UIImage(named: "Volume_On_Icon.pdf"), for: .normal)
         }
         
         stopOrPlayButton = defaults.integer(forKey: "stopOrPlayButtonSetting")
         if stopOrPlayButton == 1 {
-            stepOrPlayPauseButton.setImage(UIImage(named: "step-forward-solid.pdf"), for: .normal)
+            stepOrPlayPauseButton.setImage(UIImage(named: "Play_Icon.pdf"), for: .normal)
         } else {
-            stepOrPlayPauseButton.setImage(UIImage(named: "shoe-prints-solid.pdf"), for: .normal)
+            stepOrPlayPauseButton.setImage(UIImage(named: "Step_Icon.pdf"), for: .normal)
         }
         
         darkOrLightButton = defaults.integer(forKey: "darkOrLightButton")
         if darkOrLightButton == 1 {
-            darkOrLightModeButton.setImage(UIImage(named: "adjust-flipped-solid.pdf"), for: .normal)
+            darkOrLightModeButton.setImage(UIImage(named: "Light_Mode_Icon.pdf"), for: .normal)
         } else {
-            darkOrLightModeButton.setImage(UIImage(named: "adjust-solid.pdf"), for: .normal)
+            darkOrLightModeButton.setImage(UIImage(named: "Dark_Mode_Icon.pdf"), for: .normal)
         }
     }
     
@@ -411,10 +411,10 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         muteButton = defaults.integer(forKey: "muteButtonSetting")
         sender.tag = muteButton
         if sender.tag == 0 {
-            sender.setImage(UIImage(named: "volume-mute-solid.pdf"), for: .normal)
+            sender.setImage(UIImage(named: "Volume_Mute_Icon.pdf"), for: .normal)
             sender.tag = 1
         } else {
-            sender.setImage(UIImage(named: "volume-down-solid.pdf"), for: .normal)
+            sender.setImage(UIImage(named: "Volume_On_Icon.pdf"), for: .normal)
             sender.tag = 0
         }
         defaults.set(sender.tag, forKey: "muteButtonSetting")
@@ -438,10 +438,10 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         darkOrLightButton = defaults.integer(forKey: "darkOrLightButton")
         sender.tag = darkOrLightButton
         if sender.tag == 0 {
-            sender.setImage(UIImage(named: "adjust-flipped-solid.pdf"), for: .normal)
+            sender.setImage(UIImage(named: "Light_Mode_Icon.pdf"), for: .normal)
             sender.tag = 1
         } else {
-            sender.setImage(UIImage(named: "adjust-solid.pdf"), for: .normal)
+            sender.setImage(UIImage(named: "Dark_Mode_Icon.pdf"), for: .normal)
             sender.tag = 0
         }
         defaults.set(sender.tag, forKey: "darkOrLightButton")
