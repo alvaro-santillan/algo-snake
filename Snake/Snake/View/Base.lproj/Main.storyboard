@@ -354,7 +354,7 @@
                                         <rect key="frame" x="21" y="352" width="45" height="45"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" image="Chevron_Icon">
+                                        <state key="normal" image="Chevron_Down_Icon">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
@@ -536,7 +536,7 @@
                                         <rect key="frame" x="21" y="352" width="45" height="45"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" image="Chevron_Icon">
+                                        <state key="normal" image="Chevron_Up_Icon">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
@@ -643,7 +643,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Chevron_Icon" width="336" height="384"/>
+        <image name="Chevron_Down_Icon" width="336" height="384"/>
+        <image name="Chevron_Up_Icon" width="448" height="512"/>
         <image name="Dark_Mode_Icon" width="384" height="384"/>
         <image name="GitHub_Icon" width="336" height="384"/>
         <image name="Globe_Icon" width="372" height="384"/>
@@ -658,8 +659,7 @@
         <image name="chevron-down-solid" width="336" height="384"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="bDA-CS-kIA"/>
         <segue reference="v5l-4k-cTX"/>
-        <segue reference="Bhq-DF-cdl"/>
+        <segue reference="TDt-jw-j1F"/>
     </inferredMetricsTieBreakers>
 </document>
