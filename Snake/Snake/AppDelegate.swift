@@ -21,6 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         defaults.register(defaults: defaultValue)
         UserDefaults.standard.set(0, forKey: "Algorithim Choice")
         UserDefaults.standard.set(0, forKey: "Barrier Choice")
+        UserDefaults.standard.set(false, forKey: "Game Running")
         
         return true
     }

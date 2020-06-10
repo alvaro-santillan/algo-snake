@@ -117,6 +117,30 @@ class GameScene: SKScene {
                     if node.name == "homeButton" {
                         print("homeButton Tapped")
                     }
+                }
+                
+                if let nodee = node as? SKShapeNode {
+                    if node.name == nil {
+//                        if node is SKShapeNode {
+//                        let nodee = node as! SKShapeNode
+//                        }
+                        let grow = SKAction.scale(by: 1.05, duration: 0.10)
+                        let shrink = SKAction.scale(by: 0.95, duration: 0.10)
+                        let wait = SKAction.wait(forDuration: 0.16)
+                        let scale = SKAction.scale(to: 1.0, duration: 0.12)
+                        let shrink2 = SKAction.scale(by: 0.97, duration: 0.05)
+                        let wait2 = SKAction.wait(forDuration: 0.07)
+                        
+            //            let shrink3 = SKAction.scale(to: 0.05, duration: 0.15)
+                        
+                        if addOrRemoveWall == false {
+                            nodee.fillColor = UserDefaults.standard.colorForKey(key: "Barrier")!
+                            nodee.run(SKAction.sequence([grow, wait, shrink, wait, scale, shrink2, wait2, scale]))
+                        } else {
+                            nodee.fillColor = UserDefaults.standard.colorForKey(key: "Unvisited Square")!
+                            nodee.run(SKAction.sequence([grow, wait, shrink, wait, scale, shrink2, wait2, scale]))
+                        }
+                    }
 //                    node.run(SKAction.rotate(byAngle: (CGFloat(M_PI)), duration: 2.0))
                 }
             }
@@ -126,6 +150,7 @@ class GameScene: SKScene {
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
 //        print("touc")
         let touch = touches.first
+        print(touch)
         let location = touch!.location(in: self)
         
         if let touchedNode = selectNodeForTouch(location) {
@@ -140,12 +165,10 @@ class GameScene: SKScene {
             
             if addOrRemoveWall == false {
                 touchedNode.fillColor = UserDefaults.standard.colorForKey(key: "Barrier")!
-//                touchedNode.name = "Touched"
                 touchedNode.run(SKAction.sequence([grow, wait, shrink, wait, scale, shrink2, wait2, scale]))
             } else {
                 touchedNode.fillColor = UserDefaults.standard.colorForKey(key: "Unvisited Square")!
                 touchedNode.run(SKAction.sequence([grow, wait, shrink, wait, scale, shrink2, wait2, scale]))
-//                touchedNode.name = nil
             }
         }
     }

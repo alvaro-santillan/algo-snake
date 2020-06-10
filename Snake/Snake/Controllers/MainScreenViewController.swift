@@ -61,10 +61,8 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     @IBAction func startTapped(_ sender: UIButton) {
-        print("tapped")
-        self.view?.window?.rootViewController?.dismiss(animated: true, completion: nil)
         let viewController:UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "GameScreen") as UIViewController
-        self.present(viewController, animated: false, completion: nil)
+        self.present(viewController, animated: true, completion: nil)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
