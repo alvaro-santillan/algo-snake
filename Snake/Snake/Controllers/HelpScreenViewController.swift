@@ -51,6 +51,10 @@ class HelpViewController: UIViewController {
         homeButton.layer.shadowOffset = .zero
     }
 
+    @IBAction func ReturnToSettingsButtonPressed(_ sender: UIButton) {
+        self.dismiss(animated: true)
+    }
+    
     @IBAction func linkedInButtonPressed(_ sender: UIButton) {
         var webURL = "https://www.linkedin.com/in/álvarosantillan"
         webURL = webURL.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
