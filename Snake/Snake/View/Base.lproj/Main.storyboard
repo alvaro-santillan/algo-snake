@@ -314,7 +314,7 @@
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
-                                            <action selector="stepPlayPauseButtonPressed:" destination="x7L-u7-4Ti" eventType="touchUpInside" id="LlL-WL-N8I"/>
+                                            <action selector="stepButtonPressed:" destination="x7L-u7-4Ti" eventType="touchUpInside" id="LlL-WL-N8I"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NXh-5F-g45" userLabel="Dark/ Light Mode">
@@ -325,7 +325,7 @@
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
-                                            <action selector="darkOrLightModeButtonPressed:" destination="x7L-u7-4Ti" eventType="touchUpInside" id="5EY-ds-Z9P"/>
+                                            <action selector="darkModeButtonPressed:" destination="x7L-u7-4Ti" eventType="touchUpInside" id="5EY-ds-Z9P"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e4T-iy-Fyn" userLabel="Home">

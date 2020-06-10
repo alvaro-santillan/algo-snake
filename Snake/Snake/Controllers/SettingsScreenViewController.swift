@@ -36,18 +36,6 @@ extension UserDefaults {
     }
 }
 
-//extension Bool {
-//    var intValue: Int {
-//        return self ? 1 : 0
-//    }
-//}
-//
-//extension Int {
-//    var boolValue: Bool {
-//        return self != 0
-//    }
-//}
-
 class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource  {
     // Views
     @IBOutlet weak var rightView: UIView!
@@ -394,62 +382,42 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         defaults.set(sender.tag, forKey: "FoodCountSetting")
     }
     
-    @IBAction func godButtonPressed(_ sender: UIButton) {
-        savedGodButton = defaults.integer(forKey: "GodButtonSetting")
-        sender.tag = savedGodButton
-        if sender.tag == 0 {
-            sender.setTitle("God Mode: On",for: .normal)
-            sender.tag = 1
+    func boolIconButtonResponder(_ sender: UIButton, isIconButton: Bool, key: String, trueOption: String, falseOption: String) {
+        sender.tag = defaults.integer(forKey: key)
+        if isIconButton == true {
+            if sender.tag == 1 {
+                sender.setImage(UIImage(named: trueOption), for: .normal)
+                sender.tag = 0
+            } else {
+                sender.setImage(UIImage(named: falseOption), for: .normal)
+                sender.tag = 1
+            }
         } else {
-            sender.setTitle("God Mode: Off",for: .normal)
-            sender.tag = 0
+            if sender.tag == 1 {
+                sender.setTitle(trueOption, for: .normal)
+                sender.tag = 0
+            } else {
+                sender.setTitle(falseOption, for: .normal)
+                sender.tag = 1
+            }
         }
-        defaults.set(sender.tag, forKey: "GodButtonSetting")
+        defaults.set(sender.tag, forKey: key)
+    }
+    
+    @IBAction func godButtonPressed(_ sender: UIButton) {
+        boolIconButtonResponder(sender, isIconButton: false, key: "God Button On Setting", trueOption: "God Mode: On", falseOption: "God Mode: Off")
     }
     
     @IBAction func soundButtonPressed(_ sender: UIButton) {
-        muteButton = defaults.integer(forKey: "muteButtonSetting")
-        sender.tag = muteButton
-        if sender.tag == 0 {
-            sender.setImage(UIImage(named: "Volume_Mute_Icon.pdf"), for: .normal)
-            sender.tag = 1
-        } else {
-            sender.setImage(UIImage(named: "Volume_On_Icon.pdf"), for: .normal)
-            sender.tag = 0
-        }
-        defaults.set(sender.tag, forKey: "muteButtonSetting")
+        boolIconButtonResponder(sender, isIconButton: true, key: "Volume On Setting", trueOption: "Volume_On_Icon.pdf", falseOption: "Volume_Mute_Icon.pdf")
     }
     
-
-    
-    @IBAction func stepPlayPauseButtonPressed(_ sender: UIButton) {
-        sender.tag = NSNumber(value: defaults.bool(forKey: "Step Mode Setting")).intValue
-        if sender.tag == 0 {
-            sender.setImage(UIImage(named: "Play_Icon.pdf"), for: .normal)
-            sender.tag = 1
-        } else {
-            sender.setImage(UIImage(named: "Step_Icon.pdf"), for: .normal)
-            sender.tag = 0
-        }
-        defaults.set(sender.tag, forKey: "Step Mode Setting")
+    @IBAction func stepButtonPressed(_ sender: UIButton) {
+        boolIconButtonResponder(sender, isIconButton: true, key: "Step Mode On Setting", trueOption: "Step_Icon.pdf", falseOption: "Play_Icon.pdf")
     }
     
-    @IBAction func darkOrLightModeButtonPressed(_ sender: UIButton) {
-        darkOrLightButton = defaults.integer(forKey: "darkOrLightButton")
-        sender.tag = darkOrLightButton
-        if sender.tag == 0 {
-            sender.setImage(UIImage(named: "Light_Mode_Icon.pdf"), for: .normal)
-            sender.tag = 1
-        } else {
-            sender.setImage(UIImage(named: "Dark_Mode_Icon.pdf"), for: .normal)
-            sender.tag = 0
-        }
-        defaults.set(sender.tag, forKey: "darkOrLightButton")
-        
-        if defaults.integer(forKey: "darkOrLightButton") == 0 {
-            overrideUserInterfaceStyle = .dark
-        } else {
-            overrideUserInterfaceStyle = .light
-        }
+    @IBAction func darkModeButtonPressed(_ sender: UIButton) {
+        boolIconButtonResponder(sender, isIconButton: true, key: "Dark Mode On Setting", trueOption: "Dark_Mode_Icon.pdf", falseOption: "Light_Mode_Icon.pdf")
+        defaults.integer(forKey: "Dark Mode On Setting") == 1 ? (overrideUserInterfaceStyle = .dark) : (overrideUserInterfaceStyle = .light)
     }
 }

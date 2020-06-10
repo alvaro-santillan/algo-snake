@@ -38,7 +38,7 @@ class GameManager {
     var paused = false
     var playerDirection: Int = 1 // 1 == left, 2 == up, 3 == right, 4 == down
     var currentScore: Int = 0
-    var playPauseMode = UserDefaults.standard.integer(forKey: "Step Mode Setting")
+    var playPauseMode = UserDefaults.standard.integer(forKey: "Step Mode On Setting")
     
     init(scene: GameScene) {
         self.scene = scene
