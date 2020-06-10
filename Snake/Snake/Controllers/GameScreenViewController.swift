@@ -66,28 +66,20 @@ class GameScreenViewController: UIViewController {
                 temp = self
             }
             
-            
-            
-//            var gameeScene = GameScene(fileNamed:"GameScene")
-//            var skView : SKView = self.view as! SKView
-//            func gotoMenu()
-//            {
-//                let menu = MenuScene(fileNamed: "MenuScene")
-//                 menu.viewController = self
-//                 skView.presentScene(menu)
-//            }
-            
             view.ignoresSiblingOrder = true
-            view.showsFPS = false
-            view.showsNodeCount = false
+            view.showsFPS = true
+            view.showsNodeCount = true
         }
     }
     
     @IBAction func homeButtonTapped(_ sender: UIButton) {
-        print("tapped")
-        self.view?.window?.rootViewController?.dismiss(animated: true, completion: nil)
-        let viewController:UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "HomeScreeen") as UIViewController
-        self.present(viewController, animated: false, completion: nil)
+        self.removeFromParent()
+        self.currentGame?.viewController.removeFromParent()
+//        for element in self.view.subviews {
+//            print(element)
+//            element.removeFromSuperview()
+//        }
+        self.dismiss(animated: true)
     }
     
     @IBAction func stepOrPlayPauseButtonPressed(_ sender: UIButton) {

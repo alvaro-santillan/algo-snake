@@ -38,7 +38,7 @@ class GameManager {
     var paused = false
     var playerDirection: Int = 1 // 1 == left, 2 == up, 3 == right, 4 == down
     var currentScore: Int = 0
-    var playPauseMode = UserDefaults.standard.integer(forKey: "stopOrPlayButtonSetting")
+    var playPauseMode = UserDefaults.standard.integer(forKey: "Step Mode Setting")
     
     init(scene: GameScene) {
         self.scene = scene
@@ -341,7 +341,7 @@ class GameManager {
             }
 
             if playPauseMode == 0 {
-                scene.playOrPause = true
+                scene.gamePaused = true
                 checkIfPaused()
             }
         }
@@ -394,7 +394,7 @@ class GameManager {
     }
     
     func checkIfPaused() {
-        if scene.playOrPause == true {
+        if scene.gamePaused == true {
             paused = true
 //            print("snakeColor", scene.snakeColor)
         } else {

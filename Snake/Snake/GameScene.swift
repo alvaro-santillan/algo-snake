@@ -17,12 +17,12 @@ class GameScene: SKScene {
     var highScore: SKLabelNode!
     var Algo: SKLabelNode!
     var playPauseButton: SKShapeNode!
-    var playButtonTapped = false
+    var playPauseButtonTapped = false
     var foodPosition = [CGPoint]()
 //    var ttt = [CGPoint]()
 //    ttt.append(CGPoint(x: 2, y: 3))
 
-    var playOrPause = false
+    var gamePaused = false
     var addOrRemoveWall = false
     var snakeColor = UIColor(red:0.75, green:0.22, blue:0.17, alpha:1.00)
     
@@ -40,17 +40,19 @@ class GameScene: SKScene {
     
     // Spritekit vesrion of didLoad() ie gameScene has loaded.
     override func didMove(to view: SKView) {
+        
+        
         initializeWelcomeScreen()
         // Used to store data and managing user movement.
         game = GameManager(scene: self)
         initializeGameView()
         
         if let gameInfo = self.userData?.value(forKey: "playOrNot") {
-            playOrPause = gameInfo as! Bool
+            gamePaused = gameInfo as! Bool
             snakeColor = gameInfo as! UIColor
         }
         
-        if game.paused == true {
+//        if game.paused == true {
             let swipeRight:UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeR))
             swipeRight.direction = .right
             view.addGestureRecognizer(swipeRight)
@@ -66,7 +68,7 @@ class GameScene: SKScene {
             let swipeDown:UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeD))
             swipeDown.direction = .down
             view.addGestureRecognizer(swipeDown)
-        }
+//        }
     }
     
     @objc func swipeR() {
@@ -96,12 +98,12 @@ class GameScene: SKScene {
             for node in touchedNode {
                 if let tappedBalloon = node as? SKSpriteNode {
                     if node.name == "playPauseButton" {
-                        if playOrPause == false {
-                            playOrPause = true
+                        if gamePaused == false {
                             tappedBalloon.texture = SKTexture(imageNamed: "pause-solid.pdf")
+                            gamePaused = true
                         } else {
-                            playOrPause = false
-                            tappedBalloon.texture = SKTexture(imageNamed: "play-solid.pdf")
+                            tappedBalloon.texture = SKTexture(imageNamed: "Play_Icon.pdf")
+                            gamePaused = false
                         }
                     }
                     if node.name == "weightButton" {
@@ -215,7 +217,14 @@ class GameScene: SKScene {
         weightButton.position = CGPoint(x: 215, y: -170)
         self.addChild(weightButton)
         
-        let playPauseButton = SKSpriteNode(imageNamed: "pause-solid.pdf")
+        var playPauseButton = SKSpriteNode()
+        if UserDefaults.standard.integer(forKey: "Step Mode Setting") == 1 {
+            playPauseButton = SKSpriteNode(imageNamed: "pause-solid.pdf")
+            gamePaused = false
+        } else {
+            playPauseButton = SKSpriteNode(imageNamed: "Play_Icon.pdf")
+            gamePaused = true
+        }
         playPauseButton.name = "playPauseButton"
         playPauseButton.size = CGSize(width: 45, height: 45)
         playPauseButton.position = CGPoint(x: 155, y: -170)

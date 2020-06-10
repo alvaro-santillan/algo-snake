@@ -36,6 +36,18 @@ extension UserDefaults {
     }
 }
 
+//extension Bool {
+//    var intValue: Int {
+//        return self ? 1 : 0
+//    }
+//}
+//
+//extension Int {
+//    var boolValue: Bool {
+//        return self != 0
+//    }
+//}
+
 class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource  {
     // Views
     @IBOutlet weak var rightView: UIView!
@@ -408,17 +420,18 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         defaults.set(sender.tag, forKey: "muteButtonSetting")
     }
     
-    @IBAction func stepOrPlayPauseButtonPressed(_ sender: UIButton) {
-        stopOrPlayButton = defaults.integer(forKey: "stopOrPlayButtonSetting")
-        sender.tag = stopOrPlayButton
+
+    
+    @IBAction func stepPlayPauseButtonPressed(_ sender: UIButton) {
+        sender.tag = NSNumber(value: defaults.bool(forKey: "Step Mode Setting")).intValue
         if sender.tag == 0 {
-            sender.setImage(UIImage(named: "step-forward-solid.pdf"), for: .normal)
+            sender.setImage(UIImage(named: "Play_Icon.pdf"), for: .normal)
             sender.tag = 1
         } else {
-            sender.setImage(UIImage(named: "shoe-prints-solid.pdf"), for: .normal)
+            sender.setImage(UIImage(named: "Step_Icon.pdf"), for: .normal)
             sender.tag = 0
         }
-        defaults.set(sender.tag, forKey: "stopOrPlayButtonSetting")
+        defaults.set(sender.tag, forKey: "Step Mode Setting")
     }
     
     @IBAction func darkOrLightModeButtonPressed(_ sender: UIButton) {
