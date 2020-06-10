@@ -50,21 +50,23 @@ class GameScene: SKScene {
             snakeColor = gameInfo as! UIColor
         }
         
-        let swipeRight:UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeR))
-        swipeRight.direction = .right
-        view.addGestureRecognizer(swipeRight)
-        
-        let swipeLeft:UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeL))
-        swipeLeft.direction = .left
-        view.addGestureRecognizer(swipeLeft)
-        
-        let swipeUp:UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeU))
-        swipeUp.direction = .up
-        view.addGestureRecognizer(swipeUp)
-        
-        let swipeDown:UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeD))
-        swipeDown.direction = .down
-        view.addGestureRecognizer(swipeDown)
+        if game.paused == true {
+            let swipeRight:UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeR))
+            swipeRight.direction = .right
+            view.addGestureRecognizer(swipeRight)
+            
+            let swipeLeft:UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeL))
+            swipeLeft.direction = .left
+            view.addGestureRecognizer(swipeLeft)
+            
+            let swipeUp:UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeU))
+            swipeUp.direction = .up
+            view.addGestureRecognizer(swipeUp)
+            
+            let swipeDown:UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeD))
+            swipeDown.direction = .down
+            view.addGestureRecognizer(swipeDown)
+        }
     }
     
     @objc func swipeR() {
@@ -148,27 +150,34 @@ class GameScene: SKScene {
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        print("touc")
-        let touch = touches.first
-        print(touch)
-        let location = touch!.location(in: self)
         
-        if let touchedNode = selectNodeForTouch(location) {
-            let grow = SKAction.scale(by: 1.05, duration: 0.10)
-            let shrink = SKAction.scale(by: 0.95, duration: 0.10)
-            let wait = SKAction.wait(forDuration: 0.16)
-            let scale = SKAction.scale(to: 1.0, duration: 0.12)
-            let shrink2 = SKAction.scale(by: 0.97, duration: 0.05)
-            let wait2 = SKAction.wait(forDuration: 0.07)
-            
-//            let shrink3 = SKAction.scale(to: 0.05, duration: 0.15)
-            
-            if addOrRemoveWall == false {
-                touchedNode.fillColor = UserDefaults.standard.colorForKey(key: "Barrier")!
-                touchedNode.run(SKAction.sequence([grow, wait, shrink, wait, scale, shrink2, wait2, scale]))
-            } else {
-                touchedNode.fillColor = UserDefaults.standard.colorForKey(key: "Unvisited Square")!
-                touchedNode.run(SKAction.sequence([grow, wait, shrink, wait, scale, shrink2, wait2, scale]))
+        
+        let grow = SKAction.scale(by: 1.05, duration: 0.10)
+        let shrink = SKAction.scale(by: 0.95, duration: 0.10)
+        let wait = SKAction.wait(forDuration: 0.16)
+        let scale = SKAction.scale(to: 1.0, duration: 0.12)
+        let shrink2 = SKAction.scale(by: 0.97, duration: 0.05)
+        let wait2 = SKAction.wait(forDuration: 0.07)
+        
+        for touch in touches {
+            let location = touch.location(in: self)
+            print(location)
+            let nodes = self.nodes(at: location)
+            for node in nodes {
+                if let touchedNode = node as? SKShapeNode {
+                if node.name == nil {
+//                    if node is SKShapeNode {
+//                        let touchedNode = node as! SKShapeNode
+                        
+                        if addOrRemoveWall == false {
+                            touchedNode.fillColor = UserDefaults.standard.colorForKey(key: "Barrier")!
+                            touchedNode.run(SKAction.sequence([grow, wait, shrink, wait, scale, shrink2, wait2, scale]))
+                        } else {
+                            touchedNode.fillColor = UserDefaults.standard.colorForKey(key: "Unvisited Square")!
+                            touchedNode.run(SKAction.sequence([grow, wait, shrink, wait, scale, shrink2, wait2, scale]))
+                        }
+                    }
+                }
             }
         }
     }
