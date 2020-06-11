@@ -301,26 +301,8 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         tableVIew.reloadData()
     }
     
-    @IBAction func returnToPrevView(_ sender: UIButton) {
-        self.dismiss(animated: true)
-    }
-    
-    @IBAction func clearAllButton(_ sender: UIButton) {
-        sender.setTitle("Gameboard Cleared",for: .normal)
-        clearBarrierButton.setTitle("Barriers Cleared",for: .normal)
-        clearPathButton.setTitle("Path Cleared",for: .normal)
-    }
-    
-    @IBAction func clearBarrierButtonPressed(_ sender: UIButton) {
-        sender.setTitle("Barriers Cleared",for: .normal)
-    }
-    
-    @IBAction func clearPathButtonPressed(_ sender: UIButton) {
-        sender.setTitle("Path Cleared",for: .normal)
-    }
-    
     func boolButtonResponder(_ sender: UIButton, isIconButton: Bool, key: String, trueOption: String, falseOption: String) {
-        sender.tag = defaults.integer(forKey: key)
+        sender.tag = NSNumber(value: defaults.bool(forKey: key)).intValue
         if isIconButton {
             if sender.tag == 1 {
                 sender.setImage(UIImage(named: trueOption), for: .normal)
@@ -338,7 +320,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                 sender.tag = 1
             }
         }
-        defaults.set(sender.tag, forKey: key)
+        defaults.set(Bool(truncating: sender.tag as NSNumber), forKey: key)
     }
     
     func fourOptionButtonResponder(_ sender: UIButton, isSpeedButton: Bool, key: String, optionArray: [String]) {
@@ -347,7 +329,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         if sender.tag == 1 {
             sender.setTitle(optionArray[1], for: .normal)
             sender.tag = 2
-            if isSpeedButton {gameMoveSpeed = 0.1}
+            if isSpeedButton {gameMoveSpeed = 0.10}
         } else if sender.tag == 2 {
             sender.setTitle(optionArray[2], for: .normal)
             sender.tag = 3
@@ -355,7 +337,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         } else if sender.tag == 3 {
             sender.setTitle(optionArray[3], for: .normal)
             sender.tag = 5
-            if isSpeedButton {gameMoveSpeed = 0.5}
+            if isSpeedButton {gameMoveSpeed = 0.50}
         } else {
             sender.setTitle(optionArray[0], for: .normal)
             sender.tag = 1
@@ -363,6 +345,23 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         }
         defaults.set(sender.tag, forKey: key)
         if isSpeedButton {defaults.set(gameMoveSpeed, forKey: "Snake Move Speed")}
+    }
+    
+    @IBAction func clearAllButton(_ sender: UIButton) {
+        sender.setTitle("Gameboard Cleared", for: .normal)
+        clearBarrierButton.setTitle("Barriers Cleared", for: .normal)
+        clearPathButton.setTitle("Path Cleared", for: .normal)
+        defaults.set(true, forKey: "Clear All Setting")
+    }
+    
+    @IBAction func clearBarrierButtonPressed(_ sender: UIButton) {
+        sender.setTitle("Barriers Cleared", for: .normal)
+        defaults.set(true, forKey: "Clear Barrier Setting")
+    }
+    
+    @IBAction func clearPathButtonPressed(_ sender: UIButton) {
+        sender.setTitle("Path Cleared", for: .normal)
+        defaults.set(true, forKey: "Clear Path Setting")
     }
     
     @IBAction func snakeSpeedButtonPressed(_ sender: UIButton) {
@@ -382,6 +381,10 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     
     @IBAction func godButtonPressed(_ sender: UIButton) {
         boolButtonResponder(sender, isIconButton: false, key: "God Button On Setting", trueOption: "God Mode: On", falseOption: "God Mode: Off")
+    }
+    
+    @IBAction func returnToPreviousView(_ sender: UIButton) {
+        self.dismiss(animated: true)
     }
     
     @IBAction func soundButtonPressed(_ sender: UIButton) {
