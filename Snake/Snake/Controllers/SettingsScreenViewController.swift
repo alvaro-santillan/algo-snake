@@ -319,72 +319,9 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         sender.setTitle("Path Cleared",for: .normal)
     }
     
-    @IBAction func snakeSpeedButtonPressed(_ sender: UIButton) {
-        SavedSpeed = defaults.integer(forKey: "SavedSpeedSetting")
-        sender.tag = SavedSpeed
-        gameMoveSpeed = defaults.float(forKey: "gameSpeed")
-        if sender.tag == 0 {
-            sender.setTitle("Speed: Fast", for: .normal)
-            sender.tag = 1
-            gameMoveSpeed = 0.1
-        } else if sender.tag == 1 {
-            sender.setTitle("Speed: Extreme", for: .normal)
-            sender.tag = 2
-            gameMoveSpeed = 0.01
-        } else if sender.tag == 2 {
-            sender.setTitle("Speed: Slow", for: .normal)
-            sender.tag = 4
-            gameMoveSpeed = 0.5
-        } else {
-            sender.setTitle("Speed: Normal", for: .normal)
-            sender.tag = 0
-            gameMoveSpeed = 0.25
-        }
-        defaults.set(sender.tag, forKey: "SavedSpeedSetting")
-        defaults.set(gameMoveSpeed, forKey: "gameSpeed")
-    }
-    
-    @IBAction func foodWeightButtonPressed(_ sender: UIButton) {
-        foodWeight = defaults.integer(forKey: "FoodWeightSetting")
-        sender.tag = foodWeight
-        if sender.tag == 0 {
-            sender.setTitle("Food Weight: 2", for: .normal)
-            sender.tag = 1
-        } else if sender.tag == 1 {
-            sender.setTitle("Food Weight: 3", for: .normal)
-            sender.tag = 2
-        } else if sender.tag == 2 {
-            sender.setTitle("Food Weight: 5", for: .normal)
-            sender.tag = 4
-        } else {
-            sender.setTitle("Food Weight: 1", for: .normal)
-            sender.tag = 0
-        }
-        defaults.set(sender.tag, forKey: "FoodWeightSetting")
-    }
-    
-    @IBAction func foodCountButtonPressed(_ sender: UIButton) {
-        savedFoodCount = defaults.integer(forKey: "FoodCountSetting")
-        sender.tag = savedFoodCount
-        if sender.tag == 0 {
-            sender.setTitle("Food Count: 2", for: .normal)
-            sender.tag = 1
-        } else if sender.tag == 1 {
-            sender.setTitle("Food Count: 3", for: .normal)
-            sender.tag = 2
-        } else if sender.tag == 2 {
-            sender.setTitle("Food Count: 5", for: .normal)
-            sender.tag = 4
-        } else {
-            sender.setTitle("Food Count: 1", for: .normal)
-            sender.tag = 0
-        }
-        defaults.set(sender.tag, forKey: "FoodCountSetting")
-    }
-    
-    func boolIconButtonResponder(_ sender: UIButton, isIconButton: Bool, key: String, trueOption: String, falseOption: String) {
+    func boolButtonResponder(_ sender: UIButton, isIconButton: Bool, key: String, trueOption: String, falseOption: String) {
         sender.tag = defaults.integer(forKey: key)
-        if isIconButton == true {
+        if isIconButton {
             if sender.tag == 1 {
                 sender.setImage(UIImage(named: trueOption), for: .normal)
                 sender.tag = 0
@@ -404,20 +341,59 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         defaults.set(sender.tag, forKey: key)
     }
     
+    func fourOptionButtonResponder(_ sender: UIButton, isSpeedButton: Bool, key: String, optionArray: [String]) {
+        sender.tag = defaults.integer(forKey: key)
+        if isSpeedButton {gameMoveSpeed = defaults.float(forKey: "Snake Move Speed")}
+        if sender.tag == 1 {
+            sender.setTitle(optionArray[1], for: .normal)
+            sender.tag = 2
+            if isSpeedButton {gameMoveSpeed = 0.1}
+        } else if sender.tag == 2 {
+            sender.setTitle(optionArray[2], for: .normal)
+            sender.tag = 3
+            if isSpeedButton {gameMoveSpeed = 0.01}
+        } else if sender.tag == 3 {
+            sender.setTitle(optionArray[3], for: .normal)
+            sender.tag = 5
+            if isSpeedButton {gameMoveSpeed = 0.5}
+        } else {
+            sender.setTitle(optionArray[0], for: .normal)
+            sender.tag = 1
+            if isSpeedButton {gameMoveSpeed = 0.25}
+        }
+        defaults.set(sender.tag, forKey: key)
+        if isSpeedButton {defaults.set(gameMoveSpeed, forKey: "Snake Move Speed")}
+    }
+    
+    @IBAction func snakeSpeedButtonPressed(_ sender: UIButton) {
+        let options = ["Speed: Slow", "Speed: Normal", "Speed: Fast", "Speed: Extreme"]
+        fourOptionButtonResponder(sender, isSpeedButton: true, key: "Snake Speed Setting", optionArray: options)
+    }
+    
+    @IBAction func foodWeightButtonPressed(_ sender: UIButton) {
+        let options = ["Food Weight: 1", "Food Weight: 2", "Food Weight: 3", "Food Weight: 5"]
+        fourOptionButtonResponder(sender, isSpeedButton: false, key: "Food Weight Setting", optionArray: options)
+    }
+    
+    @IBAction func foodCountButtonPressed(_ sender: UIButton) {
+        let options = ["Food Count: 1", "Food Count: 2", "Food Count: 3", "Food Count: 5"]
+        fourOptionButtonResponder(sender, isSpeedButton: false, key: "Food Count Setting", optionArray: options)
+    }
+    
     @IBAction func godButtonPressed(_ sender: UIButton) {
-        boolIconButtonResponder(sender, isIconButton: false, key: "God Button On Setting", trueOption: "God Mode: On", falseOption: "God Mode: Off")
+        boolButtonResponder(sender, isIconButton: false, key: "God Button On Setting", trueOption: "God Mode: On", falseOption: "God Mode: Off")
     }
     
     @IBAction func soundButtonPressed(_ sender: UIButton) {
-        boolIconButtonResponder(sender, isIconButton: true, key: "Volume On Setting", trueOption: "Volume_On_Icon.pdf", falseOption: "Volume_Mute_Icon.pdf")
+        boolButtonResponder(sender, isIconButton: true, key: "Volume On Setting", trueOption: "Volume_On_Icon.pdf", falseOption: "Volume_Mute_Icon.pdf")
     }
     
     @IBAction func stepButtonPressed(_ sender: UIButton) {
-        boolIconButtonResponder(sender, isIconButton: true, key: "Step Mode On Setting", trueOption: "Step_Icon.pdf", falseOption: "Play_Icon.pdf")
+        boolButtonResponder(sender, isIconButton: true, key: "Step Mode On Setting", trueOption: "Step_Icon.pdf", falseOption: "Play_Icon.pdf")
     }
     
     @IBAction func darkModeButtonPressed(_ sender: UIButton) {
-        boolIconButtonResponder(sender, isIconButton: true, key: "Dark Mode On Setting", trueOption: "Dark_Mode_Icon.pdf", falseOption: "Light_Mode_Icon.pdf")
+        boolButtonResponder(sender, isIconButton: true, key: "Dark Mode On Setting", trueOption: "Dark_Mode_Icon.pdf", falseOption: "Light_Mode_Icon.pdf")
         defaults.integer(forKey: "Dark Mode On Setting") == 1 ? (overrideUserInterfaceStyle = .dark) : (overrideUserInterfaceStyle = .light)
     }
 }
