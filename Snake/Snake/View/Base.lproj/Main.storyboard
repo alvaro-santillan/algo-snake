@@ -287,14 +287,6 @@
                                             <action selector="godButtonPressed:" destination="x7L-u7-4Ti" eventType="touchUpInside" id="1BS-yH-73U"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yqy-yh-N6D" userLabel="Return To Game">
-                                        <rect key="frame" x="21" y="352" width="45" height="45"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" image="chevron-down-solid">
-                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </state>
-                                    </button>
                                     <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rF9-Fn-yKR" userLabel="Sound" customClass="SettingsUIButton" customModule="Snake" customModuleProvider="target">
                                         <rect key="frame" x="211" y="352" width="45" height="45"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -350,7 +342,7 @@
                                             <segue destination="9gE-ur-Y08" kind="show" id="bDA-CS-kIA"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qGO-HJ-kpL" userLabel="Return To Game" customClass="SettingsUIButton" customModule="Snake" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8uq-B1-7Ui" userLabel="Sound" customClass="SettingsUIButton" customModule="Snake" customModuleProvider="target">
                                         <rect key="frame" x="21" y="352" width="45" height="45"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -358,7 +350,7 @@
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
-                                            <action selector="returnToPreviousView:" destination="x7L-u7-4Ti" eventType="touchUpInside" id="0Xf-Ta-uLu"/>
+                                            <action selector="returnButtonPressed:" destination="x7L-u7-4Ti" eventType="touchUpInside" id="mOp-fG-mVk"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -430,7 +422,7 @@
                         <outlet property="helpButton" destination="upX-fy-FEE" id="pcl-Ng-vjy"/>
                         <outlet property="homeButton" destination="e4T-iy-Fyn" id="bKX-xJ-7yc"/>
                         <outlet property="leftView" destination="gzl-h0-Vcb" id="OkJ-Dt-LNb"/>
-                        <outlet property="returnToLastScreenButton" destination="yqy-yh-N6D" id="d0F-Ag-yLP"/>
+                        <outlet property="returnButton" destination="8uq-B1-7Ui" id="SHd-6Z-lhm"/>
                         <outlet property="rightView" destination="xDg-9d-HTP" id="mW3-Gc-OAn"/>
                         <outlet property="snakeSpeedButton" destination="2Q6-95-HQk" id="gyA-vP-cVS"/>
                         <outlet property="soundButton" destination="rF9-Fn-yKR" id="bBc-g9-Njf"/>
@@ -655,7 +647,6 @@
         <image name="Settings_Icon" width="384" height="384"/>
         <image name="Volume_On_Icon" width="288" height="384"/>
         <image name="Weight_Icon" width="512" height="512"/>
-        <image name="chevron-down-solid" width="336" height="384"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="f62-Ey-MOA"/>

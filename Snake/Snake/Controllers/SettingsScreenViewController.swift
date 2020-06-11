@@ -51,6 +51,8 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     @IBOutlet weak var rightView: UIView!
     @IBOutlet weak var leftView: UIView!
     
+    @IBOutlet weak var tableVIew: UITableView!
+    
     // Text Buttons
     @IBOutlet weak var clearAllButton: UIButton!
     @IBOutlet weak var clearBarrierButton: UIButton!
@@ -59,9 +61,9 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     @IBOutlet weak var snakeSpeedButton: UIButton!
     @IBOutlet weak var foodWeightButton: UIButton!
     @IBOutlet weak var foodCountButton: UIButton!
+    
     // Icon Buttons
-    @IBOutlet weak var tableVIew: UITableView!
-    @IBOutlet weak var returnToLastScreenButton: UIButton!
+    @IBOutlet weak var returnButton: UIButton!
     @IBOutlet weak var helpButton: UIButton!
     @IBOutlet weak var soundButton: UIButton!
     @IBOutlet weak var stepOrPlayPauseButton: UIButton!
@@ -114,8 +116,8 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         foodCountButton.layer.shadowOpacity = 0.2
         
         // Icon Buttons
-        returnToLastScreenButton.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
-        returnToLastScreenButton.layer.shadowOpacity = 0.5
+        returnButton.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
+        returnButton.layer.shadowOpacity = 0.5
         helpButton.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
         helpButton.layer.shadowOpacity = 0.5
         soundButton.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
@@ -341,7 +343,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         boolButtonResponder(sender, isIconButton: false, key: "God Button On Setting", trueOption: "God Mode: On", falseOption: "God Mode: Off")
     }
     
-    @IBAction func returnToPreviousView(_ sender: UIButton) {
+    @IBAction func returnButtonPressed(_ sender: UIButton) {
         self.dismiss(animated: true)
     }
     
