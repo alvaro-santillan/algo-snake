@@ -169,33 +169,15 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             foodCountButton.setTitle("Food Count: 1", for: .normal)
         }
         
-        savedGodButton = defaults.integer(forKey: "GodButtonSetting")
-        if savedGodButton == 1 {
-            godModeButton.setTitle("God Mode: On", for: .normal)
-        } else {
-            godModeButton.setTitle("God Mode: Off", for: .normal)
+        func boolButtonLoader(key: String, targetButton: UIButton, trueOption: String, falseOption: String) {
+            let buttonSetting = NSNumber(value: defaults.bool(forKey: key)).intValue
+            buttonSetting == 0 ? (targetButton.setImage(UIImage(named: trueOption), for: .normal)) : (targetButton.setImage(UIImage(named: falseOption), for: .normal))
         }
         
-        muteButton = defaults.integer(forKey: "muteButtonSetting")
-        if muteButton == 1 {
-            soundButton.setImage(UIImage(named: "Volume_Mute_Icon.pdf"), for: .normal)
-        } else {
-            soundButton.setImage(UIImage(named: "Volume_On_Icon.pdf"), for: .normal)
-        }
-        
-        stopOrPlayButton = defaults.integer(forKey: "stopOrPlayButtonSetting")
-        if stopOrPlayButton == 1 {
-            stepOrPlayPauseButton.setImage(UIImage(named: "Play_Icon.pdf"), for: .normal)
-        } else {
-            stepOrPlayPauseButton.setImage(UIImage(named: "Step_Icon.pdf"), for: .normal)
-        }
-        
-        darkOrLightButton = defaults.integer(forKey: "darkOrLightButton")
-        if darkOrLightButton == 1 {
-            darkOrLightModeButton.setImage(UIImage(named: "Light_Mode_Icon.pdf"), for: .normal)
-        } else {
-            darkOrLightModeButton.setImage(UIImage(named: "Dark_Mode_Icon.pdf"), for: .normal)
-        }
+        boolButtonLoader(key: "God Button On Setting", targetButton: godModeButton, trueOption: "God Mode: On", falseOption: "God Mode: Off")
+        boolButtonLoader(key: "Volume On Setting", targetButton: soundButton, trueOption: "Volume_On_Icon.pdf", falseOption: "Volume_Mute_Icon.pdf")
+        boolButtonLoader(key: "Step Mode On Setting", targetButton: stepOrPlayPauseButton, trueOption: "Step_Icon.pdf", falseOption: "Play_Icon.pdf")
+        boolButtonLoader(key: "Dark Mode On Setting", targetButton: darkOrLightModeButton, trueOption: "Dark_Mode_Icon.pdf", falseOption: "Light_Mode_Icon.pdf")
     }
     
     let colors = [ // Range 0 to 19
