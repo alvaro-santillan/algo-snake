@@ -36,7 +36,7 @@ extension UserDefaults {
     }
 }
 
-class SettingsUIButton : UIButton {
+class SettingsUIButton: UIButton {
     override func awakeFromNib() {
         super.awakeFromNib()
         self.layer.shadowColor = UIColor.darkGray.cgColor
@@ -46,11 +46,25 @@ class SettingsUIButton : UIButton {
     }
 }
 
+class TextUIButton: SettingsUIButton {
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.layer.shadowOpacity = 0.2
+    }
+}
+
+class IconUIButton: SettingsUIButton {
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
+        self.layer.shadowOpacity = 0.5
+    }
+}
+
 class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource  {
     // Views
     @IBOutlet weak var rightView: UIView!
     @IBOutlet weak var leftView: UIView!
-    
     @IBOutlet weak var tableVIew: UITableView!
     
     // Text Buttons
@@ -105,29 +119,6 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         leftView.layer.shadowRadius = 10
         leftView.layer.shadowOpacity = 0.5
         leftView.layer.shadowOffset = .zero
-        
-        // Text Buttons
-        clearAllButton.layer.shadowOpacity = 0.2
-        clearBarrierButton.layer.shadowOpacity = 0.2
-        clearPathButton.layer.shadowOpacity = 0.2
-        godModeButton.layer.shadowOpacity = 0.2
-        snakeSpeedButton.layer.shadowOpacity = 0.2
-        foodWeightButton.layer.shadowOpacity = 0.2
-        foodCountButton.layer.shadowOpacity = 0.2
-        
-        // Icon Buttons
-        returnButton.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
-        returnButton.layer.shadowOpacity = 0.5
-        helpButton.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
-        helpButton.layer.shadowOpacity = 0.5
-        soundButton.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
-        soundButton.layer.shadowOpacity = 0.5
-        stepOrPlayPauseButton.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
-        stepOrPlayPauseButton.layer.shadowOpacity = 0.5
-        darkOrLightModeButton.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
-        darkOrLightModeButton.layer.shadowOpacity = 0.5
-        homeButton.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
-        homeButton.layer.shadowOpacity = 0.5
         
         snake = defaults.colorForKey(key: "Snake") ?? colors[legendData[0][1] as! Int]
         snakeHead = defaults.colorForKey(key: "Head") ?? colors[legendData[1][1] as! Int]
