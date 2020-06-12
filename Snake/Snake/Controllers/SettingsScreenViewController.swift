@@ -15,9 +15,7 @@ extension UserDefaults {
             do {
                 colorData = try NSKeyedArchiver.archivedData(withRootObject: color, requiringSecureCoding: false) as NSData?
                 set(colorData, forKey: key)
-            } catch let err {
-                print("error archiving color data", err)
-            }
+            } catch let error {print("Error archiving data", error)}
         }
     }
     
@@ -26,9 +24,7 @@ extension UserDefaults {
         if let colorData = data(forKey: key) {
             do {
                 color = try NSKeyedUnarchiver.unarchivedObject(ofClass: UIColor.self, from: colorData)
-            } catch let err {
-                print("error unarchiving color data", err)
-            }
+            } catch let error {print("Error unarchiving data", error)}
         }
         return color
     }
@@ -59,7 +55,7 @@ class IconUIButton: SettingsUIButton {
     }
 }
 
-class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource  {
+class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     // Views
     @IBOutlet weak var rightView: UIView!
     @IBOutlet weak var leftView: UIView!
@@ -80,7 +76,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     @IBOutlet weak var darkOrLightModeButton: UIButton!
     
     let defaults = UserDefaults.standard
-    let colors = [ // Range 0 to 19
+    let colors = [
         UIColor(red:0.93, green:0.94, blue:0.95, alpha:1.00), // White Clouds
         UIColor(red:0.74, green:0.76, blue:0.78, alpha:1.00), // White Silver
         UIColor(red:0.58, green:0.65, blue:0.65, alpha:1.00), // Light Gray Concrete
@@ -106,26 +102,18 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     override func viewDidLoad() {
         super.viewDidLoad()
         defaults.integer(forKey: "Dark Mode On Setting") == 1 ? (overrideUserInterfaceStyle = .dark) : (overrideUserInterfaceStyle = .light)
-        
-        // Views
+        loadViewStyling()
+        loadButtonStyling()
+    }
+    
+    func loadViewStyling() {
         leftView.layer.shadowColor = UIColor.darkGray.cgColor
         leftView.layer.shadowRadius = 10
         leftView.layer.shadowOpacity = 0.5
         leftView.layer.shadowOffset = .zero
-        
-        var snake = defaults.colorForKey(key: "Snake") ?? colors[legendData[0][1] as! Int]
-        var snakeHead = defaults.colorForKey(key: "Head") ?? colors[legendData[1][1] as! Int]
-        var food = defaults.colorForKey(key: "Food") ?? colors[legendData[2][1] as! Int]
-        var path = defaults.colorForKey(key: "Path") ?? colors[legendData[3][1] as! Int]
-        var visitedSquare = defaults.colorForKey(key: "Visited Square") ?? colors[legendData[4][1] as! Int]
-        var queuedSquare = defaults.colorForKey(key: "Queued Square") ?? colors[legendData[5][1] as! Int]
-        var unvisitedSquare = defaults.colorForKey(key: "Unvisited Square") ?? colors[legendData[6][1] as! Int]
-        var barrier = defaults.colorForKey(key: "Barrier") ?? colors[legendData[7][1] as! Int]
-        var weight = defaults.colorForKey(key: "Weight") ?? colors[legendData[8][1] as! Int]
-        
-//        Settings data percestence
-        legendData = defaults.array(forKey: "legendPrefences") as? [[Any]] ?? legendData
-        
+    }
+    
+    func loadButtonStyling() {
         func boolButtonLoader(isIconButton: Bool, targetButton: UIButton, key: String, trueOption: String, falseOption: String) {
             let buttonSetting = NSNumber(value: defaults.bool(forKey: key)).intValue
             if isIconButton == true {
@@ -166,6 +154,8 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        legendData = defaults.array(forKey: "legendPrefences") as? [[Any]] ?? legendData
+        
         let cell2 = tableView.dequeueReusableCell(withIdentifier: "cell2", for: indexPath) as! SettingsScreenTableViewCell
         cell2.myLabell.text = legendData[indexPath.row][0] as? String
         cell2.myImagee.backgroundColor = colors[(legendData[indexPath.row][1] as? Int)!]
@@ -190,57 +180,6 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         defaults.set(legendData, forKey: "legendPrefences")
         defaults.setColor(color: colors[(legendData[imgView.tag][1] as? Int)!], forKey: legendData[imgView.tag][0] as! String)
         tableVIew.reloadData()
-    }
-    
-    func boolButtonResponder(_ sender: UIButton, isIconButton: Bool, key: String, trueOption: String, falseOption: String) {
-        sender.tag = NSNumber(value: defaults.bool(forKey: key)).intValue
-        if isIconButton {
-            // If on when clicked, change to off, and vise versa.
-            if sender.tag == 1 {
-                sender.setImage(UIImage(named: falseOption), for: .normal)
-                sender.tag = 0
-            } else {
-                sender.setImage(UIImage(named: trueOption), for: .normal)
-                sender.tag = 1
-            }
-        } else {
-            // If on when clicked, change to off, and vise versa.
-            if sender.tag == 1 {
-                sender.setTitle(falseOption, for: .normal)
-                sender.tag = 0
-            } else {
-                sender.setTitle(trueOption, for: .normal)
-                sender.tag = 1
-            }
-        }
-        defaults.set(Bool(truncating: sender.tag as NSNumber), forKey: key)
-    }
-    
-    func fourOptionButtonResponder(_ sender: UIButton, isSpeedButton: Bool, key: String, optionArray: [String]) {
-        var gameMoveSpeed = Float()
-        sender.tag = defaults.integer(forKey: key)
-
-        if isSpeedButton {gameMoveSpeed = defaults.float(forKey: "Snake Move Speed")}
-        if sender.tag == 1 {
-            sender.setTitle(optionArray[1], for: .normal)
-            sender.tag = 2
-            if isSpeedButton {gameMoveSpeed = 0.10}
-        } else if sender.tag == 2 {
-            sender.setTitle(optionArray[2], for: .normal)
-            sender.tag = 3
-            if isSpeedButton {gameMoveSpeed = 0.01}
-        } else if sender.tag == 3 {
-            sender.setTitle(optionArray[3], for: .normal)
-            sender.tag = 5
-            if isSpeedButton {gameMoveSpeed = 0.50}
-        } else {
-            sender.setTitle(optionArray[0], for: .normal)
-            sender.tag = 1
-            if isSpeedButton {gameMoveSpeed = 0.25}
-        }
-        
-        defaults.set(sender.tag, forKey: key)
-        if isSpeedButton {defaults.set(gameMoveSpeed, forKey: "Snake Move Speed")}
     }
     
     @IBAction func clearAllButtonPressed(_ sender: UIButton) {
@@ -294,5 +233,56 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     @IBAction func darkModeButtonPressed(_ sender: UIButton) {
         boolButtonResponder(sender, isIconButton: true, key: "Dark Mode On Setting", trueOption: "Dark_Mode_Icon.pdf", falseOption: "Light_Mode_Icon.pdf")
         defaults.bool(forKey: "Dark Mode On Setting") == true ? (overrideUserInterfaceStyle = .dark) : (overrideUserInterfaceStyle = .light)
+    }
+
+    func boolButtonResponder(_ sender: UIButton, isIconButton: Bool, key: String, trueOption: String, falseOption: String) {
+        sender.tag = NSNumber(value: defaults.bool(forKey: key)).intValue
+        if isIconButton {
+            // If on when clicked, change to off, and vise versa.
+            if sender.tag == 1 {
+                sender.setImage(UIImage(named: falseOption), for: .normal)
+                sender.tag = 0
+            } else {
+                sender.setImage(UIImage(named: trueOption), for: .normal)
+                sender.tag = 1
+            }
+        } else {
+            // If on when clicked, change to off, and vise versa.
+            if sender.tag == 1 {
+                sender.setTitle(falseOption, for: .normal)
+                sender.tag = 0
+            } else {
+                sender.setTitle(trueOption, for: .normal)
+                sender.tag = 1
+            }
+        }
+        defaults.set(Bool(truncating: sender.tag as NSNumber), forKey: key)
+    }
+    
+    func fourOptionButtonResponder(_ sender: UIButton, isSpeedButton: Bool, key: String, optionArray: [String]) {
+        var gameMoveSpeed = Float()
+        sender.tag = defaults.integer(forKey: key)
+
+        if isSpeedButton {gameMoveSpeed = defaults.float(forKey: "Snake Move Speed")}
+        if sender.tag == 1 {
+            sender.setTitle(optionArray[1], for: .normal)
+            sender.tag = 2
+            if isSpeedButton {gameMoveSpeed = 0.10}
+        } else if sender.tag == 2 {
+            sender.setTitle(optionArray[2], for: .normal)
+            sender.tag = 3
+            if isSpeedButton {gameMoveSpeed = 0.01}
+        } else if sender.tag == 3 {
+            sender.setTitle(optionArray[3], for: .normal)
+            sender.tag = 5
+            if isSpeedButton {gameMoveSpeed = 0.50}
+        } else {
+            sender.setTitle(optionArray[0], for: .normal)
+            sender.tag = 1
+            if isSpeedButton {gameMoveSpeed = 0.25}
+        }
+        
+        defaults.set(sender.tag, forKey: key)
+        if isSpeedButton {defaults.set(gameMoveSpeed, forKey: "Snake Move Speed")}
     }
 }
