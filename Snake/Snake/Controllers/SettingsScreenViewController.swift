@@ -125,6 +125,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     override func viewDidLoad() {
         super.viewDidLoad()
         defaults.integer(forKey: "Dark Mode On Setting") == 1 ? (overrideUserInterfaceStyle = .dark) : (overrideUserInterfaceStyle = .light)
+        checkIfFirstRun()
         loadViewStyling()
         loadButtonStyling()
     }
@@ -148,6 +149,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         
         func fourOptionButtonLoader(targetButton: UIButton, key: String, optionArray: [String]) {
             let buttonSetting = defaults.integer(forKey: key)
+            print("four oprion", buttonSetting)
             if buttonSetting == 1 {
                 targetButton.setTitle(optionArray[0], for: .normal)
             } else if buttonSetting == 2 {
@@ -160,7 +162,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         }
         
         var options = ["Speed: Slow", "Speed: Normal", "Speed: Fast", "Speed: Extreme"]
-        fourOptionButtonLoader(targetButton: snakeSpeedButton, key: "Snake Speed Setting", optionArray: options)
+        fourOptionButtonLoader(targetButton: snakeSpeedButton, key: "Snake Speed Text Setting", optionArray: options)
         options = ["Food Weight: 1", "Food Weight: 2", "Food Weight: 3", "Food Weight: 5"]
         fourOptionButtonLoader(targetButton: foodWeightButton, key: "Food Weight Setting", optionArray: options)
         options = ["Food Count: 1", "Food Count: 2", "Food Count: 3", "Food Count: 5"]
@@ -234,7 +236,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     
     @IBAction func snakeSpeedButtonPressed(_ sender: UIButton) {
         let options = ["Speed: Slow", "Speed: Normal", "Speed: Fast", "Speed: Extreme"]
-        fourOptionButtonResponder(sender, isSpeedButton: true, key: "Snake Speed Setting", optionArray: options)
+        fourOptionButtonResponder(sender, isSpeedButton: true, key: "Snake Speed Text Setting", optionArray: options)
     }
     
     @IBAction func foodWeightButtonPressed(_ sender: UIButton) {
@@ -318,5 +320,21 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         
         defaults.set(sender.tag, forKey: key)
         if isSpeedButton {defaults.set(gameMoveSpeed, forKey: "Snake Move Speed")}
+    }
+    
+    func checkIfFirstRun() {
+        if !UserDefaults.standard.bool(forKey: "Not First Launch") {
+        UserDefaults.standard.set(true, forKey: "Not First Launch")
+        print("settingDefalts hit")
+        defaults.set(2, forKey: "Snake Speed Text Setting")
+        defaults.set(0.01, forKey: "Snake Move Speed")
+        defaults.set(true, forKey: "Food Weight Setting")
+        defaults.set(true, forKey: "Food Count Setting")
+        defaults.set(false, forKey: "God Button On Setting")
+        defaults.set(true, forKey: "Volume On Setting")
+        defaults.set(false, forKey: "Step Mode On Setting")
+        defaults.set(true, forKey: "Dark Mode On Setting")
+        overrideUserInterfaceStyle = .dark
+        }
     }
 }
