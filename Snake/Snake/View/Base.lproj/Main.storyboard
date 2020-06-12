@@ -191,10 +191,10 @@
             </objects>
             <point key="canvasLocation" x="324" y="-387"/>
         </scene>
-        <!--Settings View Controller-->
+        <!--MainScreen-->
         <scene sceneID="JvJ-p6-B9n">
             <objects>
-                <viewController id="x7L-u7-4Ti" customClass="SettingsViewController" customModule="Snake" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="MainScreen" id="x7L-u7-4Ti" customClass="SettingsViewController" customModule="Snake" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="DhK-yG-hbA">
                         <rect key="frame" x="0.0" y="0.0" width="736" height="414"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -649,7 +649,7 @@
         <image name="Weight_Icon" width="512" height="512"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="f62-Ey-MOA"/>
+        <segue reference="HB8-7U-962"/>
         <segue reference="Bhq-DF-cdl"/>
     </inferredMetricsTieBreakers>
 </document>

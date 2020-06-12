@@ -27,17 +27,37 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     lazy var tableViewDisplayList = pathFindingAlgorithmList
     
+    override func viewWillAppear(_ animated: Bool) {
+        print("--------------qqqqqqqqqqweqweqweqweqweqweqwe---------------")
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+//        if (self.isBeingDismissed || self.isMovingFromParent) {
+            print("---asdasdasdasd---")
+//        }
+    }
+    
+    override func willMove(toParent parent: UIViewController?) {
+        print("---qqqwqwqwqw---")
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        print("--------------zxzxzxzxzxzxzxzxzxzxzxzxzxzxzx---------------")
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        print("--------------asdjfhasdhfkasdhfjkasdhfkjad---------------")
+        UserDefaults.standard.bool(forKey: "Dark Mode On Setting") == true ? (overrideUserInterfaceStyle = .dark) : (overrideUserInterfaceStyle = .light)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("--------------dafsdfakjsdfkjashdfhasdjkfhasd---------------")
         
 //        self.clearsSelectionOnViewWillAppear = false
         highScoreLabel.text = "High Score: \(UserDefaults.standard.integer(forKey: "highScore"))"
         lastScoreLabel.text = "Last Score: \(UserDefaults.standard.integer(forKey: "lastScore"))"
-        if UserDefaults.standard.integer(forKey: "darkOrLightButton") == 0 {
-            overrideUserInterfaceStyle = .dark
-        } else {
-            overrideUserInterfaceStyle = .light
-        }
+        UserDefaults.standard.bool(forKey: "Dark Mode On Setting") == true ? (overrideUserInterfaceStyle = .dark) : (overrideUserInterfaceStyle = .light)
         
         // Views
         leftView.layer.shadowColor = UIColor.darkGray.cgColor

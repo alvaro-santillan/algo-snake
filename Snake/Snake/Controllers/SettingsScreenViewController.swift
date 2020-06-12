@@ -293,6 +293,9 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     @IBAction func returnButtonPressed(_ sender: UIButton) {
+//        self.view?.window?.rootViewController?.dismiss(animated: true, completion: nil)
+//        let viewController:UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "HomeScreeen") as UIViewController
+//        self.present(viewController, animated: true, completion: nil)
         self.dismiss(animated: true)
     }
     
@@ -306,6 +309,6 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     
     @IBAction func darkModeButtonPressed(_ sender: UIButton) {
         boolButtonResponder(sender, isIconButton: true, key: "Dark Mode On Setting", trueOption: "Dark_Mode_Icon.pdf", falseOption: "Light_Mode_Icon.pdf")
-        defaults.integer(forKey: "Dark Mode On Setting") == 1 ? (overrideUserInterfaceStyle = .dark) : (overrideUserInterfaceStyle = .light)
+        defaults.bool(forKey: "Dark Mode On Setting") == true ? (overrideUserInterfaceStyle = .dark) : (overrideUserInterfaceStyle = .light)
     }
 }
