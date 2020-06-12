@@ -105,8 +105,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         UIColor(red:0.90, green:0.49, blue:0.13, alpha:1.00), // Orange Carrot
         UIColor(red:0.83, green:0.33, blue:0.00, alpha:1.00), // Orange Pumpkin
         UIColor(red:0.95, green:0.77, blue:0.06, alpha:1.00), // Yellow Sun Flower
-        UIColor(red:0.95, green:0.61, blue:0.07, alpha:1.00) // Yellow Orange
-    ]
+        UIColor(red:0.95, green:0.61, blue:0.07, alpha:1.00)] // Yellow Orange
     var legendData = [["Snake", 0], ["Snake Head", 0], ["Food", 3], ["Path", 17], ["Visited Square", 5], ["Queued Square", 15], ["Unvisited Square", 13], ["Barrier", 7], ["Weight", 19]]
     var SavedlegendData = [[Any]]()
     var SavedSpeed = Int()
@@ -156,15 +155,15 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         }
         
         func fourOptionButtonLoader(targetButton: UIButton, key: String, optionArray: [String]) {
-            let buttonSetting = NSNumber(value: defaults.bool(forKey: key)).intValue
+            let buttonSetting = defaults.integer(forKey: key)
             if buttonSetting == 1 {
-                targetButton.setTitle(optionArray[1], for: .normal)
-            } else if buttonSetting == 2 {
-                targetButton.setTitle(optionArray[2], for: .normal)
-            } else if buttonSetting == 4 {
-                targetButton.setTitle(optionArray[3], for: .normal)
-            } else {
                 targetButton.setTitle(optionArray[0], for: .normal)
+            } else if buttonSetting == 2 {
+                targetButton.setTitle(optionArray[1], for: .normal)
+            } else if buttonSetting == 3 {
+                targetButton.setTitle(optionArray[2], for: .normal)
+            } else {
+                targetButton.setTitle(optionArray[3], for: .normal)
             }
         }
         
@@ -238,6 +237,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     
     func fourOptionButtonResponder(_ sender: UIButton, isSpeedButton: Bool, key: String, optionArray: [String]) {
         sender.tag = defaults.integer(forKey: key)
+//        let options = ["Speed: Slow", "Speed: Normal", "Speed: Fast", "Speed: Extreme"]
         if isSpeedButton {gameMoveSpeed = defaults.float(forKey: "Snake Move Speed")}
         if sender.tag == 1 {
             sender.setTitle(optionArray[1], for: .normal)
