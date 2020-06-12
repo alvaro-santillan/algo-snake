@@ -169,15 +169,19 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             foodCountButton.setTitle("Food Count: 1", for: .normal)
         }
         
-        func boolButtonLoader(key: String, targetButton: UIButton, trueOption: String, falseOption: String) {
+        func boolButtonLoader(isIconButton: Bool, targetButton: UIButton, key: String, trueOption: String, falseOption: String) {
             let buttonSetting = NSNumber(value: defaults.bool(forKey: key)).intValue
-            buttonSetting == 1 ? (targetButton.setImage(UIImage(named: trueOption), for: .normal)) : (targetButton.setImage(UIImage(named: falseOption), for: .normal))
+            if isIconButton == true {
+                buttonSetting == 1 ? (targetButton.setImage(UIImage(named: trueOption), for: .normal)) : (targetButton.setImage(UIImage(named: falseOption), for: .normal))
+            } else {
+                buttonSetting == 1 ? (targetButton.setTitle(trueOption, for: .normal)) : (targetButton.setTitle(falseOption, for: .normal))
+            }
         }
         
-        boolButtonLoader(key: "God Button On Setting", targetButton: godModeButton, trueOption: "God Mode: Onnn", falseOption: "God Mode: Offff")
-        boolButtonLoader(key: "Volume On Setting", targetButton: soundButton, trueOption: "Volume_On_Icon.pdf", falseOption: "Volume_Mute_Icon.pdf")
-        boolButtonLoader(key: "Step Mode On Setting", targetButton: stepOrPlayPauseButton, trueOption: "Step_Icon.pdf", falseOption: "Play_Icon.pdf")
-        boolButtonLoader(key: "Dark Mode On Setting", targetButton: darkOrLightModeButton, trueOption: "Dark_Mode_Icon.pdf", falseOption: "Light_Mode_Icon.pdf")
+        boolButtonLoader(isIconButton: false, targetButton: godModeButton, key: "God Button On Setting", trueOption: "God Mode: On", falseOption: "God Mode: Off")
+        boolButtonLoader(isIconButton: true, targetButton: soundButton, key: "Volume On Setting", trueOption: "Volume_On_Icon.pdf", falseOption: "Volume_Mute_Icon.pdf")
+        boolButtonLoader(isIconButton: true, targetButton: stepOrPlayPauseButton, key: "Step Mode On Setting", trueOption: "Step_Icon.pdf", falseOption: "Play_Icon.pdf")
+        boolButtonLoader(isIconButton: true, targetButton: darkOrLightModeButton, key: "Dark Mode On Setting", trueOption: "Dark_Mode_Icon.pdf", falseOption: "Light_Mode_Icon.pdf")
     }
     
     let colors = [ // Range 0 to 19
@@ -236,7 +240,6 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     
     func boolButtonResponder(_ sender: UIButton, isIconButton: Bool, key: String, trueOption: String, falseOption: String) {
         sender.tag = NSNumber(value: defaults.bool(forKey: key)).intValue
-        print("sfsddd", sender.tag)
         if isIconButton {
             // If on when clicked, change to off, and vise versa.
             if sender.tag == 1 {
@@ -256,7 +259,6 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                 sender.tag = 1
             }
         }
-        print("sfsd", Bool(truncating: sender.tag as NSNumber), sender.tag)
         defaults.set(Bool(truncating: sender.tag as NSNumber), forKey: key)
     }
     
