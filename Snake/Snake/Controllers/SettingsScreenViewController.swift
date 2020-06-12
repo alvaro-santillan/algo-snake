@@ -171,10 +171,10 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         
         func boolButtonLoader(key: String, targetButton: UIButton, trueOption: String, falseOption: String) {
             let buttonSetting = NSNumber(value: defaults.bool(forKey: key)).intValue
-            buttonSetting == 0 ? (targetButton.setImage(UIImage(named: trueOption), for: .normal)) : (targetButton.setImage(UIImage(named: falseOption), for: .normal))
+            buttonSetting == 1 ? (targetButton.setImage(UIImage(named: trueOption), for: .normal)) : (targetButton.setImage(UIImage(named: falseOption), for: .normal))
         }
         
-        boolButtonLoader(key: "God Button On Setting", targetButton: godModeButton, trueOption: "God Mode: On", falseOption: "God Mode: Off")
+        boolButtonLoader(key: "God Button On Setting", targetButton: godModeButton, trueOption: "God Mode: Onnn", falseOption: "God Mode: Offff")
         boolButtonLoader(key: "Volume On Setting", targetButton: soundButton, trueOption: "Volume_On_Icon.pdf", falseOption: "Volume_Mute_Icon.pdf")
         boolButtonLoader(key: "Step Mode On Setting", targetButton: stepOrPlayPauseButton, trueOption: "Step_Icon.pdf", falseOption: "Play_Icon.pdf")
         boolButtonLoader(key: "Dark Mode On Setting", targetButton: darkOrLightModeButton, trueOption: "Dark_Mode_Icon.pdf", falseOption: "Light_Mode_Icon.pdf")
@@ -236,23 +236,27 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     
     func boolButtonResponder(_ sender: UIButton, isIconButton: Bool, key: String, trueOption: String, falseOption: String) {
         sender.tag = NSNumber(value: defaults.bool(forKey: key)).intValue
+        print("sfsddd", sender.tag)
         if isIconButton {
+            // If on when clicked, change to off, and vise versa.
             if sender.tag == 1 {
-                sender.setImage(UIImage(named: trueOption), for: .normal)
+                sender.setImage(UIImage(named: falseOption), for: .normal)
                 sender.tag = 0
             } else {
-                sender.setImage(UIImage(named: falseOption), for: .normal)
+                sender.setImage(UIImage(named: trueOption), for: .normal)
                 sender.tag = 1
             }
         } else {
+            // If on when clicked, change to off, and vise versa.
             if sender.tag == 1 {
-                sender.setTitle(trueOption, for: .normal)
+                sender.setTitle(falseOption, for: .normal)
                 sender.tag = 0
             } else {
-                sender.setTitle(falseOption, for: .normal)
+                sender.setTitle(trueOption, for: .normal)
                 sender.tag = 1
             }
         }
+        print("sfsd", Bool(truncating: sender.tag as NSNumber), sender.tag)
         defaults.set(Bool(truncating: sender.tag as NSNumber), forKey: key)
     }
     
