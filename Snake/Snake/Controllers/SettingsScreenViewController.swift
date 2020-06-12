@@ -179,22 +179,13 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         legendData = defaults.array(forKey: "Legend Preferences") as? [[Any]] ?? legendData
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! SettingsScreenTableViewCell
+        let cellText = (legendData[indexPath.row][0] as? String)
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
         tapGestureRecognizer.numberOfTapsRequired = 1
-        var appropritaeColorPalletArray = [UIColor]()
         
         cell.selectionStyle = UITableViewCell.SelectionStyle.none
         cell.legendOptionText.text = legendData[indexPath.row][0] as? String
-        if (legendData[indexPath.row][0] as? String) == "Gameboard" {
-            if defaults.bool(forKey: "Dark Mode On Setting") == true {
-                appropritaeColorPalletArray = darkBackgroundColors
-            } else {
-                appropritaeColorPalletArray = lightBackgroundColors
-            }
-        } else {
-            appropritaeColorPalletArray = colors
-        }
-        cell.legendOptionSquareColor.backgroundColor = appropritaeColorPalletArray[(legendData[indexPath.row][1] as? Int)!]
+        cell.legendOptionSquareColor.backgroundColor = colorPaletteDesigner(cellText: cellText)[(legendData[indexPath.row][1] as? Int)!]
         cell.legendOptionSquareColor.layer.borderWidth = 1
         cell.legendOptionSquareColor.layer.cornerRadius = cell.legendOptionSquareColor.frame.size.width/4
         cell.legendOptionSquareColor.tag = indexPath.row
@@ -203,30 +194,25 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         return cell
     }
     
-    // perhapse as string and int can be removed.
     @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
         let tappedSquare = tapGestureRecognizer.view as! UIImageView
+        let cellText = legendData[tappedSquare.tag][0] as! String
+        let colorPalette = colorPaletteDesigner(cellText: cellText)
         var colorID = (legendData[tappedSquare.tag][1] as! Int) + 1
         
-        if (legendData[tappedSquare.tag][0] as! String) == "Gameboard" {
-            if defaults.bool(forKey: "Dark Mode On Setting") == true {
-                colorID == darkBackgroundColors.count ? (colorID = 0) : ()
-                legendData[tappedSquare.tag][1] = colorID
-                defaults.set(legendData, forKey: "Legend Preferences")
-                defaults.setColor(color: darkBackgroundColors[(legendData[tappedSquare.tag][1] as! Int)], forKey: legendData[tappedSquare.tag][0] as! String)
-            } else {
-                colorID == lightBackgroundColors.count ? (colorID = 0) : ()
-                legendData[tappedSquare.tag][1] = colorID
-                defaults.set(legendData, forKey: "Legend Preferences")
-                defaults.setColor(color: lightBackgroundColors[(legendData[tappedSquare.tag][1] as! Int)], forKey: legendData[tappedSquare.tag][0] as! String)
-            }
-        } else {
-            colorID == colors.count ? (colorID = 0) : ()
-            legendData[tappedSquare.tag][1] = colorID
-            defaults.set(legendData, forKey: "Legend Preferences")
-            defaults.setColor(color: colors[(legendData[tappedSquare.tag][1] as! Int)], forKey: legendData[tappedSquare.tag][0] as! String)
-        }
+        colorID == colorPalette.count ? (colorID = 0) : ()
+        defaults.setColor(color: colorPalette[(legendData[tappedSquare.tag][1] as! Int)], forKey: legendData[tappedSquare.tag][0] as! String)
+        legendData[tappedSquare.tag][1] = colorID
+        defaults.set(legendData, forKey: "Legend Preferences")
         tableVIew.reloadData()
+    }
+    
+    func colorPaletteDesigner(cellText: (String?)) -> ([UIColor]) {
+        if cellText == "Gameboard" {
+            return defaults.bool(forKey: "Dark Mode On Setting") ? darkBackgroundColors : lightBackgroundColors
+        } else {
+            return colors
+        }
     }
     
     @IBAction func clearAllButtonPressed(_ sender: UIButton) {
