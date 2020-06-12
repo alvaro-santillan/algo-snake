@@ -97,7 +97,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         UIColor(red:0.83, green:0.33, blue:0.00, alpha:1.00), // Orange Pumpkin
         UIColor(red:0.95, green:0.77, blue:0.06, alpha:1.00), // Yellow Sun Flower
         UIColor(red:0.95, green:0.61, blue:0.07, alpha:1.00)] // Yellow Orange
-    var legendData = [["Snake", 0], ["Snake Head", 0], ["Food", 3], ["Path", 17], ["Visited Square", 5], ["Queued Square", 15], ["Unvisited Square", 13], ["Barrier", 7], ["Weight", 19]]
+    var legendData = [["Snake Head", 0], ["Snake Body", 0], ["Food", 3], ["Path", 17], ["Visited Square", 5], ["Queued Square", 15], ["Barrier", 7], ["Weight", 19],  ["Gameboard", 13]]
     
     override func viewDidLoad() {
         super.viewDidLoad()
