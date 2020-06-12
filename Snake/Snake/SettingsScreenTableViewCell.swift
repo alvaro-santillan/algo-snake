@@ -9,18 +9,6 @@
 import UIKit
 
 class SettingsScreenTableViewCell: UITableViewCell {
-    @IBOutlet weak var myImagee: UIImageView!
-    @IBOutlet weak var myLabell: UILabel!
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
+    @IBOutlet weak var legendOptionSquareColor: UIImageView!
+    @IBOutlet weak var legendOptionText: UILabel!
 }

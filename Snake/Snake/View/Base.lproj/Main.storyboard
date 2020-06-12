@@ -372,7 +372,7 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell2" rowHeight="34" id="Nju-Ya-EcK" customClass="SettingsScreenTableViewCell" customModule="Snake" customModuleProvider="target">
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" rowHeight="34" id="Nju-Ya-EcK" customClass="SettingsScreenTableViewCell" customModule="Snake" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="28" width="268" height="34"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Nju-Ya-EcK" id="yrd-gP-fDt" customClass="SettingsScreenTableViewCell" customModule="Snake" customModuleProvider="target">
@@ -393,8 +393,8 @@
                                                     </subviews>
                                                 </tableViewCellContentView>
                                                 <connections>
-                                                    <outlet property="myImagee" destination="FH3-5z-Mbe" id="USD-N6-MHV"/>
-                                                    <outlet property="myLabell" destination="uPu-Cm-ISl" id="lMw-a9-9NN"/>
+                                                    <outlet property="legendOptionSquareColor" destination="FH3-5z-Mbe" id="USD-N6-MHV"/>
+                                                    <outlet property="legendOptionText" destination="uPu-Cm-ISl" id="lMw-a9-9NN"/>
                                                 </connections>
                                             </tableViewCell>
                                         </prototypes>

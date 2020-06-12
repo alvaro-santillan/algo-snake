@@ -154,31 +154,29 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        legendData = defaults.array(forKey: "legendPrefences") as? [[Any]] ?? legendData
-        
-        let cell2 = tableView.dequeueReusableCell(withIdentifier: "cell2", for: indexPath) as! SettingsScreenTableViewCell
-        cell2.myLabell.text = legendData[indexPath.row][0] as? String
-        cell2.myImagee.backgroundColor = colors[(legendData[indexPath.row][1] as? Int)!]
-        cell2.myImagee.layer.borderWidth = 1
-        cell2.myImagee.layer.cornerRadius = cell2.myImagee.frame.size.width/4
-        cell2.myImagee.clipsToBounds = true
-        cell2.selectionStyle = UITableViewCell.SelectionStyle.none
+        legendData = defaults.array(forKey: "Legend Preferences") as? [[Any]] ?? legendData
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! SettingsScreenTableViewCell
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
         tapGestureRecognizer.numberOfTapsRequired = 1
-        cell2.myImagee.tag = indexPath.row
-        cell2.myImagee.isUserInteractionEnabled = true
-        cell2.myImagee.addGestureRecognizer(tapGestureRecognizer)
-        return cell2
+        
+        cell.selectionStyle = UITableViewCell.SelectionStyle.none
+        cell.legendOptionText.text = legendData[indexPath.row][0] as? String
+        cell.legendOptionSquareColor.backgroundColor = colors[(legendData[indexPath.row][1] as? Int)!]
+        cell.legendOptionSquareColor.layer.borderWidth = 1
+        cell.legendOptionSquareColor.layer.cornerRadius = cell.legendOptionSquareColor.frame.size.width/4
+        cell.legendOptionSquareColor.tag = indexPath.row
+        cell.legendOptionSquareColor.isUserInteractionEnabled = true
+        cell.legendOptionSquareColor.addGestureRecognizer(tapGestureRecognizer)
+        return cell
     }
     
-    // method to run when imageview is tapped
     @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
-        let imgView = tapGestureRecognizer.view as! UIImageView
-        var colorID = (legendData[imgView.tag][1] as! Int) + 1
-        if colorID == colors.count {colorID = 0}
-        legendData[imgView.tag][1] = colorID
-        defaults.set(legendData, forKey: "legendPrefences")
-        defaults.setColor(color: colors[(legendData[imgView.tag][1] as? Int)!], forKey: legendData[imgView.tag][0] as! String)
+        let tappedSquare = tapGestureRecognizer.view as! UIImageView
+        var colorID = (legendData[tappedSquare.tag][1] as! Int) + 1
+        colorID == colors.count ? (colorID = 0) : ()
+        legendData[tappedSquare.tag][1] = colorID
+        defaults.set(legendData, forKey: "Legend Preferences")
+        defaults.setColor(color: colors[(legendData[tappedSquare.tag][1] as! Int)], forKey: legendData[tappedSquare.tag][0] as! String)
         tableVIew.reloadData()
     }
     
