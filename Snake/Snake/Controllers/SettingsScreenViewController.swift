@@ -85,6 +85,28 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     @IBOutlet weak var homeButton: UIButton!
     
     let defaults = UserDefaults.standard
+    let colors = [ // Range 0 to 19
+        UIColor(red:0.93, green:0.94, blue:0.95, alpha:1.00), // White Clouds
+        UIColor(red:0.74, green:0.76, blue:0.78, alpha:1.00), // White Silver
+        UIColor(red:0.58, green:0.65, blue:0.65, alpha:1.00), // Light Gray Concrete
+        UIColor(red:0.50, green:0.55, blue:0.55, alpha:1.00), // Light Gray Asbestos
+        UIColor(red:0.20, green:0.29, blue:0.37, alpha:1.00), // Dark Gray Wet Asphalt
+        UIColor(red:0.17, green:0.24, blue:0.31, alpha:1.00), // Dark Gray Green Sea
+        UIColor(red:0.61, green:0.35, blue:0.71, alpha:1.00), // Purple Amethyst
+        UIColor(red:0.56, green:0.27, blue:0.68, alpha:1.00), // Purple Wisteria
+        UIColor(red:0.20, green:0.60, blue:0.86, alpha:1.00), // Blue Peter River
+        UIColor(red:0.16, green:0.50, blue:0.73, alpha:1.00), // Blue Belize Hole
+        UIColor(red:0.18, green:0.80, blue:0.44, alpha:1.00), // Green Emerald
+        UIColor(red:0.15, green:0.68, blue:0.38, alpha:1.00), // Green Nephritis
+        UIColor(red:0.10, green:0.74, blue:0.61, alpha:1.00), // Teal Turquoise
+        UIColor(red:0.09, green:0.63, blue:0.52, alpha:1.00), // Teal GreenSea
+        UIColor(red:0.91, green:0.30, blue:0.24, alpha:1.00), // Red Alizarin
+        UIColor(red:0.75, green:0.22, blue:0.17, alpha:1.00), // Red Pomegranate
+        UIColor(red:0.90, green:0.49, blue:0.13, alpha:1.00), // Orange Carrot
+        UIColor(red:0.83, green:0.33, blue:0.00, alpha:1.00), // Orange Pumpkin
+        UIColor(red:0.95, green:0.77, blue:0.06, alpha:1.00), // Yellow Sun Flower
+        UIColor(red:0.95, green:0.61, blue:0.07, alpha:1.00) // Yellow Orange
+    ]
     var legendData = [["Snake", 0], ["Snake Head", 0], ["Food", 3], ["Path", 17], ["Visited Square", 5], ["Queued Square", 15], ["Unvisited Square", 13], ["Barrier", 7], ["Weight", 19]]
     var SavedlegendData = [[Any]]()
     var SavedSpeed = Int()
@@ -95,16 +117,6 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     var muteButton = Int()
     var stopOrPlayButton = Int()
     var darkOrLightButton = Int()
-    
-    var snake = UIColor()
-    var snakeHead = UIColor()
-    var food = UIColor()
-    var path = UIColor()
-    var visitedSquare = UIColor()
-    var queuedSquare = UIColor()
-    var unvisitedSquare = UIColor()
-    var barrier = UIColor()
-    var weight = UIColor()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -120,15 +132,15 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         leftView.layer.shadowOpacity = 0.5
         leftView.layer.shadowOffset = .zero
         
-        snake = defaults.colorForKey(key: "Snake") ?? colors[legendData[0][1] as! Int]
-        snakeHead = defaults.colorForKey(key: "Head") ?? colors[legendData[1][1] as! Int]
-        food = defaults.colorForKey(key: "Food") ?? colors[legendData[2][1] as! Int]
-        path = defaults.colorForKey(key: "Path") ?? colors[legendData[3][1] as! Int]
-        visitedSquare = defaults.colorForKey(key: "Visited Square") ?? colors[legendData[4][1] as! Int]
-        queuedSquare = defaults.colorForKey(key: "Queued Square") ?? colors[legendData[5][1] as! Int]
-        unvisitedSquare = defaults.colorForKey(key: "Unvisited Square") ?? colors[legendData[6][1] as! Int]
-        barrier = defaults.colorForKey(key: "Barrier") ?? colors[legendData[7][1] as! Int]
-        weight = defaults.colorForKey(key: "Weight") ?? colors[legendData[8][1] as! Int]
+        var snake = defaults.colorForKey(key: "Snake") ?? colors[legendData[0][1] as! Int]
+        var snakeHead = defaults.colorForKey(key: "Head") ?? colors[legendData[1][1] as! Int]
+        var food = defaults.colorForKey(key: "Food") ?? colors[legendData[2][1] as! Int]
+        var path = defaults.colorForKey(key: "Path") ?? colors[legendData[3][1] as! Int]
+        var visitedSquare = defaults.colorForKey(key: "Visited Square") ?? colors[legendData[4][1] as! Int]
+        var queuedSquare = defaults.colorForKey(key: "Queued Square") ?? colors[legendData[5][1] as! Int]
+        var unvisitedSquare = defaults.colorForKey(key: "Unvisited Square") ?? colors[legendData[6][1] as! Int]
+        var barrier = defaults.colorForKey(key: "Barrier") ?? colors[legendData[7][1] as! Int]
+        var weight = defaults.colorForKey(key: "Weight") ?? colors[legendData[8][1] as! Int]
         
 //        Settings data percestence
         SavedlegendData = (defaults.array(forKey: "legendPrefences") as? [[Any]] ?? legendData)
@@ -183,29 +195,6 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         boolButtonLoader(isIconButton: true, targetButton: stepOrPlayPauseButton, key: "Step Mode On Setting", trueOption: "Step_Icon.pdf", falseOption: "Play_Icon.pdf")
         boolButtonLoader(isIconButton: true, targetButton: darkOrLightModeButton, key: "Dark Mode On Setting", trueOption: "Dark_Mode_Icon.pdf", falseOption: "Light_Mode_Icon.pdf")
     }
-    
-    let colors = [ // Range 0 to 19
-        UIColor(red:0.93, green:0.94, blue:0.95, alpha:1.00), // White Clouds
-        UIColor(red:0.74, green:0.76, blue:0.78, alpha:1.00), // White Silver
-        UIColor(red:0.58, green:0.65, blue:0.65, alpha:1.00), // Light Gray Concrete
-        UIColor(red:0.50, green:0.55, blue:0.55, alpha:1.00), // Light Gray Asbestos
-        UIColor(red:0.20, green:0.29, blue:0.37, alpha:1.00), // Dark Gray Wet Asphalt
-        UIColor(red:0.17, green:0.24, blue:0.31, alpha:1.00), // Dark Gray Green Sea
-        UIColor(red:0.61, green:0.35, blue:0.71, alpha:1.00), // Purple Amethyst
-        UIColor(red:0.56, green:0.27, blue:0.68, alpha:1.00), // Purple Wisteria
-        UIColor(red:0.20, green:0.60, blue:0.86, alpha:1.00), // Blue Peter River
-        UIColor(red:0.16, green:0.50, blue:0.73, alpha:1.00), // Blue Belize Hole
-        UIColor(red:0.18, green:0.80, blue:0.44, alpha:1.00), // Green Emerald
-        UIColor(red:0.15, green:0.68, blue:0.38, alpha:1.00), // Green Nephritis
-        UIColor(red:0.10, green:0.74, blue:0.61, alpha:1.00), // Teal Turquoise
-        UIColor(red:0.09, green:0.63, blue:0.52, alpha:1.00), // Teal GreenSea
-        UIColor(red:0.91, green:0.30, blue:0.24, alpha:1.00), // Red Alizarin
-        UIColor(red:0.75, green:0.22, blue:0.17, alpha:1.00), // Red Pomegranate
-        UIColor(red:0.90, green:0.49, blue:0.13, alpha:1.00), // Orange Carrot
-        UIColor(red:0.83, green:0.33, blue:0.00, alpha:1.00), // Orange Pumpkin
-        UIColor(red:0.95, green:0.77, blue:0.06, alpha:1.00), // Yellow Sun Flower
-        UIColor(red:0.95, green:0.61, blue:0.07, alpha:1.00) // Yellow Orange
-    ]
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return legendData.count
