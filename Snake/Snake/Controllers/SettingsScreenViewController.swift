@@ -146,41 +146,6 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         SavedlegendData = (defaults.array(forKey: "legendPrefences") as? [[Any]] ?? legendData)
         legendData = SavedlegendData
         
-        SavedSpeed = defaults.integer(forKey: "SavedSpeedSetting")
-        if SavedSpeed == 1 {
-            snakeSpeedButton.setTitle("Speed: Fast", for: .normal)
-        } else if SavedSpeed == 2 {
-            snakeSpeedButton.setTitle("Speed: Extreme", for: .normal)
-        } else if SavedSpeed == 3 {
-            snakeSpeedButton.setTitle("Speed: Slow", for: .normal)
-        } else {
-            snakeSpeedButton.setTitle("Speed: Normal", for: .normal)
-        }
-
-        // can probilby be reduced in size.
-        foodWeight = defaults.integer(forKey: "FoodWeightSetting")
-        print("Food weight", foodWeight)
-        if foodWeight == 1 {
-            foodWeightButton.setTitle("Food Weight: 2", for: .normal)
-        } else if foodWeight == 2 {
-            foodWeightButton.setTitle("Food Weight: 3", for: .normal)
-        } else if foodWeight == 4 {
-            foodWeightButton.setTitle("Food Weight: 5", for: .normal)
-        } else {
-            foodWeightButton.setTitle("Food Weight: 1", for: .normal)
-        }
-        
-        savedFoodCount = defaults.integer(forKey: "FoodCountSetting")
-        if savedFoodCount == 1 {
-            foodCountButton.setTitle("Food Count: 2", for: .normal)
-        } else if savedFoodCount == 2 {
-            foodCountButton.setTitle("Food Count: 3", for: .normal)
-        } else if savedFoodCount == 4 {
-            foodCountButton.setTitle("Food Count: 5", for: .normal)
-        } else {
-            foodCountButton.setTitle("Food Count: 1", for: .normal)
-        }
-        
         func boolButtonLoader(isIconButton: Bool, targetButton: UIButton, key: String, trueOption: String, falseOption: String) {
             let buttonSetting = NSNumber(value: defaults.bool(forKey: key)).intValue
             if isIconButton == true {
@@ -189,6 +154,26 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                 buttonSetting == 1 ? (targetButton.setTitle(trueOption, for: .normal)) : (targetButton.setTitle(falseOption, for: .normal))
             }
         }
+        
+        func fourOptionButtonLoader(targetButton: UIButton, key: String, optionArray: [String]) {
+            let buttonSetting = NSNumber(value: defaults.bool(forKey: key)).intValue
+            if buttonSetting == 1 {
+                targetButton.setTitle(optionArray[1], for: .normal)
+            } else if buttonSetting == 2 {
+                targetButton.setTitle(optionArray[2], for: .normal)
+            } else if buttonSetting == 4 {
+                targetButton.setTitle(optionArray[3], for: .normal)
+            } else {
+                targetButton.setTitle(optionArray[0], for: .normal)
+            }
+        }
+        
+        var options = ["Speed: Slow", "Speed: Normal", "Speed: Fast", "Speed: Extreme"]
+        fourOptionButtonLoader(targetButton: snakeSpeedButton, key: "Snake Speed Setting", optionArray: options)
+        options = ["Food Weight: 1", "Food Weight: 2", "Food Weight: 3", "Food Weight: 5"]
+        fourOptionButtonLoader(targetButton: foodWeightButton, key: "Food Weight Setting", optionArray: options)
+        options = ["Food Count: 1", "Food Count: 2", "Food Count: 3", "Food Count: 5"]
+        fourOptionButtonLoader(targetButton: foodCountButton, key: "Food Count Setting", optionArray: options)
         
         boolButtonLoader(isIconButton: false, targetButton: godModeButton, key: "God Button On Setting", trueOption: "God Mode: On", falseOption: "God Mode: Off")
         boolButtonLoader(isIconButton: true, targetButton: soundButton, key: "Volume On Setting", trueOption: "Volume_On_Icon.pdf", falseOption: "Volume_Mute_Icon.pdf")
