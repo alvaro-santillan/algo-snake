@@ -7,8 +7,6 @@
 //
 
 import UIKit
-import SpriteKit
-import GameplayKit
 
 extension UserDefaults {
     func setColor(color: UIColor?, forKey key: String) {
@@ -68,7 +66,6 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     @IBOutlet weak var tableVIew: UITableView!
     
     // Text Buttons
-    @IBOutlet weak var clearAllButton: UIButton!
     @IBOutlet weak var clearBarrierButton: UIButton!
     @IBOutlet weak var clearPathButton: UIButton!
     @IBOutlet weak var godModeButton: UIButton!
@@ -78,11 +75,9 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     
     // Icon Buttons
     @IBOutlet weak var returnButton: UIButton!
-    @IBOutlet weak var helpButton: UIButton!
     @IBOutlet weak var soundButton: UIButton!
     @IBOutlet weak var stepOrPlayPauseButton: UIButton!
     @IBOutlet weak var darkOrLightModeButton: UIButton!
-    @IBOutlet weak var homeButton: UIButton!
     
     let defaults = UserDefaults.standard
     let colors = [ // Range 0 to 19
@@ -107,15 +102,6 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         UIColor(red:0.95, green:0.77, blue:0.06, alpha:1.00), // Yellow Sun Flower
         UIColor(red:0.95, green:0.61, blue:0.07, alpha:1.00)] // Yellow Orange
     var legendData = [["Snake", 0], ["Snake Head", 0], ["Food", 3], ["Path", 17], ["Visited Square", 5], ["Queued Square", 15], ["Unvisited Square", 13], ["Barrier", 7], ["Weight", 19]]
-    var SavedlegendData = [[Any]]()
-    var SavedSpeed = Int()
-    var gameMoveSpeed = Float()
-    var foodWeight = Int()
-    var savedFoodCount = Int()
-    var savedGodButton = Int()
-    var muteButton = Int()
-    var stopOrPlayButton = Int()
-    var darkOrLightButton = Int()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -138,8 +124,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         var weight = defaults.colorForKey(key: "Weight") ?? colors[legendData[8][1] as! Int]
         
 //        Settings data percestence
-        SavedlegendData = (defaults.array(forKey: "legendPrefences") as? [[Any]] ?? legendData)
-        legendData = SavedlegendData
+        legendData = defaults.array(forKey: "legendPrefences") as? [[Any]] ?? legendData
         
         func boolButtonLoader(isIconButton: Bool, targetButton: UIButton, key: String, trueOption: String, falseOption: String) {
             let buttonSetting = NSNumber(value: defaults.bool(forKey: key)).intValue
@@ -232,8 +217,9 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func fourOptionButtonResponder(_ sender: UIButton, isSpeedButton: Bool, key: String, optionArray: [String]) {
+        var gameMoveSpeed = Float()
         sender.tag = defaults.integer(forKey: key)
-//        let options = ["Speed: Slow", "Speed: Normal", "Speed: Fast", "Speed: Extreme"]
+
         if isSpeedButton {gameMoveSpeed = defaults.float(forKey: "Snake Move Speed")}
         if sender.tag == 1 {
             sender.setTitle(optionArray[1], for: .normal)
@@ -252,11 +238,12 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             sender.tag = 1
             if isSpeedButton {gameMoveSpeed = 0.25}
         }
+        
         defaults.set(sender.tag, forKey: key)
         if isSpeedButton {defaults.set(gameMoveSpeed, forKey: "Snake Move Speed")}
     }
     
-    @IBAction func clearAllButton(_ sender: UIButton) {
+    @IBAction func clearAllButtonPressed(_ sender: UIButton) {
         sender.setTitle("Gameboard Cleared", for: .normal)
         clearBarrierButton.setTitle("Barriers Cleared", for: .normal)
         clearPathButton.setTitle("Path Cleared", for: .normal)
@@ -293,9 +280,6 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     @IBAction func returnButtonPressed(_ sender: UIButton) {
-//        self.view?.window?.rootViewController?.dismiss(animated: true, completion: nil)
-//        let viewController:UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "HomeScreeen") as UIViewController
-//        self.present(viewController, animated: true, completion: nil)
         self.dismiss(animated: true)
     }
     
