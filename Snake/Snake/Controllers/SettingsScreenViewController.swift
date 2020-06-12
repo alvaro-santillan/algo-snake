@@ -119,11 +119,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if defaults.integer(forKey: "darkOrLightButton") == 0 {
-            overrideUserInterfaceStyle = .dark
-        } else {
-            overrideUserInterfaceStyle = .light
-        }
+        defaults.integer(forKey: "Dark Mode On Setting") == 1 ? (overrideUserInterfaceStyle = .dark) : (overrideUserInterfaceStyle = .light)
         
         // Views
         leftView.layer.shadowColor = UIColor.darkGray.cgColor
