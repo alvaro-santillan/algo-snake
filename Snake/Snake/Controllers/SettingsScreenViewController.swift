@@ -33,7 +33,6 @@ extension UserDefaults {
 class SettingsUIButton: UIButton {
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.layer.shadowColor = UIColor.darkGray.cgColor
         self.layer.shadowOffset = .zero
         self.layer.shadowRadius = 5
         self.layer.cornerRadius = 6
@@ -131,7 +130,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func loadViewStyling() {
-        leftView.layer.shadowColor = UIColor.darkGray.cgColor
+//        leftView.layer.shadowColor = UIColor.darkGray.cgColor
         leftView.layer.shadowRadius = 10
         leftView.layer.shadowOpacity = 0.5
         leftView.layer.shadowOffset = .zero
