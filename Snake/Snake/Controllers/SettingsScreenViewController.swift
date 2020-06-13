@@ -36,6 +36,7 @@ class SettingsUIButton: UIButton {
         self.layer.shadowOffset = .zero
         self.layer.shadowRadius = 5
         self.layer.cornerRadius = 6
+        self.imageView?.contentMode = .scaleAspectFit
     }
 }
 
