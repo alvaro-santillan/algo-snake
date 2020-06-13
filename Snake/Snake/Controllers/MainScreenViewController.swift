@@ -60,7 +60,7 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
         UserDefaults.standard.bool(forKey: "Dark Mode On Setting") == true ? (overrideUserInterfaceStyle = .dark) : (overrideUserInterfaceStyle = .light)
         
         // Views
-        leftView.layer.shadowColor = UIColor.darkGray.cgColor
+//        leftView.layer.shadowColor = UIColor.darkGray.cgColor
         leftView.layer.shadowRadius = 10
         leftView.layer.shadowOpacity = 0.5
         leftView.layer.shadowOffset = .zero
@@ -68,13 +68,13 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
         // Buttons
         settingsButton.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
         settingsButton.layer.cornerRadius = 6
-        settingsButton.layer.shadowColor = UIColor.darkGray.cgColor
+//        settingsButton.layer.shadowColor = UIColor.darkGray.cgColor
         settingsButton.layer.shadowRadius = 5
         settingsButton.layer.shadowOpacity = 0.2
         settingsButton.layer.shadowOffset = .zero
         startButton.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
         startButton.layer.cornerRadius = 6
-        startButton.layer.shadowColor = UIColor.darkGray.cgColor
+//        startButton.layer.shadowColor = UIColor.darkGray.cgColor
         startButton.layer.shadowRadius = 5
         startButton.layer.shadowOpacity = 0.2
         startButton.layer.shadowOffset = .zero
