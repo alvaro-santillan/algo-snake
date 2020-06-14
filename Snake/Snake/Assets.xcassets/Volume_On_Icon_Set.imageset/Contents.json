@@ -2,11 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "Volume_On_Dark_Icon.pdf"
+      "filename" : "Volume_On_Dark_Icon-1.pdf"
     },
     {
       "idiom" : "universal",
-      "filename" : "Volume_On_Dark_Icon-1.pdf",
+      "filename" : "Volume_On_Dark_Icon.pdf",
       "appearances" : [
         {
           "appearance" : "luminosity",
