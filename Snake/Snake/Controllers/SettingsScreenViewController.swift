@@ -216,72 +216,69 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         }
     }
     
-    @IBAction func clearAllButtonPressed(_ sender: UIButton) {
+    @IBAction func clearAllButtonTapped(_ sender: UIButton) {
         sender.setTitle("Gameboard Cleared", for: .normal)
         clearBarrierButton.setTitle("Barriers Cleared", for: .normal)
         clearPathButton.setTitle("Path Cleared", for: .normal)
         defaults.set(true, forKey: "Clear All Setting")
     }
     
-    @IBAction func clearBarrierButtonPressed(_ sender: UIButton) {
+    @IBAction func clearBarrierButtonTapped(_ sender: UIButton) {
         sender.setTitle("Barriers Cleared", for: .normal)
         defaults.set(true, forKey: "Clear Barrier Setting")
     }
     
-    @IBAction func clearPathButtonPressed(_ sender: UIButton) {
+    @IBAction func clearPathButtonTapped(_ sender: UIButton) {
         sender.setTitle("Path Cleared", for: .normal)
         defaults.set(true, forKey: "Clear Path Setting")
     }
     
-    @IBAction func snakeSpeedButtonPressed(_ sender: UIButton) {
+    @IBAction func snakeSpeedButtonTapped(_ sender: UIButton) {
         let options = ["Speed: Slow", "Speed: Normal", "Speed: Fast", "Speed: Extreme"]
         fourOptionButtonResponder(sender, isSpeedButton: true, key: "Snake Speed Text Setting", optionArray: options)
     }
     
-    @IBAction func foodWeightButtonPressed(_ sender: UIButton) {
+    @IBAction func foodWeightButtonTapped(_ sender: UIButton) {
         let options = ["Food Weight: 1", "Food Weight: 2", "Food Weight: 3", "Food Weight: 5"]
         fourOptionButtonResponder(sender, isSpeedButton: false, key: "Food Weight Setting", optionArray: options)
     }
     
-    @IBAction func foodCountButtonPressed(_ sender: UIButton) {
+    @IBAction func foodCountButtonTapped(_ sender: UIButton) {
         let options = ["Food Count: 1", "Food Count: 2", "Food Count: 3", "Food Count: 5"]
         fourOptionButtonResponder(sender, isSpeedButton: false, key: "Food Count Setting", optionArray: options)
     }
     
-    @IBAction func godButtonPressed(_ sender: UIButton) {
+    @IBAction func godButtonTapped(_ sender: UIButton) {
         boolButtonResponder(sender, isIconButton: false, key: "God Button On Setting", trueOption: "God Mode: On", falseOption: "God Mode: Off")
     }
     
-    @IBAction func returnButtonPressed(_ sender: UIButton) {
+    @IBAction func returnButtonTapped(_ sender: UIButton) {
         self.dismiss(animated: true)
     }
     
-    @IBAction func soundButtonPressed(_ sender: UIButton) {
+    @IBAction func soundButtonTapped(_ sender: UIButton) {
         boolButtonResponder(sender, isIconButton: true, key: "Volume On Setting", trueOption: "Volume_On_Icon_Set.pdf", falseOption: "Volume_Mute_Icon_Set.pdf")
     }
     
-    @IBAction func stepButtonPressed(_ sender: UIButton) {
+    @IBAction func stepButtonTapped(_ sender: UIButton) {
         boolButtonResponder(sender, isIconButton: true, key: "Step Mode On Setting", trueOption: "Step_Icon_Set.pdf", falseOption: "Play_Icon_Set.pdf")
     }
     
-    @IBAction func darkModeButtonPressed(_ sender: UIButton) {
+    @IBAction func darkModeButtonTapped(_ sender: UIButton) {
         boolButtonResponder(sender, isIconButton: true, key: "Dark Mode On Setting", trueOption: "Dark_Mode_Icon_Set.pdf", falseOption: "Light_Mode_Icon_Set.pdf")
         
         if (defaults.bool(forKey: "Dark Mode On Setting")) == true {
-//            UIWindow.animate(withDuration: 10.5, animations: {
-//                  UIApplication.shared.keyWindow?.overrideUserInterfaceStyle = .dark
-//                 //also try : UIApplication.shared.windows.last?.overrideUserInterfaceStyle = .dark
-//                 self.overrideUserInterfaceStyle = .dark
-//                 })
-//            UIApplication.shared.windows.forEach { window in
-//                window.overrideUserInterfaceStyle = .dark
-//            }
-            (overrideUserInterfaceStyle = .dark)
+            UIWindow.animate(withDuration: 1.3, animations: {
+                UIApplication.shared.keyWindow?.overrideUserInterfaceStyle = .dark
+                self.overrideUserInterfaceStyle = .dark
+//                self.presentingViewController?.overrideUserInterfaceStyle = .dark
+            })
         } else {
-            (overrideUserInterfaceStyle = .light)
-//            UIApplication.shared.windows.forEach { window in
-//                window.overrideUserInterfaceStyle = .light
-//            }
+            UIWindow.animate(withDuration: 1.3, animations: {
+                UIApplication.shared.keyWindow?.overrideUserInterfaceStyle = .light
+                self.overrideUserInterfaceStyle = .light
+//                self.presentingViewController?.overrideUserInterfaceStyle = .light
+            })
         }
         tableVIew.reloadData()
     }

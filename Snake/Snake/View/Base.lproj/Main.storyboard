@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BV1-FR-VrT">
-    <device id="retina5_5" orientation="landscape" appearance="light"/>
+    <device id="retina5_5" orientation="landscape" appearance="dark"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
@@ -230,7 +230,7 @@
                                             <color key="titleColor" name="Text"/>
                                         </state>
                                         <connections>
-                                            <action selector="clearAllButtonPressed:" destination="x7L-u7-4Ti" eventType="touchUpInside" id="C9J-sb-DR2"/>
+                                            <action selector="clearAllButtonTapped:" destination="x7L-u7-4Ti" eventType="touchUpInside" id="C9J-sb-DR2"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pb4-yG-aAq" customClass="TextUIButton" customModule="Snake" customModuleProvider="target">
@@ -242,7 +242,7 @@
                                             <color key="titleColor" name="Text"/>
                                         </state>
                                         <connections>
-                                            <action selector="clearBarrierButtonPressed:" destination="x7L-u7-4Ti" eventType="touchUpInside" id="xvZ-0b-6O4"/>
+                                            <action selector="clearBarrierButtonTapped:" destination="x7L-u7-4Ti" eventType="touchUpInside" id="xvZ-0b-6O4"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A0B-4l-xoA" customClass="TextUIButton" customModule="Snake" customModuleProvider="target">
@@ -254,7 +254,7 @@
                                             <color key="titleColor" name="Text"/>
                                         </state>
                                         <connections>
-                                            <action selector="clearPathButtonPressed:" destination="x7L-u7-4Ti" eventType="touchUpInside" id="X33-zW-wWm"/>
+                                            <action selector="clearPathButtonTapped:" destination="x7L-u7-4Ti" eventType="touchUpInside" id="X33-zW-wWm"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Q6-95-HQk" customClass="TextUIButton" customModule="Snake" customModuleProvider="target">
@@ -266,7 +266,7 @@
                                             <color key="titleColor" name="Text"/>
                                         </state>
                                         <connections>
-                                            <action selector="snakeSpeedButtonPressed:" destination="x7L-u7-4Ti" eventType="touchUpInside" id="5W1-RR-UIj"/>
+                                            <action selector="snakeSpeedButtonTapped:" destination="x7L-u7-4Ti" eventType="touchUpInside" id="5W1-RR-UIj"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hDw-Gg-rpE" customClass="TextUIButton" customModule="Snake" customModuleProvider="target">
@@ -278,7 +278,7 @@
                                             <color key="titleColor" name="Text"/>
                                         </state>
                                         <connections>
-                                            <action selector="foodWeightButtonPressed:" destination="x7L-u7-4Ti" eventType="touchUpInside" id="HQ6-GL-d6S"/>
+                                            <action selector="foodWeightButtonTapped:" destination="x7L-u7-4Ti" eventType="touchUpInside" id="HQ6-GL-d6S"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dca-WQ-y2k" customClass="TextUIButton" customModule="Snake" customModuleProvider="target">
@@ -290,7 +290,7 @@
                                             <color key="titleColor" name="Text"/>
                                         </state>
                                         <connections>
-                                            <action selector="foodCountButtonPressed:" destination="x7L-u7-4Ti" eventType="touchUpInside" id="bKH-wZ-QM1"/>
+                                            <action selector="foodCountButtonTapped:" destination="x7L-u7-4Ti" eventType="touchUpInside" id="bKH-wZ-QM1"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iw0-3b-GoY" customClass="TextUIButton" customModule="Snake" customModuleProvider="target">
@@ -302,7 +302,7 @@
                                             <color key="titleColor" name="Text"/>
                                         </state>
                                         <connections>
-                                            <action selector="godButtonPressed:" destination="x7L-u7-4Ti" eventType="touchUpInside" id="1BS-yH-73U"/>
+                                            <action selector="godButtonTapped:" destination="x7L-u7-4Ti" eventType="touchUpInside" id="1BS-yH-73U"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rF9-Fn-yKR" userLabel="Sound" customClass="IconUIButton" customModule="Snake" customModuleProvider="target">
@@ -313,10 +313,10 @@
                                             <color key="titleColor" name="Text"/>
                                         </state>
                                         <connections>
-                                            <action selector="soundButtonPressed:" destination="x7L-u7-4Ti" eventType="touchUpInside" id="5Jb-0f-9Hx"/>
+                                            <action selector="soundButtonTapped:" destination="x7L-u7-4Ti" eventType="touchUpInside" id="5Jb-0f-9Hx"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GfL-tN-qLN" userLabel="Step / Auto Play " customClass="IconUIButton" customModule="Snake" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GfL-tN-qLN" userLabel="Step / Auto Play " customClass="IconUIButton" customModule="Snake" customModuleProvider="target">
                                         <rect key="frame" x="267" y="352" width="45" height="45"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" name="UI Button"/>
@@ -324,10 +324,10 @@
                                             <color key="titleColor" name="Text"/>
                                         </state>
                                         <connections>
-                                            <action selector="stepButtonPressed:" destination="x7L-u7-4Ti" eventType="touchUpInside" id="LlL-WL-N8I"/>
+                                            <action selector="stepButtonTapped:" destination="x7L-u7-4Ti" eventType="touchUpInside" id="LlL-WL-N8I"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NXh-5F-g45" userLabel="Dark/ Light Mode" customClass="IconUIButton" customModule="Snake" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NXh-5F-g45" userLabel="Dark/ Light Mode" customClass="IconUIButton" customModule="Snake" customModuleProvider="target">
                                         <rect key="frame" x="323" y="352" width="45" height="45"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" name="UI Button"/>
@@ -335,10 +335,10 @@
                                             <color key="titleColor" name="Text"/>
                                         </state>
                                         <connections>
-                                            <action selector="darkModeButtonPressed:" destination="x7L-u7-4Ti" eventType="touchUpInside" id="5EY-ds-Z9P"/>
+                                            <action selector="darkModeButtonTapped:" destination="x7L-u7-4Ti" eventType="touchUpInside" id="5EY-ds-Z9P"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e4T-iy-Fyn" userLabel="Home" customClass="IconUIButton" customModule="Snake" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e4T-iy-Fyn" userLabel="Home" customClass="IconUIButton" customModule="Snake" customModuleProvider="target">
                                         <rect key="frame" x="379" y="352" width="45" height="45"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" name="UI Button"/>
@@ -349,7 +349,7 @@
                                             <segue destination="BV1-FR-VrT" kind="show" id="Bhq-DF-cdl"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="upX-fy-FEE" userLabel="Help" customClass="IconUIButton" customModule="Snake" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="upX-fy-FEE" userLabel="Help" customClass="IconUIButton" customModule="Snake" customModuleProvider="target">
                                         <rect key="frame" x="156" y="352" width="45" height="45"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" name="UI Button"/>
@@ -364,13 +364,11 @@
                                         <rect key="frame" x="21" y="352" width="45" height="45"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" name="UI Button"/>
-                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <state key="normal" image="Chevron_Down_Icon_Set">
                                             <color key="titleColor" name="Text"/>
-                                            <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
-                                            <action selector="returnButtonPressed:" destination="x7L-u7-4Ti" eventType="touchUpInside" id="mOp-fG-mVk"/>
+                                            <action selector="returnButtonTapped:" destination="x7L-u7-4Ti" eventType="touchUpInside" id="mOp-fG-mVk"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -663,7 +661,7 @@
         <image name="Pause_Icon_Set" width="336" height="384"/>
         <image name="Play_Icon_Set" width="336" height="384"/>
         <image name="Settings_Icon_Set" width="384" height="384"/>
-        <image name="Volume_On_Icon_Set" width="432" height="384"/>
+        <image name="Volume_On_Icon_Set" width="288" height="384"/>
         <image name="Weight_Icon_Set" width="384" height="384"/>
         <namedColor name="Right View Background">
             <color red="0.94900000095367432" green="0.94900000095367432" blue="0.96899998188018799" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
