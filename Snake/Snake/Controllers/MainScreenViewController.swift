@@ -10,6 +10,13 @@ import UIKit
 import SpriteKit
 import GameplayKit
 
+extension UISegmentedControl {
+    func font(name:String?, size:CGFloat?) {
+        let attributedSegmentFont = NSDictionary(object: UIFont(name: name!, size: size!)!, forKey: NSAttributedString.Key.font as NSCopying)
+        setTitleTextAttributes(attributedSegmentFont as [NSObject : AnyObject] as [NSObject : AnyObject] as? [NSAttributedString.Key : Any], for: .normal)
+    }
+}
+
 class GameViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var leftView: UIView!
     @IBOutlet weak var segControl: UISegmentedControl!
@@ -78,6 +85,11 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
         startButton.layer.shadowRadius = 5
         startButton.layer.shadowOpacity = 0.2
         startButton.layer.shadowOffset = .zero
+//        var font = UIFont.fontNames(forFamilyName: "sfd")
+//        var textAttributes = new UITextAttributes { Font = font };
+//        UISegmentedControl.Appearance.SetTitleTextAttributes(textAttributes,
+//            UIControlState.Normal);
+        segControl.font(name: "Dogica_Pixel", size: 9)
     }
     
     @IBAction func startTapped(_ sender: UIButton) {
