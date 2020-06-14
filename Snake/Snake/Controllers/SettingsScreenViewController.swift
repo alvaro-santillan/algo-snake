@@ -271,13 +271,13 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             UIWindow.animate(withDuration: 1.3, animations: {
                 UIApplication.shared.keyWindow?.overrideUserInterfaceStyle = .dark
                 self.overrideUserInterfaceStyle = .dark
-//                self.presentingViewController?.overrideUserInterfaceStyle = .dark
+                self.presentingViewController?.overrideUserInterfaceStyle = .dark
             })
         } else {
             UIWindow.animate(withDuration: 1.3, animations: {
                 UIApplication.shared.keyWindow?.overrideUserInterfaceStyle = .light
                 self.overrideUserInterfaceStyle = .light
-//                self.presentingViewController?.overrideUserInterfaceStyle = .light
+                self.presentingViewController?.overrideUserInterfaceStyle = .light
             })
         }
         tableVIew.reloadData()
