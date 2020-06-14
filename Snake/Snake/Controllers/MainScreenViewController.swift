@@ -93,6 +93,7 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ViewControllerTableViewCell
         
         cell.myLabel.text = tableViewDisplayList[indexPath.row][0]
+//        cell.myImage.contentMode = .scaleAspectFit
         
         if tableViewDisplayList[indexPath.row][1] == "1" {
             cell.myImage.image = UIImage(named: "Guaranteed_Icon_Set.pdf")
@@ -100,9 +101,11 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
 //            cell.myImage.layer.cornerRadius = cell.myImage.frame.size.width/2
             cell.myImage.contentMode = .scaleAspectFit
             cell.myImage.clipsToBounds = true
+            cell.layer.cornerRadius = 5
         } else if tableViewDisplayList[indexPath.row][1] == "0" {
             cell.myImage.image = UIImage(named: "")
             cell.myImage.layer.borderWidth = 0
+//            cell.myImage.contentMode = .scaleAspectFit
         }
         
         if tableViewDisplayList[indexPath.row][2] == "1" {
@@ -114,8 +117,9 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
         } else if tableViewDisplayList[indexPath.row][2] == "0" {
             cell.myImage2.image = UIImage(named: "")
             cell.myImage2.layer.borderWidth = 0
+//            cell.myImage.contentMode = .scaleAspectFit
         }
-        
+        cell.layer.cornerRadius = 5
         return cell
     }
     
@@ -136,14 +140,17 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
     
      func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if segControl.selectedSegmentIndex == 0 {
+//            UITableViewCell.
             let indexPath = IndexPath(row: algoChoice, section: 0)
-                tableView.selectRow(at: indexPath, animated: false, scrollPosition: UITableView.ScrollPosition.none)
+                tableView.selectRow(at: indexPath, animated: true, scrollPosition: UITableView.ScrollPosition.none)
+//                tableVIew.reloadData()
         }
         
         if segControl.selectedSegmentIndex == 1 {
             let indexPath = IndexPath(row: barrierChoice, section: 0)
-                tableView.selectRow(at: indexPath, animated: false, scrollPosition: UITableView.ScrollPosition.none)
+                tableView.selectRow(at: indexPath, animated: true, scrollPosition: UITableView.ScrollPosition.none)
         }
+        
     }
     
     @IBAction func segControlOption(_ sender: UISegmentedControl) {
