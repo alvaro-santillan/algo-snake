@@ -54,7 +54,7 @@
                                             <constraint firstAttribute="width" constant="60" id="3hS-M8-6uE"/>
                                             <constraint firstAttribute="height" constant="60" id="q4G-k6-1A7"/>
                                         </constraints>
-                                        <state key="normal" image="Settings_Icon">
+                                        <state key="normal" image="Settings_Icon_Set">
                                             <color key="titleColor" red="0.081654049460000003" green="0.2107998431" blue="0.2279785275" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
@@ -294,7 +294,7 @@
                                         <rect key="frame" x="211" y="352" width="45" height="45"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" name="UI Button"/>
-                                        <state key="normal" image="Volume_On_Icon">
+                                        <state key="normal" image="Volume_On_Icon_Set">
                                             <color key="titleColor" name="Text"/>
                                         </state>
                                         <connections>
@@ -305,7 +305,7 @@
                                         <rect key="frame" x="267" y="352" width="45" height="45"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" name="UI Button"/>
-                                        <state key="normal" image="Play_Icon">
+                                        <state key="normal" image="Play_Icon_Set">
                                             <color key="titleColor" name="Text"/>
                                         </state>
                                         <connections>
@@ -316,7 +316,7 @@
                                         <rect key="frame" x="323" y="352" width="45" height="45"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" name="UI Button"/>
-                                        <state key="normal" image="Dark_Mode_Icon">
+                                        <state key="normal" image="Dark_Mode_Icon_Set">
                                             <color key="titleColor" name="Text"/>
                                         </state>
                                         <connections>
@@ -327,7 +327,7 @@
                                         <rect key="frame" x="379" y="352" width="45" height="45"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" name="UI Button"/>
-                                        <state key="normal" image="Home_Icon">
+                                        <state key="normal" image="Home_Icon_Set">
                                             <color key="titleColor" name="Text"/>
                                         </state>
                                         <connections>
@@ -338,7 +338,7 @@
                                         <rect key="frame" x="156" y="352" width="45" height="45"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" name="UI Button"/>
-                                        <state key="normal" image="Question_Icon">
+                                        <state key="normal" image="Help_Icon_Set">
                                             <color key="titleColor" name="Text"/>
                                         </state>
                                         <connections>
@@ -350,7 +350,7 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" name="UI Button"/>
                                         <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" image="Chevron_Down_Icon">
+                                        <state key="normal" image="Chevron_Down_Icon_Set">
                                             <color key="titleColor" name="Text"/>
                                             <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
@@ -458,7 +458,7 @@
                                 <rect key="frame" x="556" y="284" width="45" height="45"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" image="Weight_Icon">
+                                <state key="normal" image="Weight_Icon_Set">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
@@ -469,7 +469,7 @@
                                 <rect key="frame" x="671" y="284" width="45" height="45"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" image="Settings_Icon">
+                                <state key="normal" image="Settings_Icon_Set">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
@@ -480,7 +480,7 @@
                                 <rect key="frame" x="615" y="284" width="45" height="45"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" image="Home_Icon">
+                                <state key="normal" image="Home_Icon_Set">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
@@ -491,7 +491,7 @@
                                 <rect key="frame" x="500" y="284" width="45" height="45"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" image="Pause_Icon">
+                                <state key="normal" image="Pause_Icon_Set">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
@@ -531,7 +531,7 @@
                                         <rect key="frame" x="21" y="352" width="45" height="45"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" image="Chevron_Down_Icon">
+                                        <state key="normal" image="Chevron_Down_Icon_Set">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
@@ -542,7 +542,7 @@
                                         <rect key="frame" x="379" y="352" width="45" height="45"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" image="Home_Icon">
+                                        <state key="normal" image="Home_Icon_Set">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
@@ -573,7 +573,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5bU-CR-ltO" userLabel="Linked-In">
                                         <rect key="frame" x="44" y="108" width="60" height="60"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" title="Button" image="Linked-In_Icon"/>
+                                        <state key="normal" title="Button" image="Linked-In_Icon_Set"/>
                                         <connections>
                                             <action selector="linkedInButtonPressed:" destination="9gE-ur-Y08" eventType="touchUpInside" id="iBZ-nH-3qc"/>
                                         </connections>
@@ -581,7 +581,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dOa-dg-iZM" userLabel="Github">
                                         <rect key="frame" x="118" y="108" width="60" height="60"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" title="Button" image="Globe_Icon"/>
+                                        <state key="normal" title="Button" image="Globe_Icon_Set"/>
                                         <connections>
                                             <action selector="personalWebisteButtonPressed:" destination="9gE-ur-Y08" eventType="touchUpInside" id="CfQ-zT-hfN"/>
                                         </connections>
@@ -589,7 +589,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bjA-tu-N8I" userLabel="Github">
                                         <rect key="frame" x="192" y="108" width="60" height="60"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" title="Button" image="GitHub_Icon"/>
+                                        <state key="normal" title="Button" image="GitHub_Icon_Set"/>
                                         <connections>
                                             <action selector="githubButtonPressed:" destination="9gE-ur-Y08" eventType="touchUpInside" id="ScO-5C-eJF"/>
                                         </connections>
@@ -638,20 +638,20 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Chevron_Down_Icon" width="336" height="384"/>
-        <image name="Dark_Mode_Icon" width="384" height="384"/>
-        <image name="GitHub_Icon" width="336" height="384"/>
-        <image name="Globe_Icon" width="372" height="384"/>
-        <image name="Home_Icon" width="432" height="384"/>
-        <image name="Linked-In_Icon" width="336" height="384"/>
-        <image name="Pause_Icon" width="448" height="512"/>
-        <image name="Play_Icon" width="336" height="384"/>
-        <image name="Question_Icon" width="288" height="384"/>
-        <image name="Settings_Icon" width="384" height="384"/>
-        <image name="Volume_On_Icon" width="288" height="384"/>
-        <image name="Weight_Icon" width="512" height="512"/>
+        <image name="Chevron_Down_Icon_Set" width="336" height="384"/>
+        <image name="Dark_Mode_Icon_Set" width="384" height="384"/>
+        <image name="GitHub_Icon_Set" width="360" height="384"/>
+        <image name="Globe_Icon_Set" width="372" height="384"/>
+        <image name="Help_Icon_Set" width="288" height="384"/>
+        <image name="Home_Icon_Set" width="432" height="384"/>
+        <image name="Linked-In_Icon_Set" width="336" height="384"/>
+        <image name="Pause_Icon_Set" width="336" height="384"/>
+        <image name="Play_Icon_Set" width="336" height="384"/>
+        <image name="Settings_Icon_Set" width="384" height="384"/>
+        <image name="Volume_On_Icon_Set" width="432" height="384"/>
+        <image name="Weight_Icon_Set" width="384" height="384"/>
         <namedColor name="Right View Background">
-            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.94900000095367432" green="0.94900000095367432" blue="0.96899998188018799" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="Text">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -661,7 +661,7 @@
         </namedColor>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="f62-Ey-MOA"/>
-        <segue reference="Bhq-DF-cdl"/>
+        <segue reference="HB8-7U-962"/>
+        <segue reference="TDt-jw-j1F"/>
     </inferredMetricsTieBreakers>
 </document>

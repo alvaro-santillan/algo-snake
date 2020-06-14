@@ -168,9 +168,9 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         fourOptionButtonLoader(targetButton: foodCountButton, key: "Food Count Setting", optionArray: options)
         
         boolButtonLoader(isIconButton: false, targetButton: godModeButton, key: "God Button On Setting", trueOption: "God Mode: On", falseOption: "God Mode: Off")
-        boolButtonLoader(isIconButton: true, targetButton: soundButton, key: "Volume On Setting", trueOption: "Volume_On_Icon.pdf", falseOption: "Volume_Mute_Icon.pdf")
-        boolButtonLoader(isIconButton: true, targetButton: stepOrPlayPauseButton, key: "Step Mode On Setting", trueOption: "Step_Icon.pdf", falseOption: "Play_Icon.pdf")
-        boolButtonLoader(isIconButton: true, targetButton: darkOrLightModeButton, key: "Dark Mode On Setting", trueOption: "Dark_Mode_Icon.pdf", falseOption: "Light_Mode_Icon.pdf")
+        boolButtonLoader(isIconButton: true, targetButton: soundButton, key: "Volume On Setting", trueOption: "Volume_On_Icon_Set.pdf", falseOption: "Volume_Mute_Icon_Set.pdf")
+        boolButtonLoader(isIconButton: true, targetButton: stepOrPlayPauseButton, key: "Step Mode On Setting", trueOption: "Step_Icon_Set.pdf", falseOption: "Play_Icon_Set.pdf")
+        boolButtonLoader(isIconButton: true, targetButton: darkOrLightModeButton, key: "Dark Mode On Setting", trueOption: "Dark_Mode_Icon_Set.pdf", falseOption: "Light_Mode_Icon_Set.pdf")
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -257,16 +257,32 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     @IBAction func soundButtonPressed(_ sender: UIButton) {
-        boolButtonResponder(sender, isIconButton: true, key: "Volume On Setting", trueOption: "Volume_On_Icon.pdf", falseOption: "Volume_Mute_Icon.pdf")
+        boolButtonResponder(sender, isIconButton: true, key: "Volume On Setting", trueOption: "Volume_On_Icon_Set.pdf", falseOption: "Volume_Mute_Icon_Set.pdf")
     }
     
     @IBAction func stepButtonPressed(_ sender: UIButton) {
-        boolButtonResponder(sender, isIconButton: true, key: "Step Mode On Setting", trueOption: "Step_Icon.pdf", falseOption: "Play_Icon.pdf")
+        boolButtonResponder(sender, isIconButton: true, key: "Step Mode On Setting", trueOption: "Step_Icon_Set.pdf", falseOption: "Play_Icon_Set.pdf")
     }
     
     @IBAction func darkModeButtonPressed(_ sender: UIButton) {
-        boolButtonResponder(sender, isIconButton: true, key: "Dark Mode On Setting", trueOption: "Dark_Mode_Icon.pdf", falseOption: "Light_Mode_Icon.pdf")
-        defaults.bool(forKey: "Dark Mode On Setting") == true ? (overrideUserInterfaceStyle = .dark) : (overrideUserInterfaceStyle = .light)
+        boolButtonResponder(sender, isIconButton: true, key: "Dark Mode On Setting", trueOption: "Dark_Mode_Icon_Set.pdf", falseOption: "Light_Mode_Icon_Set.pdf")
+        
+        if (defaults.bool(forKey: "Dark Mode On Setting")) == true {
+//            UIWindow.animate(withDuration: 10.5, animations: {
+//                  UIApplication.shared.keyWindow?.overrideUserInterfaceStyle = .dark
+//                 //also try : UIApplication.shared.windows.last?.overrideUserInterfaceStyle = .dark
+//                 self.overrideUserInterfaceStyle = .dark
+//                 })
+//            UIApplication.shared.windows.forEach { window in
+//                window.overrideUserInterfaceStyle = .dark
+//            }
+            (overrideUserInterfaceStyle = .dark)
+        } else {
+            (overrideUserInterfaceStyle = .light)
+//            UIApplication.shared.windows.forEach { window in
+//                window.overrideUserInterfaceStyle = .light
+//            }
+        }
         tableVIew.reloadData()
     }
 
