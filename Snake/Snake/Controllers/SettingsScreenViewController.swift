@@ -55,6 +55,15 @@ class IconUIButton: SettingsUIButton {
     }
 }
 
+class LeftUIView: UIView {
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.layer.shadowRadius = 10
+        self.layer.shadowOpacity = 0.5
+        self.layer.shadowOffset = .zero
+    }
+}
+
 class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     // Views
     @IBOutlet weak var rightView: UIView!
@@ -126,14 +135,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         super.viewDidLoad()
         defaults.integer(forKey: "Dark Mode On Setting") == 1 ? (overrideUserInterfaceStyle = .dark) : (overrideUserInterfaceStyle = .light)
         checkIfFirstRun()
-        loadViewStyling()
         loadButtonStyling()
-    }
-    
-    func loadViewStyling() {
-        leftView.layer.shadowRadius = 10
-        leftView.layer.shadowOpacity = 0.5
-        leftView.layer.shadowOffset = .zero
     }
     
     func loadButtonStyling() {
