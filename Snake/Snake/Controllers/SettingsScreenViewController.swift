@@ -8,62 +8,6 @@
 
 import UIKit
 
-extension UserDefaults {
-    func setColor(color: UIColor?, forKey key: String) {
-        var colorData: NSData?
-        if let color = color {
-            do {
-                colorData = try NSKeyedArchiver.archivedData(withRootObject: color, requiringSecureCoding: false) as NSData?
-                set(colorData, forKey: key)
-            } catch let error {print("Error archiving data", error)}
-        }
-    }
-    
-    func colorForKey(key: String) -> UIColor? {
-        var color: UIColor?
-        if let colorData = data(forKey: key) {
-            do {
-                color = try NSKeyedUnarchiver.unarchivedObject(ofClass: UIColor.self, from: colorData)
-            } catch let error {print("Error unarchiving data", error)}
-        }
-        return color
-    }
-}
-
-class SettingsUIButton: UIButton {
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        self.layer.shadowOffset = .zero
-        self.layer.shadowRadius = 5
-        self.layer.cornerRadius = 6
-        self.imageView?.contentMode = .scaleAspectFit
-    }
-}
-
-class TextUIButton: SettingsUIButton {
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        self.layer.shadowOpacity = 0.2
-    }
-}
-
-class IconUIButton: SettingsUIButton {
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        self.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
-        self.layer.shadowOpacity = 0.5
-    }
-}
-
-class LeftUIView: UIView {
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        self.layer.shadowRadius = 10
-        self.layer.shadowOpacity = 0.5
-        self.layer.shadowOffset = .zero
-    }
-}
-
 class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     // Views
     @IBOutlet weak var rightView: UIView!
