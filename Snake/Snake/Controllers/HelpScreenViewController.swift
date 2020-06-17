@@ -24,31 +24,6 @@ class HelpViewController: UIViewController {
         } else {
             overrideUserInterfaceStyle = .light
         }
-        // Views
-        leftView.layer.shadowColor = UIColor.darkGray.cgColor
-        leftView.layer.shadowRadius = 10
-        leftView.layer.shadowOpacity = 0.5
-        leftView.layer.shadowOffset = .zero
-        
-        // Buttons
-        rateButton.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
-        rateButton.layer.cornerRadius = 6
-        rateButton.layer.shadowColor = UIColor.darkGray.cgColor
-        rateButton.layer.shadowRadius = 5
-        rateButton.layer.shadowOpacity = 0.2
-        rateButton.layer.shadowOffset = .zero
-        backToPreviousScreenButton.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
-        backToPreviousScreenButton.layer.cornerRadius = 6
-        backToPreviousScreenButton.layer.shadowColor = UIColor.darkGray.cgColor
-        backToPreviousScreenButton.layer.shadowRadius = 5
-        backToPreviousScreenButton.layer.shadowOpacity = 0.2
-        backToPreviousScreenButton.layer.shadowOffset = .zero
-        homeButton.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
-        homeButton.layer.cornerRadius = 6
-        homeButton.layer.shadowColor = UIColor.darkGray.cgColor
-        homeButton.layer.shadowRadius = 5
-        homeButton.layer.shadowOpacity = 0.2
-        homeButton.layer.shadowOffset = .zero
     }
 
     @IBAction func ReturnToSettingsButtonPressed(_ sender: UIButton) {

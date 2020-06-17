@@ -22,6 +22,10 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        loadUserData()
+    }
+    
+    func loadUserData() {
         highScoreLabel.text = "High Score: \(UserDefaults.standard.integer(forKey: "highScore"))"
         lastScoreLabel.text = "Last Score: \(UserDefaults.standard.integer(forKey: "lastScore"))"
         UserDefaults.standard.bool(forKey: "Dark Mode On Setting") == true ? (overrideUserInterfaceStyle = .dark) : (overrideUserInterfaceStyle = .light)
@@ -66,7 +70,7 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.present(viewController, animated: true, completion: nil)
     }
     
-    @IBAction func segmentedControlerTapped(_ sender: UISegmentedControl) {
+    @IBAction func segmentedControllerTapped(_ sender: UISegmentedControl) {
         segControl.selectedSegmentIndex == 0 ? (tableViewDisplayList = pathFindingAlgorithmList) : (tableViewDisplayList = mazeGenrationAlgorithims)
         tableVIew.reloadData()
     }

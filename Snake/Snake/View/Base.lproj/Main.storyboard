@@ -165,7 +165,7 @@
                                     <segment title="Barrier"/>
                                 </segments>
                                 <connections>
-                                    <action selector="segmentedControlerTapped:" destination="BV1-FR-VrT" eventType="valueChanged" id="YQn-jb-5x6"/>
+                                    <action selector="segmentedControllerTapped:" destination="BV1-FR-VrT" eventType="valueChanged" id="YQn-jb-5x6"/>
                                 </connections>
                             </segmentedControl>
                         </subviews>
@@ -534,10 +534,10 @@
                                 <rect key="frame" x="296" y="0.0" width="440" height="414"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7gV-6f-ISG" userLabel="Return To Settings">
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7gV-6f-ISG" userLabel="Return To Settings" customClass="IconUIButton" customModule="Snake" customModuleProvider="target">
                                         <rect key="frame" x="21" y="352" width="45" height="45"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="backgroundColor" name="UI Button"/>
                                         <state key="normal" image="Chevron_Down_Icon_Set">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
@@ -545,10 +545,10 @@
                                             <action selector="ReturnToSettingsButtonPressed:" destination="9gE-ur-Y08" eventType="touchUpInside" id="A5g-fd-Fhv"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KzI-oe-N6e" userLabel="Home">
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KzI-oe-N6e" userLabel="Home" customClass="IconUIButton" customModule="Snake" customModuleProvider="target">
                                         <rect key="frame" x="379" y="352" width="45" height="45"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="backgroundColor" name="UI Button"/>
                                         <state key="normal" image="Home_Icon_Set">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
@@ -557,7 +557,7 @@
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" name="Right View Background"/>
                             </view>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Jid-tj-SUa" userLabel="Left View" customClass="LeftUIView" customModule="Snake" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="296" height="414"/>
@@ -567,47 +567,50 @@
                                         <rect key="frame" x="65" y="16" width="165" height="48"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                        <nil key="textColor"/>
+                                        <color key="textColor" name="Text"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="By Álvaro Fernando Santillan" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y08-6j-khg">
                                         <rect key="frame" x="31" y="69" width="232" height="22"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                        <nil key="textColor"/>
+                                        <color key="textColor" name="Text"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5bU-CR-ltO" userLabel="Linked-In">
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5bU-CR-ltO" userLabel="Linked-In" customClass="IconUIButton" customModule="Snake" customModuleProvider="target">
                                         <rect key="frame" x="44" y="108" width="60" height="60"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" title="Button" image="Linked-In_Icon_Set"/>
+                                        <color key="backgroundColor" name="UI Button"/>
+                                        <state key="normal" image="Linked-In_Icon_Set"/>
                                         <connections>
                                             <action selector="linkedInButtonPressed:" destination="9gE-ur-Y08" eventType="touchUpInside" id="iBZ-nH-3qc"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dOa-dg-iZM" userLabel="Github">
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dOa-dg-iZM" userLabel="Github" customClass="IconUIButton" customModule="Snake" customModuleProvider="target">
                                         <rect key="frame" x="118" y="108" width="60" height="60"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" title="Button" image="Globe_Icon_Set"/>
+                                        <color key="backgroundColor" name="UI Button"/>
+                                        <state key="normal" image="Globe_Icon_Set"/>
                                         <connections>
                                             <action selector="personalWebisteButtonPressed:" destination="9gE-ur-Y08" eventType="touchUpInside" id="CfQ-zT-hfN"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bjA-tu-N8I" userLabel="Github">
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bjA-tu-N8I" userLabel="Github" customClass="IconUIButton" customModule="Snake" customModuleProvider="target">
                                         <rect key="frame" x="192" y="108" width="60" height="60"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" title="Button" image="GitHub_Icon_Set"/>
+                                        <color key="backgroundColor" name="UI Button"/>
+                                        <state key="normal" image="GitHub_Icon_Set"/>
                                         <connections>
                                             <action selector="githubButtonPressed:" destination="9gE-ur-Y08" eventType="touchUpInside" id="ScO-5C-eJF"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pbF-dl-b7y">
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pbF-dl-b7y" customClass="TextUIButton" customModule="Snake" customModuleProvider="target">
                                         <rect key="frame" x="80" y="181" width="134" height="45"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="backgroundColor" name="UI Button"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <state key="normal" title="Rate">
-                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color key="titleColor" name="Text"/>
                                         </state>
                                         <connections>
                                             <action selector="rateButton:" destination="9gE-ur-Y08" eventType="touchUpInside" id="sqk-Yn-f7s"/>
@@ -618,7 +621,7 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <string key="text">Made from scratch with Love, Swift 5, Xcode, and a Stack Overflow post or 2. Copyright © 2019-2020 Álvaro F Santillan. All rights reserved.</string>
                                         <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                        <nil key="textColor"/>
+                                        <color key="textColor" name="Text"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
@@ -668,7 +671,7 @@
         </namedColor>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="f62-Ey-MOA"/>
-        <segue reference="TDt-jw-j1F"/>
+        <segue reference="HB8-7U-962"/>
+        <segue reference="Bhq-DF-cdl"/>
     </inferredMetricsTieBreakers>
 </document>
