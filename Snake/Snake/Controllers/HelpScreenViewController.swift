@@ -9,50 +9,47 @@
 import UIKit
 
 class HelpViewController: UIViewController {
-    @IBOutlet weak var leftView: UIView!
-    @IBOutlet weak var linkedInButton: UIButton!
-    @IBOutlet weak var websiteButton: UIButton!
-    @IBOutlet weak var githubButton: UIButton!
-    @IBOutlet weak var rateButton: UIButton!
-    @IBOutlet weak var backToPreviousScreenButton: UIButton!
-    @IBOutlet weak var homeButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if UserDefaults.standard.integer(forKey: "darkOrLightButton") == 0 {
-            overrideUserInterfaceStyle = .dark
-        } else {
-            overrideUserInterfaceStyle = .light
-        }
+        loadUserData()
+    }
+    
+    func loadUserData() {
+        UserDefaults.standard.bool(forKey: "Dark Mode On Setting") == true ? (overrideUserInterfaceStyle = .dark) : (overrideUserInterfaceStyle = .light)
+    }
+    
+    func urlSelector(webURL: String, appURL: String) {
+        var selectedURL = String()
+        UIApplication.shared.canOpenURL(URL(string: appURL)! as URL) ? (selectedURL = appURL) : (selectedURL = webURL)
+        UIApplication.shared.open(URL(string: selectedURL)! as URL, options: [:], completionHandler: nil)
     }
 
-    @IBAction func ReturnToSettingsButtonPressed(_ sender: UIButton) {
+    @IBAction func ReturnToSettingsButtonTapped(_ sender: UIButton) {
         self.dismiss(animated: true)
     }
     
-    @IBAction func linkedInButtonPressed(_ sender: UIButton) {
+    @IBAction func linkedInButtonTapped(_ sender: UIButton) {
         var webURL = "https://www.linkedin.com/in/álvarosantillan"
         webURL = webURL.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
 
         var appURL = "linkedin://in/álvarosantillan"
         appURL = appURL.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
         
-        var selectedURL = String()
-        UIApplication.shared.canOpenURL(URL(string: appURL)! as URL) ? (selectedURL = appURL) : (selectedURL = webURL)
-        UIApplication.shared.open(URL(string: selectedURL)! as URL, options: [:], completionHandler: nil)
+        urlSelector(webURL: webURL, appURL: appURL)
     }
     
-    @IBAction func personalWebisteButtonPressed(_ sender: UIButton) {
+    @IBAction func personalWebisteButtonTapped(_ sender: UIButton) {
         UIApplication.shared.open(URL(string: "http://alvarosantillan.com/")! as URL, options: [:], completionHandler: nil)
     }
     
-    @IBAction func githubButtonPressed(_ sender: UIButton) {
+    @IBAction func githubButtonTapped(_ sender: UIButton) {
         var webURL = "https://github.com/AFSM1995"
         webURL = webURL.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
         UIApplication.shared.open(URL(string: webURL)! as URL, options: [:], completionHandler: nil)
     }
     
-    @IBAction func rateButton(_ sender: UIButton) {
+    @IBAction func rateButtonTapped(_ sender: UIButton) {
         var webURL = "https://www.linkedin.com/in/álvarosantillan"
         webURL = webURL.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
 
@@ -60,8 +57,6 @@ class HelpViewController: UIViewController {
         var appURL = "http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=\(appID)&pageNumber=0&sortOrdering=2&type=Purple+Software&mt=8"
         appURL = appURL.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
         
-        var selectedURL = String()
-        UIApplication.shared.canOpenURL(URL(string: appURL)! as URL) ? (selectedURL = appURL) : (selectedURL = webURL)
-        UIApplication.shared.open(URL(string: selectedURL)! as URL, options: [:], completionHandler: nil)
+        urlSelector(webURL: webURL, appURL: appURL)
     }
 }

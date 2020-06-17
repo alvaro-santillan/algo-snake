@@ -542,7 +542,7 @@
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
-                                            <action selector="ReturnToSettingsButtonPressed:" destination="9gE-ur-Y08" eventType="touchUpInside" id="A5g-fd-Fhv"/>
+                                            <action selector="ReturnToSettingsButtonTapped:" destination="9gE-ur-Y08" eventType="touchUpInside" id="A5g-fd-Fhv"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KzI-oe-N6e" userLabel="Home" customClass="IconUIButton" customModule="Snake" customModuleProvider="target">
@@ -583,7 +583,7 @@
                                         <color key="backgroundColor" name="UI Button"/>
                                         <state key="normal" image="Linked-In_Icon_Set"/>
                                         <connections>
-                                            <action selector="linkedInButtonPressed:" destination="9gE-ur-Y08" eventType="touchUpInside" id="iBZ-nH-3qc"/>
+                                            <action selector="linkedInButtonTapped:" destination="9gE-ur-Y08" eventType="touchUpInside" id="iBZ-nH-3qc"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dOa-dg-iZM" userLabel="Github" customClass="IconUIButton" customModule="Snake" customModuleProvider="target">
@@ -592,7 +592,7 @@
                                         <color key="backgroundColor" name="UI Button"/>
                                         <state key="normal" image="Globe_Icon_Set"/>
                                         <connections>
-                                            <action selector="personalWebisteButtonPressed:" destination="9gE-ur-Y08" eventType="touchUpInside" id="CfQ-zT-hfN"/>
+                                            <action selector="personalWebisteButtonTapped:" destination="9gE-ur-Y08" eventType="touchUpInside" id="CfQ-zT-hfN"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bjA-tu-N8I" userLabel="Github" customClass="IconUIButton" customModule="Snake" customModuleProvider="target">
@@ -601,7 +601,7 @@
                                         <color key="backgroundColor" name="UI Button"/>
                                         <state key="normal" image="GitHub_Icon_Set"/>
                                         <connections>
-                                            <action selector="githubButtonPressed:" destination="9gE-ur-Y08" eventType="touchUpInside" id="ScO-5C-eJF"/>
+                                            <action selector="githubButtonTapped:" destination="9gE-ur-Y08" eventType="touchUpInside" id="ScO-5C-eJF"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pbF-dl-b7y" customClass="TextUIButton" customModule="Snake" customModuleProvider="target">
@@ -613,7 +613,7 @@
                                             <color key="titleColor" name="Text"/>
                                         </state>
                                         <connections>
-                                            <action selector="rateButton:" destination="9gE-ur-Y08" eventType="touchUpInside" id="sqk-Yn-f7s"/>
+                                            <action selector="rateButtonTapped:" destination="9gE-ur-Y08" eventType="touchUpInside" id="sqk-Yn-f7s"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xIX-3Z-EMF">
@@ -632,15 +632,6 @@
                         <viewLayoutGuide key="safeArea" id="klF-hv-Frw"/>
                     </view>
                     <navigationItem key="navigationItem" id="rwE-td-HZQ"/>
-                    <connections>
-                        <outlet property="backToPreviousScreenButton" destination="7gV-6f-ISG" id="Fdo-Ln-nsL"/>
-                        <outlet property="githubButton" destination="bjA-tu-N8I" id="5UL-jm-HJh"/>
-                        <outlet property="homeButton" destination="KzI-oe-N6e" id="XFw-uN-OpP"/>
-                        <outlet property="leftView" destination="Jid-tj-SUa" id="Bm4-An-nem"/>
-                        <outlet property="linkedInButton" destination="5bU-CR-ltO" id="XhP-t1-KgH"/>
-                        <outlet property="rateButton" destination="pbF-dl-b7y" id="06e-Jb-DK2"/>
-                        <outlet property="websiteButton" destination="dOa-dg-iZM" id="SLw-F6-90c"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dR2-3Z-khx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -672,6 +663,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="HB8-7U-962"/>
-        <segue reference="Bhq-DF-cdl"/>
+        <segue reference="TDt-jw-j1F"/>
     </inferredMetricsTieBreakers>
 </document>
