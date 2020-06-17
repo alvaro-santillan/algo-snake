@@ -459,7 +459,7 @@ class GameManager {
                     if let vc = appDelegate.window?.rootViewController {
 //                        print("VC", vc)
                         self.viewController = (vc as? GameScreenViewController)
-                        self.viewController?.scoreButton.setTitle(String(currentScore), for: .normal)
+//                        self.viewController?.scoreButton.setTitle(String(currentScore), for: .normal)
                     }
                     
                     // Grow snake by 3 blocks.
