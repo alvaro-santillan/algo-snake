@@ -72,29 +72,12 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         UIColor(red:0.17, green:0.24, blue:0.31, alpha:1.00), // Dark Gray Green Sea
         UIColor(red:0.20, green:0.29, blue:0.37, alpha:1.00), // Dark Gray Wet Asphalt
         UIColor(red:0.17, green:0.24, blue:0.31, alpha:1.00)] // Dark Gray Green Sea
-    
-    var legendData = [["Snake Head", 0], ["Snake Body", 0], ["Food", 3], ["Path", 17], ["Visited Square", 5], ["Queued Square", 15], ["Barrier", 7], ["Weight", 19],  ["Gameboard", 1]]
+    var legendData = UserDefaults.standard.array(forKey: "Legend Preferences") as! [[Any]]
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        checkIfFirstRun()
         loadUserData()
         loadButtonStyling()
-    }
-    
-    func checkIfFirstRun() {
-        if !UserDefaults.standard.bool(forKey: "Not First Launch") {
-            UserDefaults.standard.set(true, forKey: "Not First Launch")
-            defaults.set(2, forKey: "Snake Speed Text Setting")
-            defaults.set(0.01, forKey: "Snake Move Speed")
-            defaults.set(true, forKey: "Food Weight Setting")
-            defaults.set(true, forKey: "Food Count Setting")
-            defaults.set(false, forKey: "God Button On Setting")
-            defaults.set(true, forKey: "Volume On Setting")
-            defaults.set(false, forKey: "Step Mode On Setting")
-            defaults.set(true, forKey: "Dark Mode On Setting")
-            overrideUserInterfaceStyle = .dark
-        }
     }
     
     func loadUserData() {
@@ -142,7 +125,6 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        legendData = defaults.array(forKey: "Legend Preferences") as? [[Any]] ?? legendData
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! SettingsScreenTableViewCell
         let cellText = (legendData[indexPath.row][0] as? String)
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
@@ -170,14 +152,6 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         legendData[tappedSquare.tag][1] = colorID
         defaults.set(legendData, forKey: "Legend Preferences")
         tableVIew.reloadData()
-    }
-    
-    func colorPaletteDesigner(cellText: (String?)) -> ([UIColor]) {
-        if cellText == "Gameboard" {
-            return defaults.bool(forKey: "Dark Mode On Setting") ? darkBackgroundColors : lightBackgroundColors
-        } else {
-            return colors
-        }
     }
     
     @IBAction func clearAllButtonTapped(_ sender: UIButton) {

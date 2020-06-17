@@ -22,7 +22,26 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        checkIfFirstRun()
         loadUserData()
+    }
+    
+    func checkIfFirstRun() {
+        if !UserDefaults.standard.bool(forKey: "Not First Launch") {
+            let legendData = [["Snake Head", 0], ["Snake Body", 0], ["Food", 3], ["Path", 17], ["Visited Square", 5], ["Queued Square", 15], ["Barrier", 7], ["Weight", 19],  ["Gameboard", 1]]
+            
+            UserDefaults.standard.set(legendData, forKey: "Legend Preferences")
+            UserDefaults.standard.set(2, forKey: "Snake Speed Text Setting")
+            UserDefaults.standard.set(0.01, forKey: "Snake Move Speed")
+            UserDefaults.standard.set(true, forKey: "Food Weight Setting")
+            UserDefaults.standard.set(true, forKey: "Food Count Setting")
+            UserDefaults.standard.set(false, forKey: "God Button On Setting")
+            UserDefaults.standard.set(true, forKey: "Volume On Setting")
+            UserDefaults.standard.set(false, forKey: "Step Mode On Setting")
+            UserDefaults.standard.set(true, forKey: "Dark Mode On Setting")
+            UserDefaults.standard.set(true, forKey: "Not First Launch")
+            overrideUserInterfaceStyle = .dark
+        }
     }
     
     func loadUserData() {

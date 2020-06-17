@@ -289,7 +289,10 @@ class GameScene: SKScene {
             for j in 0...numCols - 1 {
                 let cellNode = SKShapeNode.init(rectOf: CGSize(width: cellWidth-1.5, height: cellWidth-1.5), cornerRadius: 3.5)
 //                SKShapeNode(rectOf: CGSize(width: cellWidth, height: cellWidth))
-                cellNode.fillColor = UserDefaults.standard.colorForKey(key: "Unvisited Square")!
+                let legendData = UserDefaults.standard.array(forKey: "Legend Preferences") as! [[Any]]
+                let gameboardIDColor = legendData[8][1] as! Int
+//                cellNode.fillColor = UserDefaults.standard.colorForKey(key: "Gameboard")!
+                cellNode.fillColor = darkBackgroundColors[gameboardIDColor]
                 cellNode.strokeColor = UIColor(red:0.93, green:0.94, blue:0.95, alpha:0.00)
                 cellNode.position = CGPoint(x: x, y: y)
                 row.append(0)
@@ -330,9 +333,10 @@ class GameScene: SKScene {
             let sequance = SKAction.sequence([wait])
                 let node = game!.fronteerSquareArray[0]
                 node.run(sequance)
-                node.fillColor = UserDefaults.standard.colorForKey(key: "Queued Square")!
-//            node.run(SKAction.scale(by: 0.8, duration: 1.0))
-//            node.run(SKAction.scale(to: 1.0, duration: 1.0))
+//                node.fillColor = UserDefaults.standard.colorForKey(key: "Queued Square")!
+                let legendData = UserDefaults.standard.array(forKey: "Legend Preferences") as! [[Any]]
+                let queuedSquareColor = legendData[5][1] as! Int
+                node.fillColor = colors[queuedSquareColor]
             node.run(SKAction.wait(forDuration: 1.0))
                 game!.fronteerSquareArray.remove(at: 0)
         }
@@ -342,7 +346,12 @@ class GameScene: SKScene {
             let sequance = SKAction.sequence([wait])
                 let node = game!.visitedNodeArray[0]
                 node.run(sequance)
-                node.fillColor = UserDefaults.standard.colorForKey(key: "Visited Square")!
+            
+                let legendData = UserDefaults.standard.array(forKey: "Legend Preferences") as! [[Any]]
+                let queuedSquareColor = legendData[4][1] as! Int
+                node.fillColor = colors[queuedSquareColor]
+            
+//                node.fillColor = UserDefaults.standard.colorForKey(key: "Visited Square")!
                 game!.visitedNodeArray.remove(at: 0)
         }
         game.update(time: currentTime)
