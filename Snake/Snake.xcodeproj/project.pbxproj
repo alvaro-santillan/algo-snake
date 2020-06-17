@@ -13,6 +13,8 @@
 		3803D8942495DD64002A6251 /* dogicabold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3803D8902495DD63002A6251 /* dogicabold.ttf */; };
 		3803D8952495DD64002A6251 /* dogica.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3803D8912495DD63002A6251 /* dogica.ttf */; };
 		3803D8972495DD64002A6251 /* dogicapixelbold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3803D8932495DD63002A6251 /* dogicapixelbold.ttf */; };
+		3803D89B2497F7D7002A6251 /* Custom UI Styling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3803D89A2497F7D7002A6251 /* Custom UI Styling.swift */; };
+		3803D89D2497F87A002A6251 /* Custom Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3803D89C2497F87A002A6251 /* Custom Extensions.swift */; };
 		3812394123C68E290066B3FA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3812394023C68E290066B3FA /* AppDelegate.swift */; };
 		3812394323C68E290066B3FA /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 3812394223C68E290066B3FA /* GameScene.sks */; };
 		3812394723C68E290066B3FA /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3812394623C68E290066B3FA /* GameScene.swift */; };
@@ -37,6 +39,8 @@
 		3803D8902495DD63002A6251 /* dogicabold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = dogicabold.ttf; sourceTree = "<group>"; };
 		3803D8912495DD63002A6251 /* dogica.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = dogica.ttf; sourceTree = "<group>"; };
 		3803D8932495DD63002A6251 /* dogicapixelbold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = dogicapixelbold.ttf; sourceTree = "<group>"; };
+		3803D89A2497F7D7002A6251 /* Custom UI Styling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Custom UI Styling.swift"; sourceTree = "<group>"; };
+		3803D89C2497F87A002A6251 /* Custom Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Custom Extensions.swift"; sourceTree = "<group>"; };
 		3812393D23C68E290066B3FA /* Snake.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Snake.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3812394023C68E290066B3FA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3812394223C68E290066B3FA /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -70,6 +74,8 @@
 		3812393423C68E290066B3FA = {
 			isa = PBXGroup;
 			children = (
+				3803D89A2497F7D7002A6251 /* Custom UI Styling.swift */,
+				3803D89C2497F87A002A6251 /* Custom Extensions.swift */,
 				3812393F23C68E290066B3FA /* Snake */,
 				3812393E23C68E290066B3FA /* Products */,
 				3803D88A2495DAE0002A6251 /* Pixeled.ttf */,
@@ -112,8 +118,8 @@
 			isa = PBXGroup;
 			children = (
 				3812394823C68E290066B3FA /* MainScreenViewController.swift */,
-				3868F97D24269985008F7B34 /* GameScreenViewController.swift */,
 				3868F97F24269C1C008F7B34 /* SettingsScreenViewController.swift */,
+				3868F97D24269985008F7B34 /* GameScreenViewController.swift */,
 				3868F97B2426960C008F7B34 /* HelpScreenViewController.swift */,
 			);
 			path = Controllers;
@@ -211,11 +217,13 @@
 				3868F97C2426960C008F7B34 /* HelpScreenViewController.swift in Sources */,
 				3868F9822426B5EC008F7B34 /* SettingsScreenTableViewCell.swift in Sources */,
 				3868F97E24269985008F7B34 /* GameScreenViewController.swift in Sources */,
+				3803D89B2497F7D7002A6251 /* Custom UI Styling.swift in Sources */,
 				3812394723C68E290066B3FA /* GameScene.swift in Sources */,
 				387FD13B241DC51C0004FD78 /* MainScreenTableViewCell.swift in Sources */,
 				3812395923C68F450066B3FA /* GameManager.swift in Sources */,
 				3812394923C68E290066B3FA /* MainScreenViewController.swift in Sources */,
 				3812394123C68E290066B3FA /* AppDelegate.swift in Sources */,
+				3803D89D2497F87A002A6251 /* Custom Extensions.swift in Sources */,
 				3868F98024269C1C008F7B34 /* SettingsScreenViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

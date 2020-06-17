@@ -8,53 +8,6 @@
 
 import UIKit
 
-extension UserDefaults {
-    func setColor(color: UIColor?, forKey key: String) {
-        var colorData: NSData?
-        if let color = color {
-            do {
-                colorData = try NSKeyedArchiver.archivedData(withRootObject: color, requiringSecureCoding: false) as NSData?
-                set(colorData, forKey: key)
-            } catch let error {print("Error archiving data", error)}
-        }
-    }
-    
-    func colorForKey(key: String) -> UIColor? {
-        var color: UIColor?
-        if let colorData = data(forKey: key) {
-            do {
-                color = try NSKeyedUnarchiver.unarchivedObject(ofClass: UIColor.self, from: colorData)
-            } catch let error {print("Error unarchiving data", error)}
-        }
-        return color
-    }
-}
-
-class SettingsUIButton: UIButton {
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        self.layer.shadowOffset = .zero
-        self.layer.shadowRadius = 5
-        self.layer.cornerRadius = 6
-        self.imageView?.contentMode = .scaleAspectFit
-    }
-}
-
-class TextUIButton: SettingsUIButton {
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        self.layer.shadowOpacity = 0.2
-    }
-}
-
-class IconUIButton: SettingsUIButton {
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        self.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
-        self.layer.shadowOpacity = 0.5
-    }
-}
-
 class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     // Views
     @IBOutlet weak var rightView: UIView!
@@ -124,16 +77,28 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        defaults.integer(forKey: "Dark Mode On Setting") == 1 ? (overrideUserInterfaceStyle = .dark) : (overrideUserInterfaceStyle = .light)
         checkIfFirstRun()
-        loadViewStyling()
+        loadUserData()
         loadButtonStyling()
     }
     
-    func loadViewStyling() {
-        leftView.layer.shadowRadius = 10
-        leftView.layer.shadowOpacity = 0.5
-        leftView.layer.shadowOffset = .zero
+    func checkIfFirstRun() {
+        if !UserDefaults.standard.bool(forKey: "Not First Launch") {
+            UserDefaults.standard.set(true, forKey: "Not First Launch")
+            defaults.set(2, forKey: "Snake Speed Text Setting")
+            defaults.set(0.01, forKey: "Snake Move Speed")
+            defaults.set(true, forKey: "Food Weight Setting")
+            defaults.set(true, forKey: "Food Count Setting")
+            defaults.set(false, forKey: "God Button On Setting")
+            defaults.set(true, forKey: "Volume On Setting")
+            defaults.set(false, forKey: "Step Mode On Setting")
+            defaults.set(true, forKey: "Dark Mode On Setting")
+            overrideUserInterfaceStyle = .dark
+        }
+    }
+    
+    func loadUserData() {
+        UserDefaults.standard.bool(forKey: "Dark Mode On Setting") == true ? (overrideUserInterfaceStyle = .dark) : (overrideUserInterfaceStyle = .light)
     }
     
     func loadButtonStyling() {
@@ -148,7 +113,6 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         
         func fourOptionButtonLoader(targetButton: UIButton, key: String, optionArray: [String]) {
             let buttonSetting = defaults.integer(forKey: key)
-            print("four oprion", buttonSetting)
             if buttonSetting == 1 {
                 targetButton.setTitle(optionArray[0], for: .normal)
             } else if buttonSetting == 2 {
@@ -332,21 +296,5 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         
         defaults.set(sender.tag, forKey: key)
         if isSpeedButton {defaults.set(gameMoveSpeed, forKey: "Snake Move Speed")}
-    }
-    
-    func checkIfFirstRun() {
-        if !UserDefaults.standard.bool(forKey: "Not First Launch") {
-        UserDefaults.standard.set(true, forKey: "Not First Launch")
-        print("settingDefalts hit")
-        defaults.set(2, forKey: "Snake Speed Text Setting")
-        defaults.set(0.01, forKey: "Snake Move Speed")
-        defaults.set(true, forKey: "Food Weight Setting")
-        defaults.set(true, forKey: "Food Count Setting")
-        defaults.set(false, forKey: "God Button On Setting")
-        defaults.set(true, forKey: "Volume On Setting")
-        defaults.set(false, forKey: "Step Mode On Setting")
-        defaults.set(true, forKey: "Dark Mode On Setting")
-        overrideUserInterfaceStyle = .dark
-        }
     }
 }
