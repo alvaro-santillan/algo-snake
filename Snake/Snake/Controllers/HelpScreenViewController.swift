@@ -36,12 +36,10 @@ class HelpViewController: UIViewController {
 
         var appURL = "linkedin://in/álvarosantillan"
         appURL = appURL.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
-
-        if UIApplication.shared.canOpenURL(URL(string: appURL)! as URL) {
-            UIApplication.shared.open(URL(string: appURL)! as URL, options: [:], completionHandler: nil)
-        } else {
-            UIApplication.shared.open(URL(string: webURL)! as URL, options: [:], completionHandler: nil)
-        }
+        
+        var selectedURL = String()
+        UIApplication.shared.canOpenURL(URL(string: appURL)! as URL) ? (selectedURL = appURL) : (selectedURL = webURL)
+        UIApplication.shared.open(URL(string: selectedURL)! as URL, options: [:], completionHandler: nil)
     }
     
     @IBAction func personalWebisteButtonPressed(_ sender: UIButton) {
@@ -61,11 +59,9 @@ class HelpViewController: UIViewController {
         let appID = "1287000522"
         var appURL = "http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=\(appID)&pageNumber=0&sortOrdering=2&type=Purple+Software&mt=8"
         appURL = appURL.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
-
-        if UIApplication.shared.canOpenURL(URL(string: appURL)! as URL) {
-            UIApplication.shared.open(URL(string: appURL)! as URL, options: [:], completionHandler: nil)
-        } else {
-            UIApplication.shared.open(URL(string: webURL)! as URL, options: [:], completionHandler: nil)
-        }
+        
+        var selectedURL = String()
+        UIApplication.shared.canOpenURL(URL(string: appURL)! as URL) ? (selectedURL = appURL) : (selectedURL = webURL)
+        UIApplication.shared.open(URL(string: selectedURL)! as URL, options: [:], completionHandler: nil)
     }
 }
