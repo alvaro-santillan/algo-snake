@@ -109,9 +109,9 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GwY-Km-gxB" userLabel="Left View" customClass="LeftUIView" customModule="Snake" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="369" height="414"/>
                                 <subviews>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ZpZ-XN-DRd">
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ZpZ-XN-DRd">
                                         <rect key="frame" x="20" y="72" width="329" height="316"/>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <color key="backgroundColor" name="Left View Background"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" rowHeight="34" id="OnX-qu-dyM" customClass="ViewControllerTableViewCell" customModule="Snake" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="28" width="329" height="34"/>
@@ -121,22 +121,24 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hHW-Bo-5qD">
-                                                            <rect key="frame" x="291" y="8" width="28" height="28"/>
+                                                            <rect key="frame" x="296" y="11" width="22" height="22"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XhV-Uv-nos">
-                                                            <rect key="frame" x="9" y="9" width="236" height="28"/>
+                                                            <rect key="frame" x="9" y="9" width="254" height="28"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <fontDescription key="fontDescription" name="Dogica_Pixel" family="Dogica Pixel" pointSize="11"/>
                                                             <color key="textColor" name="Text"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CXC-6R-ftb">
-                                                            <rect key="frame" x="255" y="8" width="28" height="28"/>
+                                                            <rect key="frame" x="269" y="11" width="21" height="21"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         </imageView>
                                                     </subviews>
+                                                    <color key="backgroundColor" name="Left View Background"/>
                                                 </tableViewCellContentView>
+                                                <color key="backgroundColor" name="Left View Background"/>
                                                 <connections>
                                                     <outlet property="myImage" destination="hHW-Bo-5qD" id="IbS-Ps-Geq"/>
                                                     <outlet property="myImage2" destination="CXC-6R-ftb" id="14y-co-apv"/>
@@ -150,7 +152,7 @@
                                         </connections>
                                     </tableView>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" name="Left View Background"/>
                                 <constraints>
                                     <constraint firstItem="ZpZ-XN-DRd" firstAttribute="leading" secondItem="GwY-Km-gxB" secondAttribute="leading" constant="20" id="7zB-Be-0lL"/>
                                     <constraint firstAttribute="trailing" secondItem="ZpZ-XN-DRd" secondAttribute="trailing" constant="20" id="NZU-YL-fpZ"/>
@@ -193,7 +195,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="324" y="-387"/>
+            <point key="canvasLocation" x="323.64130434782612" y="-388.40579710144931"/>
         </scene>
         <!--MainScreen-->
         <scene sceneID="JvJ-p6-B9n">
@@ -383,7 +385,7 @@
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="PIt-eS-dbd">
                                         <rect key="frame" x="14" y="71" width="268" height="321"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <color key="backgroundColor" name="Left View Background"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" rowHeight="34" id="Nju-Ya-EcK" customClass="SettingsScreenTableViewCell" customModule="Snake" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="28" width="268" height="34"/>
@@ -404,7 +406,9 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
+                                                    <color key="backgroundColor" name="Left View Background"/>
                                                 </tableViewCellContentView>
+                                                <color key="backgroundColor" name="Left View Background"/>
                                                 <connections>
                                                     <outlet property="legendOptionSquareColor" destination="FH3-5z-Mbe" id="USD-N6-MHV"/>
                                                     <outlet property="legendOptionText" destination="uPu-Cm-ISl" id="lMw-a9-9NN"/>
@@ -417,7 +421,7 @@
                                         </connections>
                                     </tableView>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" name="Left View Background"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -580,7 +584,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5bU-CR-ltO" userLabel="Linked-In" customClass="IconUIButton" customModule="Snake" customModuleProvider="target">
                                         <rect key="frame" x="44" y="108" width="60" height="60"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" name="UI Button"/>
+                                        <color key="backgroundColor" name="Social UI Button"/>
                                         <state key="normal" image="Linked-In_Icon_Set"/>
                                         <connections>
                                             <action selector="linkedInButtonTapped:" destination="9gE-ur-Y08" eventType="touchUpInside" id="iBZ-nH-3qc"/>
@@ -589,7 +593,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dOa-dg-iZM" userLabel="Github" customClass="IconUIButton" customModule="Snake" customModuleProvider="target">
                                         <rect key="frame" x="118" y="108" width="60" height="60"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" name="UI Button"/>
+                                        <color key="backgroundColor" name="Social UI Button"/>
                                         <state key="normal" image="Globe_Icon_Set"/>
                                         <connections>
                                             <action selector="personalWebisteButtonTapped:" destination="9gE-ur-Y08" eventType="touchUpInside" id="CfQ-zT-hfN"/>
@@ -598,7 +602,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bjA-tu-N8I" userLabel="Github" customClass="IconUIButton" customModule="Snake" customModuleProvider="target">
                                         <rect key="frame" x="192" y="108" width="60" height="60"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" name="UI Button"/>
+                                        <color key="backgroundColor" name="Social UI Button"/>
                                         <state key="normal" image="GitHub_Icon_Set"/>
                                         <connections>
                                             <action selector="githubButtonTapped:" destination="9gE-ur-Y08" eventType="touchUpInside" id="ScO-5C-eJF"/>
@@ -607,7 +611,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pbF-dl-b7y" customClass="TextUIButton" customModule="Snake" customModuleProvider="target">
                                         <rect key="frame" x="80" y="181" width="134" height="45"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" name="UI Button"/>
+                                        <color key="backgroundColor" name="Social UI Button"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <state key="normal" title="Rate">
                                             <color key="titleColor" name="Text"/>
@@ -625,7 +629,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" name="Left View Background"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -651,8 +655,14 @@
         <image name="Settings_Icon_Set" width="384" height="384"/>
         <image name="Volume_On_Icon_Set" width="288" height="384"/>
         <image name="Weight_Icon_Set" width="384" height="384"/>
+        <namedColor name="Left View Background">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="Right View Background">
             <color red="0.94900000095367432" green="0.94900000095367432" blue="0.96899998188018799" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="Social UI Button">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="Text">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -662,7 +672,7 @@
         </namedColor>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="HB8-7U-962"/>
+        <segue reference="f62-Ey-MOA"/>
         <segue reference="TDt-jw-j1F"/>
     </inferredMetricsTieBreakers>
 </document>
