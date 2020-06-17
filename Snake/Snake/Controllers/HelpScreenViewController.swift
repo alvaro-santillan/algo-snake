@@ -19,16 +19,14 @@ class HelpViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if UserDefaults.standard.integer(forKey: "darkOrLightButton") == 0 {
-            overrideUserInterfaceStyle = .dark
-        } else {
-            overrideUserInterfaceStyle = .light
-        }
+        loadUserData()
+    }
+    
+    func loadUserData() {
+        UserDefaults.standard.bool(forKey: "Dark Mode On Setting") == true ? (overrideUserInterfaceStyle = .dark) : (overrideUserInterfaceStyle = .light)
     }
 
-    @IBAction func ReturnToSettingsButtonPressed(_ sender: UIButton) {
-        self.dismiss(animated: true)
-    }
+    @IBAction func ReturnToSettingsButtonPressed(_ sender: UIButton) {self.dismiss(animated: true)}
     
     @IBAction func linkedInButtonPressed(_ sender: UIButton) {
         var webURL = "https://www.linkedin.com/in/álvarosantillan"
