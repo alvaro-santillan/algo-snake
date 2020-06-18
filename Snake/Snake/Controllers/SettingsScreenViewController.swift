@@ -85,28 +85,6 @@ class SettingsSceenViewController: UIViewController, UITableViewDelegate, UITabl
     }
     
     func loadButtonStyling() {
-        func boolButtonLoader(isIconButton: Bool, targetButton: UIButton, key: String, trueOption: String, falseOption: String) {
-            let buttonSetting = defaults.bool(forKey: key)
-            if isIconButton == true {
-                buttonSetting == true ? (targetButton.setImage(UIImage(named: trueOption), for: .normal)) : (targetButton.setImage(UIImage(named: falseOption), for: .normal))
-            } else {
-                buttonSetting == true ? (targetButton.setTitle(trueOption, for: .normal)) : (targetButton.setTitle(falseOption, for: .normal))
-            }
-        }
-        
-        func fourOptionButtonLoader(targetButton: UIButton, key: String, optionArray: [String]) {
-            let buttonSetting = defaults.integer(forKey: key)
-            if buttonSetting == 1 {
-                targetButton.setTitle(optionArray[0], for: .normal)
-            } else if buttonSetting == 2 {
-                targetButton.setTitle(optionArray[1], for: .normal)
-            } else if buttonSetting == 3 {
-                targetButton.setTitle(optionArray[2], for: .normal)
-            } else {
-                targetButton.setTitle(optionArray[3], for: .normal)
-            }
-        }
-        
         var options = ["Speed: Slow", "Speed: Normal", "Speed: Fast", "Speed: Extreme"]
         fourOptionButtonLoader(targetButton: snakeSpeedButton, key: "Snake Speed Text Setting", optionArray: options)
         options = ["Food Weight: 1", "Food Weight: 2", "Food Weight: 3", "Food Weight: 5"]
@@ -115,10 +93,11 @@ class SettingsSceenViewController: UIViewController, UITableViewDelegate, UITabl
         fourOptionButtonLoader(targetButton: foodCountButton, key: "Food Count Setting", optionArray: options)
         
         boolButtonLoader(isIconButton: false, targetButton: godModeButton, key: "God Button On Setting", trueOption: "God Mode: On", falseOption: "God Mode: Off")
-        boolButtonLoader(isIconButton: true, targetButton: soundButton, key: "Volume On Setting", trueOption: "Volume_On_Icon_Set.pdf", falseOption: "Volume_Mute_Icon_Set.pdf")
-        boolButtonLoader(isIconButton: true, targetButton: stepOrPlayPauseButton, key: "Step Mode On Setting", trueOption: "Step_Icon_Set.pdf", falseOption: "Play_Icon_Set.pdf")
-        boolButtonLoader(isIconButton: true, targetButton: darkOrLightModeButton, key: "Dark Mode On Setting", trueOption: "Dark_Mode_Icon_Set.pdf", falseOption: "Light_Mode_Icon_Set.pdf")
+        boolButtonLoader(isIconButton: true, targetButton: soundButton, key: "Volume On Setting", trueOption: "Volume_On_Icon_Set", falseOption: "Volume_Mute_Icon_Set")
+        boolButtonLoader(isIconButton: true, targetButton: stepOrPlayPauseButton, key: "Step Mode On Setting", trueOption: "Step_Icon_Set", falseOption: "Play_Icon_Set")
+        boolButtonLoader(isIconButton: true, targetButton: darkOrLightModeButton, key: "Dark Mode On Setting", trueOption: "Dark_Mode_Icon_Set", falseOption: "Light_Mode_Icon_Set")
     }
+
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return legendData.count
@@ -195,15 +174,15 @@ class SettingsSceenViewController: UIViewController, UITableViewDelegate, UITabl
     }
     
     @IBAction func soundButtonTapped(_ sender: UIButton) {
-        boolButtonResponder(sender, isIconButton: true, key: "Volume On Setting", trueOption: "Volume_On_Icon_Set.pdf", falseOption: "Volume_Mute_Icon_Set.pdf")
+        boolButtonResponder(sender, isIconButton: true, key: "Volume On Setting", trueOption: "Volume_On_Icon_Set", falseOption: "Volume_Mute_Icon_Set")
     }
     
     @IBAction func stepButtonTapped(_ sender: UIButton) {
-        boolButtonResponder(sender, isIconButton: true, key: "Step Mode On Setting", trueOption: "Step_Icon_Set.pdf", falseOption: "Play_Icon_Set.pdf")
+        boolButtonResponder(sender, isIconButton: true, key: "Step Mode On Setting", trueOption: "Step_Icon_Set", falseOption: "Play_Icon_Set")
     }
     
     @IBAction func darkModeButtonTapped(_ sender: UIButton) {
-        boolButtonResponder(sender, isIconButton: true, key: "Dark Mode On Setting", trueOption: "Dark_Mode_Icon_Set.pdf", falseOption: "Light_Mode_Icon_Set.pdf")
+        boolButtonResponder(sender, isIconButton: true, key: "Dark Mode On Setting", trueOption: "Dark_Mode_Icon_Set", falseOption: "Light_Mode_Icon_Set")
         
         if (defaults.bool(forKey: "Dark Mode On Setting")) == true {
             UIWindow.animate(withDuration: 1.3, animations: {
@@ -219,32 +198,5 @@ class SettingsSceenViewController: UIViewController, UITableViewDelegate, UITabl
             })
         }
         tableVIew.reloadData()
-    }
-    
-    func fourOptionButtonResponder(_ sender: UIButton, isSpeedButton: Bool, key: String, optionArray: [String]) {
-        var gameMoveSpeed = Float()
-        sender.tag = defaults.integer(forKey: key)
-
-        if isSpeedButton {gameMoveSpeed = defaults.float(forKey: "Snake Move Speed")}
-        if sender.tag == 1 {
-            sender.setTitle(optionArray[1], for: .normal)
-            sender.tag = 2
-            if isSpeedButton {gameMoveSpeed = 0.10}
-        } else if sender.tag == 2 {
-            sender.setTitle(optionArray[2], for: .normal)
-            sender.tag = 3
-            if isSpeedButton {gameMoveSpeed = 0.01}
-        } else if sender.tag == 3 {
-            sender.setTitle(optionArray[3], for: .normal)
-            sender.tag = 5
-            if isSpeedButton {gameMoveSpeed = 0.50}
-        } else {
-            sender.setTitle(optionArray[0], for: .normal)
-            sender.tag = 1
-            if isSpeedButton {gameMoveSpeed = 0.25}
-        }
-        
-        defaults.set(sender.tag, forKey: key)
-        if isSpeedButton {defaults.set(gameMoveSpeed, forKey: "Snake Move Speed")}
     }
 }

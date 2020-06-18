@@ -26,7 +26,8 @@ class GameScene: SKScene {
         initializeWelcomeScreen()
         initializeGameView()
         
-        if !(UserDefaults.standard.bool(forKey: "Game Is Paused Setting")) {
+        if UserDefaults.standard.bool(forKey: "Game Is Paused Setting") {
+            print("Swipe detected")
             let swipeRight:UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeR))
             swipeRight.direction = .right
             view.addGestureRecognizer(swipeRight)

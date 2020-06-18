@@ -514,6 +514,9 @@
                         <viewLayoutGuide key="safeArea" id="lMT-5a-1pP"/>
                     </view>
                     <navigationItem key="navigationItem" id="3h6-dv-rTv"/>
+                    <connections>
+                        <outlet property="playButton" destination="5GO-jV-W0k" id="eAV-wi-tRh"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Yxn-nk-StT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

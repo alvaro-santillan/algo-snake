@@ -36,7 +36,7 @@ class GameManager {
     var nextTime: Double?
     var gameSpeed: Float = 1
     var paused = false
-    var playerDirection: Int = 1 // 1 == left, 2 == up, 3 == right, 4 == down
+    var playerDirection: Int = 4 // 1 == left, 2 == up, 3 == right, 4 == down
     var currentScore: Int = 0
     var playPauseMode = UserDefaults.standard.integer(forKey: "Step Mode On Setting")
     
@@ -168,14 +168,14 @@ class GameManager {
         let node = scene.gameBoard.first(where: {$0.x == visitedX && $0.y == visitedY})?.node
         visitedNodeArray.append(node!)
 //        node!.fillColor = UserDefaults.standard.colorForKey(key: "Visited Square")!
-        print("Node at:", visitedX, visitedY)
+//        print("Node at:", visitedX, visitedY)
     }
     
         func fronteerSquares(visitedX: Int, visitedY: Int) {
             let node = scene.gameBoard.first(where: {$0.x == visitedY && $0.y == visitedX})?.node
             fronteerSquareArray.append(node!)
     //        node!.fillColor = UserDefaults.standard.colorForKey(key: "Visited Square")!
-            print("Node at:", visitedX, visitedY)
+//            print("Node at:", visitedX, visitedY)
         }
 
     // Steps in Breath First Search
@@ -397,10 +397,11 @@ class GameManager {
     
     func checkIfPaused() {
         if UserDefaults.standard.bool(forKey: "Game Is Paused Setting") {
-            paused = true
-        } else {
             gameSpeed = UserDefaults.standard.float(forKey: "gameSpeed")
             paused = false
+        } else {
+//            gameSpeed = UserDefaults.standard.float(forKey: "gameSpeed")
+            paused = true
         }
     }
     
