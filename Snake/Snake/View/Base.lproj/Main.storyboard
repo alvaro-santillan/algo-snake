@@ -515,6 +515,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="3h6-dv-rTv"/>
                     <connections>
+                        <outlet property="barrierButton" destination="gjg-eF-i5t" id="biF-aM-ui2"/>
                         <outlet property="playButton" destination="5GO-jV-W0k" id="eAV-wi-tRh"/>
                     </connections>
                 </viewController>

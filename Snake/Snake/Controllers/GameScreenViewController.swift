@@ -10,6 +10,7 @@ import SpriteKit
 
 class GameScreenViewController: UIViewController {
     @IBOutlet weak var playButton: UIButton!
+    @IBOutlet weak var barrierButton: UIButton!
     
     var currentGame: GameManager?
     
@@ -36,6 +37,8 @@ class GameScreenViewController: UIViewController {
     
     func loadButtonStyling() {
         boolButtonLoader(isIconButton: true, targetButton: playButton, key: "Game Is Paused Setting", trueOption: "Pause_Icon_Set", falseOption: "Play_Icon_Set")
+        UserDefaults.standard.set(true, forKey: "Add Barrier Mode On Setting")
+        boolButtonLoader(isIconButton: true, targetButton: barrierButton, key: "Add Barrier Mode On Setting", trueOption: "Plus_Icon_Set", falseOption: "Minus_Icon_Set")
     }
     
     @IBAction func homeButtonTapped(_ sender: UIButton) {
@@ -49,12 +52,6 @@ class GameScreenViewController: UIViewController {
     }
     
     @IBAction func barrierButtonTapped(_ sender: UIButton) {
-        if sender.tag == 0 {
-            sender.setImage(UIImage(named: "Plus_Icon_Set"), for: .normal)
-            sender.tag = 1
-        } else {
-            sender.setImage(UIImage(named: "Minus_Icon_Set"), for: .normal)
-            sender.tag = 0
-        }
+        boolButtonResponder(sender, isIconButton: true, key: "Add Barrier Mode On Setting", trueOption: "Plus_Icon_Set", falseOption: "Minus_Icon_Set")
     }
 }
