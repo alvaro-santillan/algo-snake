@@ -98,4 +98,27 @@ func colorPaletteDesigner(cellText: (String?)) -> ([UIColor]) {
         return colors
     }
 }
-//}
+
+func boolButtonResponder(_ sender: UIButton, isIconButton: Bool, key: String, trueOption: String, falseOption: String) {
+    sender.tag = NSNumber(value: UserDefaults.standard.bool(forKey: key)).intValue
+    if isIconButton {
+        // If on when clicked, change to off, and vise versa.
+        if sender.tag == 1 {
+            sender.setImage(UIImage(named: falseOption), for: .normal)
+            sender.tag = 0
+        } else {
+            sender.setImage(UIImage(named: trueOption), for: .normal)
+            sender.tag = 1
+        }
+    } else {
+        // If on when clicked, change to off, and vise versa.
+        if sender.tag == 1 {
+            sender.setTitle(falseOption, for: .normal)
+            sender.tag = 0
+        } else {
+            sender.setTitle(trueOption, for: .normal)
+            sender.tag = 1
+        }
+    }
+    UserDefaults.standard.set(Bool(truncating: sender.tag as NSNumber), forKey: key)
+}

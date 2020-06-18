@@ -38,13 +38,15 @@ class GameScreenViewController: UIViewController {
     }
     
     @IBAction func stepButtonTapped(_ sender: UIButton) {
-        if sender.tag == 0 {
-            sender.setImage(UIImage(named: "Play_Icon_Set"), for: .normal)
-            sender.tag = 1
-        } else {
-            sender.setImage(UIImage(named: "Pause_Icon_Set"), for: .normal)
-            sender.tag = 0
-        }
+        boolButtonResponder(sender, isIconButton: true, key: "Game Is Paused Setting", trueOption: "Pause_Icon_Set", falseOption: "Play_Icon_Set")
+//        if sender.tag == 0 {
+//            sender.setImage(UIImage(named: "Play_Icon_Set"), for: .normal)
+//            sender.tag = 1
+////            defaults.set(sender.tag, forKey: "")
+//        } else {
+//            sender.setImage(UIImage(named: "Pause_Icon_Set"), for: .normal)
+//            sender.tag = 0
+//        }
     }
     
     @IBAction func barrierButtonTapped(_ sender: UIButton) {

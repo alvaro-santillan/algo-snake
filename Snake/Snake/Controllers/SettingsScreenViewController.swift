@@ -86,11 +86,11 @@ class SettingsSceenViewController: UIViewController, UITableViewDelegate, UITabl
     
     func loadButtonStyling() {
         func boolButtonLoader(isIconButton: Bool, targetButton: UIButton, key: String, trueOption: String, falseOption: String) {
-            let buttonSetting = NSNumber(value: defaults.bool(forKey: key)).intValue
+            let buttonSetting = defaults.bool(forKey: key)
             if isIconButton == true {
-                buttonSetting == 1 ? (targetButton.setImage(UIImage(named: trueOption), for: .normal)) : (targetButton.setImage(UIImage(named: falseOption), for: .normal))
+                buttonSetting == true ? (targetButton.setImage(UIImage(named: trueOption), for: .normal)) : (targetButton.setImage(UIImage(named: falseOption), for: .normal))
             } else {
-                buttonSetting == 1 ? (targetButton.setTitle(trueOption, for: .normal)) : (targetButton.setTitle(falseOption, for: .normal))
+                buttonSetting == true ? (targetButton.setTitle(trueOption, for: .normal)) : (targetButton.setTitle(falseOption, for: .normal))
             }
         }
         
@@ -219,30 +219,6 @@ class SettingsSceenViewController: UIViewController, UITableViewDelegate, UITabl
             })
         }
         tableVIew.reloadData()
-    }
-
-    func boolButtonResponder(_ sender: UIButton, isIconButton: Bool, key: String, trueOption: String, falseOption: String) {
-        sender.tag = NSNumber(value: defaults.bool(forKey: key)).intValue
-        if isIconButton {
-            // If on when clicked, change to off, and vise versa.
-            if sender.tag == 1 {
-                sender.setImage(UIImage(named: falseOption), for: .normal)
-                sender.tag = 0
-            } else {
-                sender.setImage(UIImage(named: trueOption), for: .normal)
-                sender.tag = 1
-            }
-        } else {
-            // If on when clicked, change to off, and vise versa.
-            if sender.tag == 1 {
-                sender.setTitle(falseOption, for: .normal)
-                sender.tag = 0
-            } else {
-                sender.setTitle(trueOption, for: .normal)
-                sender.tag = 1
-            }
-        }
-        defaults.set(Bool(truncating: sender.tag as NSNumber), forKey: key)
     }
     
     func fourOptionButtonResponder(_ sender: UIButton, isSpeedButton: Bool, key: String, optionArray: [String]) {

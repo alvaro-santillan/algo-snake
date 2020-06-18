@@ -396,13 +396,11 @@ class GameManager {
     }
     
     func checkIfPaused() {
-        if scene.gamePaused == true {
+        if UserDefaults.standard.bool(forKey: "Game Is Paused Setting") {
             paused = true
-//            print("snakeColor", scene.snakeColor)
         } else {
             gameSpeed = UserDefaults.standard.float(forKey: "gameSpeed")
             paused = false
-//            print("snakeColor", scene.snakeColor)
         }
     }
     
