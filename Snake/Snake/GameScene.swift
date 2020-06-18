@@ -22,16 +22,11 @@ class GameScene: SKScene {
     let legendData = UserDefaults.standard.array(forKey: "Legend Preferences") as! [[Any]]
 
     override func didMove(to view: SKView) {
-        initializeWelcomeScreen()
         game = GameManager(scene: self)
+        initializeWelcomeScreen()
         initializeGameView()
         
-        if let gameInfo = self.userData?.value(forKey: "playOrNot") {
-            gamePaused = gameInfo as! Bool
-            snakeColor = gameInfo as! UIColor
-        }
-        
-        if UserDefaults.standard.bool(forKey: "Game Is Paused Setting") {
+        if !(UserDefaults.standard.bool(forKey: "Game Is Paused Setting")) {
             let swipeRight:UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeR))
             swipeRight.direction = .right
             view.addGestureRecognizer(swipeRight)
