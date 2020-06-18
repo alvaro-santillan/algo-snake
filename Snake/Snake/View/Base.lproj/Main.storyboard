@@ -16,10 +16,10 @@
         </array>
     </customFonts>
     <scenes>
-        <!--Game View Controller-->
+        <!--Main Screen View Controller-->
         <scene sceneID="tXr-a1-R10">
             <objects>
-                <viewController storyboardIdentifier="HomeScreeen" id="BV1-FR-VrT" customClass="GameViewController" customModule="Snake" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HomeScreeen" id="BV1-FR-VrT" customClass="MainScreenViewController" customModule="Snake" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" multipleTouchEnabled="YES" contentMode="scaleToFill" id="3se-qz-xqx" customClass="SKView">
                         <rect key="frame" x="0.0" y="0.0" width="736" height="414"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -200,7 +200,7 @@
         <!--MainScreen-->
         <scene sceneID="JvJ-p6-B9n">
             <objects>
-                <viewController title="MainScreen" id="x7L-u7-4Ti" customClass="SettingsViewController" customModule="Snake" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="MainScreen" id="x7L-u7-4Ti" customClass="SettingsSceenViewController" customModule="Snake" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="DhK-yG-hbA">
                         <rect key="frame" x="0.0" y="0.0" width="736" height="414"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -469,11 +469,11 @@
                                 <rect key="frame" x="556" y="284" width="45" height="45"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" image="Weight_Icon_Set">
+                                <state key="normal" image="Plus_Icon_Set">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
-                                    <action selector="weightButton:" destination="bKH-RY-faG" eventType="touchUpInside" id="iOb-KA-bxv"/>
+                                    <action selector="barrierButtonTapped:" destination="bKH-RY-faG" eventType="touchUpInside" id="iOb-KA-bxv"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="00f-v8-ibJ" userLabel="Return To Settings" customClass="IconUIButton" customModule="Snake" customModuleProvider="target">
@@ -506,7 +506,7 @@
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
-                                    <action selector="stepOrPlayPauseButtonPressed:" destination="bKH-RY-faG" eventType="touchUpInside" id="9z7-kV-FLG"/>
+                                    <action selector="stepButtonTapped:" destination="bKH-RY-faG" eventType="touchUpInside" id="9z7-kV-FLG"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -519,10 +519,10 @@
             </objects>
             <point key="canvasLocation" x="1034.5108695652175" y="-388.40579710144931"/>
         </scene>
-        <!--Help View Controller-->
+        <!--Help Screen View Controller-->
         <scene sceneID="ykz-Db-5xt">
             <objects>
-                <viewController id="9gE-ur-Y08" customClass="HelpViewController" customModule="Snake" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="9gE-ur-Y08" customClass="HelpScreenViewController" customModule="Snake" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="1O6-pw-nWf">
                         <rect key="frame" x="0.0" y="0.0" width="736" height="414"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -645,9 +645,9 @@
         <image name="Linked-In_Icon_Set" width="336" height="384"/>
         <image name="Pause_Icon_Set" width="336" height="384"/>
         <image name="Play_Icon_Set" width="336" height="384"/>
+        <image name="Plus_Icon_Set" width="336" height="384"/>
         <image name="Settings_Icon_Set" width="384" height="384"/>
         <image name="Volume_On_Icon_Set" width="288" height="384"/>
-        <image name="Weight_Icon_Set" width="384" height="384"/>
         <namedColor name="Left View Background">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

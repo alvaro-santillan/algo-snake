@@ -40,6 +40,8 @@ class GameManager {
     var currentScore: Int = 0
     var playPauseMode = UserDefaults.standard.integer(forKey: "Step Mode On Setting")
     
+    
+    
     init(scene: GameScene) {
         self.scene = scene
     }
@@ -572,12 +574,20 @@ class GameManager {
                     node.fillColor = SKColor.white
                 }
             }
+            
+            let legendData = UserDefaults.standard.array(forKey: "Legend Preferences") as! [[Any]]
+//            let legendData = [["Snake Head", 0], ["Snake Body", 0], ["Food", 3], ["Path", 17], ["Visited Square", 5], ["Queued Square", 15], ["Barrier", 7], ["Weight", 19],  ["Gameboard", 1]]
+            let snakeHeadColor = legendData[0][1] as! Int // "Snake Head"
+            let snakeBodyColor = legendData[1][1] as! Int // "Snake Body"
+            let foodColor = legendData[2][1] as! Int // "Food"
+            let pathColor = legendData[3][1] as! Int // "Path"
+            
             // add closest food to legend
             if contains(a: scene.snakeBodyPos, v: (x,y)) {
                 if (onPathMode == true) {
-                    node.fillColor = UserDefaults.standard.colorForKey(key: "Snake")!
+                    node.fillColor = colors[snakeBodyColor]
                     if contains(a: [scene.snakeBodyPos.first!], v: (x,y)) {
-                        node.fillColor = UserDefaults.standard.colorForKey(key: "Snake Head")!
+                        node.fillColor = colors[snakeHeadColor]
 //                        colorVisitedSquares(visited: [Tuple(x: x, y: y)])
                     }
                 }
@@ -590,7 +600,7 @@ class GameManager {
                     
                     for i in (scene.foodPosition) {
                         if Int((i.x)) == y && Int((i.y)) == x {
-                            node.fillColor = UserDefaults.standard.colorForKey(key: "Food")!
+                            node.fillColor = colors[foodColor]
                         }
                     }
                     
@@ -604,7 +614,7 @@ class GameManager {
                     for i in (pathBlockCordinates) {
                         if Int((i.0)) == y && Int((i.1)) == x {
 //                            print("-")
-                            node.fillColor = UserDefaults.standard.colorForKey(key: "Path")!
+                            node.fillColor = colors[pathColor]
                         }
                     }
                 }
@@ -627,6 +637,6 @@ class GameManager {
         // Reset and present score variables on game menu.
         UserDefaults.standard.set(currentScore, forKey: "lastScore")
          currentScore = 0
-         scene.highScore.text = "High Score: \(UserDefaults.standard.integer(forKey: "highScore"))"
+//         scene.highScore.text = "High Score: \(UserDefaults.standard.integer(forKey: "highScore"))"
     }
 }

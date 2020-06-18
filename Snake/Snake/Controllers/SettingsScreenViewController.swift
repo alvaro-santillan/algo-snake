@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class SettingsSceenViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     // Views
     @IBOutlet weak var rightView: UIView!
     @IBOutlet weak var leftView: UIView!

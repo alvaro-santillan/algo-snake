@@ -8,7 +8,7 @@
 
 import UIKit
 
-class GameViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class MainScreenViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var segControl: UISegmentedControl!
     @IBOutlet weak var tableVIew: UITableView!
     @IBOutlet weak var lastScoreLabel: UITextField!

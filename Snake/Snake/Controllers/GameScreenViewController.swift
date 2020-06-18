@@ -37,15 +37,23 @@ class GameScreenViewController: UIViewController {
         self.dismiss(animated: true)
     }
     
-    @IBAction func stepOrPlayPauseButtonPressed(_ sender: UIButton) {
+    @IBAction func stepButtonTapped(_ sender: UIButton) {
         if sender.tag == 0 {
-            sender.setImage(UIImage(named: "Play_Icon.pdf"), for: .normal)
+            sender.setImage(UIImage(named: "Play_Icon_Set"), for: .normal)
             sender.tag = 1
         } else {
-            sender.setImage(UIImage(named: "Pause_Icon.pdf"), for: .normal)
+            sender.setImage(UIImage(named: "Pause_Icon_Set"), for: .normal)
             sender.tag = 0
         }
     }
     
-    @IBAction func weightButton(_ sender: UIButton) {print("Weight IU-Button pushed.")}
+    @IBAction func barrierButtonTapped(_ sender: UIButton) {
+        if sender.tag == 0 {
+            sender.setImage(UIImage(named: "Plus_Icon_Set"), for: .normal)
+            sender.tag = 1
+        } else {
+            sender.setImage(UIImage(named: "Minus_Icon_Set"), for: .normal)
+            sender.tag = 0
+        }
+    }
 }
