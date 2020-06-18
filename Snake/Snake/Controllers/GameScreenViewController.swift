@@ -26,8 +26,6 @@ class GameScreenViewController: UIViewController {
                 currentGame = scene as? GameManager
                 currentGame?.viewController = self
             }
-            view.showsFPS = true
-            view.showsNodeCount = true
         }
     }
     

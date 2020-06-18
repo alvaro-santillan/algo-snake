@@ -19,30 +19,59 @@ class GameScene: SKScene {
     var snakeBodyPos: [(Int, Int)] = []
     var gameBackground: SKShapeNode!
     var gameBoard: [(node: SKShapeNode, x: Int, y: Int)] = []
+    var correctBackgroundColor = UIColor()
     let legendData = UserDefaults.standard.array(forKey: "Legend Preferences") as! [[Any]]
 
     override func didMove(to view: SKView) {
         game = GameManager(scene: self)
         initializeWelcomeScreen()
         initializeGameView()
+        swipeManager(firstLoad: true, enable: false, disable: false)
+    }
+    
+    func swipeManager(firstLoad: Bool, enable: Bool, disable: Bool) {
+//        print(UserDefaults.standard.bool(forKey: "Game Is Paused Setting"))
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(swipeR))
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(swipeL))
+        let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(swipeU))
+        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(swipeD))
+        swipeDown.direction = .down
+        swipeUp.direction = .up
+        swipeRight.direction = .right
+        swipeLeft.direction = .left
         
-        if UserDefaults.standard.bool(forKey: "Game Is Paused Setting") {
-            print("Swipe detected")
-            let swipeRight:UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeR))
-            swipeRight.direction = .right
-            view.addGestureRecognizer(swipeRight)
-            
-            let swipeLeft:UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeL))
-            swipeLeft.direction = .left
-            view.addGestureRecognizer(swipeLeft)
-            
-            let swipeUp:UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeU))
-            swipeUp.direction = .up
-            view.addGestureRecognizer(swipeUp)
-            
-            let swipeDown:UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeD))
-            swipeDown.direction = .down
-            view.addGestureRecognizer(swipeDown)
+        if firstLoad == true {
+    //        if !(UserDefaults.standard.bool(forKey: "Game Is Paused Setting")) {
+    //            print("if hit")
+            view!.addGestureRecognizer(swipeRight)
+            view!.addGestureRecognizer(swipeLeft)
+            view!.addGestureRecognizer(swipeUp)
+            view!.addGestureRecognizer(swipeDown)
+        }
+        
+        if enable == true {
+            print("enable hit")
+//            swipeDown.isEnabled = true
+//            swipeUp.isEnabled = true
+//            swipeRight.isEnabled = true
+//            swipeLeft.isEnabled = true
+            view!.addGestureRecognizer(swipeRight)
+            view!.addGestureRecognizer(swipeLeft)
+            view!.addGestureRecognizer(swipeUp)
+            view!.addGestureRecognizer(swipeDown)
+        }
+        
+        if disable == true {
+            print("disable hit")
+            swipeDown.isEnabled = false
+            swipeUp.isEnabled = false
+            swipeRight.isEnabled = false
+            swipeLeft.isEnabled = false
+            view!.removeGestureRecognizer(swipeRight)
+            view!.removeGestureRecognizer(swipeLeft)
+            view!.removeGestureRecognizer(swipeUp)
+            view!.removeGestureRecognizer(swipeDown)
+            view!.gestureRecognizers?.removeAll()
         }
     }
     
@@ -59,30 +88,43 @@ class GameScene: SKScene {
         game.swipe(ID: 4)
     }
     
+    func darkModeChecker() {
+        let gameboardIDColor = legendData[8][1] as! Int // "Gameboard"
+        
+        if UITraitCollection.current.userInterfaceStyle == .dark {
+            correctBackgroundColor = darkBackgroundColors[gameboardIDColor]
+        } else {
+            correctBackgroundColor = lightBackgroundColors[gameboardIDColor]
+        }
+    }
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-        let barrierColor = legendData[6][1] as! Int // "Barrier Square"
-        let gameboardSquareColor = legendData[8][1] as! Int // "Gameboard"
-        
-        for touch in touches {
-            let location = touch.location(in: self)
-            let touchedNode = self.nodes(at: location)
-            for node in touchedNode {
-                if let nodee = node as? SKShapeNode {
-                    if node.name == nil {
-                        let grow = SKAction.scale(by: 1.05, duration: 0.10)
-                        let shrink = SKAction.scale(by: 0.95, duration: 0.10)
-                        let wait = SKAction.wait(forDuration: 0.16)
-                        let scale = SKAction.scale(to: 1.0, duration: 0.12)
-                        let shrink2 = SKAction.scale(by: 0.97, duration: 0.05)
-                        let wait2 = SKAction.wait(forDuration: 0.07)
-                        
-                        if addOrRemoveWall == false {
-                            nodee.fillColor = colors[barrierColor]
-                            nodee.run(SKAction.sequence([grow, wait, shrink, wait, scale, shrink2, wait2, scale]))
-                        } else {
-                            nodee.fillColor = colors[gameboardSquareColor]
-                            nodee.run(SKAction.sequence([grow, wait, shrink, wait, scale, shrink2, wait2, scale]))
+        if !(UserDefaults.standard.bool(forKey: "Game Is Paused Setting")) {
+            swipeManager(firstLoad: false, enable: false, disable: true)
+            print("touchesHit")
+            let barrierColor = legendData[6][1] as! Int // "Barrier Square"
+            
+            for touch in touches {
+                let location = touch.location(in: self)
+                let touchedNode = self.nodes(at: location)
+                for node in touchedNode {
+                    if let nodee = node as? SKShapeNode {
+                        if node.name == nil {
+                            let grow = SKAction.scale(by: 1.05, duration: 0.10)
+                            let shrink = SKAction.scale(by: 0.95, duration: 0.10)
+                            let wait = SKAction.wait(forDuration: 0.16)
+                            let scale = SKAction.scale(to: 1.0, duration: 0.12)
+                            let shrink2 = SKAction.scale(by: 0.97, duration: 0.05)
+                            let wait2 = SKAction.wait(forDuration: 0.07)
+                            
+                            if UserDefaults.standard.bool(forKey: "Add Barrier Mode On Setting") {
+                                nodee.fillColor = colors[barrierColor]
+                                nodee.run(SKAction.sequence([grow, wait, shrink, wait, scale, shrink2, wait2, scale]))
+                            } else {
+                                darkModeChecker()
+                                nodee.fillColor = correctBackgroundColor
+                                nodee.run(SKAction.sequence([grow, wait, shrink, wait, scale, shrink2, wait2, scale]))
+                            }
                         }
                     }
                 }
@@ -91,33 +133,35 @@ class GameScene: SKScene {
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-        let barrierColor = legendData[6][1] as! Int // "Barrier Square"
-        let gameboardSquareColor = legendData[8][1] as! Int // "Gameboard"
-        
-        let grow = SKAction.scale(by: 1.05, duration: 0.10)
-        let shrink = SKAction.scale(by: 0.95, duration: 0.10)
-        let wait = SKAction.wait(forDuration: 0.16)
-        let scale = SKAction.scale(to: 1.0, duration: 0.12)
-        let shrink2 = SKAction.scale(by: 0.97, duration: 0.05)
-        let wait2 = SKAction.wait(forDuration: 0.07)
-        
-        for touch in touches {
-            let location = touch.location(in: self)
-            let nodes = self.nodes(at: location)
-            for node in nodes {
-                if let touchedNode = node as? SKShapeNode {
-                if node.name == nil {
-                        if addOrRemoveWall == false {
-                            touchedNode.fillColor = colors[barrierColor]
-                            touchedNode.run(SKAction.sequence([grow, wait, shrink, wait, scale, shrink2, wait2, scale]))
-                        } else {
-                            touchedNode.fillColor = colors[gameboardSquareColor]
-                            touchedNode.run(SKAction.sequence([grow, wait, shrink, wait, scale, shrink2, wait2, scale]))
+        if !(UserDefaults.standard.bool(forKey: "Game Is Paused Setting")) {
+            swipeManager(firstLoad: false, enable: false, disable: true)
+                let barrierColor = legendData[6][1] as! Int // "Barrier Square"
+                let grow = SKAction.scale(by: 1.05, duration: 0.10)
+                let shrink = SKAction.scale(by: 0.95, duration: 0.10)
+                let wait = SKAction.wait(forDuration: 0.16)
+                let scale = SKAction.scale(to: 1.0, duration: 0.12)
+                let shrink2 = SKAction.scale(by: 0.97, duration: 0.05)
+                let wait2 = SKAction.wait(forDuration: 0.07)
+                
+                for touch in touches {
+                    let location = touch.location(in: self)
+                    let nodes = self.nodes(at: location)
+                    for node in nodes {
+                        if let touchedNode = node as? SKShapeNode {
+                        if node.name == nil {
+                                if UserDefaults.standard.bool(forKey: "Add Barrier Mode On Setting") {
+                                    touchedNode.fillColor = colors[barrierColor]
+                                    touchedNode.run(SKAction.sequence([grow, wait, shrink, wait, scale, shrink2, wait2, scale]))
+                                } else {
+                                    darkModeChecker()
+                                    touchedNode.fillColor = correctBackgroundColor
+                                    touchedNode.run(SKAction.sequence([grow, wait, shrink, wait, scale, shrink2, wait2, scale]))
+                                }
+                            }
                         }
                     }
                 }
-            }
+            swipeManager(firstLoad: false, enable: true, disable: false)
         }
     }
     
