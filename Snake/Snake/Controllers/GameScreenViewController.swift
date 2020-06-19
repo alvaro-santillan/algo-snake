@@ -35,6 +35,7 @@ class GameScreenViewController: UIViewController {
     
     func loadButtonStyling() {
         boolButtonLoader(isIconButton: true, targetButton: playButton, key: "Game Is Paused Setting", trueOption: "Pause_Icon_Set", falseOption: "Play_Icon_Set")
+        !(UserDefaults.standard.bool(forKey: "Game Is Paused Setting")) ? (barrierButton.isEnabled = true) : (barrierButton.isEnabled = false)
         UserDefaults.standard.set(true, forKey: "Add Barrier Mode On Setting")
         boolButtonLoader(isIconButton: true, targetButton: barrierButton, key: "Add Barrier Mode On Setting", trueOption: "Plus_Icon_Set", falseOption: "Minus_Icon_Set")
     }
@@ -47,6 +48,7 @@ class GameScreenViewController: UIViewController {
     
     @IBAction func stepButtonTapped(_ sender: UIButton) {
         boolButtonResponder(sender, isIconButton: true, key: "Game Is Paused Setting", trueOption: "Pause_Icon_Set", falseOption: "Play_Icon_Set")
+        sender.tag == 0 ? (barrierButton.isEnabled = true) : (barrierButton.isEnabled = false)
     }
     
     @IBAction func barrierButtonTapped(_ sender: UIButton) {
