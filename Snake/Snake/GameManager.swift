@@ -579,6 +579,7 @@ class GameManager {
             let snakeBodyColor = legendData[1][1] as! Int // "Snake Body"
             let foodColor = legendData[2][1] as! Int // "Food"
             let pathColor = legendData[3][1] as! Int // "Path"
+            let barrierColor = legendData[6][1] as! Int // "Barrier"
             
             if contains(a: scene.snakeBodyPos, v: (x,y)) {
                 if (onPathMode == false) {
@@ -588,7 +589,6 @@ class GameManager {
             
             for i in (pathBlockCordinates) {
                 if Int((i.0)) == y && Int((i.1)) == x {
-//                            print("-")
                     node.fillColor = colors[pathColor]
                 }
             }
@@ -608,7 +608,7 @@ class GameManager {
                 // error loading colors on first lanch for food pellet.
                 // error snake speed on first load.
                 // paused is broken
-                node.fillColor = SKColor.clear
+                node.fillColor = scene.correctGameboardSquareColor
                 if scene.foodPosition.isEmpty != true {
                     
                     for i in (scene.foodPosition) {
@@ -619,7 +619,7 @@ class GameManager {
                     
                     for i in (barrierNodesWaitingToBeDisplayed) {
                         if i.y == y && i.x == x {
-                            node.fillColor = colors[pathColor]
+                            node.fillColor = colors[barrierColor]
                         }
                     }
                     

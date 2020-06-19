@@ -25,6 +25,7 @@ class GameScene: SKScene {
 
     override func didMove(to view: SKView) {
         game = GameManager(scene: self)
+        darkModeChecker()
         initializeWelcomeScreen()
         initializeGameView()
         swipeManager(swipeGesturesAreOn: true)
@@ -66,7 +67,7 @@ class GameScene: SKScene {
     func darkModeChecker() {
         let gameboardIDColor = legendData[8][1] as! Int // "Gameboard"
         
-        if UITraitCollection.current.userInterfaceStyle != .dark {
+        if UITraitCollection.current.userInterfaceStyle == .dark {
             correctGameboardSquareColor = darkBackgroundColors[gameboardIDColor]
             correctBackgroundColor = UIColor.black
         } else {
@@ -88,6 +89,16 @@ class GameScene: SKScene {
                         if node.name != "gameBackground" {
                             let locationArray = (nodee.name)?.components(separatedBy: ",")
                             let nodeLocation = Tuple(x: Int(locationArray![0])!, y: Int(locationArray![1])!)
+                            var tappedOnSnake = Bool()
+                        
+                            for i in snakeBodyPos {
+                                if nodeLocation.x == i.0 && nodeLocation.y == i.1 {
+                                    tappedOnSnake = true
+                                    break
+                                }
+                            }
+                            
+                            
                             
                             let grow = SKAction.scale(by: 1.05, duration: 0.10)
                             let shrink = SKAction.scale(by: 0.95, duration: 0.10)
@@ -96,17 +107,19 @@ class GameScene: SKScene {
                             let shrink2 = SKAction.scale(by: 0.97, duration: 0.05)
                             let wait2 = SKAction.wait(forDuration: 0.07)
                             
-                            if UserDefaults.standard.bool(forKey: "Add Barrier Mode On Setting") {
-                                game.matrix[nodeLocation.x][nodeLocation.y] = 1
-                                game.barrierNodesWaitingToBeDisplayed.append(nodeLocation)
-                                nodee.fillColor = colors[barrierColor]
-                                nodee.run(SKAction.sequence([grow, wait, shrink, wait, scale, shrink2, wait2, scale]))
-                            } else {
-                                darkModeChecker()
-                                game.matrix[nodeLocation.x][nodeLocation.y] = 0
-                                game.barrierNodesWaitingToBeRemoved.append(nodeLocation)
-                                nodee.fillColor = correctGameboardSquareColor
-                                nodee.run(SKAction.sequence([grow, wait, shrink, wait, scale, shrink2, wait2, scale]))
+                            if tappedOnSnake != true {
+                                if UserDefaults.standard.bool(forKey: "Add Barrier Mode On Setting") {
+                                    game.matrix[nodeLocation.x][nodeLocation.y] = 1
+                                    game.barrierNodesWaitingToBeDisplayed.append(nodeLocation)
+                                    nodee.fillColor = colors[barrierColor]
+                                    nodee.run(SKAction.sequence([grow, wait, shrink, wait, scale, shrink2, wait2, scale]))
+                                } else {
+                                    darkModeChecker()
+                                    game.matrix[nodeLocation.x][nodeLocation.y] = 0
+                                    game.barrierNodesWaitingToBeRemoved.append(nodeLocation)
+                                    nodee.fillColor = correctGameboardSquareColor
+                                    nodee.run(SKAction.sequence([grow, wait, shrink, wait, scale, shrink2, wait2, scale]))
+                                }
                             }
                         }
                     }
@@ -135,18 +148,35 @@ class GameScene: SKScene {
                             if node.name != "gameBackground" {
                                 let locationArray = (node.name)?.components(separatedBy: ",")
                                 let nodeLocation = Tuple(x: Int(locationArray![0])!, y: Int(locationArray![1])!)
+                                var tappedOnSnake = Bool()
                             
-                                if UserDefaults.standard.bool(forKey: "Add Barrier Mode On Setting") {
-                                    game.barrierNodesWaitingToBeDisplayed.append(nodeLocation)
-                                    game.matrix[nodeLocation.x][nodeLocation.y] = 1
-                                    touchedNode.fillColor = colors[barrierColor]
-                                    touchedNode.run(SKAction.sequence([grow, wait, shrink, wait, scale, shrink2, wait2, scale]))
-                                } else {
-                                    darkModeChecker()
-                                    game.matrix[nodeLocation.x][nodeLocation.y] = 0
-                                    game.barrierNodesWaitingToBeRemoved.append(nodeLocation)
-                                    touchedNode.fillColor = correctGameboardSquareColor
-                                    touchedNode.run(SKAction.sequence([grow, wait, shrink, wait, scale, shrink2, wait2, scale]))
+                                for i in snakeBodyPos {
+                                    if nodeLocation.x == i.0 && nodeLocation.y == i.1 {
+                                        tappedOnSnake = true
+                                        break
+                                    }
+                                }
+                                
+                                for i in game.foodLocationArray {
+                                    if nodeLocation.x == i[0] && nodeLocation.y == i[1] {
+                                        tappedOnSnake = true
+                                        break
+                                    }
+                                }
+                                
+                                if tappedOnSnake != true {
+                                    if UserDefaults.standard.bool(forKey: "Add Barrier Mode On Setting") {
+                                        game.barrierNodesWaitingToBeDisplayed.append(nodeLocation)
+                                        game.matrix[nodeLocation.x][nodeLocation.y] = 1
+                                        touchedNode.fillColor = colors[barrierColor]
+                                        touchedNode.run(SKAction.sequence([grow, wait, shrink, wait, scale, shrink2, wait2, scale]))
+                                    } else {
+                                        darkModeChecker()
+                                        game.matrix[nodeLocation.x][nodeLocation.y] = 0
+                                        game.barrierNodesWaitingToBeRemoved.append(nodeLocation)
+                                        touchedNode.fillColor = correctGameboardSquareColor
+                                        touchedNode.run(SKAction.sequence([grow, wait, shrink, wait, scale, shrink2, wait2, scale]))
+                                    }
                                 }
                             }
                         }
@@ -203,17 +233,8 @@ class GameScene: SKScene {
         for i in 0...numRows - 1 {
             for j in 0...numCols - 1 {
                 let cellNode = SKShapeNode.init(rectOf: CGSize(width: cellWidth-1.5, height: cellWidth-1.5), cornerRadius: 3.5)
-                var backgroundColor = UIColor()
-                let gameboardIDColor = legendData[8][1] as! Int // "Gameboard"
                 
-                if UITraitCollection.current.userInterfaceStyle == .dark {
-                    backgroundColor = darkBackgroundColors[gameboardIDColor]
-                }
-                else {
-                    backgroundColor = lightBackgroundColors[gameboardIDColor]
-                }
-                
-                cellNode.fillColor = backgroundColor
+                cellNode.fillColor = correctGameboardSquareColor
                 cellNode.strokeColor = UIColor(red:0.93, green:0.94, blue:0.95, alpha:0.00)
                 cellNode.name = String(i) + "," + String(j)
                 
