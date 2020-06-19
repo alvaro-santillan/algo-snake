@@ -39,7 +39,8 @@ class GameManager {
     var playerDirection: Int = 4 // 1 == left, 2 == up, 3 == right, 4 == down
     var currentScore: Int = 0
     var playPauseMode = UserDefaults.standard.integer(forKey: "Step Mode On Setting")
-    
+    var barrierNodesWaitingToBeDisplayed = [Tuple]()
+    var barrierNodesWaitingToBeRemoved = [Tuple]()
     
     
     init(scene: GameScene) {
@@ -386,6 +387,7 @@ class GameManager {
         else {
             if time >= nextTime! {
                 nextTime = time + Double(gameSpeed)
+                barrierNodesWaitingToBeDisplayed = Array(Set(barrierNodesWaitingToBeDisplayed).subtracting(barrierNodesWaitingToBeRemoved))
                 runPredeterminedPath()
                 updateSnakePosition()
                 checkIfPaused()
@@ -421,6 +423,11 @@ class GameManager {
             // If head is in same position as the body the snake is dead.
             // The snake dies in corners becouse blocks are stacked.
             if contains(a: snakeBody, v: scene.snakeBodyPos[0]) && UserDefaults.standard.integer(forKey: "GodButtonSetting") == 0 {
+                endTheGame()
+            }
+            
+            let snakeHead = Tuple(x: scene.snakeBodyPos[0].0, y: scene.snakeBodyPos[0].1)
+            if barrierNodesWaitingToBeDisplayed.contains(snakeHead) {
                 endTheGame()
             }
         }
@@ -543,10 +550,10 @@ class GameManager {
             matrix[scene.snakeBodyPos[0].0][scene.snakeBodyPos[0].1] = 1
             matrix[scene.snakeBodyPos[1].0][scene.snakeBodyPos[1].1] = 1
             matrix[scene.snakeBodyPos[2].0][scene.snakeBodyPos[2].1] = 1
-//            for i in 0...14 {
-//                print(matrix[i])
-//            }
-//            print("----")
+            for i in 0...14 {
+                print(matrix[i])
+            }
+            print("----")
         }
         
         if scene.snakeBodyPos.count > 0 {
@@ -567,6 +574,11 @@ class GameManager {
     
     func colorGameNodes() {
         for (node, x, y) in scene.gameBoard {
+            let legendData = UserDefaults.standard.array(forKey: "Legend Preferences") as! [[Any]]
+            let snakeHeadColor = legendData[0][1] as! Int // "Snake Head"
+            let snakeBodyColor = legendData[1][1] as! Int // "Snake Body"
+            let foodColor = legendData[2][1] as! Int // "Food"
+            let pathColor = legendData[3][1] as! Int // "Path"
             
             if contains(a: scene.snakeBodyPos, v: (x,y)) {
                 if (onPathMode == false) {
@@ -574,12 +586,12 @@ class GameManager {
                 }
             }
             
-            let legendData = UserDefaults.standard.array(forKey: "Legend Preferences") as! [[Any]]
-//            let legendData = [["Snake Head", 0], ["Snake Body", 0], ["Food", 3], ["Path", 17], ["Visited Square", 5], ["Queued Square", 15], ["Barrier", 7], ["Weight", 19],  ["Gameboard", 1]]
-            let snakeHeadColor = legendData[0][1] as! Int // "Snake Head"
-            let snakeBodyColor = legendData[1][1] as! Int // "Snake Body"
-            let foodColor = legendData[2][1] as! Int // "Food"
-            let pathColor = legendData[3][1] as! Int // "Path"
+            for i in (pathBlockCordinates) {
+                if Int((i.0)) == y && Int((i.1)) == x {
+//                            print("-")
+                    node.fillColor = colors[pathColor]
+                }
+            }
             
             // add closest food to legend
             if contains(a: scene.snakeBodyPos, v: (x,y)) {
@@ -590,7 +602,9 @@ class GameManager {
 //                        colorVisitedSquares(visited: [Tuple(x: x, y: y)])
                     }
                 }
-            } else {
+            }
+            
+            else {
                 // error loading colors on first lanch for food pellet.
                 // error snake speed on first load.
                 // paused is broken
@@ -600,6 +614,12 @@ class GameManager {
                     for i in (scene.foodPosition) {
                         if Int((i.x)) == y && Int((i.y)) == x {
                             node.fillColor = colors[foodColor]
+                        }
+                    }
+                    
+                    for i in (barrierNodesWaitingToBeDisplayed) {
+                        if i.y == y && i.x == x {
+                            node.fillColor = colors[pathColor]
                         }
                     }
                     
