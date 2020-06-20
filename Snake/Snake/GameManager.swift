@@ -49,6 +49,7 @@ class GameManager {
     var barrierNodesWaitingToBeDisplayed = [Tuple]()
     var barrierNodesWaitingToBeRemoved = [Tuple]()
     var teeeemp = [(SKShapeNode, Tuple)]()
+    var snakeBodyPos: [(Int, Int)] = []
     
     
     init(scene: GameScene) {
@@ -289,17 +290,17 @@ class GameManager {
     
     // Understood - Initiate the starting position of the snake.
     func initiateSnakeStartingPosition() {
-        scene.snakeBodyPos.append((3, 3))
+        snakeBodyPos.append((3, 3))
         matrix[3][3] = 2
-        scene.snakeBodyPos.append((3, 4))
+        snakeBodyPos.append((3, 4))
         matrix[3][4] = 1
-        scene.snakeBodyPos.append((3, 5))
+        snakeBodyPos.append((3, 5))
         matrix[3][5] = 1
-        scene.snakeBodyPos.append((3, 6))
+        snakeBodyPos.append((3, 6))
         matrix[3][5] = 1
-        scene.snakeBodyPos.append((3, 7))
+        snakeBodyPos.append((3, 7))
         matrix[3][5] = 1
-        scene.snakeBodyPos.append((3, 8))
+        snakeBodyPos.append((3, 8))
         matrix[3][5] = 1
         spawnFoodBlock()
         gameStarted = true
@@ -317,7 +318,7 @@ class GameManager {
     
     func spawnFoodBlock() {
         let foodPalletsNeeded = (foodSpawnMax - foodLocationArray.count)
-        let snakeHead = scene.snakeBodyPos[0]
+        let snakeHead = snakeBodyPos[0]
         
         // need to use queue.
         for _ in 1...foodPalletsNeeded {
@@ -421,23 +422,23 @@ class GameManager {
     func endTheGame() {
         updateScore()
         scene.foodPosition.removeAll()
-        scene.snakeBodyPos.removeAll()
+        snakeBodyPos.removeAll()
     }
     
     // this is run when game hasent started. fix for optimization.
     func checkForDeath() {
-        if scene.snakeBodyPos.count > 0 {
+        if snakeBodyPos.count > 0 {
             // Create temp variable of snake without the head.
-            var snakeBody = scene.snakeBodyPos
+            var snakeBody = snakeBodyPos
             snakeBody.remove(at: 0)
             // Implement wraping snake in god mode.
             // If head is in same position as the body the snake is dead.
             // The snake dies in corners becouse blocks are stacked.
-            if contains(a: snakeBody, v: scene.snakeBodyPos[0]) && UserDefaults.standard.integer(forKey: "GodButtonSetting") == 0 {
+            if contains(a: snakeBody, v: snakeBodyPos[0]) && UserDefaults.standard.integer(forKey: "GodButtonSetting") == 0 {
                 endTheGame()
             }
             
-            let snakeHead = Tuple(x: scene.snakeBodyPos[0].0, y: scene.snakeBodyPos[0].1)
+            let snakeHead = Tuple(x: snakeBodyPos[0].0, y: snakeBodyPos[0].1)
             if barrierNodesWaitingToBeDisplayed.contains(snakeHead) {
                 endTheGame()
             }
@@ -446,8 +447,8 @@ class GameManager {
     
     func checkForFoodCollision() {
         if scene.foodPosition != nil {
-            let x = scene.snakeBodyPos[0].0
-            let y = scene.snakeBodyPos[0].1
+            let x = snakeBodyPos[0].0
+            let y = snakeBodyPos[0].1
             var counter = 0
             
             for i in (scene.foodPosition) {
@@ -484,7 +485,7 @@ class GameManager {
                     // Grow snake by 3 blocks.
                     let max = UserDefaults.standard.integer(forKey: "FoodWeightSetting")
                     for _ in 1...max+1 {
-                        scene.snakeBodyPos.append(scene.snakeBodyPos.last!)
+                        snakeBodyPos.append(snakeBodyPos.last!)
                     }
                 }
                 counter += 1
@@ -550,34 +551,34 @@ class GameManager {
                 break
         }
 
-        if scene.snakeBodyPos.count > 0 {
-            var start = scene.snakeBodyPos.count - 1
-            matrix[scene.snakeBodyPos[start].0][scene.snakeBodyPos[start].1] = 0
+        if snakeBodyPos.count > 0 {
+            var start = snakeBodyPos.count - 1
+            matrix[snakeBodyPos[start].0][snakeBodyPos[start].1] = 0
             while start > 0 {
-                scene.snakeBodyPos[start] = scene.snakeBodyPos[start - 1]
+                snakeBodyPos[start] = snakeBodyPos[start - 1]
                 start -= 1
             }
-            scene.snakeBodyPos[0] = (scene.snakeBodyPos[0].0 + yChange, scene.snakeBodyPos[0].1 + xChange)
-            matrix[scene.snakeBodyPos[0].0][scene.snakeBodyPos[0].1] = 1
-            matrix[scene.snakeBodyPos[1].0][scene.snakeBodyPos[1].1] = 1
-            matrix[scene.snakeBodyPos[2].0][scene.snakeBodyPos[2].1] = 1
+            snakeBodyPos[0] = (snakeBodyPos[0].0 + yChange, snakeBodyPos[0].1 + xChange)
+            matrix[snakeBodyPos[0].0][snakeBodyPos[0].1] = 1
+            matrix[snakeBodyPos[1].0][snakeBodyPos[1].1] = 1
+            matrix[snakeBodyPos[2].0][snakeBodyPos[2].1] = 1
             for i in 0...14 {
                 print(matrix[i])
             }
             print("----")
         }
         
-        if scene.snakeBodyPos.count > 0 {
-            let x = scene.snakeBodyPos[0].1
-            let y = scene.snakeBodyPos[0].0
+        if snakeBodyPos.count > 0 {
+            let x = snakeBodyPos[0].1
+            let y = snakeBodyPos[0].0
             if y > 15 {
-                scene.snakeBodyPos[0].0 = 0
+                snakeBodyPos[0].0 = 0
             } else if y < 0 {
-                scene.snakeBodyPos[0].0 = 15
+                snakeBodyPos[0].0 = 15
             } else if x > 15 {
-               scene.snakeBodyPos[0].1 = 0
+                snakeBodyPos[0].1 = 0
             } else if x < 0 {
-                scene.snakeBodyPos[0].1 = 15
+                snakeBodyPos[0].1 = 15
             }
         }
         colorGameNodes()
@@ -586,7 +587,7 @@ class GameManager {
     func colorGameNodes() {
         for (node, x, y) in scene.gameBoard {
             
-            if contains(a: scene.snakeBodyPos, v: (x,y)) {
+            if contains(a: snakeBodyPos, v: (x,y)) {
                 if (onPathMode == false) {
                     node.fillColor = SKColor.white
                 }
@@ -599,10 +600,10 @@ class GameManager {
             }
             
             // add closest food to legend
-            if contains(a: scene.snakeBodyPos, v: (x,y)) {
+            if contains(a: snakeBodyPos, v: (x,y)) {
                 if (onPathMode == true) {
                     node.fillColor = scene.snakeBodySquareColor
-                    if contains(a: [scene.snakeBodyPos.first!], v: (x,y)) {
+                    if contains(a: [snakeBodyPos.first!], v: (x,y)) {
                         node.fillColor = scene.snakeHeadSquareColor
 //                        colorVisitedSquares(visited: [Tuple(x: x, y: y)])
                     }

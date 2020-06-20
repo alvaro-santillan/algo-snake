@@ -7,19 +7,13 @@
 //
 
 import SpriteKit
-import GameplayKit
 
 class GameScene: SKScene {
+    var game: GameManager!
     var highScore: SKLabelNode!
     var foodPosition = [CGPoint]()
-//    var gamePaused = true
-    var addOrRemoveWall = false
-    var snakeColor = UIColor()
-    var game: GameManager!
-    var snakeBodyPos: [(Int, Int)] = []
     var gameBackground: SKShapeNode!
     var gameBoard: [(node: SKShapeNode, x: Int, y: Int)] = []
-    let legendData = UserDefaults.standard.array(forKey: "Legend Preferences") as! [[Any]]
     
     var snakeHeadSquareColor = UIColor() // "Snake Head"
     var snakeBodySquareColor = UIColor() // "Snake Body"
@@ -41,6 +35,7 @@ class GameScene: SKScene {
     }
     
     func settingLoader() {
+        let legendData = UserDefaults.standard.array(forKey: "Legend Preferences") as! [[Any]]
         snakeHeadSquareColor = colors[legendData[0][1] as! Int] // "Snake Head"
         snakeBodySquareColor = colors[legendData[1][1] as! Int] // "Snake Body"
         foodSquareColor = colors[legendData[2][1] as! Int] // "Food"
@@ -95,128 +90,73 @@ class GameScene: SKScene {
         game.swipe(ID: 4)
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if !(UserDefaults.standard.bool(forKey: "Game Is Paused Setting")) {
-            swipeManager(swipeGesturesAreOn: false)
-            
-            for touch in touches {
-                let location = touch.location(in: self)
-                let touchedNode = self.nodes(at: location)
-                for node in touchedNode {
-                    if let nodee = node as? SKShapeNode {
-                        if node.name != "gameBackground" {
-                            let locationArray = (nodee.name)?.components(separatedBy: ",")
-                            let nodeLocation = Tuple(x: Int(locationArray![0])!, y: Int(locationArray![1])!)
-                            var tappedOnSnake = Bool()
-                        
-                            for i in snakeBodyPos {
-                                if nodeLocation.x == i.0 && nodeLocation.y == i.1 {
-                                    tappedOnSnake = true
-                                    break
-                                }
-                            }
-                            
-                            
-                            
-                            let grow = SKAction.scale(by: 1.05, duration: 0.10)
-                            let shrink = SKAction.scale(by: 0.95, duration: 0.10)
-                            let wait = SKAction.wait(forDuration: 0.16)
-                            let scale = SKAction.scale(to: 1.0, duration: 0.12)
-                            let shrink2 = SKAction.scale(by: 0.97, duration: 0.05)
-                            let wait2 = SKAction.wait(forDuration: 0.07)
-                            
-                            if tappedOnSnake != true {
-                                if UserDefaults.standard.bool(forKey: "Add Barrier Mode On Setting") {
-                                    game.matrix[nodeLocation.x][nodeLocation.y] = 1
-                                    game.barrierNodesWaitingToBeDisplayed.append(nodeLocation)
-                                    nodee.fillColor = barrierSquareColor
-                                    nodee.run(SKAction.sequence([grow, wait, shrink, wait, scale, shrink2, wait2, scale]))
-                                } else {
-//                                    darkModeChecker()
-                                    game.matrix[nodeLocation.x][nodeLocation.y] = 0
-                                    game.barrierNodesWaitingToBeRemoved.append(nodeLocation)
-                                    nodee.fillColor = gameboardSquareColor
-                                    nodee.run(SKAction.sequence([grow, wait, shrink, wait, scale, shrink2, wait2, scale]))
-                                }
-                            }
-                        }
+    func barrierManager(touches: Set<UITouch>) {
+        func selectSquareFromTouch(_ touchLocation: CGPoint) -> SKShapeNode? {
+            let squares = self.nodes(at: touchLocation)
+            for square in squares {
+                if square is SKShapeNode {
+                    if square.name != "gameBackground" {
+                        return (square as! SKShapeNode)
                     }
                 }
             }
+            return nil
+        }
+        
+        func IsSquareOccupied(squareLocation: Tuple) -> Bool {
+            for square in game.snakeBodyPos {if squareLocation.x == square.0 && squareLocation.y == square.1 {return true}}
+            for square in game.foodLocationArray {if squareLocation.x == square[0] && squareLocation.y == square[1] {return true}}
+            return false
+        }
+        
+        func gameSquareAnimation() -> SKAction {
+            let grow1 = SKAction.scale(by: 1.05, duration: 0.10)
+            let shrink1 = SKAction.scale(by: 0.95, duration: 0.10)
+            let wait1 = SKAction.wait(forDuration: 0.16)
+            let scale1 = SKAction.scale(to: 1.0, duration: 0.12)
+            let shrink2 = SKAction.scale(by: 0.97, duration: 0.05)
+            let wait2 = SKAction.wait(forDuration: 0.07)
+            
+            return SKAction.sequence([grow1, wait1, shrink1, wait1, scale1, shrink2, wait2, scale1])
+        }
+        
+        for touch in touches {
+            if let selectedSquare = selectSquareFromTouch(touch.location(in: self)) {
+                let squareLocationAsString = (selectedSquare.name)?.components(separatedBy: ",")
+                let squareLocation = Tuple(x: Int(squareLocationAsString![0])!, y: Int(squareLocationAsString![1])!)
+                
+                if !(IsSquareOccupied(squareLocation: squareLocation)) {
+                    if UserDefaults.standard.bool(forKey: "Add Barrier Mode On Setting") {
+                        game.barrierNodesWaitingToBeDisplayed.append(squareLocation)
+                        selectedSquare.fillColor = barrierSquareColor
+                        game.matrix[squareLocation.x][squareLocation.y] = 1
+                    } else {
+                        game.barrierNodesWaitingToBeRemoved.append(squareLocation)
+                        selectedSquare.fillColor = gameboardSquareColor
+                        game.matrix[squareLocation.x][squareLocation.y] = 0
+                    }
+                    selectedSquare.run(gameSquareAnimation())
+                }
+            }
+        }
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if !(UserDefaults.standard.bool(forKey: "Game Is Paused Setting")) {
+            swipeManager(swipeGesturesAreOn: false)
+            barrierManager(touches: touches)
         }
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         if !(UserDefaults.standard.bool(forKey: "Game Is Paused Setting")) {
             swipeManager(swipeGesturesAreOn: false)
-                let grow = SKAction.scale(by: 1.05, duration: 0.10)
-                let shrink = SKAction.scale(by: 0.95, duration: 0.10)
-                let wait = SKAction.wait(forDuration: 0.16)
-                let scale = SKAction.scale(to: 1.0, duration: 0.12)
-                let shrink2 = SKAction.scale(by: 0.97, duration: 0.05)
-                let wait2 = SKAction.wait(forDuration: 0.07)
-                
-                for touch in touches {
-                    let location = touch.location(in: self)
-                    let nodes = self.nodes(at: location)
-                    for node in nodes {
-                        
-                        if let touchedNode = node as? SKShapeNode {
-                            if node.name != "gameBackground" {
-                                let locationArray = (node.name)?.components(separatedBy: ",")
-                                let nodeLocation = Tuple(x: Int(locationArray![0])!, y: Int(locationArray![1])!)
-                                var tappedOnSnake = Bool()
-                            
-                                for i in snakeBodyPos {
-                                    if nodeLocation.x == i.0 && nodeLocation.y == i.1 {
-                                        tappedOnSnake = true
-                                        break
-                                    }
-                                }
-                                
-                                for i in game.foodLocationArray {
-                                    if nodeLocation.x == i[0] && nodeLocation.y == i[1] {
-                                        tappedOnSnake = true
-                                        break
-                                    }
-                                }
-                                
-                                if tappedOnSnake != true {
-                                    if UserDefaults.standard.bool(forKey: "Add Barrier Mode On Setting") {
-                                        game.barrierNodesWaitingToBeDisplayed.append(nodeLocation)
-                                        game.matrix[nodeLocation.x][nodeLocation.y] = 1
-                                        touchedNode.fillColor = barrierSquareColor
-                                        touchedNode.run(SKAction.sequence([grow, wait, shrink, wait, scale, shrink2, wait2, scale]))
-                                    } else {
-//                                        darkModeChecker()
-                                        game.matrix[nodeLocation.x][nodeLocation.y] = 0
-                                        game.barrierNodesWaitingToBeRemoved.append(nodeLocation)
-                                        touchedNode.fillColor = gameboardSquareColor
-                                        touchedNode.run(SKAction.sequence([grow, wait, shrink, wait, scale, shrink2, wait2, scale]))
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+            barrierManager(touches: touches)
             swipeManager(swipeGesturesAreOn: true)
         }
     }
     
-    func selectNodeForTouch(_ touchLocation: CGPoint) -> SKShapeNode? {
-        let nodes = self.nodes(at: touchLocation)
-        for node in nodes {
-            if node.name == nil {
-                if node is SKShapeNode {
-                    return (node as! SKShapeNode)
-                }
-            }
-        }
-        return nil
-    }
-    
     private func initializeWelcomeScreen() {
-        // Define best score label
         highScore = SKLabelNode(fontNamed: "ArialRoundedMTBold")
         self.addChild(highScore)
         startGame()
@@ -232,10 +172,9 @@ class GameScene: SKScene {
         createGameBoard()
     }
     
-    var matrix = [[Int]]()
-    var row = [Int]()
-    // Create a game board, initialize array of cells.
     private func createGameBoard() {
+        var matrix = [[Int]]()
+        var row = [Int]()
         // Size of square
         let cellWidth: CGFloat = 25
         let numRows = 17
