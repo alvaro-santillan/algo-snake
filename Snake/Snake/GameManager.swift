@@ -352,7 +352,7 @@ class GameManager {
             }
 
             if playPauseMode == 0 {
-                scene.gamePaused = true
+//                scene.gamePaused = true
                 checkIfPaused()
             }
         }
@@ -585,12 +585,6 @@ class GameManager {
     
     func colorGameNodes() {
         for (node, x, y) in scene.gameBoard {
-            let legendData = UserDefaults.standard.array(forKey: "Legend Preferences") as! [[Any]]
-            let snakeHeadColor = legendData[0][1] as! Int // "Snake Head"
-            let snakeBodyColor = legendData[1][1] as! Int // "Snake Body"
-            let foodColor = legendData[2][1] as! Int // "Food"
-            let pathColor = legendData[3][1] as! Int // "Path"
-            let barrierColor = legendData[6][1] as! Int // "Barrier"
             
             if contains(a: scene.snakeBodyPos, v: (x,y)) {
                 if (onPathMode == false) {
@@ -600,16 +594,16 @@ class GameManager {
             
             for i in (pathBlockCordinates) {
                 if Int((i.0)) == y && Int((i.1)) == x {
-                    node.fillColor = colors[pathColor]
+                    node.fillColor = scene.pathSquareColor
                 }
             }
             
             // add closest food to legend
             if contains(a: scene.snakeBodyPos, v: (x,y)) {
                 if (onPathMode == true) {
-                    node.fillColor = colors[snakeBodyColor]
+                    node.fillColor = scene.snakeBodySquareColor
                     if contains(a: [scene.snakeBodyPos.first!], v: (x,y)) {
-                        node.fillColor = colors[snakeHeadColor]
+                        node.fillColor = scene.snakeHeadSquareColor
 //                        colorVisitedSquares(visited: [Tuple(x: x, y: y)])
                     }
                 }
@@ -619,18 +613,18 @@ class GameManager {
                 // error loading colors on first lanch for food pellet.
                 // error snake speed on first load.
                 // paused is broken
-                node.fillColor = scene.correctGameboardSquareColor
+                node.fillColor = scene.gameboardSquareColor
                 if scene.foodPosition.isEmpty != true {
                     
                     for i in (scene.foodPosition) {
                         if Int((i.x)) == y && Int((i.y)) == x {
-                            node.fillColor = colors[foodColor]
+                            node.fillColor = scene.foodSquareColor
                         }
                     }
                     
                     for i in (barrierNodesWaitingToBeDisplayed) {
                         if i.y == y && i.x == x {
-                            node.fillColor = colors[barrierColor]
+                            node.fillColor = scene.barrierSquareColor
                         }
                     }
                     
@@ -644,7 +638,7 @@ class GameManager {
                     for i in (pathBlockCordinates) {
                         if Int((i.0)) == y && Int((i.1)) == x {
 //                            print("-")
-                            node.fillColor = colors[pathColor]
+                            node.fillColor = scene.pathSquareColor
                         }
                     }
                 }

@@ -12,40 +12,71 @@ import GameplayKit
 class GameScene: SKScene {
     var highScore: SKLabelNode!
     var foodPosition = [CGPoint]()
-    var gamePaused = true
+//    var gamePaused = true
     var addOrRemoveWall = false
     var snakeColor = UIColor()
     var game: GameManager!
     var snakeBodyPos: [(Int, Int)] = []
     var gameBackground: SKShapeNode!
     var gameBoard: [(node: SKShapeNode, x: Int, y: Int)] = []
-    var correctGameboardSquareColor = UIColor()
-    var correctBackgroundColor = UIColor()
     let legendData = UserDefaults.standard.array(forKey: "Legend Preferences") as! [[Any]]
+    
+    var snakeHeadSquareColor = UIColor() // "Snake Head"
+    var snakeBodySquareColor = UIColor() // "Snake Body"
+    var foodSquareColor = UIColor() // "Food"
+    var pathSquareColor = UIColor() // "Path"
+    var visitedSquareColor = UIColor() // "Visited Square"
+    var queuedSquareColor = UIColor() // "Queued Square"
+    var barrierSquareColor = UIColor() // "Barrier"
+    var weightSquareColor = UIColor() // "Weight"
+    var gameboardSquareColor = UIColor() // "Gameboard"
+    var gameBoardBackgroundColor = UIColor() // Background
 
     override func didMove(to view: SKView) {
         game = GameManager(scene: self)
-        darkModeChecker()
+        settingLoader()
         initializeWelcomeScreen()
         initializeGameView()
         swipeManager(swipeGesturesAreOn: true)
     }
     
+    func settingLoader() {
+        snakeHeadSquareColor = colors[legendData[0][1] as! Int] // "Snake Head"
+        snakeBodySquareColor = colors[legendData[1][1] as! Int] // "Snake Body"
+        foodSquareColor = colors[legendData[2][1] as! Int] // "Food"
+        pathSquareColor = colors[legendData[3][1] as! Int] // "Path"
+        visitedSquareColor = colors[legendData[4][1] as! Int] // "Visited Square"
+        queuedSquareColor = colors[legendData[5][1] as! Int] // "Queued Square"
+        barrierSquareColor = colors[legendData[6][1] as! Int] // "Barrier"
+        weightSquareColor = colors[legendData[7][1] as! Int] // "Weight"
+        
+        if UserDefaults.standard.bool(forKey: "Dark Mode On Setting") {
+            gameboardSquareColor = darkBackgroundColors[legendData[8][1] as! Int] // "Gameboard"
+            gameBoardBackgroundColor = UIColor.black
+        } else {
+            gameboardSquareColor = lightBackgroundColors[legendData[8][1] as! Int] // "Gameboard"
+            gameBoardBackgroundColor = UIColor.white
+        }
+    }
+    
     func swipeManager(swipeGesturesAreOn: Bool) {
-        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(swipeR))
-        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(swipeL))
         let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(swipeU))
+        swipeUp.direction = .up
+        
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(swipeR))
+        swipeRight.direction = .right
+        
         let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(swipeD))
         swipeDown.direction = .down
-        swipeUp.direction = .up
-        swipeRight.direction = .right
+        
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(swipeL))
         swipeLeft.direction = .left
         
-        if swipeGesturesAreOn == true {
-            view!.addGestureRecognizer(swipeRight)
-            view!.addGestureRecognizer(swipeLeft)
+        if swipeGesturesAreOn {
             view!.addGestureRecognizer(swipeUp)
+            view!.addGestureRecognizer(swipeRight)
             view!.addGestureRecognizer(swipeDown)
+            view!.addGestureRecognizer(swipeLeft)
         } else {
             view!.gestureRecognizers?.removeAll()
         }
@@ -64,22 +95,9 @@ class GameScene: SKScene {
         game.swipe(ID: 4)
     }
     
-    func darkModeChecker() {
-        let gameboardIDColor = legendData[8][1] as! Int // "Gameboard"
-        
-        if UserDefaults.standard.bool(forKey: "Dark Mode On Setting") {
-            correctGameboardSquareColor = darkBackgroundColors[gameboardIDColor]
-            correctBackgroundColor = UIColor.black
-        } else {
-            correctGameboardSquareColor = lightBackgroundColors[gameboardIDColor]
-            correctBackgroundColor = UIColor.white
-        }
-    }
-    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if !(UserDefaults.standard.bool(forKey: "Game Is Paused Setting")) {
             swipeManager(swipeGesturesAreOn: false)
-            let barrierColor = legendData[6][1] as! Int // "Barrier Square"
             
             for touch in touches {
                 let location = touch.location(in: self)
@@ -111,13 +129,13 @@ class GameScene: SKScene {
                                 if UserDefaults.standard.bool(forKey: "Add Barrier Mode On Setting") {
                                     game.matrix[nodeLocation.x][nodeLocation.y] = 1
                                     game.barrierNodesWaitingToBeDisplayed.append(nodeLocation)
-                                    nodee.fillColor = colors[barrierColor]
+                                    nodee.fillColor = barrierSquareColor
                                     nodee.run(SKAction.sequence([grow, wait, shrink, wait, scale, shrink2, wait2, scale]))
                                 } else {
-                                    darkModeChecker()
+//                                    darkModeChecker()
                                     game.matrix[nodeLocation.x][nodeLocation.y] = 0
                                     game.barrierNodesWaitingToBeRemoved.append(nodeLocation)
-                                    nodee.fillColor = correctGameboardSquareColor
+                                    nodee.fillColor = gameboardSquareColor
                                     nodee.run(SKAction.sequence([grow, wait, shrink, wait, scale, shrink2, wait2, scale]))
                                 }
                             }
@@ -131,7 +149,6 @@ class GameScene: SKScene {
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         if !(UserDefaults.standard.bool(forKey: "Game Is Paused Setting")) {
             swipeManager(swipeGesturesAreOn: false)
-                let barrierColor = legendData[6][1] as! Int // "Barrier Square"
                 let grow = SKAction.scale(by: 1.05, duration: 0.10)
                 let shrink = SKAction.scale(by: 0.95, duration: 0.10)
                 let wait = SKAction.wait(forDuration: 0.16)
@@ -168,13 +185,13 @@ class GameScene: SKScene {
                                     if UserDefaults.standard.bool(forKey: "Add Barrier Mode On Setting") {
                                         game.barrierNodesWaitingToBeDisplayed.append(nodeLocation)
                                         game.matrix[nodeLocation.x][nodeLocation.y] = 1
-                                        touchedNode.fillColor = colors[barrierColor]
+                                        touchedNode.fillColor = barrierSquareColor
                                         touchedNode.run(SKAction.sequence([grow, wait, shrink, wait, scale, shrink2, wait2, scale]))
                                     } else {
-                                        darkModeChecker()
+//                                        darkModeChecker()
                                         game.matrix[nodeLocation.x][nodeLocation.y] = 0
                                         game.barrierNodesWaitingToBeRemoved.append(nodeLocation)
-                                        touchedNode.fillColor = correctGameboardSquareColor
+                                        touchedNode.fillColor = gameboardSquareColor
                                         touchedNode.run(SKAction.sequence([grow, wait, shrink, wait, scale, shrink2, wait2, scale]))
                                     }
                                 }
@@ -209,8 +226,8 @@ class GameScene: SKScene {
         // Create ShapeNode in which the gameboard can reside.
         let rect = CGRect(x: 0-frame.size.width/2, y: 0-frame.size.height/2, width: frame.size.width, height: frame.size.height)
         gameBackground = SKShapeNode(rect: rect, cornerRadius: 0.0)
-        gameBackground.fillColor = correctBackgroundColor
-        gameBackground.strokeColor = correctBackgroundColor
+        gameBackground.fillColor = gameBoardBackgroundColor
+        gameBackground.strokeColor = gameBoardBackgroundColor
         self.addChild(gameBackground)
         createGameBoard()
     }
@@ -234,7 +251,7 @@ class GameScene: SKScene {
             for j in 0...numCols - 1 {
                 let cellNode = SKShapeNode.init(rectOf: CGSize(width: cellWidth-1.5, height: cellWidth-1.5), cornerRadius: 3.5)
                 
-                cellNode.fillColor = correctGameboardSquareColor
+                cellNode.fillColor = gameboardSquareColor
                 cellNode.strokeColor = UIColor(red:0.93, green:0.94, blue:0.95, alpha:0.00)
                 cellNode.name = String(i) + "," + String(j)
                 
@@ -265,15 +282,14 @@ class GameScene: SKScene {
     // Called before each frame is rendered
     // perhapse this can be used to pass in settings? maybe
     override func update(_ currentTime: TimeInterval) {
-        if game!.fronteerSquareArray.count > 0{
+        UserDefaults.standard.bool(forKey: "Settings Value Modified") == true ? (settingLoader()) : ()
+        
+        if game!.fronteerSquareArray.count > 0 {
             let wait = SKAction.wait(forDuration: 0.0)
             let sequance = SKAction.sequence([wait])
                 let node = game!.fronteerSquareArray[0]
                 node.run(sequance)
-            
-                let queuedSquareColor = legendData[5][1] as! Int // "Queued Square"
-                node.fillColor = colors[queuedSquareColor]
-            
+                node.fillColor = queuedSquareColor
                 node.run(SKAction.wait(forDuration: 1.0))
                 game!.fronteerSquareArray.remove(at: 0)
         }
@@ -283,10 +299,7 @@ class GameScene: SKScene {
             let sequance = SKAction.sequence([wait])
                 let node = game!.visitedNodeArray[0]
                 node.run(sequance)
-            
-                let visitedSquareColor = legendData[4][1] as! Int // "Visited Square"
-                node.fillColor = colors[visitedSquareColor]
-            
+                node.fillColor = visitedSquareColor
                 game!.visitedNodeArray.remove(at: 0)
         }
         game.update(time: currentTime)

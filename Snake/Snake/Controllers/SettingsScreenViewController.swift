@@ -131,6 +131,7 @@ class SettingsSceenViewController: UIViewController, UITableViewDelegate, UITabl
         legendData[tappedSquare.tag][1] = colorID
         defaults.set(legendData, forKey: "Legend Preferences")
         tableVIew.reloadData()
+        changeNotifier()
     }
     
     @IBAction func clearAllButtonTapped(_ sender: UIButton) {

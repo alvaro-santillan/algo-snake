@@ -143,6 +143,7 @@ func boolButtonResponder(_ sender: UIButton, isIconButton: Bool, key: String, tr
         }
     }
     UserDefaults.standard.set(Bool(truncating: sender.tag as NSNumber), forKey: key)
+    changeNotifier()
 }
 
 func fourOptionButtonResponder(_ sender: UIButton, isSpeedButton: Bool, key: String, optionArray: [String]) {
@@ -170,4 +171,10 @@ func fourOptionButtonResponder(_ sender: UIButton, isSpeedButton: Bool, key: Str
     
     UserDefaults.standard.set(sender.tag, forKey: key)
     if isSpeedButton {UserDefaults.standard.set(gameMoveSpeed, forKey: "Snake Move Speed")}
+    changeNotifier()
+}
+
+
+func changeNotifier() {
+    UserDefaults.standard.set(true, forKey: "Settings Value Modified")
 }
