@@ -86,6 +86,17 @@ class GameScene: SKScene {
         game.swipe(ID: 4)
     }
     
+    func gameSquareAnimation() -> SKAction {
+        let grow1 = SKAction.scale(by: 1.05, duration: 0.10)
+        let shrink1 = SKAction.scale(by: 0.95, duration: 0.10)
+        let wait1 = SKAction.wait(forDuration: 0.16)
+        let scale1 = SKAction.scale(to: 1.0, duration: 0.12)
+        let shrink2 = SKAction.scale(by: 0.97, duration: 0.05)
+        let wait2 = SKAction.wait(forDuration: 0.07)
+        
+        return SKAction.sequence([grow1, wait1, shrink1, wait1, scale1, shrink2, wait2, scale1])
+    }
+    
     func barrierManager(touches: Set<UITouch>) {
         func selectSquareFromTouch(_ touchLocation: CGPoint) -> SKShapeNode? {
             let squares = self.nodes(at: touchLocation)
@@ -103,17 +114,6 @@ class GameScene: SKScene {
             for square in game.snakeBodyPos {if squareLocation.x == square.0 && squareLocation.y == square.1 {return true}}
             for square in game.foodLocationArray {if squareLocation.x == square[0] && squareLocation.y == square[1] {return true}}
             return false
-        }
-        
-        func gameSquareAnimation() -> SKAction {
-            let grow1 = SKAction.scale(by: 1.05, duration: 0.10)
-            let shrink1 = SKAction.scale(by: 0.95, duration: 0.10)
-            let wait1 = SKAction.wait(forDuration: 0.16)
-            let scale1 = SKAction.scale(to: 1.0, duration: 0.12)
-            let shrink2 = SKAction.scale(by: 0.97, duration: 0.05)
-            let wait2 = SKAction.wait(forDuration: 0.07)
-            
-            return SKAction.sequence([grow1, wait1, shrink1, wait1, scale1, shrink2, wait2, scale1])
         }
         
         for touch in touches {
@@ -213,46 +213,40 @@ class GameScene: SKScene {
             y -= squareWidth
         }
         game.bringOvermatrix(tempMatrix: matrix)
+        animateTheGameboard()
     }
     
-    private func startGame() {
+    func animateTheGameboard() {
         func gameSquareAnimation() -> SKAction {
             let wait0 = SKAction.wait(forDuration: 0.80)
             let grow1 = SKAction.scale(by: 1.05, duration: 0.10)
-            let shrink1 = SKAction.scale(by: 0.95, duration: 0.10)
+            let shrink1 = SKAction.scale(by: 0.90, duration: 0.10)
             let wait1 = SKAction.wait(forDuration: 0.16)
             let scale1 = SKAction.scale(to: 1.0, duration: 0.12)
-            let shrink2 = SKAction.scale(by: 0.97, duration: 0.05)
+            let shrink2 = SKAction.scale(by: 0.95, duration: 0.05)
             let wait2 = SKAction.wait(forDuration: 0.07)
 
             return SKAction.sequence([wait0, grow1, wait1, shrink1, wait1, scale1, shrink2, wait2, scale1])
         }
         
-        func animateNodes(_ squares: [SKNode]) {
+        func animateNodes(_ nodes: [SKShapeNode]) {
             var squareWait = SKAction()
-            for (squareIndex, square) in squares.enumerated() {
+            for (squareIndex, square) in nodes.enumerated() {
+//                let test = SKAction.colorize(with: SKColor.purple, colorBlendFactor: 1.0, duration: 2.0)
                 square.run(.sequence([squareWait, gameSquareAnimation()]))
                 squareWait = .wait(forDuration: TimeInterval(squareIndex) * 0.003)
             }
         }
         
         
-        var nodes = [SKNode]()
+        var nodes = [SKShapeNode]()
         for i in gameBoard {
             nodes.append(i.node)
         }
         animateNodes(nodes)
-        
-
-//        let delay = 1.0
-//        for i in gameBoard {
-//            self.wait(forDuration: delay) {
-//                i.node.run(gameSquareAnimation(), completion: {
-////                    i.node.run(waitAction)
-//                })
-//            }
-//        }
-        
+    }
+    
+    private func startGame() {
         let topCenter = CGPoint(x: 0, y: (frame.size.height / 2) - 25)
         algorithimChoiceName.run(SKAction.move(to: topCenter, duration: 0.4)) {
             self.game.initiateSnakeStartingPosition()

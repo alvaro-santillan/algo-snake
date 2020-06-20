@@ -322,6 +322,7 @@ class GameManager {
             let DistanceFromSnake = abs(snakeHead.0 - randomX) + abs(snakeHead.1 - randomY)
             foodDistanceFromHead.append(DistanceFromSnake)
             scene.foodPosition.append(CGPoint(x: randomY, y: randomX))
+            
         }
         // Calculation for closest food block is wrong mathamaticlly sometimes.
         let temp = foodDistanceFromHead.min()!
@@ -613,6 +614,7 @@ class GameManager {
                     for i in (scene.foodPosition) {
                         if Int((i.x)) == y && Int((i.y)) == x {
                             node.fillColor = scene.foodSquareColor
+                            node.run(scene.gameSquareAnimation())
                         }
                     }
                     
