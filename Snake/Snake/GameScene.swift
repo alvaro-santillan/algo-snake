@@ -10,7 +10,7 @@ import SpriteKit
 
 class GameScene: SKScene {
     var game: GameManager!
-    var highScore: SKLabelNode!
+    var algorithimChoiceName: SKLabelNode!
     var foodPosition = [CGPoint]()
     var gameBackground: SKShapeNode!
     var gameBoard: [(node: SKShapeNode, x: Int, y: Int)] = []
@@ -24,18 +24,21 @@ class GameScene: SKScene {
     var barrierSquareColor = UIColor() // "Barrier"
     var weightSquareColor = UIColor() // "Weight"
     var gameboardSquareColor = UIColor() // "Gameboard"
-    var gameBoardBackgroundColor = UIColor() // Background
 
     override func didMove(to view: SKView) {
         game = GameManager(scene: self)
         settingLoader()
-        initializeWelcomeScreen()
-        initializeGameView()
+        createScreenLabels()
+        createGameBoard()
         swipeManager(swipeGesturesAreOn: true)
+        startGame()
     }
     
     func settingLoader() {
         let legendData = UserDefaults.standard.array(forKey: "Legend Preferences") as! [[Any]]
+        var correctColorArray = [UIColor]()
+        UserDefaults.standard.bool(forKey: "Dark Mode On Setting") ? (correctColorArray = darkBackgroundColors) : (correctColorArray = lightBackgroundColors)
+        
         snakeHeadSquareColor = colors[legendData[0][1] as! Int] // "Snake Head"
         snakeBodySquareColor = colors[legendData[1][1] as! Int] // "Snake Body"
         foodSquareColor = colors[legendData[2][1] as! Int] // "Food"
@@ -44,14 +47,7 @@ class GameScene: SKScene {
         queuedSquareColor = colors[legendData[5][1] as! Int] // "Queued Square"
         barrierSquareColor = colors[legendData[6][1] as! Int] // "Barrier"
         weightSquareColor = colors[legendData[7][1] as! Int] // "Weight"
-        
-        if UserDefaults.standard.bool(forKey: "Dark Mode On Setting") {
-            gameboardSquareColor = darkBackgroundColors[legendData[8][1] as! Int] // "Gameboard"
-            gameBoardBackgroundColor = UIColor.black
-        } else {
-            gameboardSquareColor = lightBackgroundColors[legendData[8][1] as! Int] // "Gameboard"
-            gameBoardBackgroundColor = UIColor.white
-        }
+        gameboardSquareColor = correctColorArray[legendData[8][1] as! Int] // "Gameboard"
     }
     
     func swipeManager(swipeGesturesAreOn: Bool) {
@@ -156,39 +152,47 @@ class GameScene: SKScene {
         }
     }
     
-    private func initializeWelcomeScreen() {
-        highScore = SKLabelNode(fontNamed: "ArialRoundedMTBold")
-        self.addChild(highScore)
-        startGame()
+    private func createScreenLabels() {
+        let pathFindingAlgorithimName = UserDefaults.standard.string(forKey: "Selected Path Finding Algorithim Name")
+        let mazeGenerationAlgorithimName = UserDefaults.standard.string(forKey: "Selected Maze Algorithim Name")
+        
+        algorithimChoiceName = SKLabelNode(fontNamed: "ArialRoundedMTBold")
+        algorithimChoiceName.text = "Path: \(pathFindingAlgorithimName ?? "Player"), Maze: \(mazeGenerationAlgorithimName ?? "None")"
+        algorithimChoiceName.fontColor = UIColor(named: "Text")
+        algorithimChoiceName.fontSize = 15
+        algorithimChoiceName.horizontalAlignmentMode = .center
+        algorithimChoiceName.position = CGPoint(x: 0, y: 185)
+        algorithimChoiceName.zPosition = 1
+        self.addChild(algorithimChoiceName)
     }
     
-    private func initializeGameView() {
-        // Create ShapeNode in which the gameboard can reside.
-        let rect = CGRect(x: 0-frame.size.width/2, y: 0-frame.size.height/2, width: frame.size.width, height: frame.size.height)
-        gameBackground = SKShapeNode(rect: rect, cornerRadius: 0.0)
-        gameBackground.fillColor = gameBoardBackgroundColor
-        gameBackground.strokeColor = gameBoardBackgroundColor
+    private func createBackground() {
+        let screenSizeRectangle = CGRect(x: 0-frame.size.width/2, y: 0-frame.size.height/2, width: frame.size.width, height: frame.size.height)
+        gameBackground = SKShapeNode(rect: screenSizeRectangle, cornerRadius: 0)
+        gameBackground.fillColor = UIColor(named: "Left View Background")!
+        gameBackground.strokeColor = UIColor(named: "Left View Background")!
         self.addChild(gameBackground)
-        createGameBoard()
     }
     
     private func createGameBoard() {
         var matrix = [[Int]]()
         var row = [Int]()
-        // Size of square
-        let cellWidth: CGFloat = 25
-        let numRows = 17
-        let numCols = 30
-        let xx = CGFloat(0 - (Int(cellWidth) * numCols)/2)
-        let yy = CGFloat(0 + (Int(cellWidth) * numRows)/2)
-        var x = CGFloat(xx + 12.5)
-        var y = CGFloat(yy - 12.5)
+        let squareWidth: CGFloat = 25
+        let rowCount = 17
+        let columnCount = 30
+        var x = CGFloat(0 - (Int(squareWidth) * columnCount)/2)
+        var y = CGFloat(0 + (Int(squareWidth) * rowCount)/2)
+        x = CGFloat(x + (squareWidth/2))
+        y = CGFloat(y - (squareWidth/2))
+        
+        createBackground()
+        
+
         
         gameBackground.name = "gameBackground"
-        // Loop through rows and columns and create cells.
-        for i in 0...numRows - 1 {
-            for j in 0...numCols - 1 {
-                let cellNode = SKShapeNode.init(rectOf: CGSize(width: cellWidth-1.5, height: cellWidth-1.5), cornerRadius: 3.5)
+        for i in 0...rowCount - 1 {
+            for j in 0...columnCount - 1 {
+                let cellNode = SKShapeNode.init(rectOf: CGSize(width: squareWidth-1.5, height: squareWidth-1.5), cornerRadius: 3.5)
                 
                 cellNode.fillColor = gameboardSquareColor
                 cellNode.strokeColor = UIColor(red:0.93, green:0.94, blue:0.95, alpha:0.00)
@@ -200,20 +204,57 @@ class GameScene: SKScene {
                 gameBoard.append((node: cellNode, x: i, y: j))
 
                 gameBackground.addChild(cellNode)
-                x += cellWidth
+                x += squareWidth
             }
             matrix.append(row)
             row = [Int]()
             // reset x, iterate y
-            x = CGFloat(x - CGFloat(Int(cellWidth) * numCols))
-            y -= cellWidth
+            x = CGFloat(x - CGFloat(Int(squareWidth) * columnCount))
+            y -= squareWidth
         }
         game.bringOvermatrix(tempMatrix: matrix)
     }
     
     private func startGame() {
-        let bottomCorner = CGPoint(x: 0, y: (frame.size.height / -2) + 20)
-        highScore.run(SKAction.move(to: bottomCorner, duration: 0.4)) {
+        func gameSquareAnimation() -> SKAction {
+            let wait0 = SKAction.wait(forDuration: 0.80)
+            let grow1 = SKAction.scale(by: 1.05, duration: 0.10)
+            let shrink1 = SKAction.scale(by: 0.95, duration: 0.10)
+            let wait1 = SKAction.wait(forDuration: 0.16)
+            let scale1 = SKAction.scale(to: 1.0, duration: 0.12)
+            let shrink2 = SKAction.scale(by: 0.97, duration: 0.05)
+            let wait2 = SKAction.wait(forDuration: 0.07)
+
+            return SKAction.sequence([wait0, grow1, wait1, shrink1, wait1, scale1, shrink2, wait2, scale1])
+        }
+        
+        func animateNodes(_ squares: [SKNode]) {
+            var squareWait = SKAction()
+            for (squareIndex, square) in squares.enumerated() {
+                square.run(.sequence([squareWait, gameSquareAnimation()]))
+                squareWait = .wait(forDuration: TimeInterval(squareIndex) * 0.003)
+            }
+        }
+        
+        
+        var nodes = [SKNode]()
+        for i in gameBoard {
+            nodes.append(i.node)
+        }
+        animateNodes(nodes)
+        
+
+//        let delay = 1.0
+//        for i in gameBoard {
+//            self.wait(forDuration: delay) {
+//                i.node.run(gameSquareAnimation(), completion: {
+////                    i.node.run(waitAction)
+//                })
+//            }
+//        }
+        
+        let topCenter = CGPoint(x: 0, y: (frame.size.height / 2) - 25)
+        algorithimChoiceName.run(SKAction.move(to: topCenter, duration: 0.4)) {
             self.game.initiateSnakeStartingPosition()
         }
     }

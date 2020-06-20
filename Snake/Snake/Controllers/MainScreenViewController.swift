@@ -15,7 +15,7 @@ class MainScreenViewController: UIViewController, UITableViewDelegate, UITableVi
     @IBOutlet weak var highScoreLabel: UITextField!
 
     let pathFindingAlgorithmList = [["Player","0","0"], ["A-Star Search","1","1"], ["Breath First Search","1","0"], ["Depth First Search","1","0"], ["Dijkstra's Search","1","1"], ["Greedy Depth First Search","1","0"], ["Uniform Cost Search","1","1"]]
-    let mazeGenrationAlgorithims = [["None","0","0"], ["Breadth-first search","1","0"], ["Depth-first search","1","0"], ["Eller's algorithm","1","1"], ["Hunt and kill algorithm","1","1"], ["Kruskal's algorithm","1","1"], ["Prim's algorithm","1","1"], ["Recursive backtracking algorithm","1","1"], ["Sidewinder algorithm","1","1"]]
+    let mazeGenrationAlgorithimList = [["None","0","0"], ["Breadth-first search","1","0"], ["Depth-first search","1","0"], ["Eller's algorithm","1","1"], ["Hunt and kill algorithm","1","1"], ["Kruskal's algorithm","1","1"], ["Prim's algorithm","1","1"], ["Recursive backtracking algorithm","1","1"], ["Sidewinder algorithm","1","1"]]
     var selectedPathAlgorithim = UserDefaults.standard.integer(forKey: "Selected Path Finding Algorithim")
     var selectedMazeAlgorithim = UserDefaults.standard.integer(forKey: "Selected Maze Algorithim")
     lazy var tableViewDisplayList = pathFindingAlgorithmList
@@ -74,7 +74,7 @@ class MainScreenViewController: UIViewController, UITableViewDelegate, UITableVi
         if segControl.selectedSegmentIndex == 1 {
             selectedMazeAlgorithim = indexPath.row
             UserDefaults.standard.set(indexPath.row, forKey: "Selected Maze Algorithim")
-            UserDefaults.standard.set(pathFindingAlgorithmList[indexPath.row][0], forKey: "Selected Maze Algorithim Name")
+            UserDefaults.standard.set(mazeGenrationAlgorithimList[indexPath.row][0], forKey: "Selected Maze Algorithim Name")
         }
     }
     
@@ -90,7 +90,7 @@ class MainScreenViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     @IBAction func segmentedControllerTapped(_ sender: UISegmentedControl) {
-        segControl.selectedSegmentIndex == 0 ? (tableViewDisplayList = pathFindingAlgorithmList) : (tableViewDisplayList = mazeGenrationAlgorithims)
+        segControl.selectedSegmentIndex == 0 ? (tableViewDisplayList = pathFindingAlgorithmList) : (tableViewDisplayList = mazeGenrationAlgorithimList)
         tableVIew.reloadData()
     }
 }

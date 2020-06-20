@@ -20,13 +20,6 @@ extension Tuple: Hashable {
     }
 }
 
-public extension UIColor {
-    class func StringFromUIColor(color: UIColor) -> String {
-        let components = color.cgColor.components
-        return "[\(components![0]), \(components![1]), \(components![2]), \(components![3])]"
-    }
-}
-
 import SpriteKit
 import AVFoundation
 
