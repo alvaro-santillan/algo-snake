@@ -396,43 +396,8 @@ class GameManager {
             if time >= nextTime! {
                 nextTime = time + Double(gameSpeed)
                 
-//                barrierNodesWaitingToBeDisplayed = Array(Set(barrierNodesWaitingToBeDisplayed).subtracting(barrierNodesWaitingToBeRemoved))
-//                barrierNodesWaitingToBeRemoved.removeAll()
-                
-//                for i in barrierNodesWaitingToBeRemoved {
-//                    if let index = barrierNodesWaitingToBeDisplayed.firstIndex(of: i) {
-//                        barrierNodesWaitingToBeDisplayed.remove(at: index)
-//                    }
-//                }
-//                barrierNodesWaitingToBeRemoved.removeAll()
-                
-
-                let legendData = UserDefaults.standard.array(forKey: "Legend Preferences") as! [[Any]]
-                let barrierColor = legendData[6][1] as! Int // "Barrier"
-                var ii = UIColor()
-                var jj = UIColor()
-                jj = colors[barrierColor]
-                let tempNode = SKShapeNode()
-                tempNode.fillColor = jj
-                var jjj = UIColor.StringFromUIColor(color: tempNode.fillColor)
-                for i in teeeemp {
-                    ii = i.0.fillColor
-                    var iii = UIColor.StringFromUIColor(color: ii)
-                    
-                    print(iii, jjj)
-                    if iii == jjj {
-                        barrierNodesWaitingToBeDisplayed.append(i.1)
-                    }
-                    if iii != jjj {
-                        print("jj", jj)
-                        print("ii", ii)
-                    }
-                }
-                barrierNodesWaitingToBeDisplayed = Array(Set(barrierNodesWaitingToBeDisplayed))
-                print("sdf")
-//                teeeemp.removeAll()
-                
-                
+                barrierNodesWaitingToBeDisplayed = Array(Set(barrierNodesWaitingToBeDisplayed).subtracting(barrierNodesWaitingToBeRemoved))
+                barrierNodesWaitingToBeRemoved.removeAll()
                 
                 runPredeterminedPath()
                 updateSnakePosition()

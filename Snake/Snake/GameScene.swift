@@ -67,7 +67,7 @@ class GameScene: SKScene {
     func darkModeChecker() {
         let gameboardIDColor = legendData[8][1] as! Int // "Gameboard"
         
-        if UITraitCollection.current.userInterfaceStyle == .dark {
+        if UserDefaults.standard.bool(forKey: "Dark Mode On Setting") {
             correctGameboardSquareColor = darkBackgroundColors[gameboardIDColor]
             correctBackgroundColor = UIColor.black
         } else {
@@ -110,14 +110,13 @@ class GameScene: SKScene {
                             if tappedOnSnake != true {
                                 if UserDefaults.standard.bool(forKey: "Add Barrier Mode On Setting") {
                                     game.matrix[nodeLocation.x][nodeLocation.y] = 1
-//                                    game.barrierNodesWaitingToBeDisplayed.append(nodeLocation)
-                                    // changed color here
-                                    nodee.fillColor = UIColor(red: 0.67, green: 0.28, blue: 0.74, alpha: 1)
+                                    game.barrierNodesWaitingToBeDisplayed.append(nodeLocation)
+                                    nodee.fillColor = colors[barrierColor]
                                     nodee.run(SKAction.sequence([grow, wait, shrink, wait, scale, shrink2, wait2, scale]))
                                 } else {
                                     darkModeChecker()
                                     game.matrix[nodeLocation.x][nodeLocation.y] = 0
-//                                    game.barrierNodesWaitingToBeRemoved.append(nodeLocation)
+                                    game.barrierNodesWaitingToBeRemoved.append(nodeLocation)
                                     nodee.fillColor = correctGameboardSquareColor
                                     nodee.run(SKAction.sequence([grow, wait, shrink, wait, scale, shrink2, wait2, scale]))
                                 }
@@ -167,22 +166,15 @@ class GameScene: SKScene {
                                 
                                 if tappedOnSnake != true {
                                     if UserDefaults.standard.bool(forKey: "Add Barrier Mode On Setting") {
-//                                        game.barrierNodesWaitingToBeDisplayed.append(nodeLocation)
-                                        
-//                                        game.teeeemp.append(touchedNode, [nodeLocation.x,nodeLocation.y])
+                                        game.barrierNodesWaitingToBeDisplayed.append(nodeLocation)
                                         game.matrix[nodeLocation.x][nodeLocation.y] = 1
                                         touchedNode.fillColor = colors[barrierColor]
-                                        
-//                                        print(UIColor.StringFromUIColor(color: (colors[barrierColor])) )
-//                                        print(UIColor.StringFromUIColor(color: (touchedNode.fillColor)) )
-                                        game.teeeemp.append((touchedNode, Tuple(x: nodeLocation.x, y: nodeLocation.y)))
                                         touchedNode.run(SKAction.sequence([grow, wait, shrink, wait, scale, shrink2, wait2, scale]))
                                     } else {
                                         darkModeChecker()
                                         game.matrix[nodeLocation.x][nodeLocation.y] = 0
-//                                        game.barrierNodesWaitingToBeRemoved.append(nodeLocation)
+                                        game.barrierNodesWaitingToBeRemoved.append(nodeLocation)
                                         touchedNode.fillColor = correctGameboardSquareColor
-                                        game.teeeemp.append((touchedNode, Tuple(x: nodeLocation.x, y: nodeLocation.y)))
                                         touchedNode.run(SKAction.sequence([grow, wait, shrink, wait, scale, shrink2, wait2, scale]))
                                     }
                                 }
