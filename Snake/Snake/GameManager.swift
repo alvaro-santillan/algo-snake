@@ -349,20 +349,11 @@ class GameManager {
 
             if UserDefaults.standard.bool(forKey: "Step Mode On Setting") {
                 
-//                let appDelegate = UIApplication.shared.delegate as! AppDelegate
-//                if let vc = appDelegate.window?.rootViewController {
-//                    print(vc.parent)
-//                    print(vc.popoverPresentationController)
-//                    print(vc.presentationController)
-//                    
-//                    print(vc.presentedViewController)
-//                    
-//                    print(vc.presentingViewController)
-//                    print(vc.restorationClass)
-//                    print("vc", vc)
-//                    self.viewController = (vc.presentedViewController as? GameScreenViewController)
-//                    self.viewController?.playButton.setImage(UIImage(named: "Minus_Icon_Set"), for: .normal)
-//                }
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                if let vc = appDelegate.window?.rootViewController {
+                    self.viewController = (vc.presentedViewController as? GameScreenViewController)
+                    self.viewController?.playButton.setImage(UIImage(named: "Play_Icon_Set"), for: .normal)
+                }
                 
                 UserDefaults.standard.set(true, forKey: "Game Is Paused Setting")
                 paused = true
