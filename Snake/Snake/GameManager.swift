@@ -435,13 +435,6 @@ class GameManager {
         }
         
         for (node, x, y) in scene.gameBoard  {
-            if contains(a: snakeBodyPos, v: (x,y)) {
-                node.fillColor = scene.snakeBodySquareColor
-                if contains(a: [snakeBodyPos.first!], v: (x,y)) {
-                    node.fillColor = scene.snakeHeadSquareColor
-                }
-            }
-            
             barrierNodesWaitingToBeDisplayed = Array(Set(barrierNodesWaitingToBeDisplayed).subtracting(barrierNodesWaitingToBeRemoved))
             barrierNodesWaitingToBeRemoved.removeAll()
             
@@ -458,6 +451,16 @@ class GameManager {
 //                    node.run(scene.gameSquareAnimation(animation: 2))
                 }
             }
+            
+            if contains(a: snakeBodyPos, v: (x,y)) {
+                node.fillColor = scene.snakeBodySquareColor
+                if contains(a: [snakeBodyPos.first!], v: (x,y)) {
+                    node.fillColor = scene.snakeHeadSquareColor
+                }
+            }
+//            else {
+//                node.fillColor = scene.gameboardSquareColor
+//            }
         }
     }
     

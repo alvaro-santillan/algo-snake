@@ -30,14 +30,14 @@ class GameScene: SKScene {
 
     override func didMove(to view: SKView) {
         game = GameManager(scene: self)
-        settingLoader()
+        settingLoader(firstRun: true)
         createScreenLabels()
         createGameBoard()
         swipeManager(swipeGesturesAreOn: true)
         startGame()
     }
     
-    func settingLoader() {
+    func settingLoader(firstRun: Bool) {
         let legendData = UserDefaults.standard.array(forKey: "Legend Preferences") as! [[Any]]
         var correctColorArray = [UIColor]()
         UserDefaults.standard.bool(forKey: "Dark Mode On Setting") ? (correctColorArray = darkBackgroundColors) : (correctColorArray = lightBackgroundColors)
@@ -52,6 +52,17 @@ class GameScene: SKScene {
         weightSquareColor = colors[legendData[7][1] as! Int] // "Weight"
         gameboardSquareColor = correctColorArray[legendData[8][1] as! Int] // "Gameboard"
         gameboardBackgroundColor = UIColor(named: "Left View Background")!
+        UserDefaults.standard.set(false, forKey: "Settings Value Modified")
+        
+        if !(firstRun) {
+            if UserDefaults.standard.bool(forKey: "Clear Barrier Setting") {
+                print(firstRun)
+                print(UserDefaults.standard.bool(forKey: "Clear Barrier Setting"))
+                game.barrierNodesWaitingToBeDisplayed.removeAll()
+//                game.barrierNodesWaitingToBeRemoved.removeAll()
+                UserDefaults.standard.set(false, forKey: "Clear Barrier Setting")
+            }
+        }
     }
     
     private func createScreenLabels() {
@@ -260,7 +271,7 @@ class GameScene: SKScene {
     // Called before each frame is rendered
     // perhapse this can be used to pass in settings? maybe
     override func update(_ currentTime: TimeInterval) {
-        UserDefaults.standard.bool(forKey: "Settings Value Modified") == true ? (settingLoader()) : ()
+        UserDefaults.standard.bool(forKey: "Settings Value Modified") ? (settingLoader(firstRun: false)) : ()
         
         if game!.fronteerSquareArray.count > 0 {
             let wait = SKAction.wait(forDuration: 0.0)
