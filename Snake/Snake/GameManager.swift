@@ -308,7 +308,7 @@ class GameManager {
     var foodLocationArray: [[Int]] = []
     var foodDistanceFromHead: [Int] = []
     var foodCollisionPoint = Int()
-    let foodSpawnMax = (UserDefaults.standard.integer(forKey: "FoodCountSetting"))
+    let foodSpawnMax = (UserDefaults.standard.integer(forKey: "Food Count Setting"))
     let mainScreenAlgoChoice = UserDefaults.standard.integer(forKey: "Algorithim Choice")
     
     func spawnFoodBlock() {
