@@ -407,7 +407,7 @@ class GameManager {
     
     func checkIfPaused() {
         if UserDefaults.standard.bool(forKey: "Game Is Paused Setting") {
-            gameSpeed = UserDefaults.standard.float(forKey: "gameSpeed")
+            gameSpeed = UserDefaults.standard.float(forKey: "Snake Move Speed")
             paused = false
         } else {
 //            gameSpeed = UserDefaults.standard.float(forKey: "gameSpeed")

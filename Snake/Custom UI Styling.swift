@@ -154,19 +154,19 @@ func fourOptionButtonResponder(_ sender: UIButton, isSpeedButton: Bool, key: Str
     if sender.tag == 1 {
         sender.setTitle(optionArray[1], for: .normal)
         sender.tag = 2
-        if isSpeedButton {gameMoveSpeed = 0.10}
+        if isSpeedButton {gameMoveSpeed = 0.25}
     } else if sender.tag == 2 {
         sender.setTitle(optionArray[2], for: .normal)
         sender.tag = 3
-        if isSpeedButton {gameMoveSpeed = 0.01}
+        if isSpeedButton {gameMoveSpeed = 0.10}
     } else if sender.tag == 3 {
         sender.setTitle(optionArray[3], for: .normal)
         sender.tag = 5
-        if isSpeedButton {gameMoveSpeed = 0.50}
+        if isSpeedButton {gameMoveSpeed = 0.01}
     } else {
         sender.setTitle(optionArray[0], for: .normal)
         sender.tag = 1
-        if isSpeedButton {gameMoveSpeed = 0.25}
+        if isSpeedButton {gameMoveSpeed = 0.50}
     }
     
     UserDefaults.standard.set(sender.tag, forKey: key)
