@@ -537,17 +537,13 @@ class GameManager {
         let musicPath = Bundle.main.path(forResource: selectedSoundFileName, ofType:"wav")!
         let url = URL(fileURLWithPath: musicPath)
         
-        if UserDefaults.standard.integer(forKey: "muteButtonSetting") == 0 {
+        if UserDefaults.standard.bool(forKey: "Volume On Setting") {
             do {
-                // Open cd player put in disk
                 let sound = try AVAudioPlayer(contentsOf: url)
                 self.player = sound
-                //sound.numberOfLoops = 0
-                //sound.prepareToPlay()
                 sound.play()
             } catch {
-                print("error loading file")
-                // couldn't load file :(
+                print("Error playing file")
             }
         }
     }
