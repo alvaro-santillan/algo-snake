@@ -308,7 +308,7 @@ class GameManager {
     var foodLocationArray: [[Int]] = []
     var foodDistanceFromHead: [Int] = []
     var foodCollisionPoint = Int()
-    let foodSpawnMax = (UserDefaults.standard.integer(forKey: "FoodCountSetting"))+1
+    let foodSpawnMax = (UserDefaults.standard.integer(forKey: "FoodCountSetting"))
     let mainScreenAlgoChoice = UserDefaults.standard.integer(forKey: "Algorithim Choice")
     
     func spawnFoodBlock() {
@@ -411,8 +411,47 @@ class GameManager {
             paused = false
         } else {
 //            gameSpeed = UserDefaults.standard.float(forKey: "gameSpeed")
-//            colorGameNodes()
+            tempColor()
             paused = true
+        }
+    }
+    
+    func tempColor() {
+//        for square in game.snakeBodyPos {
+//            print(childNode(withName: "//2,2"))
+//            square.fillColor = snakeBodySquareColor
+//        }
+        
+        func contains(a:[(Int, Int)], v:(Int,Int)) -> Bool {
+            let (c1, c2) = v
+            for (v1, v2) in a { if v1 == c1 && v2 == c2 { return true } }
+            return false
+        }
+        
+        for (node, x, y) in scene.gameBoard  {
+            if contains(a: snakeBodyPos, v: (x,y)) {
+                node.fillColor = scene.snakeBodySquareColor
+                if contains(a: [snakeBodyPos.first!], v: (x,y)) {
+                    node.fillColor = scene.snakeHeadSquareColor
+                }
+            }
+            
+            barrierNodesWaitingToBeDisplayed = Array(Set(barrierNodesWaitingToBeDisplayed).subtracting(barrierNodesWaitingToBeRemoved))
+            barrierNodesWaitingToBeRemoved.removeAll()
+            
+            for i in (barrierNodesWaitingToBeDisplayed) {
+                if i.y == y && i.x == x {
+                    node.fillColor = scene.barrierSquareColor
+//                    node.run(scene.gameSquareAnimation(animation: 2))
+                }
+            }
+            
+            for i in (scene.foodPosition) {
+                if Int((i.x)) == y && Int((i.y)) == x {
+                    node.fillColor = scene.foodSquareColor
+//                    node.run(scene.gameSquareAnimation(animation: 2))
+                }
+            }
         }
     }
     
@@ -588,6 +627,7 @@ class GameManager {
                 if (onPathMode == false) {
                     node.fillColor = SKColor.white
 //                    node.run(scene.gameSquareAnimation())
+//                    node.run(scene.gameSquareAnimation(animation: 2))
                 }
             }
             
@@ -603,6 +643,7 @@ class GameManager {
                     node.fillColor = scene.snakeBodySquareColor
                     if contains(a: [snakeBodyPos.first!], v: (x,y)) {
                         node.fillColor = scene.snakeHeadSquareColor
+//                        node.run(scene.gameSquareAnimation(animation: 2))
 //                        colorVisitedSquares(visited: [Tuple(x: x, y: y)])
                     }
                 }
@@ -618,15 +659,17 @@ class GameManager {
                     for i in (scene.foodPosition) {
                         if Int((i.x)) == y && Int((i.y)) == x {
                             node.fillColor = scene.foodSquareColor
-                            node.run(scene.gameSquareAnimation(animation: 2))
+//                            node.run(scene.gameSquareAnimation(animation: 2))
                         }
                     }
                     
                     for i in (barrierNodesWaitingToBeDisplayed) {
                         if i.y == y && i.x == x {
                             node.fillColor = scene.barrierSquareColor
+//                           node.run(scene.gameSquareAnimation(animation: 2))
                         }
                     }
+                    
                     
                     // if this works its more effietient.
                     //            if onPathMode == true {

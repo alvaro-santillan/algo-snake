@@ -117,24 +117,6 @@ class GameScene: SKScene {
         animateTheGameboard()
     }
     
-    
-    
-    
-//    func tempColor() {
-//        for (node, x, y) in gameBoard  {
-//            if contains(a: game.snakeBodyPos, v: (x,y)) {
-//                node.fillColor = snakeBodySquareColor
-//                if contains(a: [game.snakeBodyPos.first!], v: (x,y)) {
-//                    node.fillColor = snakeHeadSquareColor
-//                }
-//            }
-//        }
-//    }
-    
-    
-    
-    
-    
     func animateTheGameboard() {
         func animateNodes(_ nodes: [SKShapeNode]) {
             var squareWait = SKAction()
