@@ -14,6 +14,8 @@ class GameScene: SKScene {
     var foodPosition = [CGPoint]()
     var gameBackground: SKShapeNode!
     var gameBoard: [(node: SKShapeNode, x: Int, y: Int)] = []
+    let rowCount = 17
+    let columnCount = 30
     
     var snakeHeadSquareColor = UIColor() // "Snake Head"
     var snakeBodySquareColor = UIColor() // "Snake Body"
@@ -52,120 +54,14 @@ class GameScene: SKScene {
         gameboardBackgroundColor = UIColor(named: "Left View Background")!
     }
     
-    func swipeManager(swipeGesturesAreOn: Bool) {
-        let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(swipeU))
-        swipeUp.direction = .up
-        
-        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(swipeR))
-        swipeRight.direction = .right
-        
-        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(swipeD))
-        swipeDown.direction = .down
-        
-        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(swipeL))
-        swipeLeft.direction = .left
-        
-        if swipeGesturesAreOn {
-            view!.addGestureRecognizer(swipeUp)
-            view!.addGestureRecognizer(swipeRight)
-            view!.addGestureRecognizer(swipeDown)
-            view!.addGestureRecognizer(swipeLeft)
-        } else {
-            view!.gestureRecognizers?.removeAll()
-        }
-    }
-    
-    @objc func swipeR() {
-        game.swipe(ID: 3)
-    }
-    @objc func swipeL() {
-        game.swipe(ID: 1)
-    }
-    @objc func swipeU() {
-        game.swipe(ID: 2)
-    }
-    @objc func swipeD() {
-        game.swipe(ID: 4)
-    }
-    
-    func gameSquareAnimation() -> SKAction {
-        let grow1 = SKAction.scale(by: 1.05, duration: 0.10)
-        let shrink1 = SKAction.scale(by: 0.95, duration: 0.10)
-        let wait1 = SKAction.wait(forDuration: 0.16)
-        let scale1 = SKAction.scale(to: 1.0, duration: 0.12)
-        let shrink2 = SKAction.scale(by: 0.97, duration: 0.05)
-        let wait2 = SKAction.wait(forDuration: 0.07)
-        
-        return SKAction.sequence([grow1, wait1, shrink1, wait1, scale1, shrink2, wait2, scale1])
-    }
-    
-    func barrierManager(touches: Set<UITouch>) {
-        func selectSquareFromTouch(_ touchLocation: CGPoint) -> SKShapeNode? {
-            let squares = self.nodes(at: touchLocation)
-            for square in squares {
-                if square is SKShapeNode {
-                    if square.name != "gameBackground" {
-                        return (square as! SKShapeNode)
-                    }
-                }
-            }
-            return nil
-        }
-        
-        func IsSquareOccupied(squareLocation: Tuple) -> Bool {
-            for square in game.snakeBodyPos {if squareLocation.x == square.0 && squareLocation.y == square.1 {return true}}
-            for square in game.foodLocationArray {if squareLocation.x == square[0] && squareLocation.y == square[1] {return true}}
-            return false
-        }
-        
-        for touch in touches {
-            if let selectedSquare = selectSquareFromTouch(touch.location(in: self)) {
-                let squareLocationAsString = (selectedSquare.name)?.components(separatedBy: ",")
-                let squareLocation = Tuple(x: Int(squareLocationAsString![0])!, y: Int(squareLocationAsString![1])!)
-                
-                if !(IsSquareOccupied(squareLocation: squareLocation)) {
-                    if UserDefaults.standard.bool(forKey: "Add Barrier Mode On Setting") {
-                        game.barrierNodesWaitingToBeDisplayed.append(squareLocation)
-                        selectedSquare.fillColor = barrierSquareColor
-                        let generator = UIImpactFeedbackGenerator(style: .medium)
-                        generator.impactOccurred()
-                        game.matrix[squareLocation.x][squareLocation.y] = 1
-                    } else {
-                        game.barrierNodesWaitingToBeRemoved.append(squareLocation)
-                        selectedSquare.fillColor = gameboardSquareColor
-                        let generator = UIImpactFeedbackGenerator(style: .medium)
-                        generator.impactOccurred()
-                        game.matrix[squareLocation.x][squareLocation.y] = 0
-                    }
-                    selectedSquare.run(gameSquareAnimation())
-                }
-            }
-        }
-    }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if !(UserDefaults.standard.bool(forKey: "Game Is Paused Setting")) {
-            swipeManager(swipeGesturesAreOn: false)
-            barrierManager(touches: touches)
-        }
-    }
-    
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if !(UserDefaults.standard.bool(forKey: "Game Is Paused Setting")) {
-            swipeManager(swipeGesturesAreOn: false)
-            barrierManager(touches: touches)
-            swipeManager(swipeGesturesAreOn: true)
-        }
-    }
-    
     private func createScreenLabels() {
         let pathFindingAlgorithimName = UserDefaults.standard.string(forKey: "Selected Path Finding Algorithim Name")
         let mazeGenerationAlgorithimName = UserDefaults.standard.string(forKey: "Selected Maze Algorithim Name")
         
-        algorithimChoiceName = SKLabelNode(fontNamed: "ArialRoundedMTBold")
+        algorithimChoiceName = SKLabelNode(fontNamed: "Dogica_Pixel")
         algorithimChoiceName.text = "Path: \(pathFindingAlgorithimName ?? "Player"), Maze: \(mazeGenerationAlgorithimName ?? "None")"
         algorithimChoiceName.fontColor = UIColor(named: "Text")
-        algorithimChoiceName.fontSize = 15
+        algorithimChoiceName.fontSize = 11
         algorithimChoiceName.horizontalAlignmentMode = .center
         algorithimChoiceName.position = CGPoint(x: 0, y: 185)
         algorithimChoiceName.zPosition = 1
@@ -184,8 +80,6 @@ class GameScene: SKScene {
         
         var matrix = [[Int]]()
         var row = [Int]()
-        let rowCount = 17
-        let columnCount = 30
         let squareWidth: CGFloat = 25
         let shrinkRatio: CGFloat = 0.06
         let cornerRatio: CGFloat = 0.14
@@ -223,40 +117,161 @@ class GameScene: SKScene {
         animateTheGameboard()
     }
     
+    
+    
+    
+//    func tempColor() {
+//        for (node, x, y) in gameBoard  {
+//            if contains(a: game.snakeBodyPos, v: (x,y)) {
+//                node.fillColor = snakeBodySquareColor
+//                if contains(a: [game.snakeBodyPos.first!], v: (x,y)) {
+//                    node.fillColor = snakeHeadSquareColor
+//                }
+//            }
+//        }
+//    }
+    
+    
+    
+    
+    
     func animateTheGameboard() {
-        func gameSquareAnimation() -> SKAction {
-            let wait0 = SKAction.wait(forDuration: 0.80)
-            let grow1 = SKAction.scale(by: 1.05, duration: 0.10)
-            let shrink1 = SKAction.scale(by: 0.90, duration: 0.10)
-            let wait1 = SKAction.wait(forDuration: 0.16)
-            let scale1 = SKAction.scale(to: 1.0, duration: 0.12)
-            let shrink2 = SKAction.scale(by: 0.95, duration: 0.05)
-            let wait2 = SKAction.wait(forDuration: 0.07)
-
-            return SKAction.sequence([wait0, grow1, wait1, shrink1, wait1, scale1, shrink2, wait2, scale1])
-        }
-        
         func animateNodes(_ nodes: [SKShapeNode]) {
             var squareWait = SKAction()
             for (squareIndex, square) in nodes.enumerated() {
-//                let test = SKAction.colorize(with: SKColor.purple, colorBlendFactor: 1.0, duration: 2.0)
-                square.run(.sequence([squareWait, gameSquareAnimation()]))
+                square.run(.sequence([squareWait, gameSquareAnimation(animation: 1)]))
                 squareWait = .wait(forDuration: TimeInterval(squareIndex) * 0.003)
             }
         }
         
-        
-        var nodes = [SKShapeNode]()
+        var squares = [SKShapeNode]()
         for i in gameBoard {
-            nodes.append(i.node)
+            squares.append(i.node)
         }
-        animateNodes(nodes)
+        animateNodes(squares)
+    }
+    
+    func gameSquareAnimation(animation: Int) -> SKAction {
+        let wait0 = SKAction.wait(forDuration: 0.80)
+        let wait1 = SKAction.wait(forDuration: 0.16)
+        let wait2 = SKAction.wait(forDuration: 0.07)
+        let grow1 = SKAction.scale(by: 1.05, duration: 0.10)
+        let scale1 = SKAction.scale(to: 1.0, duration: 0.12)
+        let shrink1 = SKAction.scale(by: 0.90, duration: 0.10)
+        let shrink2 = SKAction.scale(by: 0.95, duration: 0.05)
+        let shrink3 = SKAction.scale(by: 0.95, duration: 0.10)
+        let shrink4 = SKAction.scale(by: 0.97, duration: 0.05)
+
+        if animation == 1 {
+            return SKAction.sequence([wait0, grow1, wait1, shrink1, wait1, scale1, shrink2, wait2, scale1])
+        } else {
+            return SKAction.sequence([grow1, wait1, shrink3, wait1, scale1, shrink4, wait2, scale1])
+        }
+    }
+    
+    func swipeManager(swipeGesturesAreOn: Bool) {
+        let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(swipeU))
+        swipeUp.direction = .up
+        
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(swipeR))
+        swipeRight.direction = .right
+        
+        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(swipeD))
+        swipeDown.direction = .down
+        
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(swipeL))
+        swipeLeft.direction = .left
+        
+        if swipeGesturesAreOn {
+            view!.addGestureRecognizer(swipeUp)
+            view!.addGestureRecognizer(swipeRight)
+            view!.addGestureRecognizer(swipeDown)
+            view!.addGestureRecognizer(swipeLeft)
+        } else {
+            view!.gestureRecognizers?.removeAll()
+        }
+    }
+    
+    @objc func swipeR() {
+        game.swipe(ID: 3)
+    }
+    @objc func swipeL() {
+        game.swipe(ID: 1)
+    }
+    @objc func swipeU() {
+        game.swipe(ID: 2)
+    }
+    @objc func swipeD() {
+        game.swipe(ID: 4)
     }
     
     private func startGame() {
         let topCenter = CGPoint(x: 0, y: (frame.size.height / 2) - 25)
         algorithimChoiceName.run(SKAction.move(to: topCenter, duration: 0.4)) {
             self.game.initiateSnakeStartingPosition()
+        }
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if !(UserDefaults.standard.bool(forKey: "Game Is Paused Setting")) {
+            swipeManager(swipeGesturesAreOn: false)
+            barrierManager(touches: touches)
+        }
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if !(UserDefaults.standard.bool(forKey: "Game Is Paused Setting")) {
+            swipeManager(swipeGesturesAreOn: false)
+            barrierManager(touches: touches)
+            swipeManager(swipeGesturesAreOn: true)
+        }
+    }
+    
+    func barrierManager(touches: Set<UITouch>) {
+        func selectSquareFromTouch(_ touchLocation: CGPoint) -> SKShapeNode? {
+            let squares = self.nodes(at: touchLocation)
+            for square in squares {
+                if square is SKShapeNode {
+                    if square.name != "gameBackground" {
+                        return (square as! SKShapeNode)
+                    }
+                }
+            }
+            return nil
+        }
+        
+        func IsSquareOccupied(squareLocation: Tuple) -> Bool {
+            for square in game.snakeBodyPos {if squareLocation.x == square.0 && squareLocation.y == square.1 {return true}}
+            for square in game.foodLocationArray {if squareLocation.x == square[0] && squareLocation.y == square[1] {return true}}
+            return false
+        }
+        
+        for touch in touches {
+            if let selectedSquare = selectSquareFromTouch(touch.location(in: self)) {
+                let squareLocationAsString = (selectedSquare.name)?.components(separatedBy: ",")
+                let squareLocation = Tuple(x: Int(squareLocationAsString![0])!, y: Int(squareLocationAsString![1])!)
+                
+                if squareLocation.x != 0 && squareLocation.x != (rowCount - 1) {
+                    if squareLocation.y != 0 && squareLocation.y != (columnCount - 1) {
+                        if !(IsSquareOccupied(squareLocation: squareLocation)) {
+                            if UserDefaults.standard.bool(forKey: "Add Barrier Mode On Setting") {
+                                game.barrierNodesWaitingToBeDisplayed.append(squareLocation)
+                                selectedSquare.fillColor = barrierSquareColor
+                                let generator = UIImpactFeedbackGenerator(style: .medium)
+                                generator.impactOccurred()
+                                game.matrix[squareLocation.x][squareLocation.y] = 1
+                            } else {
+                                game.barrierNodesWaitingToBeRemoved.append(squareLocation)
+                                selectedSquare.fillColor = gameboardSquareColor
+                                let generator = UIImpactFeedbackGenerator(style: .medium)
+                                generator.impactOccurred()
+                                game.matrix[squareLocation.x][squareLocation.y] = 0
+                            }
+                        }
+                    }
+                }
+                selectedSquare.run(gameSquareAnimation(animation: 2))
+            }
         }
     }
     

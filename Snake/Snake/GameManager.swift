@@ -411,6 +411,7 @@ class GameManager {
             paused = false
         } else {
 //            gameSpeed = UserDefaults.standard.float(forKey: "gameSpeed")
+//            colorGameNodes()
             paused = true
         }
     }
@@ -617,7 +618,7 @@ class GameManager {
                     for i in (scene.foodPosition) {
                         if Int((i.x)) == y && Int((i.y)) == x {
                             node.fillColor = scene.foodSquareColor
-                            node.run(scene.gameSquareAnimation())
+                            node.run(scene.gameSquareAnimation(animation: 2))
                         }
                     }
                     
