@@ -38,7 +38,6 @@ class GameManager {
     var paused = false
     var playerDirection: Int = 4 // 1 == left, 2 == up, 3 == right, 4 == down
     var currentScore: Int = 0
-    var playPauseMode = UserDefaults.standard.integer(forKey: "Step Mode On Setting")
     var barrierNodesWaitingToBeDisplayed = [Tuple]()
     var barrierNodesWaitingToBeRemoved = [Tuple]()
     var teeeemp = [(SKShapeNode, Tuple)]()
@@ -348,8 +347,25 @@ class GameManager {
                 test = []
             }
 
-            if playPauseMode == 0 {
-//                scene.gamePaused = true
+            if UserDefaults.standard.bool(forKey: "Step Mode On Setting") {
+                
+//                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+//                if let vc = appDelegate.window?.rootViewController {
+//                    print(vc.parent)
+//                    print(vc.popoverPresentationController)
+//                    print(vc.presentationController)
+//                    
+//                    print(vc.presentedViewController)
+//                    
+//                    print(vc.presentingViewController)
+//                    print(vc.restorationClass)
+//                    print("vc", vc)
+//                    self.viewController = (vc.presentedViewController as? GameScreenViewController)
+//                    self.viewController?.playButton.setImage(UIImage(named: "Minus_Icon_Set"), for: .normal)
+//                }
+                
+                UserDefaults.standard.set(true, forKey: "Game Is Paused Setting")
+                paused = true
                 checkIfPaused()
             }
         }
@@ -407,12 +423,11 @@ class GameManager {
     
     func checkIfPaused() {
         if UserDefaults.standard.bool(forKey: "Game Is Paused Setting") {
-            gameSpeed = UserDefaults.standard.float(forKey: "Snake Move Speed")
-            paused = false
-        } else {
-//            gameSpeed = UserDefaults.standard.float(forKey: "gameSpeed")
             tempColor()
             paused = true
+        } else {
+            gameSpeed = UserDefaults.standard.float(forKey: "Snake Move Speed")
+            paused = false
         }
     }
     
@@ -512,14 +527,6 @@ class GameManager {
                     // Update the score
                     currentScore += 1
                     
-                    
-                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                    if let vc = appDelegate.window?.rootViewController {
-//                        print("VC", vc)
-                        self.viewController = (vc as? GameScreenViewController)
-//                        self.viewController?.scoreButton.setTitle(String(currentScore), for: .normal)
-                    }
-                    
                     // Grow snake by 3 blocks.
                     let max = UserDefaults.standard.integer(forKey: "Food Weight Setting")
                     for _ in 1...max {
@@ -598,10 +605,10 @@ class GameManager {
             matrix[snakeBodyPos[0].0][snakeBodyPos[0].1] = 1
             matrix[snakeBodyPos[1].0][snakeBodyPos[1].1] = 1
             matrix[snakeBodyPos[2].0][snakeBodyPos[2].1] = 1
-            for i in 0...14 {
-                print(matrix[i])
-            }
-            print("----")
+//            for i in 0...14 {
+//                print(matrix[i])
+//            }
+//            print("----")
         }
         
         if snakeBodyPos.count > 0 {

@@ -195,14 +195,14 @@ class GameScene: SKScene {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if !(UserDefaults.standard.bool(forKey: "Game Is Paused Setting")) {
+        if UserDefaults.standard.bool(forKey: "Game Is Paused Setting") {
             swipeManager(swipeGesturesAreOn: false)
             barrierManager(touches: touches)
         }
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if !(UserDefaults.standard.bool(forKey: "Game Is Paused Setting")) {
+        if UserDefaults.standard.bool(forKey: "Game Is Paused Setting") {
             swipeManager(swipeGesturesAreOn: false)
             barrierManager(touches: touches)
             swipeManager(swipeGesturesAreOn: true)
