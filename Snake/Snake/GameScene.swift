@@ -24,6 +24,7 @@ class GameScene: SKScene {
     var barrierSquareColor = UIColor() // "Barrier"
     var weightSquareColor = UIColor() // "Weight"
     var gameboardSquareColor = UIColor() // "Gameboard"
+    var gameboardBackgroundColor = UIColor() // Background
 
     override func didMove(to view: SKView) {
         game = GameManager(scene: self)
@@ -48,6 +49,7 @@ class GameScene: SKScene {
         barrierSquareColor = colors[legendData[6][1] as! Int] // "Barrier"
         weightSquareColor = colors[legendData[7][1] as! Int] // "Weight"
         gameboardSquareColor = correctColorArray[legendData[8][1] as! Int] // "Gameboard"
+        gameboardBackgroundColor = UIColor(named: "Left View Background")!
     }
     
     func swipeManager(swipeGesturesAreOn: Bool) {
@@ -125,10 +127,14 @@ class GameScene: SKScene {
                     if UserDefaults.standard.bool(forKey: "Add Barrier Mode On Setting") {
                         game.barrierNodesWaitingToBeDisplayed.append(squareLocation)
                         selectedSquare.fillColor = barrierSquareColor
+                        let generator = UIImpactFeedbackGenerator(style: .medium)
+                        generator.impactOccurred()
                         game.matrix[squareLocation.x][squareLocation.y] = 1
                     } else {
                         game.barrierNodesWaitingToBeRemoved.append(squareLocation)
                         selectedSquare.fillColor = gameboardSquareColor
+                        let generator = UIImpactFeedbackGenerator(style: .medium)
+                        generator.impactOccurred()
                         game.matrix[squareLocation.x][squareLocation.y] = 0
                     }
                     selectedSquare.run(gameSquareAnimation())
@@ -166,20 +172,25 @@ class GameScene: SKScene {
         self.addChild(algorithimChoiceName)
     }
     
-    private func createBackground() {
-        let screenSizeRectangle = CGRect(x: 0-frame.size.width/2, y: 0-frame.size.height/2, width: frame.size.width, height: frame.size.height)
-        gameBackground = SKShapeNode(rect: screenSizeRectangle, cornerRadius: 0)
-        gameBackground.fillColor = UIColor(named: "Left View Background")!
-        gameBackground.strokeColor = UIColor(named: "Left View Background")!
-        self.addChild(gameBackground)
-    }
-    
     private func createGameBoard() {
+        func createBackground() {
+            let screenSizeRectangle = CGRect(x: 0-frame.size.width/2, y: 0-frame.size.height/2, width: frame.size.width, height: frame.size.height)
+            gameBackground = SKShapeNode(rect: screenSizeRectangle, cornerRadius: 0)
+            gameBackground.fillColor = gameboardBackgroundColor
+            gameBackground.strokeColor = gameboardBackgroundColor
+            gameBackground.name = "gameBackground"
+            self.addChild(gameBackground)
+        }
+        
         var matrix = [[Int]]()
         var row = [Int]()
-        let squareWidth: CGFloat = 25
         let rowCount = 17
         let columnCount = 30
+        let squareWidth: CGFloat = 25
+        let shrinkRatio: CGFloat = 0.06
+        let cornerRatio: CGFloat = 0.14
+        let shrinkedSquareWidth = squareWidth - (squareWidth * shrinkRatio)
+        let shrinkedSquareCornerRadius = squareWidth * cornerRatio
         var x = CGFloat(0 - (Int(squareWidth) * columnCount)/2)
         var y = CGFloat(0 + (Int(squareWidth) * rowCount)/2)
         x = CGFloat(x + (squareWidth/2))
@@ -187,23 +198,19 @@ class GameScene: SKScene {
         
         createBackground()
         
-
-        
-        gameBackground.name = "gameBackground"
         for i in 0...rowCount - 1 {
             for j in 0...columnCount - 1 {
-                let cellNode = SKShapeNode.init(rectOf: CGSize(width: squareWidth-1.5, height: squareWidth-1.5), cornerRadius: 3.5)
+                let square = SKShapeNode.init(rectOf: CGSize(width: shrinkedSquareWidth, height: shrinkedSquareWidth), cornerRadius: shrinkedSquareCornerRadius)
                 
-                cellNode.fillColor = gameboardSquareColor
-                cellNode.strokeColor = UIColor(red:0.93, green:0.94, blue:0.95, alpha:0.00)
-                cellNode.name = String(i) + "," + String(j)
-                
-                cellNode.position = CGPoint(x: x, y: y)
+                square.name = String(i) + "," + String(j)
+                square.position = CGPoint(x: x, y: y)
+                square.fillColor = gameboardSquareColor
+                square.strokeColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0)
+            
+                gameBoard.append((node: square, x: i, y: j))
+                gameBackground.addChild(square)
                 row.append(0)
-                // Add to array of cells then add it to the game board.
-                gameBoard.append((node: cellNode, x: i, y: j))
-
-                gameBackground.addChild(cellNode)
+                
                 x += squareWidth
             }
             matrix.append(row)

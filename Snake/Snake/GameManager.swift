@@ -297,6 +297,8 @@ class GameManager {
         matrix[3][5] = 1
         spawnFoodBlock()
         gameStarted = true
+        
+//        node.run(scene.gameSquareAnimation())
     }
     
     // Understood - Spawn a new food block into the game.
@@ -584,6 +586,7 @@ class GameManager {
             if contains(a: snakeBodyPos, v: (x,y)) {
                 if (onPathMode == false) {
                     node.fillColor = SKColor.white
+//                    node.run(scene.gameSquareAnimation())
                 }
             }
             
