@@ -519,8 +519,8 @@ class GameManager {
                     }
                     
                     // Grow snake by 3 blocks.
-                    let max = UserDefaults.standard.integer(forKey: "FoodWeightSetting")
-                    for _ in 1...max+1 {
+                    let max = UserDefaults.standard.integer(forKey: "Food Weight Setting")
+                    for _ in 1...max {
                         snakeBodyPos.append(snakeBodyPos.last!)
                     }
                 }
