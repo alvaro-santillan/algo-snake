@@ -505,6 +505,8 @@ class GameManager {
                     
                     spawnFoodBlock()
                     playSound(selectedSoundFileName: "sfx_coin_double3")
+                    let generator = UIImpactFeedbackGenerator(style: .medium)
+                    generator.impactOccurred()
                     
                     
                     // Update the score
@@ -530,6 +532,8 @@ class GameManager {
     }
     
     func playSound(selectedSoundFileName: String) {
+        try? AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.ambient)
+        try? AVAudioSession.sharedInstance().setActive(true)
         let musicPath = Bundle.main.path(forResource: selectedSoundFileName, ofType:"wav")!
         let url = URL(fileURLWithPath: musicPath)
         
