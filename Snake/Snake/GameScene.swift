@@ -115,6 +115,7 @@ class GameScene: SKScene {
         
         createBackground()
         
+        // i = x and j = y confirmed
         for i in 0...rowCount - 1 {
             for j in 0...columnCount - 1 {
                 let square = SKShapeNode.init(rectOf: CGSize(width: shrinkedSquareWidth, height: shrinkedSquareWidth), cornerRadius: shrinkedSquareCornerRadius)
@@ -126,7 +127,14 @@ class GameScene: SKScene {
             
                 gameBoard.append((node: square, x: i, y: j))
                 gameBackground.addChild(square)
-                row.append(0)
+                
+                if i == 0 || i == (rowCount - 1) {
+                    row.append(9)
+                } else if j == 0 || j == (columnCount - 1) {
+                    row.append(9)
+                } else {
+                    row.append(0)
+                }
                 
                 x += squareWidth
             }
@@ -264,7 +272,7 @@ class GameScene: SKScene {
                                 selectedSquare.fillColor = barrierSquareColor
                                 let generator = UIImpactFeedbackGenerator(style: .medium)
                                 generator.impactOccurred()
-                                game.matrix[squareLocation.x][squareLocation.y] = 1
+                                game.matrix[squareLocation.x][squareLocation.y] = 7
                             } else {
                                 game.barrierNodesWaitingToBeRemoved.append(squareLocation)
                                 selectedSquare.fillColor = gameboardSquareColor

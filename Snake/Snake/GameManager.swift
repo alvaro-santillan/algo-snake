@@ -344,7 +344,7 @@ class GameManager {
             }
             foodLocationArray = Array(Set(foodLocationArray))
                         
-            matrix[randomX][randomY] = 2
+            matrix[randomX][randomY] = 3
             foodLocationArray.append([randomX,randomY])
             let DistanceFromSnake = abs(snakeHead.0 - randomX) + abs(snakeHead.1 - randomY)
             foodDistanceFromHead.append(DistanceFromSnake)
@@ -630,14 +630,18 @@ class GameManager {
                 snakeBodyPos[start] = snakeBodyPos[start - 1]
                 start -= 1
             }
+            // Can be reduced only 3 blocks need to be updated.
             snakeBodyPos[0] = (snakeBodyPos[0].0 + yChange, snakeBodyPos[0].1 + xChange)
             matrix[snakeBodyPos[0].0][snakeBodyPos[0].1] = 1
-            matrix[snakeBodyPos[1].0][snakeBodyPos[1].1] = 1
-            matrix[snakeBodyPos[2].0][snakeBodyPos[2].1] = 1
-//            for i in 0...14 {
-//                print(matrix[i])
-//            }
-//            print("----")
+            matrix[snakeBodyPos[1].0][snakeBodyPos[1].1] = 2
+            matrix[snakeBodyPos[2].0][snakeBodyPos[2].1] = 2
+            matrix[snakeBodyPos[3].0][snakeBodyPos[3].1] = 2
+            matrix[snakeBodyPos[4].0][snakeBodyPos[4].1] = 2
+            matrix[snakeBodyPos[5].0][snakeBodyPos[5].1] = 2
+            for i in 0...(scene.rowCount-1) {
+                print(matrix[i])
+            }
+            print("----")
         }
         
         if snakeBodyPos.count > 0 {
