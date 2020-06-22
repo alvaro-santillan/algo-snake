@@ -42,7 +42,11 @@ class GameManager {
     var barrierNodesWaitingToBeRemoved = [Tuple]()
     var teeeemp = [(SKShapeNode, Tuple)]()
     var snakeBodyPos: [(Int, Int)] = []
-    
+    var godModeWasTurnedOn = false
+    var verticalMaxBoundry = Int()
+    var verticalMinBoundry = Int()
+    var horizontalMaxBoundry = Int()
+    var horizontalMinBoundry = Int()
     
     init(scene: GameScene) {
         self.scene = scene
@@ -282,6 +286,12 @@ class GameManager {
     
     // Understood - Initiate the starting position of the snake.
     func initiateSnakeStartingPosition() {
+        // Must be run at the very begining.
+        verticalMaxBoundry = (scene.rowCount - 2)
+        verticalMinBoundry = 1
+        horizontalMaxBoundry = (scene.columnCount - 2)
+        horizontalMinBoundry = 1
+        
         snakeBodyPos.append((3, 3))
         matrix[3][3] = 2
         snakeBodyPos.append((3, 4))
@@ -315,26 +325,26 @@ class GameManager {
         let snakeHead = snakeBodyPos[0]
         
         // need to use queue.
-        for _ in 1...10 {
-            var randomX = Int.random(in: 1...(scene.rowCount-2))
-            var randomY = Int.random(in: 1...(scene.columnCount-2))
+        for _ in 1...foodPalletsNeeded {
+            var randomX = Int.random(in: 1...verticalMaxBoundry)
+            var randomY = Int.random(in: 1...horizontalMaxBoundry)
             
             for i in (barrierNodesWaitingToBeDisplayed) {
                 if i.y == randomY && i.x == randomX {
-                    randomX = Int.random(in: 1...(scene.rowCount-2))
-                    randomY = Int.random(in: 1...(scene.columnCount-2))
+                    randomX = Int.random(in: 1...verticalMaxBoundry)
+                    randomY = Int.random(in: 1...horizontalMaxBoundry)
                 }
             }
 
             for i in (snakeBodyPos) {
                 if i.1 == randomY && i.0 == randomX {
-                    randomX = Int.random(in: 1...(scene.rowCount-2))
-                    randomY = Int.random(in: 1...(scene.columnCount-2))
+                    randomX = Int.random(in: 1...verticalMaxBoundry)
+                    randomY = Int.random(in: 1...horizontalMaxBoundry)
                 }
             }
             foodLocationArray = Array(Set(foodLocationArray))
                         
-            matrix[randomX][randomY] = 2
+            matrix[randomX][randomY] = 3
             foodLocationArray.append([randomX,randomY])
             let DistanceFromSnake = abs(snakeHead.0 - randomX) + abs(snakeHead.1 - randomY)
             foodDistanceFromHead.append(DistanceFromSnake)
@@ -487,7 +497,7 @@ class GameManager {
     }
     
     // this is run when game hasent started. fix for optimization.
-    func checkForDeath() {
+        func checkForDeath() {
         if snakeBodyPos.count > 0 {
             // Create temp variable of snake without the head.
             var snakeBody = snakeBodyPos
@@ -495,8 +505,15 @@ class GameManager {
             // Implement wraping snake in god mode.
             // If head is in same position as the body the snake is dead.
             // The snake dies in corners becouse blocks are stacked.
-            if contains(a: snakeBody, v: snakeBodyPos[0]) && !(UserDefaults.standard.bool(forKey: "God Button On Setting")) {
-                endTheGame()
+            
+
+            
+            if contains(a: snakeBody, v: snakeBodyPos[0]) {
+                if UserDefaults.standard.bool(forKey: "God Button On Setting") {
+                    godModeWasTurnedOn = true
+                } else {
+                    endTheGame()
+                }
             }
             
             let snakeHead = Tuple(x: snakeBodyPos[0].0, y: snakeBodyPos[0].1)
@@ -535,7 +552,9 @@ class GameManager {
                     
                     
                     // Update the score
-                    currentScore += 1
+                    if !(UserDefaults.standard.bool(forKey: "God Button On Setting")) {
+                         currentScore += 1
+                     }
                     
                     // Grow snake by 3 blocks.
                     let max = UserDefaults.standard.integer(forKey: "Food Weight Setting")
@@ -611,27 +630,43 @@ class GameManager {
                 snakeBodyPos[start] = snakeBodyPos[start - 1]
                 start -= 1
             }
+            // Can be reduced only 3 blocks need to be updated.
             snakeBodyPos[0] = (snakeBodyPos[0].0 + yChange, snakeBodyPos[0].1 + xChange)
             matrix[snakeBodyPos[0].0][snakeBodyPos[0].1] = 1
-            matrix[snakeBodyPos[1].0][snakeBodyPos[1].1] = 1
-            matrix[snakeBodyPos[2].0][snakeBodyPos[2].1] = 1
-//            for i in 0...14 {
-//                print(matrix[i])
-//            }
-//            print("----")
+            matrix[snakeBodyPos[1].0][snakeBodyPos[1].1] = 2
+            matrix[snakeBodyPos[2].0][snakeBodyPos[2].1] = 2
+            matrix[snakeBodyPos[3].0][snakeBodyPos[3].1] = 2
+            matrix[snakeBodyPos[4].0][snakeBodyPos[4].1] = 2
+            matrix[snakeBodyPos[5].0][snakeBodyPos[5].1] = 2
+            for i in 0...(scene.rowCount-1) {
+                print(matrix[i])
+            }
+            print("----")
         }
         
         if snakeBodyPos.count > 0 {
             let x = snakeBodyPos[0].1
             let y = snakeBodyPos[0].0
-            if y > 15 {
-                snakeBodyPos[0].0 = 0
-            } else if y < 0 {
-                snakeBodyPos[0].0 = 15
-            } else if x > 15 {
-                snakeBodyPos[0].1 = 0
-            } else if x < 0 {
-                snakeBodyPos[0].1 = 15
+            if UserDefaults.standard.bool(forKey: "God Button On Setting") {
+                if y > verticalMaxBoundry { // Moving To Bottom
+                    snakeBodyPos[0].0 = verticalMinBoundry // Spawning At Top
+                } else if y < verticalMinBoundry { // Moving to top
+                    snakeBodyPos[0].0 = verticalMaxBoundry // Spawning at bottom
+                } else if x > horizontalMaxBoundry { // Moving to right
+                    snakeBodyPos[0].1 = horizontalMinBoundry // Spawning on left
+                } else if x < horizontalMinBoundry { // Moving to left
+                    snakeBodyPos[0].1 = horizontalMaxBoundry // Spawning on right
+                }
+            } else {
+                if y > verticalMaxBoundry { // Moving To Bottom
+                    endTheGame()
+                } else if y < verticalMinBoundry { // Moving to top
+                    endTheGame()
+                } else if x > horizontalMaxBoundry { // Moving to right
+                    endTheGame()
+                } else if x < horizontalMinBoundry { // Moving to left
+                    endTheGame()
+                }
             }
         }
         colorGameNodes()
