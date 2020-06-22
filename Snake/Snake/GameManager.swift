@@ -42,7 +42,7 @@ class GameManager {
     var barrierNodesWaitingToBeRemoved = [Tuple]()
     var teeeemp = [(SKShapeNode, Tuple)]()
     var snakeBodyPos: [(Int, Int)] = []
-    
+    var godModeWasTurnedOn = false
     
     init(scene: GameScene) {
         self.scene = scene
@@ -315,7 +315,7 @@ class GameManager {
         let snakeHead = snakeBodyPos[0]
         
         // need to use queue.
-        for _ in 1...10 {
+        for _ in 1...foodPalletsNeeded {
             var randomX = Int.random(in: 1...(scene.rowCount-2))
             var randomY = Int.random(in: 1...(scene.columnCount-2))
             
@@ -487,7 +487,7 @@ class GameManager {
     }
     
     // this is run when game hasent started. fix for optimization.
-    func checkForDeath() {
+        func checkForDeath() {
         if snakeBodyPos.count > 0 {
             // Create temp variable of snake without the head.
             var snakeBody = snakeBodyPos
@@ -495,8 +495,15 @@ class GameManager {
             // Implement wraping snake in god mode.
             // If head is in same position as the body the snake is dead.
             // The snake dies in corners becouse blocks are stacked.
-            if contains(a: snakeBody, v: snakeBodyPos[0]) && !(UserDefaults.standard.bool(forKey: "God Button On Setting")) {
-                endTheGame()
+            
+
+            
+            if contains(a: snakeBody, v: snakeBodyPos[0]) {
+                if UserDefaults.standard.bool(forKey: "God Button On Setting") {
+                    godModeWasTurnedOn = true
+                } else {
+                    endTheGame()
+                }
             }
             
             let snakeHead = Tuple(x: snakeBodyPos[0].0, y: snakeBodyPos[0].1)
@@ -535,7 +542,9 @@ class GameManager {
                     
                     
                     // Update the score
-                    currentScore += 1
+                    if !(UserDefaults.standard.bool(forKey: "God Button On Setting")) {
+                         currentScore += 1
+                     }
                     
                     // Grow snake by 3 blocks.
                     let max = UserDefaults.standard.integer(forKey: "Food Weight Setting")
