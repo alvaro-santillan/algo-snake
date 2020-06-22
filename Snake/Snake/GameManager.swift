@@ -315,9 +315,25 @@ class GameManager {
         let snakeHead = snakeBodyPos[0]
         
         // need to use queue.
-        for _ in 1...foodPalletsNeeded {
-            let randomX = Int(arc4random_uniform(15)) //73
-            let randomY = Int(arc4random_uniform(15)) //41
+        for _ in 1...10 {
+            var randomX = Int.random(in: 1...(scene.rowCount-2))
+            var randomY = Int.random(in: 1...(scene.columnCount-2))
+            
+            for i in (barrierNodesWaitingToBeDisplayed) {
+                if i.y == randomY && i.x == randomX {
+                    randomX = Int.random(in: 1...(scene.rowCount-2))
+                    randomY = Int.random(in: 1...(scene.columnCount-2))
+                }
+            }
+
+            for i in (snakeBodyPos) {
+                if i.1 == randomY && i.0 == randomX {
+                    randomX = Int.random(in: 1...(scene.rowCount-2))
+                    randomY = Int.random(in: 1...(scene.columnCount-2))
+                }
+            }
+            foodLocationArray = Array(Set(foodLocationArray))
+                        
             matrix[randomX][randomY] = 2
             foodLocationArray.append([randomX,randomY])
             let DistanceFromSnake = abs(snakeHead.0 - randomX) + abs(snakeHead.1 - randomY)
@@ -479,7 +495,7 @@ class GameManager {
             // Implement wraping snake in god mode.
             // If head is in same position as the body the snake is dead.
             // The snake dies in corners becouse blocks are stacked.
-            if contains(a: snakeBody, v: snakeBodyPos[0]) && UserDefaults.standard.integer(forKey: "GodButtonSetting") == 0 {
+            if contains(a: snakeBody, v: snakeBodyPos[0]) && !(UserDefaults.standard.bool(forKey: "God Button On Setting")) {
                 endTheGame()
             }
             

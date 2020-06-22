@@ -55,12 +55,24 @@ class GameScene: SKScene {
         UserDefaults.standard.set(false, forKey: "Settings Value Modified")
         
         if !(firstRun) {
-            if UserDefaults.standard.bool(forKey: "Clear Barrier Setting") {
-                print(firstRun)
-                print(UserDefaults.standard.bool(forKey: "Clear Barrier Setting"))
+            if UserDefaults.standard.bool(forKey: "Clear All Setting") {
                 game.barrierNodesWaitingToBeDisplayed.removeAll()
-//                game.barrierNodesWaitingToBeRemoved.removeAll()
-                UserDefaults.standard.set(false, forKey: "Clear Barrier Setting")
+                game.barrierNodesWaitingToBeRemoved.removeAll()
+                // clear path
+                // clear visited
+                // clear queued
+                UserDefaults.standard.set(false, forKey: "Clear All Setting")
+            } else {
+                if UserDefaults.standard.bool(forKey: "Clear Barrier Setting") {
+                    game.barrierNodesWaitingToBeDisplayed.removeAll()
+                    game.barrierNodesWaitingToBeRemoved.removeAll()
+                    UserDefaults.standard.set(false, forKey: "Clear Barrier Setting")
+                }
+                
+                if UserDefaults.standard.bool(forKey: "Clear Path Setting") {
+                    // Path
+                    UserDefaults.standard.set(false, forKey: "Clear Path Setting")
+                }
             }
         }
     }
