@@ -348,33 +348,33 @@ class GameManager {
         
         let path: ([Int], [(Int, Int)], Int, Int)
         if (((prevX == -1) && prevY == -1) || closetFoodBlockHit == true) {
-            closetFoodBlockHit = false
-            if mainScreenAlgoChoice == 0 {
-                test = []
-            } else if mainScreenAlgoChoice == 1 {
-                path = breathFirstSearch(startSquare: Tuple(x: Int(minY), y: Int(minX)), goalSquare: Tuple(x:snakeHead.1, y:snakeHead.0), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: matrix), returnPathCost: false, returnSquaresVisited: false)
-                test = path.0
-                pathBlockCordinates = path.1
-            } else if mainScreenAlgoChoice == 2 {
-                path = depthFirstSearch(startSquare: Tuple(x: Int(minY), y: Int(minX)), goalSquare: Tuple(x:snakeHead.1, y:snakeHead.0), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: matrix), returnPathCost: false, returnSquaresVisited: false)
-                test = path.0
-                pathBlockCordinates = path.1
-            } else {
-                test = []
+                closetFoodBlockHit = false
+                if mainScreenAlgoChoice == 0 {
+                    test = []
+                } else if mainScreenAlgoChoice == 1 {
+                    path = breathFirstSearch(startSquare: Tuple(x: Int(minY), y: Int(minX)), goalSquare: Tuple(x:snakeHead.1, y:snakeHead.0), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: matrix), returnPathCost: false, returnSquaresVisited: false)
+                    test = path.0
+                    pathBlockCordinates = path.1
+                } else if mainScreenAlgoChoice == 2 {
+                    path = depthFirstSearch(startSquare: Tuple(x: Int(minY), y: Int(minX)), goalSquare: Tuple(x:snakeHead.1, y:snakeHead.0), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: matrix), returnPathCost: false, returnSquaresVisited: false)
+                    test = path.0
+                    pathBlockCordinates = path.1
+                } else {
+                    test = []
+                }
             }
-
+            print(UserDefaults.standard.bool(forKey: "Step Mode On Setting"))
             if UserDefaults.standard.bool(forKey: "Step Mode On Setting") {
                 
-                let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                if let vc = appDelegate.window?.rootViewController {
-                    self.viewController = (vc.presentedViewController as? GameScreenViewController)
-                    self.viewController?.playButton.setImage(UIImage(named: "Play_Icon_Set"), for: .normal)
-                }
-                
-                UserDefaults.standard.set(true, forKey: "Game Is Paused Setting")
-                paused = true
-                checkIfPaused()
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            if let vc = appDelegate.window?.rootViewController {
+                self.viewController = (vc.presentedViewController as? GameScreenViewController)
+                self.viewController?.playButton.setImage(UIImage(named: "Play_Icon_Set"), for: .normal)
             }
+            
+            UserDefaults.standard.set(true, forKey: "Game Is Paused Setting")
+            paused = true
+            checkIfPaused()
         }
         // 1 == left, 2 == up, 3 == right, 4 == down
         prevX = Int(minY)
