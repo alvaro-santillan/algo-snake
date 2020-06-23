@@ -255,7 +255,7 @@ class GameScene: SKScene {
         }
         
         func IsSquareOccupied(squareLocation: Tuple) -> Bool {
-            for square in game.snakeBodyPos {if squareLocation.x == square.0 && squareLocation.y == square.1 {return true}}
+            for square in game.snakeBodyPos {if squareLocation.x == square.x && squareLocation.y == square.y {return true}}
             for square in game.foodLocationArray {if squareLocation.x == square[0] && squareLocation.y == square[1] {return true}}
             return false
         }
