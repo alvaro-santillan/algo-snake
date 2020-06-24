@@ -68,28 +68,41 @@ class GameManager {
                     let isYNegIndex = gameBoardMatrix.indices.contains(y-1)
                     let isYIndex = gameBoardMatrix.indices.contains(y+1)
                     let isXIndex = gameBoardMatrix.indices.contains(x+1)
+                    let isXNefIndex = gameBoardMatrix.indices.contains(x-1)
+                    
+                    if (y == 1 && x == 0) {
+                        print("Target Sited:", gameBoardMatrix[y][x])
+                        print(gameBoardMatrix[y-1][x])
+                        print(gameBoardMatrix[y+1][x])
+                        print(gameBoardMatrix[y][x+1])
+//                        print(gameBoardMatrix[y][x-1])
+                    }
+                    
+                    if (y == 0 && x == 1) {
+                        print("Target Sited:", gameBoardMatrix[y][x])
+                    }
                     
                         if isYNegIndex {
-                            if (gameBoardMatrix[y-1][x] == 0 || gameBoardMatrix[y-1][x] == 3 || gameBoardMatrix[y][x] == 1) {
+                            if (gameBoardMatrix[y-1][x] == 0 || gameBoardMatrix[y-1][x] == 3 || gameBoardMatrix[y-1][x] == 1) {
                                 vaildMoves[Tuple(x: x, y: y-1)] = 1
                             }
                         }
                         // Right
                         if isXIndex {
-                            if (gameBoardMatrix[y][x+1] == 0 || gameBoardMatrix[y][x+1] == 3 || gameBoardMatrix[y][x] == 1) {
+                            if (gameBoardMatrix[y][x+1] == 0 || gameBoardMatrix[y][x+1] == 3 || gameBoardMatrix[y][x+1] == 1) {
                                 // Floats so that we can have duplicates keys in dictinaries (Swift dictionary workaround).
                                 vaildMoves[Tuple(x: x+1, y: y)] = 1.000001
                             }
                         }
                         // Left
-                        if x-1 != -1 {
-                            if (gameBoardMatrix[y][x-1] == 0 || gameBoardMatrix[y][x-1] == 3 || gameBoardMatrix[y][x] == 1) {
+                        if isXNefIndex {
+                            if (gameBoardMatrix[y][x-1] == 0 || gameBoardMatrix[y][x-1] == 3 || gameBoardMatrix[y][x-1] == 1) {
                                 vaildMoves[Tuple(x: x-1, y: y)] = 1.000002
                             }
                         }
                         // Down
                         if isYIndex {
-                            if (gameBoardMatrix[y+1][x] == 0 || gameBoardMatrix[y+1][x] == 3 || gameBoardMatrix[y][x] == 1) {
+                            if (gameBoardMatrix[y+1][x] == 0 || gameBoardMatrix[y+1][x] == 3 || gameBoardMatrix[y+1][x] == 1) {
                                 vaildMoves[Tuple(x: x, y: y+1)] = 1.000003
                                 }
                             }
@@ -100,7 +113,7 @@ class GameManager {
                 }
             }
         }
-//        print(mazeDictionary)
+        print(mazeDictionary)
         return mazeDictionary
     }
 
@@ -180,7 +193,7 @@ class GameManager {
 //        node!.fillColor = UserDefaults.standard.colorForKey(key: "Visited Square")!
 //        print("Node at:", visitedX, visitedY)
     }
-    
+
         func fronteerSquares(visitedX: Int, visitedY: Int) {
             let node = scene.gameBoard.first(where: {$0.x == visitedY && $0.y == visitedX})?.node
             fronteerSquareArray.append(node!)
@@ -215,7 +228,7 @@ class GameManager {
             // Mark current node as visited. (If statement required due to first node.)
             if !(visitedSquares.contains(currentSquare)) {
                 visitedSquares += [currentSquare]
-                colorVisitedSquares(visitedX: currentSquare.y, visitedY: currentSquare.x)
+//                colorVisitedSquares(visitedX: currentSquare.y, visitedY: currentSquare.x)
                 visitedSquareCount += 1
             }
             
@@ -224,7 +237,7 @@ class GameManager {
             for (newFronterSquare, _) in gameBoard[currentSquare]! {
                 if !(visitedSquares.contains(newFronterSquare)) {
                     fronterSquares += [newFronterSquare]
-                    fronteerSquares(visitedX: newFronterSquare.y, visitedY: newFronterSquare.x)
+//                    fronteerSquares(visitedX: newFronterSquare.y, visitedY: newFronterSquare.x)
                     squareAndParentSquare[newFronterSquare] = currentSquare
                 }
             }
@@ -266,10 +279,11 @@ class GameManager {
             
             // Repeat through all the nodes in the sub dictionary.
             // Append to fronter and mark parent.
-//            print("Current Square:", currentSquare)
-//            print(gameBoard[currentSquare])
-//            print("square and parent", squareAndParentSquare)
+            print("Current Square:", currentSquare)
+            print(gameBoard[currentSquare])
+            print("square and parent", squareAndParentSquare)
             for (newFronterSquare, _) in gameBoard[currentSquare]! {
+                print(newFronterSquare)
                 if !(visitedSquares.contains(newFronterSquare)) {
                     fronterSquares += [newFronterSquare]
 //                    fronteerSquares(visitedX: newFronterSquare.y, visitedY: newFronterSquare.x)
@@ -378,6 +392,9 @@ class GameManager {
         let minY = foodLocationArray[foodDistanceFromHead.firstIndex(of: temp)!][1]
         
         let path: ([Int], [(Int, Int)], Int, Int)
+        
+//        if mainScreenAlgoChoice == 3 &&
+        
         if (((prevX == -1) && prevY == -1) || closetFoodBlockHit == true || currentScore == 0) {
                 closetFoodBlockHit = false
                 if mainScreenAlgoChoice == 0 {
@@ -387,6 +404,9 @@ class GameManager {
                     test = path.0
                     pathBlockCordinates = path.1
                 } else if mainScreenAlgoChoice == 3 {
+                    print("startSquare:", Tuple(x: Int(minY), y: Int(minX)))
+                    print("goalSquare:", Tuple(x:snakeHead.y, y:snakeHead.x))
+                    print("gameBoard:", gameBoardMatrixToDictionary(gameBoardMatrix: matrix))
                     path = depthFirstSearch(startSquare: Tuple(x: Int(minY), y: Int(minX)), goalSquare: Tuple(x:snakeHead.y, y:snakeHead.x), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: matrix), returnPathCost: false, returnSquaresVisited: false)
                     test = path.0
                     pathBlockCordinates = path.1
