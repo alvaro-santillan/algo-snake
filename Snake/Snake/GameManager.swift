@@ -100,7 +100,7 @@ class GameManager {
                 }
             }
         }
-        print(mazeDictionary)
+//        print(mazeDictionary)
         return mazeDictionary
     }
 
@@ -111,7 +111,7 @@ class GameManager {
         // 1 == left, 2 == up, 3 == right, 4 == down
         var movePath = [Int]()
         
-        print("Format Results square and parent", squareAndParentSquare)
+//        print("Format Results square and parent", squareAndParentSquare)
 
         // Find a path using the results of the search algorthim.
         func findPath(squareAndParentSquare: [Tuple : Tuple], currentSquare: Tuple) -> ([Int],[(Int, Int)],[Tuple : Tuple]) {
@@ -266,9 +266,9 @@ class GameManager {
             
             // Repeat through all the nodes in the sub dictionary.
             // Append to fronter and mark parent.
-            print("Current Square:", currentSquare)
-            print(gameBoard[currentSquare])
-            print("square and parent", squareAndParentSquare)
+//            print("Current Square:", currentSquare)
+//            print(gameBoard[currentSquare])
+//            print("square and parent", squareAndParentSquare)
             for (newFronterSquare, _) in gameBoard[currentSquare]! {
                 if !(visitedSquares.contains(newFronterSquare)) {
                     fronterSquares += [newFronterSquare]
@@ -329,28 +329,41 @@ class GameManager {
             // Modified
             var randomX = Int.random(in: 0...verticalMaxBoundry+1)
             var randomY = Int.random(in: 0...horizontalMaxBoundry+1)
-            
 //            var randomX = Int.random(in: 1...verticalMaxBoundry)
 //            var randomY = Int.random(in: 1...horizontalMaxBoundry)
             
-            for i in (barrierNodesWaitingToBeDisplayed) {
-                if i.y == randomY && i.x == randomX {
-                    randomX = Int.random(in: 0...verticalMaxBoundry+1)
-                    randomY = Int.random(in: 0...horizontalMaxBoundry+1)
-//                    randomX = Int.random(in: 1...verticalMaxBoundry)
-//                    randomY = Int.random(in: 1...horizontalMaxBoundry)
+            var validFoodLocationConfirmed = false
+            var foodLocationChnaged = false
+            while validFoodLocationConfirmed == false {
+                validFoodLocationConfirmed = true
+                for i in (barrierNodesWaitingToBeDisplayed) {
+                    if i.y == randomY && i.x == randomX {
+                        randomX = Int.random(in: 0...verticalMaxBoundry+1)
+                        randomY = Int.random(in: 0...horizontalMaxBoundry+1)
+                        validFoodLocationConfirmed = false
+                        foodLocationChnaged = true
+                        // Modified
+    //                    randomX = Int.random(in: 1...verticalMaxBoundry)
+    //                    randomY = Int.random(in: 1...horizontalMaxBoundry)
+                    }
                 }
-            }
 
-            for i in (snakeBodyPos) {
-                if i.y == randomY && i.x == randomX {
-                    randomX = Int.random(in: 0...verticalMaxBoundry+1)
-                    randomY = Int.random(in: 0...horizontalMaxBoundry+1)
-//                    randomX = Int.random(in: 1...verticalMaxBoundry)
-//                    randomY = Int.random(in: 1...horizontalMaxBoundry)
+                for i in (snakeBodyPos) {
+                    if i.y == randomY && i.x == randomX {
+                        randomX = Int.random(in: 0...verticalMaxBoundry+1)
+                        randomY = Int.random(in: 0...horizontalMaxBoundry+1)
+                        validFoodLocationConfirmed = false
+                        foodLocationChnaged = true
+                        // Modified
+    //                    randomX = Int.random(in: 1...verticalMaxBoundry)
+    //                    randomY = Int.random(in: 1...horizontalMaxBoundry)
+                    }
+                }
+                foodLocationArray = Array(Set(foodLocationArray))
+                if foodLocationChnaged == false {
+                    validFoodLocationConfirmed = true
                 }
             }
-            foodLocationArray = Array(Set(foodLocationArray))
                         
             matrix[randomX][randomY] = 3
             foodLocationArray.append([randomX,randomY])
@@ -648,10 +661,10 @@ class GameManager {
 //            matrix[snakeBodyPos[3].0][snakeBodyPos[3].1] = 2
 //            matrix[snakeBodyPos[4].0][snakeBodyPos[4].1] = 2
 //            matrix[snakeBodyPos[5].0][snakeBodyPos[5].1] = 2
-            for i in 0...(scene.rowCount-1) {
-                print(matrix[i])
-            }
-            print("----")
+//            for i in 0...(scene.rowCount-1) {
+//                print(matrix[i])
+//            }
+//            print("----")
         }
         
         if snakeBodyPos.count > 0 {

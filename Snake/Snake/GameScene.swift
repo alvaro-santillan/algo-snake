@@ -14,8 +14,8 @@ class GameScene: SKScene {
     var foodPosition = [CGPoint]()
     var gameBackground: SKShapeNode!
     var gameBoard: [(node: SKShapeNode, x: Int, y: Int)] = []
-    let rowCount = 4 // 17
-    let columnCount = 4 // 30
+    let rowCount = 17 // 17
+    let columnCount = 30 // 30
     
     var snakeHeadSquareColor = UIColor() // "Snake Head"
     var snakeBodySquareColor = UIColor() // "Snake Body"
@@ -265,8 +265,9 @@ class GameScene: SKScene {
                 let squareLocationAsString = (selectedSquare.name)?.components(separatedBy: ",")
                 let squareLocation = Tuple(x: Int(squareLocationAsString![0])!, y: Int(squareLocationAsString![1])!)
                 
-                if squareLocation.x != 0 && squareLocation.x != (rowCount - 1) {
-                    if squareLocation.y != 0 && squareLocation.y != (columnCount - 1) {
+                // temparary removal
+//                if squareLocation.x != 0 && squareLocation.x != (rowCount - 1) {
+//                    if squareLocation.y != 0 && squareLocation.y != (columnCount - 1) {
                         if !(IsSquareOccupied(squareLocation: squareLocation)) {
                             if UserDefaults.standard.bool(forKey: "Add Barrier Mode On Setting") {
                                 game.barrierNodesWaitingToBeDisplayed.append(squareLocation)
@@ -282,8 +283,8 @@ class GameScene: SKScene {
                                 game.matrix[squareLocation.x][squareLocation.y] = 0
                             }
                         }
-                    }
-                }
+//                    }
+//                }
                 selectedSquare.run(gameSquareAnimation(animation: 2))
             }
         }
