@@ -30,8 +30,8 @@
             filePath = "Snake/GameManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "338"
-            endingLineNumber = "338"
+            startingLineNumber = "340"
+            endingLineNumber = "340"
             landmarkName = "depthFirstSearch(startSquare:goalSquare:gameBoard:returnPathCost:returnSquaresVisited:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -46,8 +46,8 @@
             filePath = "Snake/GameManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "342"
-            endingLineNumber = "342"
+            startingLineNumber = "344"
+            endingLineNumber = "344"
             landmarkName = "depthFirstSearch(startSquare:goalSquare:gameBoard:returnPathCost:returnSquaresVisited:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -55,15 +55,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "6B3FC97C-CF98-4FA5-AAF8-441336AA5B5C"
+            uuid = "6A627283-F757-40A8-8DDA-77B401CA7C35"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Snake/GameManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "112"
-            endingLineNumber = "112"
+            startingLineNumber = "115"
+            endingLineNumber = "115"
             landmarkName = "gameBoardMatrixToDictionary(gameBoardMatrix:)"
             landmarkType = "7">
          </BreakpointContent>

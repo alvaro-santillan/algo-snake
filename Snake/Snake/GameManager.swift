@@ -70,10 +70,12 @@ class GameManager {
                     var isXIndex = Bool()
                     var isXNefIndex = Bool()
                     
-                    let xMax = scene.rowCount
-                    let yMax = scene.columnCount
+                    let xMax = scene.columnCount
+                    let yMax = scene.rowCount
                     let yMin = 0
                     let xMin = 0
+                    
+                    print("x,y", x, y)
                     
                     if (y+1 >= yMax) {
                         isYIndex = false
@@ -86,6 +88,7 @@ class GameManager {
                         isXIndex = false
                     } else {
                         isXIndex = true
+                        print("x+1", x+1, "xMax", xMax)
                         print("x+1", gameBoardMatrix[y][x+1])
                     }
                     
@@ -103,7 +106,6 @@ class GameManager {
                         print("x-1", gameBoardMatrix[y][x-1])
                     }
                     
-                    print("x,y", x, y)
                     print("isYIndex", isYIndex)
                     print("isXIndex", isXIndex)
                     print("isYNegIndex", isYNegIndex)
