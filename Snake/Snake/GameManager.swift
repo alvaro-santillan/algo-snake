@@ -65,10 +65,49 @@ class GameManager {
                 // If in a square that is leagal, append valid moves to a dictionary.
                 if (gameBoardMatrix[y][x] == 0 || gameBoardMatrix[y][x] == 3 || gameBoardMatrix[y][x] == 1) {
 //                    print("valid square", x, y)
-                    let isYNegIndex = gameBoardMatrix.indices.contains(y-1)
-                    let isYIndex = gameBoardMatrix.indices.contains(y+1)
-                    let isXIndex = gameBoardMatrix.indices.contains(x+1)
-                    let isXNefIndex = gameBoardMatrix.indices.contains(x-1)
+                    var isYNegIndex = Bool()
+                    var isYIndex = Bool()
+                    var isXIndex = Bool()
+                    var isXNefIndex = Bool()
+                    
+                    let xMax = scene.rowCount
+                    let yMax = scene.columnCount
+                    let yMin = 0
+                    let xMin = 0
+                    
+                    if (y+1 >= yMax) {
+                        isYIndex = false
+                    } else {
+                        isYIndex = true
+                        print("y+1", gameBoardMatrix[y+1][x])
+                    }
+                    
+                    if (x+1 >= xMax) {
+                        isXIndex = false
+                    } else {
+                        isXIndex = true
+                        print("x+1", gameBoardMatrix[y][x+1])
+                    }
+                    
+                    if (y-1 < 0) {
+                        isYNegIndex = false
+                    } else {
+                        isYNegIndex = true
+                        print("y-1", gameBoardMatrix[y-1][x])
+                    }
+                    
+                    if (x-1 < 0) {
+                        isXNefIndex = false
+                    } else {
+                        isXNefIndex = true
+                        print("x-1", gameBoardMatrix[y][x-1])
+                    }
+                    
+                    print("x,y", x, y)
+                    print("isYIndex", isYIndex)
+                    print("isXIndex", isXIndex)
+                    print("isYNegIndex", isYNegIndex)
+                    print("isXNefIndex", isXNefIndex)
                     
                     if (y == 1 && x == 0) {
                         print("Target Sited:", gameBoardMatrix[y][x])
@@ -187,19 +226,19 @@ class GameManager {
     var visitedNodeArray = [SKShapeNode]()
     var fronteerSquareArray = [SKShapeNode]()
     
-    func colorVisitedSquares(visitedX: Int, visitedY: Int) {
-        let node = scene.gameBoard.first(where: {$0.x == visitedX && $0.y == visitedY})?.node
-        visitedNodeArray.append(node!)
-//        node!.fillColor = UserDefaults.standard.colorForKey(key: "Visited Square")!
-//        print("Node at:", visitedX, visitedY)
-    }
-
-        func fronteerSquares(visitedX: Int, visitedY: Int) {
-            let node = scene.gameBoard.first(where: {$0.x == visitedY && $0.y == visitedX})?.node
-            fronteerSquareArray.append(node!)
-    //        node!.fillColor = UserDefaults.standard.colorForKey(key: "Visited Square")!
-//            print("Node at:", visitedX, visitedY)
-        }
+//    func colorVisitedSquares(visitedX: Int, visitedY: Int) {
+//        let node = scene.gameBoard.first(where: {$0.x == visitedX && $0.y == visitedY})?.node
+//        visitedNodeArray.append(node!)
+////        node!.fillColor = UserDefaults.standard.colorForKey(key: "Visited Square")!
+////        print("Node at:", visitedX, visitedY)
+//    }
+//
+//        func fronteerSquares(visitedX: Int, visitedY: Int) {
+//            let node = scene.gameBoard.first(where: {$0.x == visitedY && $0.y == visitedX})?.node
+//            fronteerSquareArray.append(node!)
+//    //        node!.fillColor = UserDefaults.standard.colorForKey(key: "Visited Square")!
+////            print("Node at:", visitedX, visitedY)
+//        }
 
     // Steps in Breath First Search
     // Mark parent
