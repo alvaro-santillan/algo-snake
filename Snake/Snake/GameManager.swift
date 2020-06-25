@@ -259,13 +259,11 @@ class GameManager {
         var fronterSquares = [startSquare]
         var currentSquare = startSquare
         var visitedSquareCount = 1
-        var counter = 0
         // Dictionary used to find a path, every square will have only one parent.
         var squareAndParentSquare = [startSquare : Tuple(x:-1, y:-1)]
         
         // Break once the goal is reached (the goals parent is noted a cycle before when it was a new node.)
         while (currentSquare != goalSquare) {
-            counter += 1
 //            print("visitedSquares.count", visitedSquares.count)
 //            print("fronterSquares", fronterSquares)
             // Mark current node as visited. (If statement required due to first node.)
@@ -292,19 +290,8 @@ class GameManager {
                 currentSquare = fronterSquares[0]
                 fronterSquares.remove(at: 0)
             } else {
-//                print("DFS else hit")
-                if counter >= 100 {
-                    print("while loop count", counter)
-                } else {
-                    print("my nigga my nigga, my nigga my nigga, my nigga my nigga, my mofucking niga, my mofucking nigga")
-                }
-                return(formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: goalSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited))
+                return(formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: currentSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited))
             }
-        }
-        if counter >= 100 {
-            print("while loop count", counter)
-        } else {
-            print("my nigga my nigga, my nigga my nigga, my nigga my nigga, my mofucking niga, my mofucking nigga")
         }
         // Genarate a path and optional statistics from the results of BFS.
         return(formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: goalSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited))
@@ -328,11 +315,9 @@ class GameManager {
         var visitedSquareCount = 1
         // Dictionary used to find a path, every square will have only one parent.
         var squareAndParentSquare = [startSquare : Tuple(x:-1, y:-1)]
-        var whileLoopCount = 0
         
         // Break once the goal is reached (the goals parent is noted a cycle before when it was a new node.)
         while (currentSquare != goalSquare) {
-            whileLoopCount += 1
             // Mark current node as visited. (If statement required due to first node.)
             if !(visitedSquares.contains(currentSquare)) {
                 visitedSquares += [currentSquare]
@@ -345,12 +330,13 @@ class GameManager {
 //            print("Current Square:", currentSquare)
 //            print(gameBoard[currentSquare])
 //            print("square and parent", squareAndParentSquare)
-            for (newFronterSquare, _) in gameBoard[currentSquare]! {
-//                print(newFronterSquare)
-                if !(visitedSquares.contains(newFronterSquare)) {
-                    fronterSquares += [newFronterSquare]
-//                    fronteerSquares(visitedX: newFronterSquare.y, visitedY: newFronterSquare.x)
-                    squareAndParentSquare[newFronterSquare] = currentSquare
+            for (prospectFronterSquare, _) in gameBoard[currentSquare]! {
+                if !(visitedSquares.contains(prospectFronterSquare)) {
+                    if !(fronterSquares.contains(prospectFronterSquare)){
+                        fronterSquares += [prospectFronterSquare]
+//                        fronteerSquares(visitedX: newFronterSquare.y, visitedY: newFronterSquare.x)
+                        squareAndParentSquare[prospectFronterSquare] = currentSquare
+                    }
                 }
             }
             
@@ -358,12 +344,9 @@ class GameManager {
                 currentSquare = fronterSquares.last!
                 fronterSquares.popLast()
             } else {
-//                print("DFS else hit")
-                print("while loop count", whileLoopCount)
                 return(formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: currentSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited))
             }
         }
-        print("while loop count", whileLoopCount)
         // Genarate a path and optional statistics from the results of DFS.
         return(formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: goalSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited))
     }

@@ -23,16 +23,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "0A9E41F0-9E21-4A3B-B878-19507159CB14"
+            uuid = "98A2E8BB-AA00-401A-9057-E6777C2705AD"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Snake/GameManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "335"
-            endingLineNumber = "335"
-            landmarkName = "depthFirstSearch(startSquare:goalSquare:gameBoard:returnPathCost:returnSquaresVisited:)"
+            startingLineNumber = "293"
+            endingLineNumber = "293"
+            landmarkName = "breathFirstSearch(startSquare:goalSquare:gameBoard:returnPathCost:returnSquaresVisited:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
