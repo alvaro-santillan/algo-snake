@@ -342,8 +342,6 @@ class GameManager {
         return(formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: goalSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited))
     }
     
-
-    
     // Understood - Initiate the starting position of the snake.
     func initiateSnakeStartingPosition() {
         // Must be run at the very begining.
@@ -460,6 +458,7 @@ class GameManager {
             if let vc = appDelegate.window?.rootViewController {
                 self.viewController = (vc.presentedViewController as? GameScreenViewController)
                 self.viewController?.playButton.setImage(UIImage(named: "Play_Icon_Set"), for: .normal)
+                self.viewController?.barrierButton.isEnabled = true
             }
             
             UserDefaults.standard.set(true, forKey: "Game Is Paused Setting")
