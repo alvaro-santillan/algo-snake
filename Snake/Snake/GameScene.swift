@@ -14,8 +14,8 @@ class GameScene: SKScene {
     var foodPosition = [CGPoint]()
     var gameBackground: SKShapeNode!
     var gameBoard: [(node: SKShapeNode, x: Int, y: Int)] = []
-    let rowCount = 17
-    let columnCount = 30
+    let rowCount = 17 // 17
+    let columnCount = 30 // 30
     
     var snakeHeadSquareColor = UIColor() // "Snake Head"
     var snakeBodySquareColor = UIColor() // "Snake Body"
@@ -128,13 +128,14 @@ class GameScene: SKScene {
                 gameBoard.append((node: square, x: i, y: j))
                 gameBackground.addChild(square)
                 
-                if i == 0 || i == (rowCount - 1) {
-                    row.append(9)
-                } else if j == 0 || j == (columnCount - 1) {
-                    row.append(9)
-                } else {
+                // Temp removal
+//                if i == 0 || i == (rowCount - 1) {
+//                    row.append(9)
+//                } else if j == 0 || j == (columnCount - 1) {
+//                    row.append(9)
+//                } else {
                     row.append(0)
-                }
+//                }
                 
                 x += squareWidth
             }
@@ -254,7 +255,7 @@ class GameScene: SKScene {
         }
         
         func IsSquareOccupied(squareLocation: Tuple) -> Bool {
-            for square in game.snakeBodyPos {if squareLocation.x == square.0 && squareLocation.y == square.1 {return true}}
+            for square in game.snakeBodyPos {if squareLocation.x == square.x && squareLocation.y == square.y {return true}}
             for square in game.foodLocationArray {if squareLocation.x == square[0] && squareLocation.y == square[1] {return true}}
             return false
         }
@@ -264,8 +265,9 @@ class GameScene: SKScene {
                 let squareLocationAsString = (selectedSquare.name)?.components(separatedBy: ",")
                 let squareLocation = Tuple(x: Int(squareLocationAsString![0])!, y: Int(squareLocationAsString![1])!)
                 
-                if squareLocation.x != 0 && squareLocation.x != (rowCount - 1) {
-                    if squareLocation.y != 0 && squareLocation.y != (columnCount - 1) {
+                // temparary removal
+//                if squareLocation.x != 0 && squareLocation.x != (rowCount - 1) {
+//                    if squareLocation.y != 0 && squareLocation.y != (columnCount - 1) {
                         if !(IsSquareOccupied(squareLocation: squareLocation)) {
                             if UserDefaults.standard.bool(forKey: "Add Barrier Mode On Setting") {
                                 game.barrierNodesWaitingToBeDisplayed.append(squareLocation)
@@ -281,8 +283,8 @@ class GameScene: SKScene {
                                 game.matrix[squareLocation.x][squareLocation.y] = 0
                             }
                         }
-                    }
-                }
+//                    }
+//                }
                 selectedSquare.run(gameSquareAnimation(animation: 2))
             }
         }

@@ -41,7 +41,7 @@ class GameManager {
     var barrierNodesWaitingToBeDisplayed = [Tuple]()
     var barrierNodesWaitingToBeRemoved = [Tuple]()
     var teeeemp = [(SKShapeNode, Tuple)]()
-    var snakeBodyPos: [(Int, Int)] = []
+    var snakeBodyPos: [Tuple] = []
     var godModeWasTurnedOn = false
     var verticalMaxBoundry = Int()
     var verticalMinBoundry = Int()
@@ -58,37 +58,92 @@ class GameManager {
         // Initialize the two required dictionaries.
         var mazeDictionary = [Tuple : [Tuple : Float]]()
         var vaildMoves = [Tuple : Float]()
+        
+        var isYNegIndex = Bool()
+        var isYIndex = Bool()
+        var isXIndex = Bool()
+        var isXNefIndex = Bool()
+        let xMax = scene.columnCount
+        let yMax = scene.rowCount
 
         // Loop through every cell in the maze.
         for(y, matrixRow) in gameBoardMatrix.enumerated() {
             for(x, _) in matrixRow.enumerated() {
                 // If in a square that is leagal, append valid moves to a dictionary.
-                if (gameBoardMatrix[y][x] == 0 || gameBoardMatrix[y][x] == 2) {
-                    let isYNegIndex = gameBoardMatrix.indices.contains(y-1)
-                    let isYIndex = gameBoardMatrix.indices.contains(y+1)
-                    let isXIndex = gameBoardMatrix.indices.contains(x+1)
+                if (gameBoardMatrix[y][x] == 0 || gameBoardMatrix[y][x] == 3 || gameBoardMatrix[y][x] == 1) {
+//                    print("valid square", x, y)
+//                    let yMin = 0
+//                    let xMin = 0
+                    
+//                    print("x,y", x, y)
+                    
+                    if (y+1 >= yMax) {
+                        isYIndex = false
+                    } else {
+                        isYIndex = true
+//                        print("y+1", gameBoardMatrix[y+1][x])
+                    }
+                    
+                    if (x+1 >= xMax) {
+                        isXIndex = false
+                    } else {
+                        isXIndex = true
+//                        print("x+1", x+1, "xMax", xMax)
+//                        print("x+1", gameBoardMatrix[y][x+1])
+                    }
+                    
+                    if (y-1 < 0) {
+                        isYNegIndex = false
+                    } else {
+                        isYNegIndex = true
+//                        print("y-1", gameBoardMatrix[y-1][x])
+                    }
+                    
+                    if (x-1 < 0) {
+                        isXNefIndex = false
+                    } else {
+                        isXNefIndex = true
+//                        print("x-1", gameBoardMatrix[y][x-1])
+                    }
+                    
+//                    print("isYIndex", isYIndex)
+//                    print("isXIndex", isXIndex)
+//                    print("isYNegIndex", isYNegIndex)
+//                    print("isXNefIndex", isXNefIndex)
+//
+//                    if (y == 1 && x == 0) {
+//                        print("Target Sited:", gameBoardMatrix[y][x])
+//                        print(gameBoardMatrix[y-1][x])
+//                        print(gameBoardMatrix[y+1][x])
+//                        print(gameBoardMatrix[y][x+1])
+////                        print(gameBoardMatrix[y][x-1])
+//                    }
+//
+//                    if (y == 0 && x == 1) {
+//                        print("Target Sited:", gameBoardMatrix[y][x])
+//                    }
                     
                         if isYNegIndex {
-                            if (gameBoardMatrix[y-1][x] == 0 || gameBoardMatrix[y-1][x] == 2) {
+                            if (gameBoardMatrix[y-1][x] == 0 || gameBoardMatrix[y-1][x] == 3 || gameBoardMatrix[y-1][x] == 1) {
                                 vaildMoves[Tuple(x: x, y: y-1)] = 1
                             }
                         }
                         // Right
                         if isXIndex {
-                            if (gameBoardMatrix[y][x+1] == 0 || gameBoardMatrix[y][x+1] == 2) {
+                            if (gameBoardMatrix[y][x+1] == 0 || gameBoardMatrix[y][x+1] == 3 || gameBoardMatrix[y][x+1] == 1) {
                                 // Floats so that we can have duplicates keys in dictinaries (Swift dictionary workaround).
                                 vaildMoves[Tuple(x: x+1, y: y)] = 1.000001
                             }
                         }
                         // Left
-                        if x-1 != -1 {
-                            if (gameBoardMatrix[y][x-1] == 0 || gameBoardMatrix[y][x-1] == 2) {
+                        if isXNefIndex {
+                            if (gameBoardMatrix[y][x-1] == 0 || gameBoardMatrix[y][x-1] == 3 || gameBoardMatrix[y][x-1] == 1) {
                                 vaildMoves[Tuple(x: x-1, y: y)] = 1.000002
                             }
                         }
                         // Down
                         if isYIndex {
-                            if (gameBoardMatrix[y+1][x] == 0 || gameBoardMatrix[y+1][x] == 2) {
+                            if (gameBoardMatrix[y+1][x] == 0 || gameBoardMatrix[y+1][x] == 3 || gameBoardMatrix[y+1][x] == 1) {
                                 vaildMoves[Tuple(x: x, y: y+1)] = 1.000003
                                 }
                             }
@@ -99,6 +154,7 @@ class GameManager {
                 }
             }
         }
+//        print(mazeDictionary)
         return mazeDictionary
     }
 
@@ -108,6 +164,8 @@ class GameManager {
         var squareAndNoParentArrayPath = [(Int, Int)]()
         // 1 == left, 2 == up, 3 == right, 4 == down
         var movePath = [Int]()
+        
+//        print("Format Results square and parent", squareAndParentSquare)
 
         // Find a path using the results of the search algorthim.
         func findPath(squareAndParentSquare: [Tuple : Tuple], currentSquare: Tuple) -> ([Int],[(Int, Int)],[Tuple : Tuple]) {
@@ -170,19 +228,19 @@ class GameManager {
     var visitedNodeArray = [SKShapeNode]()
     var fronteerSquareArray = [SKShapeNode]()
     
-    func colorVisitedSquares(visitedX: Int, visitedY: Int) {
-        let node = scene.gameBoard.first(where: {$0.x == visitedX && $0.y == visitedY})?.node
-        visitedNodeArray.append(node!)
-//        node!.fillColor = UserDefaults.standard.colorForKey(key: "Visited Square")!
-//        print("Node at:", visitedX, visitedY)
-    }
-    
-        func fronteerSquares(visitedX: Int, visitedY: Int) {
-            let node = scene.gameBoard.first(where: {$0.x == visitedY && $0.y == visitedX})?.node
-            fronteerSquareArray.append(node!)
-    //        node!.fillColor = UserDefaults.standard.colorForKey(key: "Visited Square")!
-//            print("Node at:", visitedX, visitedY)
-        }
+//    func colorVisitedSquares(visitedX: Int, visitedY: Int) {
+//        let node = scene.gameBoard.first(where: {$0.x == visitedX && $0.y == visitedY})?.node
+//        visitedNodeArray.append(node!)
+////        node!.fillColor = UserDefaults.standard.colorForKey(key: "Visited Square")!
+////        print("Node at:", visitedX, visitedY)
+//    }
+//
+//        func fronteerSquares(visitedX: Int, visitedY: Int) {
+//            let node = scene.gameBoard.first(where: {$0.x == visitedY && $0.y == visitedX})?.node
+//            fronteerSquareArray.append(node!)
+//    //        node!.fillColor = UserDefaults.standard.colorForKey(key: "Visited Square")!
+////            print("Node at:", visitedX, visitedY)
+//        }
 
     // Steps in Breath First Search
     // Mark parent
@@ -201,32 +259,39 @@ class GameManager {
         var fronterSquares = [startSquare]
         var currentSquare = startSquare
         var visitedSquareCount = 1
-        var counter = 0
         // Dictionary used to find a path, every square will have only one parent.
         var squareAndParentSquare = [startSquare : Tuple(x:-1, y:-1)]
         
         // Break once the goal is reached (the goals parent is noted a cycle before when it was a new node.)
         while (currentSquare != goalSquare) {
-            counter += 1
+//            print("visitedSquares.count", visitedSquares.count)
+//            print("fronterSquares", fronterSquares)
             // Mark current node as visited. (If statement required due to first node.)
             if !(visitedSquares.contains(currentSquare)) {
                 visitedSquares += [currentSquare]
-                colorVisitedSquares(visitedX: currentSquare.y, visitedY: currentSquare.x)
+//                colorVisitedSquares(visitedX: currentSquare.y, visitedY: currentSquare.x)
                 visitedSquareCount += 1
             }
             
             // Repeat through all the nodes in the sub dictionary.
             // Append to fronter and mark parent.
-            for (newFronterSquare, _) in gameBoard[currentSquare]! {
-                if !(visitedSquares.contains(newFronterSquare)) {
-                    fronterSquares += [newFronterSquare]
-                    fronteerSquares(visitedX: newFronterSquare.y, visitedY: newFronterSquare.x)
-                    squareAndParentSquare[newFronterSquare] = currentSquare
+            for (prospectFronterSquare, _) in gameBoard[currentSquare]! {
+                if !(visitedSquares.contains(prospectFronterSquare)) {
+                    if !(fronterSquares.contains(prospectFronterSquare)){
+                        fronterSquares += [prospectFronterSquare]
+//                        fronteerSquares(visitedX: newFronterSquare.y, visitedY: newFronterSquare.x)
+                        squareAndParentSquare[prospectFronterSquare] = currentSquare
+                    }
                 }
             }
-            // New currentNode is first in queue (BFS).
-            currentSquare = fronterSquares[0]
-            fronterSquares.remove(at: 0)
+            
+            if fronterSquares.count != 0 {
+                // New currentNode is first in queue (BFS).
+                currentSquare = fronterSquares[0]
+                fronterSquares.remove(at: 0)
+            } else {
+                return(formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: currentSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited))
+            }
         }
         // Genarate a path and optional statistics from the results of BFS.
         return(formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: goalSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited))
@@ -256,17 +321,22 @@ class GameManager {
             // Mark current node as visited. (If statement required due to first node.)
             if !(visitedSquares.contains(currentSquare)) {
                 visitedSquares += [currentSquare]
-                colorVisitedSquares(visitedX: currentSquare.x, visitedY: currentSquare.y)
+//                colorVisitedSquares(visitedX: currentSquare.x, visitedY: currentSquare.y)
                 visitedSquareCount += 1
             }
             
             // Repeat through all the nodes in the sub dictionary.
             // Append to fronter and mark parent.
-            for (newFronterSquare, _) in gameBoard[currentSquare]! {
-                if !(visitedSquares.contains(newFronterSquare)) {
-                    fronterSquares += [newFronterSquare]
-                    fronteerSquares(visitedX: newFronterSquare.y, visitedY: newFronterSquare.x)
-                    squareAndParentSquare[newFronterSquare] = currentSquare
+//            print("Current Square:", currentSquare)
+//            print(gameBoard[currentSquare])
+//            print("square and parent", squareAndParentSquare)
+            for (prospectFronterSquare, _) in gameBoard[currentSquare]! {
+                if !(visitedSquares.contains(prospectFronterSquare)) {
+                    if !(fronterSquares.contains(prospectFronterSquare)){
+                        fronterSquares += [prospectFronterSquare]
+//                        fronteerSquares(visitedX: newFronterSquare.y, visitedY: newFronterSquare.x)
+                        squareAndParentSquare[prospectFronterSquare] = currentSquare
+                    }
                 }
             }
             
@@ -274,7 +344,6 @@ class GameManager {
                 currentSquare = fronterSquares.last!
                 fronterSquares.popLast()
             } else {
-//                print("DFS else hit")
                 return(formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: currentSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited))
             }
         }
@@ -292,18 +361,11 @@ class GameManager {
         horizontalMaxBoundry = (scene.columnCount - 2)
         horizontalMinBoundry = 1
         
-        snakeBodyPos.append((3, 3))
-        matrix[3][3] = 2
-        snakeBodyPos.append((3, 4))
-        matrix[3][4] = 1
-        snakeBodyPos.append((3, 5))
-        matrix[3][5] = 1
-        snakeBodyPos.append((3, 6))
-        matrix[3][5] = 1
-        snakeBodyPos.append((3, 7))
-        matrix[3][5] = 1
-        snakeBodyPos.append((3, 8))
-        matrix[3][5] = 1
+        // Dont forget to change back
+        snakeBodyPos.append(Tuple(x: 0, y: 0))
+        matrix[0][0] = 1
+        snakeBodyPos.append(Tuple(x: 0, y: 1))
+        matrix[0][1] = 2
         spawnFoodBlock()
         gameStarted = true
         
@@ -318,7 +380,7 @@ class GameManager {
     var foodDistanceFromHead: [Int] = []
     var foodCollisionPoint = Int()
     let foodSpawnMax = (UserDefaults.standard.integer(forKey: "Food Count Setting"))
-    let mainScreenAlgoChoice = UserDefaults.standard.integer(forKey: "Algorithim Choice")
+    let mainScreenAlgoChoice = UserDefaults.standard.integer(forKey: "Selected Path Finding Algorithim")
     
     func spawnFoodBlock() {
         let foodPalletsNeeded = (foodSpawnMax - foodLocationArray.count)
@@ -326,27 +388,48 @@ class GameManager {
         
         // need to use queue.
         for _ in 1...foodPalletsNeeded {
-            var randomX = Int.random(in: 1...verticalMaxBoundry)
-            var randomY = Int.random(in: 1...horizontalMaxBoundry)
+            // Modified
+            var randomX = Int.random(in: 0...verticalMaxBoundry+1)
+            var randomY = Int.random(in: 0...horizontalMaxBoundry+1)
+//            var randomX = Int.random(in: 1...verticalMaxBoundry)
+//            var randomY = Int.random(in: 1...horizontalMaxBoundry)
             
-            for i in (barrierNodesWaitingToBeDisplayed) {
-                if i.y == randomY && i.x == randomX {
-                    randomX = Int.random(in: 1...verticalMaxBoundry)
-                    randomY = Int.random(in: 1...horizontalMaxBoundry)
+            var validFoodLocationConfirmed = false
+            var foodLocationChnaged = false
+            while validFoodLocationConfirmed == false {
+                validFoodLocationConfirmed = true
+                for i in (barrierNodesWaitingToBeDisplayed) {
+                    if i.y == randomY && i.x == randomX {
+                        randomX = Int.random(in: 0...verticalMaxBoundry+1)
+                        randomY = Int.random(in: 0...horizontalMaxBoundry+1)
+                        validFoodLocationConfirmed = false
+                        foodLocationChnaged = true
+                        // Modified
+    //                    randomX = Int.random(in: 1...verticalMaxBoundry)
+    //                    randomY = Int.random(in: 1...horizontalMaxBoundry)
+                    }
                 }
-            }
 
-            for i in (snakeBodyPos) {
-                if i.1 == randomY && i.0 == randomX {
-                    randomX = Int.random(in: 1...verticalMaxBoundry)
-                    randomY = Int.random(in: 1...horizontalMaxBoundry)
+                for i in (snakeBodyPos) {
+                    if i.y == randomY && i.x == randomX {
+                        randomX = Int.random(in: 0...verticalMaxBoundry+1)
+                        randomY = Int.random(in: 0...horizontalMaxBoundry+1)
+                        validFoodLocationConfirmed = false
+                        foodLocationChnaged = true
+                        // Modified
+    //                    randomX = Int.random(in: 1...verticalMaxBoundry)
+    //                    randomY = Int.random(in: 1...horizontalMaxBoundry)
+                    }
+                }
+                foodLocationArray = Array(Set(foodLocationArray))
+                if foodLocationChnaged == false {
+                    validFoodLocationConfirmed = true
                 }
             }
-            foodLocationArray = Array(Set(foodLocationArray))
                         
             matrix[randomX][randomY] = 3
             foodLocationArray.append([randomX,randomY])
-            let DistanceFromSnake = abs(snakeHead.0 - randomX) + abs(snakeHead.1 - randomY)
+            let DistanceFromSnake = abs(snakeHead.x - randomX) + abs(snakeHead.y - randomY)
             foodDistanceFromHead.append(DistanceFromSnake)
             scene.foodPosition.append(CGPoint(x: randomY, y: randomX))
             
@@ -357,23 +440,29 @@ class GameManager {
         let minY = foodLocationArray[foodDistanceFromHead.firstIndex(of: temp)!][1]
         
         let path: ([Int], [(Int, Int)], Int, Int)
-        if (((prevX == -1) && prevY == -1) || closetFoodBlockHit == true) {
+        
+//        if mainScreenAlgoChoice == 3 &&
+        
+        if (((prevX == -1) && prevY == -1) || closetFoodBlockHit == true || currentScore == 0) {
                 closetFoodBlockHit = false
                 if mainScreenAlgoChoice == 0 {
                     test = []
-                } else if mainScreenAlgoChoice == 1 {
-                    path = breathFirstSearch(startSquare: Tuple(x: Int(minY), y: Int(minX)), goalSquare: Tuple(x:snakeHead.1, y:snakeHead.0), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: matrix), returnPathCost: false, returnSquaresVisited: false)
+                } else if mainScreenAlgoChoice == 2 {
+                    path = breathFirstSearch(startSquare: Tuple(x: Int(minY), y: Int(minX)), goalSquare: Tuple(x:snakeHead.y, y:snakeHead.x), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: matrix), returnPathCost: false, returnSquaresVisited: false)
                     test = path.0
                     pathBlockCordinates = path.1
-                } else if mainScreenAlgoChoice == 2 {
-                    path = depthFirstSearch(startSquare: Tuple(x: Int(minY), y: Int(minX)), goalSquare: Tuple(x:snakeHead.1, y:snakeHead.0), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: matrix), returnPathCost: false, returnSquaresVisited: false)
+                } else if mainScreenAlgoChoice == 3 {
+//                    print("startSquare:", Tuple(x: Int(minY), y: Int(minX)))
+//                    print("goalSquare:", Tuple(x:snakeHead.y, y:snakeHead.x))
+//                    print("gameBoard:", gameBoardMatrixToDictionary(gameBoardMatrix: matrix))
+                    path = depthFirstSearch(startSquare: Tuple(x: Int(minY), y: Int(minX)), goalSquare: Tuple(x:snakeHead.y, y:snakeHead.x), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: matrix), returnPathCost: false, returnSquaresVisited: false)
                     test = path.0
                     pathBlockCordinates = path.1
                 } else {
                     test = []
                 }
             }
-            print(UserDefaults.standard.bool(forKey: "Step Mode On Setting"))
+//            print(UserDefaults.standard.bool(forKey: "Step Mode On Setting"))
             if UserDefaults.standard.bool(forKey: "Step Mode On Setting") {
                 
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -454,33 +543,34 @@ class GameManager {
 //            square.fillColor = snakeBodySquareColor
 //        }
         
-        func contains(a:[(Int, Int)], v:(Int,Int)) -> Bool {
-            let (c1, c2) = v
-            for (v1, v2) in a { if v1 == c1 && v2 == c2 { return true } }
+        func contains(a:[Tuple], v:Tuple) -> Bool {
+            let c1 = v.x
+            let c2 = v.y
+            for (v1) in a { if v1.x == c1 && v1.y == c2 { return true } }
             return false
         }
         
-        for (node, x, y) in scene.gameBoard  {
+        for (node, xx, yy) in scene.gameBoard  {
             barrierNodesWaitingToBeDisplayed = Array(Set(barrierNodesWaitingToBeDisplayed).subtracting(barrierNodesWaitingToBeRemoved))
             barrierNodesWaitingToBeRemoved.removeAll()
             
             for i in (barrierNodesWaitingToBeDisplayed) {
-                if i.y == y && i.x == x {
+                if i.y == yy && i.x == xx {
                     node.fillColor = scene.barrierSquareColor
 //                    node.run(scene.gameSquareAnimation(animation: 2))
                 }
             }
             
             for i in (scene.foodPosition) {
-                if Int((i.x)) == y && Int((i.y)) == x {
+                if Int((i.x)) == yy && Int((i.y)) == xx {
                     node.fillColor = scene.foodSquareColor
 //                    node.run(scene.gameSquareAnimation(animation: 2))
                 }
             }
             
-            if contains(a: snakeBodyPos, v: (x,y)) {
+            if contains(a: snakeBodyPos, v: Tuple(x: xx, y: yy)) {
                 node.fillColor = scene.snakeBodySquareColor
-                if contains(a: [snakeBodyPos.first!], v: (x,y)) {
+                if contains(a: [snakeBodyPos.first!], v: Tuple(x: xx, y: yy)) {
                     node.fillColor = scene.snakeHeadSquareColor
                 }
             }
@@ -516,7 +606,7 @@ class GameManager {
                 }
             }
             
-            let snakeHead = Tuple(x: snakeBodyPos[0].0, y: snakeBodyPos[0].1)
+            let snakeHead = Tuple(x: snakeBodyPos[0].x, y: snakeBodyPos[0].y)
             if barrierNodesWaitingToBeDisplayed.contains(snakeHead) {
                 endTheGame()
             }
@@ -525,8 +615,8 @@ class GameManager {
     
     func checkForFoodCollision() {
         if scene.foodPosition != nil {
-            let x = snakeBodyPos[0].0
-            let y = snakeBodyPos[0].1
+            let x = snakeBodyPos[0].x
+            let y = snakeBodyPos[0].y
             var counter = 0
             
             for i in (scene.foodPosition) {
@@ -625,38 +715,40 @@ class GameManager {
 
         if snakeBodyPos.count > 0 {
             var start = snakeBodyPos.count - 1
-            matrix[snakeBodyPos[start].0][snakeBodyPos[start].1] = 0
+            matrix[snakeBodyPos[start].x][snakeBodyPos[start].y] = 0
             while start > 0 {
                 snakeBodyPos[start] = snakeBodyPos[start - 1]
                 start -= 1
             }
             // Can be reduced only 3 blocks need to be updated.
-            snakeBodyPos[0] = (snakeBodyPos[0].0 + yChange, snakeBodyPos[0].1 + xChange)
-            matrix[snakeBodyPos[0].0][snakeBodyPos[0].1] = 1
-            matrix[snakeBodyPos[1].0][snakeBodyPos[1].1] = 2
-            matrix[snakeBodyPos[2].0][snakeBodyPos[2].1] = 2
-            matrix[snakeBodyPos[3].0][snakeBodyPos[3].1] = 2
-            matrix[snakeBodyPos[4].0][snakeBodyPos[4].1] = 2
-            matrix[snakeBodyPos[5].0][snakeBodyPos[5].1] = 2
-            for i in 0...(scene.rowCount-1) {
-                print(matrix[i])
-            }
-            print("----")
+            snakeBodyPos[0].x = (snakeBodyPos[0].x + yChange)
+            snakeBodyPos[0].y = (snakeBodyPos[0].y + xChange)
+            matrix[snakeBodyPos[0].x][snakeBodyPos[0].y] = 1
+            matrix[snakeBodyPos[1].x][snakeBodyPos[1].y] = 2
+//            matrix[snakeBodyPos[2].0][snakeBodyPos[2].1] = 2
+//            matrix[snakeBodyPos[3].0][snakeBodyPos[3].1] = 2
+//            matrix[snakeBodyPos[4].0][snakeBodyPos[4].1] = 2
+//            matrix[snakeBodyPos[5].0][snakeBodyPos[5].1] = 2
+//            for i in 0...(scene.rowCount-1) {
+//                print(matrix[i])
+//            }
+//            print("----")
         }
         
         if snakeBodyPos.count > 0 {
-            let x = snakeBodyPos[0].1
-            let y = snakeBodyPos[0].0
+            let x = snakeBodyPos[0].y
+            let y = snakeBodyPos[0].x
             if UserDefaults.standard.bool(forKey: "God Button On Setting") {
-                if y > verticalMaxBoundry { // Moving To Bottom
-                    snakeBodyPos[0].0 = verticalMinBoundry // Spawning At Top
-                } else if y < verticalMinBoundry { // Moving to top
-                    snakeBodyPos[0].0 = verticalMaxBoundry // Spawning at bottom
-                } else if x > horizontalMaxBoundry { // Moving to right
-                    snakeBodyPos[0].1 = horizontalMinBoundry // Spawning on left
-                } else if x < horizontalMinBoundry { // Moving to left
-                    snakeBodyPos[0].1 = horizontalMaxBoundry // Spawning on right
-                }
+                // modified to debug
+//                if y > verticalMaxBoundry { // Moving To Bottom
+//                    snakeBodyPos[0].0 = verticalMinBoundry // Spawning At Top
+//                } else if y < verticalMinBoundry { // Moving to top
+//                    snakeBodyPos[0].0 = verticalMaxBoundry // Spawning at bottom
+//                } else if x > horizontalMaxBoundry { // Moving to right
+//                    snakeBodyPos[0].1 = horizontalMinBoundry // Spawning on left
+//                } else if x < horizontalMinBoundry { // Moving to left
+//                    snakeBodyPos[0].1 = horizontalMaxBoundry // Spawning on right
+//                }
             } else {
                 if y > verticalMaxBoundry { // Moving To Bottom
                     endTheGame()
@@ -675,7 +767,7 @@ class GameManager {
     func colorGameNodes() {
         for (node, x, y) in scene.gameBoard {
             
-            if contains(a: snakeBodyPos, v: (x,y)) {
+            if contains(a: snakeBodyPos, v: Tuple(x: x, y: y)) {
                 if (onPathMode == false) {
                     node.fillColor = SKColor.white
 //                    node.run(scene.gameSquareAnimation())
@@ -690,10 +782,10 @@ class GameManager {
             }
             
             // add closest food to legend
-            if contains(a: snakeBodyPos, v: (x,y)) {
+            if contains(a: snakeBodyPos, v: Tuple(x: x, y: y)) {
                 if (onPathMode == true) {
                     node.fillColor = scene.snakeBodySquareColor
-                    if contains(a: [snakeBodyPos.first!], v: (x,y)) {
+                    if contains(a: [snakeBodyPos.first!], v: Tuple(x: x, y: y)) {
                         node.fillColor = scene.snakeHeadSquareColor
 //                        node.run(scene.gameSquareAnimation(animation: 2))
 //                        colorVisitedSquares(visited: [Tuple(x: x, y: y)])
@@ -741,9 +833,10 @@ class GameManager {
         }
     }
     
-    func contains(a:[(Int, Int)], v:(Int,Int)) -> Bool {
-        let (c1, c2) = v
-        for (v1, v2) in a { if v1 == c1 && v2 == c2 { return true } }
+    func contains(a:[Tuple], v:Tuple) -> Bool {
+        let c1 = v.x
+        let c2 = v.y
+        for (v1) in a { if v1.x == c1 && v1.y == c2 { return true } }
         return false
     }
 
