@@ -58,6 +58,13 @@ class GameManager {
         // Initialize the two required dictionaries.
         var mazeDictionary = [Tuple : [Tuple : Float]]()
         var vaildMoves = [Tuple : Float]()
+        
+        var isYNegIndex = Bool()
+        var isYIndex = Bool()
+        var isXIndex = Bool()
+        var isXNefIndex = Bool()
+        let xMax = scene.columnCount
+        let yMax = scene.rowCount
 
         // Loop through every cell in the maze.
         for(y, matrixRow) in gameBoardMatrix.enumerated() {
@@ -65,63 +72,56 @@ class GameManager {
                 // If in a square that is leagal, append valid moves to a dictionary.
                 if (gameBoardMatrix[y][x] == 0 || gameBoardMatrix[y][x] == 3 || gameBoardMatrix[y][x] == 1) {
 //                    print("valid square", x, y)
-                    var isYNegIndex = Bool()
-                    var isYIndex = Bool()
-                    var isXIndex = Bool()
-                    var isXNefIndex = Bool()
+//                    let yMin = 0
+//                    let xMin = 0
                     
-                    let xMax = scene.columnCount
-                    let yMax = scene.rowCount
-                    let yMin = 0
-                    let xMin = 0
-                    
-                    print("x,y", x, y)
+//                    print("x,y", x, y)
                     
                     if (y+1 >= yMax) {
                         isYIndex = false
                     } else {
                         isYIndex = true
-                        print("y+1", gameBoardMatrix[y+1][x])
+//                        print("y+1", gameBoardMatrix[y+1][x])
                     }
                     
                     if (x+1 >= xMax) {
                         isXIndex = false
                     } else {
                         isXIndex = true
-                        print("x+1", x+1, "xMax", xMax)
-                        print("x+1", gameBoardMatrix[y][x+1])
+//                        print("x+1", x+1, "xMax", xMax)
+//                        print("x+1", gameBoardMatrix[y][x+1])
                     }
                     
                     if (y-1 < 0) {
                         isYNegIndex = false
                     } else {
                         isYNegIndex = true
-                        print("y-1", gameBoardMatrix[y-1][x])
+//                        print("y-1", gameBoardMatrix[y-1][x])
                     }
                     
                     if (x-1 < 0) {
                         isXNefIndex = false
                     } else {
                         isXNefIndex = true
-                        print("x-1", gameBoardMatrix[y][x-1])
+//                        print("x-1", gameBoardMatrix[y][x-1])
                     }
                     
-                    print("isYIndex", isYIndex)
-                    print("isXIndex", isXIndex)
-                    print("isYNegIndex", isYNegIndex)
-                    print("isXNefIndex", isXNefIndex)
-                    
-                    if (y == 1 && x == 0) {
-                        print("Target Sited:", gameBoardMatrix[y][x])
-                        print(gameBoardMatrix[y-1][x])
-                        print(gameBoardMatrix[y+1][x])
-                        print(gameBoardMatrix[y][x+1])
-//                        print(gameBoardMatrix[y][x-1])
-                    }
-                    
-                    if (y == 0 && x == 1) {
-                        print("Target Sited:", gameBoardMatrix[y][x])
-                    }
+//                    print("isYIndex", isYIndex)
+//                    print("isXIndex", isXIndex)
+//                    print("isYNegIndex", isYNegIndex)
+//                    print("isXNefIndex", isXNefIndex)
+//
+//                    if (y == 1 && x == 0) {
+//                        print("Target Sited:", gameBoardMatrix[y][x])
+//                        print(gameBoardMatrix[y-1][x])
+//                        print(gameBoardMatrix[y+1][x])
+//                        print(gameBoardMatrix[y][x+1])
+////                        print(gameBoardMatrix[y][x-1])
+//                    }
+//
+//                    if (y == 0 && x == 1) {
+//                        print("Target Sited:", gameBoardMatrix[y][x])
+//                    }
                     
                         if isYNegIndex {
                             if (gameBoardMatrix[y-1][x] == 0 || gameBoardMatrix[y-1][x] == 3 || gameBoardMatrix[y-1][x] == 1) {
@@ -154,7 +154,7 @@ class GameManager {
                 }
             }
         }
-        print(mazeDictionary)
+//        print(mazeDictionary)
         return mazeDictionary
     }
 
@@ -266,6 +266,8 @@ class GameManager {
         // Break once the goal is reached (the goals parent is noted a cycle before when it was a new node.)
         while (currentSquare != goalSquare) {
             counter += 1
+//            print("visitedSquares.count", visitedSquares.count)
+//            print("fronterSquares", fronterSquares)
             // Mark current node as visited. (If statement required due to first node.)
             if !(visitedSquares.contains(currentSquare)) {
                 visitedSquares += [currentSquare]
@@ -275,16 +277,34 @@ class GameManager {
             
             // Repeat through all the nodes in the sub dictionary.
             // Append to fronter and mark parent.
-            for (newFronterSquare, _) in gameBoard[currentSquare]! {
-                if !(visitedSquares.contains(newFronterSquare)) {
-                    fronterSquares += [newFronterSquare]
-//                    fronteerSquares(visitedX: newFronterSquare.y, visitedY: newFronterSquare.x)
-                    squareAndParentSquare[newFronterSquare] = currentSquare
+            for (prospectFronterSquare, _) in gameBoard[currentSquare]! {
+                if !(visitedSquares.contains(prospectFronterSquare)) {
+                    if !(fronterSquares.contains(prospectFronterSquare)){
+                        fronterSquares += [prospectFronterSquare]
+//                        fronteerSquares(visitedX: newFronterSquare.y, visitedY: newFronterSquare.x)
+                        squareAndParentSquare[prospectFronterSquare] = currentSquare
+                    }
                 }
             }
-            // New currentNode is first in queue (BFS).
-            currentSquare = fronterSquares[0]
-            fronterSquares.remove(at: 0)
+            
+            if fronterSquares.count != 0 {
+                // New currentNode is first in queue (BFS).
+                currentSquare = fronterSquares[0]
+                fronterSquares.remove(at: 0)
+            } else {
+//                print("DFS else hit")
+                if counter >= 100 {
+                    print("while loop count", counter)
+                } else {
+                    print("my nigga my nigga, my nigga my nigga, my nigga my nigga, my mofucking niga, my mofucking nigga")
+                }
+                return(formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: goalSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited))
+            }
+        }
+        if counter >= 100 {
+            print("while loop count", counter)
+        } else {
+            print("my nigga my nigga, my nigga my nigga, my nigga my nigga, my mofucking niga, my mofucking nigga")
         }
         // Genarate a path and optional statistics from the results of BFS.
         return(formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: goalSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited))
@@ -308,9 +328,11 @@ class GameManager {
         var visitedSquareCount = 1
         // Dictionary used to find a path, every square will have only one parent.
         var squareAndParentSquare = [startSquare : Tuple(x:-1, y:-1)]
+        var whileLoopCount = 0
         
         // Break once the goal is reached (the goals parent is noted a cycle before when it was a new node.)
         while (currentSquare != goalSquare) {
+            whileLoopCount += 1
             // Mark current node as visited. (If statement required due to first node.)
             if !(visitedSquares.contains(currentSquare)) {
                 visitedSquares += [currentSquare]
@@ -320,11 +342,11 @@ class GameManager {
             
             // Repeat through all the nodes in the sub dictionary.
             // Append to fronter and mark parent.
-            print("Current Square:", currentSquare)
-            print(gameBoard[currentSquare])
-            print("square and parent", squareAndParentSquare)
+//            print("Current Square:", currentSquare)
+//            print(gameBoard[currentSquare])
+//            print("square and parent", squareAndParentSquare)
             for (newFronterSquare, _) in gameBoard[currentSquare]! {
-                print(newFronterSquare)
+//                print(newFronterSquare)
                 if !(visitedSquares.contains(newFronterSquare)) {
                     fronterSquares += [newFronterSquare]
 //                    fronteerSquares(visitedX: newFronterSquare.y, visitedY: newFronterSquare.x)
@@ -337,9 +359,11 @@ class GameManager {
                 fronterSquares.popLast()
             } else {
 //                print("DFS else hit")
+                print("while loop count", whileLoopCount)
                 return(formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: currentSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited))
             }
         }
+        print("while loop count", whileLoopCount)
         // Genarate a path and optional statistics from the results of DFS.
         return(formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: goalSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited))
     }
@@ -445,9 +469,9 @@ class GameManager {
                     test = path.0
                     pathBlockCordinates = path.1
                 } else if mainScreenAlgoChoice == 3 {
-                    print("startSquare:", Tuple(x: Int(minY), y: Int(minX)))
-                    print("goalSquare:", Tuple(x:snakeHead.y, y:snakeHead.x))
-                    print("gameBoard:", gameBoardMatrixToDictionary(gameBoardMatrix: matrix))
+//                    print("startSquare:", Tuple(x: Int(minY), y: Int(minX)))
+//                    print("goalSquare:", Tuple(x:snakeHead.y, y:snakeHead.x))
+//                    print("gameBoard:", gameBoardMatrixToDictionary(gameBoardMatrix: matrix))
                     path = depthFirstSearch(startSquare: Tuple(x: Int(minY), y: Int(minX)), goalSquare: Tuple(x:snakeHead.y, y:snakeHead.x), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: matrix), returnPathCost: false, returnSquaresVisited: false)
                     test = path.0
                     pathBlockCordinates = path.1

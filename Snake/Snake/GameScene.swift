@@ -14,8 +14,8 @@ class GameScene: SKScene {
     var foodPosition = [CGPoint]()
     var gameBackground: SKShapeNode!
     var gameBoard: [(node: SKShapeNode, x: Int, y: Int)] = []
-    let rowCount = 17 // 17
-    let columnCount = 30 // 30
+    let rowCount = 10 // 17
+    let columnCount = 10 // 30
     
     var snakeHeadSquareColor = UIColor() // "Snake Head"
     var snakeBodySquareColor = UIColor() // "Snake Body"
