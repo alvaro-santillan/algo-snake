@@ -264,12 +264,9 @@ class GameManager {
         
         // Break once the goal is reached (the goals parent is noted a cycle before when it was a new node.)
         while (currentSquare != goalSquare) {
-//            print("visitedSquares.count", visitedSquares.count)
-//            print("fronterSquares", fronterSquares)
             // Mark current node as visited. (If statement required due to first node.)
             if !(visitedSquares.contains(currentSquare)) {
                 visitedSquares += [currentSquare]
-//                colorVisitedSquares(visitedX: currentSquare.y, visitedY: currentSquare.x)
                 visitedSquareCount += 1
             }
             
@@ -279,7 +276,6 @@ class GameManager {
                 if !(visitedSquares.contains(prospectFronterSquare)) {
                     if !(fronterSquares.contains(prospectFronterSquare)){
                         fronterSquares += [prospectFronterSquare]
-//                        fronteerSquares(visitedX: newFronterSquare.y, visitedY: newFronterSquare.x)
                         squareAndParentSquare[prospectFronterSquare] = currentSquare
                     }
                 }
@@ -321,20 +317,15 @@ class GameManager {
             // Mark current node as visited. (If statement required due to first node.)
             if !(visitedSquares.contains(currentSquare)) {
                 visitedSquares += [currentSquare]
-//                colorVisitedSquares(visitedX: currentSquare.x, visitedY: currentSquare.y)
                 visitedSquareCount += 1
             }
             
             // Repeat through all the nodes in the sub dictionary.
             // Append to fronter and mark parent.
-//            print("Current Square:", currentSquare)
-//            print(gameBoard[currentSquare])
-//            print("square and parent", squareAndParentSquare)
             for (prospectFronterSquare, _) in gameBoard[currentSquare]! {
                 if !(visitedSquares.contains(prospectFronterSquare)) {
                     if !(fronterSquares.contains(prospectFronterSquare)){
                         fronterSquares += [prospectFronterSquare]
-//                        fronteerSquares(visitedX: newFronterSquare.y, visitedY: newFronterSquare.x)
                         squareAndParentSquare[prospectFronterSquare] = currentSquare
                     }
                 }
