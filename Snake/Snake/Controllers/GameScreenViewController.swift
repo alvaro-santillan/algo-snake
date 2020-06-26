@@ -46,7 +46,6 @@ class GameScreenViewController: UIViewController {
         scoreButton.layer.borderColor = UIColor.systemPink.cgColor
     }
     
-//    let legendData = [["Snake Head", 0], ["Snake Body", 0], ["Food", 3], ["Path", 17], ["Visited Square", 5], ["Queued Square", 15], ["Barrier", 7], ["Weight", 19],  ["Gameboard", 1]]
     let legendData = UserDefaults.standard.array(forKey: "Legend Preferences") as! [[Any]]
     
     @IBAction func scoreButtonTapped(_ sender: UIButton) {
@@ -58,51 +57,16 @@ class GameScreenViewController: UIViewController {
         
         // If button tapped switch to next option.
         switch sender.tag {
-//        case 0:
-//            print("Snake lenght count")
-//            scoreButtonBackgroundManager(sender)
-////            sender.tag = 1
-////            sender.backgroundColor = colors[(legendData[sender.tag][1] as? Int)!].withAlphaComponent(0.5)
-//        case 1:
-//            print("Food count")
-//            scoreButtonBackgroundManager(sender)
-////            sender.backgroundColor = colors[(legendData[sender.tag][1] as? Int)!].withAlphaComponent(0.5)
-////            sender.tag = 2
-//        case 2:
-//            print("Path square count")
-//            scoreButtonBackgroundManager(sender)
-////            sender.backgroundColor = colors[(legendData[sender.tag][1] as? Int)!].withAlphaComponent(0.5)
-////            sender.tag = 3
-//        case 3:
-//            print("Visited square")
-//            scoreButtonBackgroundManager(sender)
-////            sender.backgroundColor = colors[(legendData[sender.tag][1] as? Int)!].withAlphaComponent(0.5)
-////            sender.tag = 4
-//        case 4:
-//            print("Queued Square")
-//            scoreButtonBackgroundManager(sender)
-////            sender.backgroundColor = colors[(legendData[sender.tag][1] as? Int)!].withAlphaComponent(0.5)
-////            sender.tag = 5
-//        case 5:
-//            print("Barrier count")
-//            scoreButtonBackgroundManager(sender)
-////            sender.backgroundColor = colors[(legendData[sender.tag][1] as? Int)!].withAlphaComponent(0.5)
-////            sender.tag = 6
-//        case 6:
-//            print("Weight")
-//            scoreButtonBackgroundManager(sender)
-////            sender.backgroundColor = colors[(legendData[sender.tag][1] as? Int)!].withAlphaComponent(0.5)
-////            sender.tag = 7
-        case 7:
-            print("Score")
-            sender.backgroundColor = UIColor(named: "UI Button")!.withAlphaComponent(0.5)
-            sender.tag = 8
-        case 8:
-            print("High score")
-            sender.backgroundColor = UIColor(named: "UI Button")!.withAlphaComponent(0.5)
-            sender.tag = 0
-        default:
-            scoreButtonBackgroundManager(sender)
+            case 7:
+                print("Score")
+                sender.backgroundColor = UIColor(named: "UI Button")!.withAlphaComponent(0.5)
+                sender.tag = 8
+            case 8:
+                print("High score")
+                sender.backgroundColor = UIColor(named: "UI Button")!.withAlphaComponent(0.5)
+                sender.tag = 0
+            default:
+                scoreButtonBackgroundManager(sender)
         }
     }
     
