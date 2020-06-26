@@ -500,7 +500,7 @@
                                     <action selector="stepButtonTapped:" destination="bKH-RY-faG" eventType="touchUpInside" id="9z7-kV-FLG"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" alpha="0.80000000000000004" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hZ8-7E-hZ7" userLabel="Step / Auto Play " customClass="IconUIButton" customModule="Snake" customModuleProvider="target">
+                            <button opaque="NO" alpha="0.80000000000000004" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hZ8-7E-hZ7" userLabel="Score Button" customClass="IconUIButton" customModule="Snake" customModuleProvider="target">
                                 <rect key="frame" x="20" y="349" width="90" height="45"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" name="UI Button"/>
@@ -509,7 +509,7 @@
                                     <color key="titleColor" name="Text"/>
                                 </state>
                                 <connections>
-                                    <action selector="stepButtonTapped:" destination="bKH-RY-faG" eventType="touchUpInside" id="WFu-aH-QFw"/>
+                                    <action selector="scoreButtonTapped:" destination="bKH-RY-faG" eventType="touchUpInside" id="ykf-8T-wKP"/>
                                 </connections>
                             </button>
                         </subviews>
