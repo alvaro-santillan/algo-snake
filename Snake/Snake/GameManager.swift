@@ -445,6 +445,7 @@ class GameManager {
             scene.foodPosition.append(CGPoint(x: randomY, y: randomX))
             
         }
+//        viewControllerComunicationsManager(updatingPlayButton: false)
         // Calculation for closest food block is wrong mathamaticlly sometimes.
         let temp = foodDistanceFromHead.min()!
         minX = foodLocationArray[foodDistanceFromHead.firstIndex(of: temp)!][0]
@@ -477,7 +478,7 @@ class GameManager {
             }
 //            print(UserDefaults.standard.bool(forKey: "Step Mode On Setting"))
             if UserDefaults.standard.bool(forKey: "Step Mode On Setting") {
-                viewControllerComunicationsManager(godModeIsOn: true)
+                viewControllerComunicationsManager(updatingPlayButton: true)
 
             
             UserDefaults.standard.set(true, forKey: "Game Is Paused Setting")
@@ -489,12 +490,15 @@ class GameManager {
         prevY = Int(minX)
     }
     
-    func viewControllerComunicationsManager(godModeIsOn: Bool) {
+    func viewControllerComunicationsManager(updatingPlayButton: Bool) {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         if let vc = appDelegate.window?.rootViewController {
             self.viewController = (vc.presentedViewController as? GameScreenViewController)
-            self.viewController?.playButton.setImage(UIImage(named: "Play_Icon_Set"), for: .normal)
-            self.viewController?.barrierButton.isEnabled = true
+            
+            if updatingPlayButton {
+                self.viewController?.playButton.setImage(UIImage(named: "Play_Icon_Set"), for: .normal)
+                self.viewController?.barrierButton.isEnabled = true
+            }
 
             if conditionGreen {
                 self.viewController?.scoreButton.layer.borderColor = UIColor.green.cgColor
@@ -508,25 +512,25 @@ class GameManager {
             print("Sender Tag", scoreButtonTag)
             
             switch scoreButtonTag {
-            case 0:
-                self.viewController?.scoreButton.setTitle(String(UserDefaults.standard.integer(forKey: "highScore")), for: .normal)
-            case 1:
+            case 1: // Highscore
+                self.viewController?.scoreButton.setTitle("HS: " + String(UserDefaults.standard.integer(forKey: "highScore")), for: .normal)
+            case 2: // Snake lenght
                 self.viewController?.scoreButton.setTitle(String(snakeBodyPos.count), for: .normal)
-            case 2:
+            case 3: // Food
                 self.viewController?.scoreButton.setTitle(String(foodLocationArray.count), for: .normal)
-            case 3:
+            case 4: // Path
                 self.viewController?.scoreButton.setTitle(String(test.count), for: .normal)
-            case 4:
-                self.viewController?.scoreButton.setTitle("-ny-", for: .normal)
-            case 5:
-                self.viewController?.scoreButton.setTitle("-ny-", for: .normal)
-            case 6:
+            case 5: // Visited
+                self.viewController?.scoreButton.setTitle("-na-", for: .normal)
+            case 6: // Queued
+                self.viewController?.scoreButton.setTitle("-na-", for: .normal)
+            case 7: // Barriers
                 self.viewController?.scoreButton.setTitle(String(barrierNodesWaitingToBeDisplayed.count), for: .normal)
-            case 7:
-                self.viewController?.scoreButton.setTitle("-ny-", for: .normal)
-            case 8:
-                if godModeIsOn {
-                    self.viewController?.scoreButton.setTitle("-", for: .normal)
+            case 8: // Weight
+                self.viewController?.scoreButton.setTitle("-na-", for: .normal)
+            case 9: // Score
+                if UserDefaults.standard.bool(forKey: "God Button On Setting") {
+                    self.viewController?.scoreButton.setTitle("G0D", for: .normal)
                 } else {
                     self.viewController?.scoreButton.setTitle(String(currentScore), for: .normal)
                 }
@@ -606,7 +610,7 @@ class GameManager {
                 
                 barrierNodesWaitingToBeDisplayed = Array(Set(barrierNodesWaitingToBeDisplayed).subtracting(barrierNodesWaitingToBeRemoved))
                 barrierNodesWaitingToBeRemoved.removeAll()
-//                viewControllerComunicationsManager(godModeIsOn: true)
+                viewControllerComunicationsManager(updatingPlayButton: false)
                 runPredeterminedPath()
                 updateSnakePosition()
                 checkIfPaused()

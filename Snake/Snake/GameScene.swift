@@ -305,6 +305,7 @@ class GameScene: SKScene {
     // perhapse this can be used to pass in settings? maybe
     override func update(_ currentTime: TimeInterval) {
         UserDefaults.standard.bool(forKey: "Settings Value Modified") ? (settingLoader(firstRun: false)) : ()
+        game.viewControllerComunicationsManager(updatingPlayButton: false)
         
         if game!.fronteerSquareArray.count > 0 {
             let wait = SKAction.wait(forDuration: 0.0)
