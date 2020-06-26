@@ -241,6 +241,7 @@ class GameScene: SKScene {
         if UserDefaults.standard.bool(forKey: "Game Is Paused Setting") {
             swipeManager(swipeGesturesAreOn: false)
             barrierManager(touches: touches)
+            swipeManager(swipeGesturesAreOn: true)
         }
     }
     
@@ -268,6 +269,7 @@ class GameScene: SKScene {
         func IsSquareOccupied(squareLocation: Tuple) -> Bool {
             for square in game.snakeBodyPos {if squareLocation.x == square.x && squareLocation.y == square.y {return true}}
             for square in game.foodLocationArray {if squareLocation.x == square[0] && squareLocation.y == square[1] {return true}}
+            for square in game.pathBlockCordinates {if squareLocation.x == square.1 && squareLocation.y == square.0 {return true}}
             return false
         }
         

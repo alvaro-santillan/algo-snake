@@ -654,6 +654,12 @@ class GameManager {
                 }
             }
             
+            for i in (pathBlockCordinates) {
+                if Int((i.0)) == yy && Int((i.1)) == xx {
+                    node.fillColor = scene.pathSquareColor
+                }
+            }
+            
             for i in (scene.foodPosition) {
                 if Int((i.x)) == yy && Int((i.y)) == xx {
                     node.fillColor = scene.foodSquareColor
@@ -895,17 +901,9 @@ class GameManager {
                 node.fillColor = scene.gameboardSquareColor
                 if scene.foodPosition.isEmpty != true {
                     
-                    for i in (scene.foodPosition) {
-                        if Int((i.x)) == y && Int((i.y)) == x {
-                            node.fillColor = scene.foodSquareColor
-//                            node.run(scene.gameSquareAnimation(animation: 2))
-                        }
-                    }
-                    
                     for i in (barrierNodesWaitingToBeDisplayed) {
                         if i.y == y && i.x == x {
                             node.fillColor = scene.barrierSquareColor
-//                           node.run(scene.gameSquareAnimation(animation: 2))
                         }
                     }
                     
@@ -921,6 +919,13 @@ class GameManager {
                         if Int((i.0)) == y && Int((i.1)) == x {
 //                            print("-")
                             node.fillColor = scene.pathSquareColor
+                        }
+                    }
+                    
+                    for i in (scene.foodPosition) {
+                        if Int((i.x)) == y && Int((i.y)) == x {
+                            node.fillColor = scene.foodSquareColor
+//                            node.run(scene.gameSquareAnimation(animation: 2))
                         }
                     }
                 }
