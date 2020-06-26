@@ -90,16 +90,6 @@ class GameScene: SKScene {
         algorithimChoiceName.position = CGPoint(x: 0, y: 185)
         algorithimChoiceName.zPosition = 1
         self.addChild(algorithimChoiceName)
-        
-//        scoreLabel = SKLabelNode(fontNamed: "Dogica_Pixel")
-//        scoreLabel.text = String(game.currentScore)
-//        scoreLabel.fontColor = UIColor(named: "Text")
-//        scoreLabel.color = UIColor.blue
-//        scoreLabel.fontSize = 16
-//        scoreLabel.position = CGPoint(x: -315, y: -165)
-//
-//        scoreLabel.zPosition = 1
-//        self.addChild(scoreLabel)
     }
     
     private func createGameBoard() {
@@ -173,7 +163,37 @@ class GameScene: SKScene {
         for i in gameBoard {
             squares.append(i.node)
         }
-        animateNodes(squares)
+        // Temp removal
+//        animateNodes(squares)
+    }
+    
+    var hit = false
+    func animateThePath(pathBlocks: [(Int, Int)]) {
+        
+        func animateNodes(_ nodes: [SKShapeNode]) {
+            var squareWait = SKAction()
+            for (squareIndex, square) in nodes.enumerated() {
+                
+                square.run(.sequence([squareWait, gameSquareAnimation(animation: 2)]))
+                squareWait = .wait(forDuration: TimeInterval(squareIndex) * 0.03)
+                square.fillColor = pathSquareColor
+            }
+        }
+        
+        var squares = [SKShapeNode]()
+//        print(pathBlocks)
+        if game.newPath == true {
+            for i in pathBlocks {
+                if let ttt = gameBoard.first(where: {$0.x == i.1 && $0.y == i.0})?.node {
+                    squares.append(ttt)
+                } else {
+                    print("Error not found")
+                    print(i)
+                }
+            }
+            animateNodes(squares)
+            game.newPath = false
+        }
     }
     
     func gameSquareAnimation(animation: Int) -> SKAction {
