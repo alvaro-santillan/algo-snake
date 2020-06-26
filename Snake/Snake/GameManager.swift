@@ -48,6 +48,11 @@ class GameManager {
     var horizontalMaxBoundry = Int()
     var horizontalMinBoundry = Int()
     
+    var conditionGreen = Bool()
+    var conditionYellow = Bool()
+    var conditionRed = Bool()
+    var scoreButtonHalo = UIColor()
+    
     init(scene: GameScene) {
         self.scene = scene
     }
@@ -178,16 +183,16 @@ class GameManager {
                 let yValue = currentSquare.y - squareAndParentSquare[currentSquare]!.y
                 // 1 == left, 2 == up, 3 == right, 4 == down
                 if (xValue == 0 && yValue == 1) {
-                    movePath.append(2)
-                // 1 == left, 2 == up, 3 == right, 4 == down
-                } else if (xValue == 0 && yValue == -1) {
                     movePath.append(4)
                 // 1 == left, 2 == up, 3 == right, 4 == down
+                } else if (xValue == 0 && yValue == -1) {
+                    movePath.append(2)
+                // 1 == left, 2 == up, 3 == right, 4 == down
                 } else if (xValue == 1 && yValue == 0) {
-                    movePath.append(1)
+                    movePath.append(3)
                 // 1 == left, 2 == up, 3 == right, 4 == down
                 } else if (xValue == -1 && yValue == 0) {
-                    movePath.append(3)
+                    movePath.append(1)
                 }
                 
                 findPath(squareAndParentSquare: squareAndParentSquare, currentSquare: squareAndParentSquare[currentSquare]!)
@@ -335,10 +340,25 @@ class GameManager {
                 currentSquare = fronterSquares.last!
                 fronterSquares.popLast()
             } else {
+                conditionGreen = false
+                conditionYellow = true
+                conditionRed = false
+                print("Condition yellow", squareAndParentSquare.count)
+                
+                if conditionYellow == true && squareAndParentSquare.count < 15 {
+                    conditionGreen = false
+                    conditionYellow = false
+                    conditionRed = true
+                    print("Condition red", squareAndParentSquare.count)
+                }
                 return(formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: currentSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited))
             }
         }
         // Genarate a path and optional statistics from the results of DFS.
+        print("Condition Green", squareAndParentSquare.count)
+        conditionGreen = true
+        conditionYellow = false
+        conditionRed = false
         return(formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: goalSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited))
     }
     
@@ -370,6 +390,8 @@ class GameManager {
     var foodCollisionPoint = Int()
     let foodSpawnMax = (UserDefaults.standard.integer(forKey: "Food Count Setting"))
     let mainScreenAlgoChoice = UserDefaults.standard.integer(forKey: "Selected Path Finding Algorithim")
+    var minX = Int()
+    var minY = Int()
     
     func spawnFoodBlock() {
         let foodPalletsNeeded = (foodSpawnMax - foodLocationArray.count)
@@ -425,8 +447,8 @@ class GameManager {
         }
         // Calculation for closest food block is wrong mathamaticlly sometimes.
         let temp = foodDistanceFromHead.min()!
-        let minX = foodLocationArray[foodDistanceFromHead.firstIndex(of: temp)!][0]
-        let minY = foodLocationArray[foodDistanceFromHead.firstIndex(of: temp)!][1]
+        minX = foodLocationArray[foodDistanceFromHead.firstIndex(of: temp)!][0]
+        minY = foodLocationArray[foodDistanceFromHead.firstIndex(of: temp)!][1]
         
         let path: ([Int], [(Int, Int)], Int, Int)
         
@@ -444,22 +466,19 @@ class GameManager {
 //                    print("startSquare:", Tuple(x: Int(minY), y: Int(minX)))
 //                    print("goalSquare:", Tuple(x:snakeHead.y, y:snakeHead.x))
 //                    print("gameBoard:", gameBoardMatrixToDictionary(gameBoardMatrix: matrix))
-                    path = depthFirstSearch(startSquare: Tuple(x: Int(minY), y: Int(minX)), goalSquare: Tuple(x:snakeHead.y, y:snakeHead.x), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: matrix), returnPathCost: false, returnSquaresVisited: false)
+                    path = depthFirstSearch(startSquare: Tuple(x:snakeHead.y, y:snakeHead.x), goalSquare: Tuple(x: Int(minY), y: Int(minX)), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: matrix), returnPathCost: false, returnSquaresVisited: false)
                     test = path.0
+                    test = test.reversed()
                     pathBlockCordinates = path.1
+                    pathBlockCordinates = pathBlockCordinates.reversed()
                 } else {
                     test = []
                 }
             }
 //            print(UserDefaults.standard.bool(forKey: "Step Mode On Setting"))
             if UserDefaults.standard.bool(forKey: "Step Mode On Setting") {
-                
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            if let vc = appDelegate.window?.rootViewController {
-                self.viewController = (vc.presentedViewController as? GameScreenViewController)
-                self.viewController?.playButton.setImage(UIImage(named: "Play_Icon_Set"), for: .normal)
-                self.viewController?.barrierButton.isEnabled = true
-            }
+                viewControllerComunicationsManager()
+
             
             UserDefaults.standard.set(true, forKey: "Game Is Paused Setting")
             paused = true
@@ -468,6 +487,23 @@ class GameManager {
         // 1 == left, 2 == up, 3 == right, 4 == down
         prevX = Int(minY)
         prevY = Int(minX)
+    }
+    
+    func viewControllerComunicationsManager() {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        if let vc = appDelegate.window?.rootViewController {
+            self.viewController = (vc.presentedViewController as? GameScreenViewController)
+            self.viewController?.playButton.setImage(UIImage(named: "Play_Icon_Set"), for: .normal)
+            self.viewController?.barrierButton.isEnabled = true
+//                scoreButtonHalo = (self.viewController?.scoreButton.layer.backgroundColor as? UIColor)!
+            if conditionGreen {
+                self.viewController?.scoreButton.layer.borderColor = UIColor.green.cgColor
+            } else if conditionYellow {
+                self.viewController?.scoreButton.layer.borderColor = UIColor.yellow.cgColor
+            } else {
+                self.viewController?.scoreButton.layer.borderColor = UIColor.red.cgColor
+            }
+        }
     }
     
     func bringOvermatrix(tempMatrix: [[Int]]) {
@@ -484,11 +520,43 @@ class GameManager {
                 onPathMode = true
             } else {
                 onPathMode = false
+                generateNewPath()
+                onPathMode = true
             }
         }
     }
     
+    func generateNewPath() -> [Int] {
+        print("generateNewPath() hit")
+        let path: ([Int], [(Int, Int)], Int, Int)
+        let snakeHead = snakeBodyPos[0]
+        if mainScreenAlgoChoice == 0 {
+            test = []
+        } else if mainScreenAlgoChoice == 2 {
+            path = breathFirstSearch(startSquare: Tuple(x: Int(minY), y: Int(minX)), goalSquare: Tuple(x:snakeHead.y, y:snakeHead.x), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: matrix), returnPathCost: false, returnSquaresVisited: false)
+            onPathMode = true
+            return path.0
+            pathBlockCordinates = path.1
+        } else if mainScreenAlgoChoice == 3 {
+//                    print("startSquare:", Tuple(x: Int(minY), y: Int(minX)))
+//                    print("goalSquare:", Tuple(x:snakeHead.y, y:snakeHead.x))
+//                    print("gameBoard:", gameBoardMatrixToDictionary(gameBoardMatrix: matrix))
+            path = depthFirstSearch(startSquare: Tuple(x:snakeHead.y, y:snakeHead.x), goalSquare: Tuple(x: Int(minY), y: Int(minX)), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: matrix), returnPathCost: false, returnSquaresVisited: false)
+            onPathMode = true
+            test = path.0
+            test = test.reversed()
+            pathBlockCordinates = path.1
+            pathBlockCordinates = pathBlockCordinates.reversed()
+            return test
+        } else {
+            test = []
+        }
+        onPathMode = true
+        return [0]
+    }
+    
     func update(time: Double) {
+            
         if nextTime == nil {
             nextTime = time + Double(gameSpeed)
         } else if (paused == true) {
@@ -755,6 +823,7 @@ class GameManager {
     }
     
     func colorGameNodes() {
+        
         for (node, x, y) in scene.gameBoard {
             
             if contains(a: snakeBodyPos, v: Tuple(x: x, y: y)) {
@@ -774,6 +843,7 @@ class GameManager {
             // add closest food to legend
             if contains(a: snakeBodyPos, v: Tuple(x: x, y: y)) {
                 if (onPathMode == true) {
+                    
                     node.fillColor = scene.snakeBodySquareColor
                     if contains(a: [snakeBodyPos.first!], v: Tuple(x: x, y: y)) {
                         node.fillColor = scene.snakeHeadSquareColor

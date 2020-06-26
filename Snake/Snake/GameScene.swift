@@ -11,11 +11,12 @@ import SpriteKit
 class GameScene: SKScene {
     var game: GameManager!
     var algorithimChoiceName: SKLabelNode!
+    var scoreLabel: SKLabelNode!
     var foodPosition = [CGPoint]()
     var gameBackground: SKShapeNode!
     var gameBoard: [(node: SKShapeNode, x: Int, y: Int)] = []
-    let rowCount = 17 // 17
-    let columnCount = 30 // 30
+    let rowCount = 7 // 17
+    let columnCount = 7 // 30
     
     var snakeHeadSquareColor = UIColor() // "Snake Head"
     var snakeBodySquareColor = UIColor() // "Snake Body"
@@ -89,6 +90,16 @@ class GameScene: SKScene {
         algorithimChoiceName.position = CGPoint(x: 0, y: 185)
         algorithimChoiceName.zPosition = 1
         self.addChild(algorithimChoiceName)
+        
+//        scoreLabel = SKLabelNode(fontNamed: "Dogica_Pixel")
+//        scoreLabel.text = String(game.currentScore)
+//        scoreLabel.fontColor = UIColor(named: "Text")
+//        scoreLabel.color = UIColor.blue
+//        scoreLabel.fontSize = 16
+//        scoreLabel.position = CGPoint(x: -315, y: -165)
+//
+//        scoreLabel.zPosition = 1
+//        self.addChild(scoreLabel)
     }
     
     private func createGameBoard() {
