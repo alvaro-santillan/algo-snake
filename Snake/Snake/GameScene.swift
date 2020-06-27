@@ -163,8 +163,7 @@ class GameScene: SKScene {
         for i in gameBoard {
             squares.append(i.node)
         }
-        // Temp removal
-//        animateNodes(squares)
+        animateNodes(squares)
     }
     
     func animateThePath(pathBlocks: [(Int, Int)]) {
@@ -352,7 +351,6 @@ class GameScene: SKScene {
     }
     
     var squareWait = SKAction()
-
     var dispatchCalled = false
     var animatedVisitedNodeCount = 0
     
@@ -362,42 +360,34 @@ class GameScene: SKScene {
         
         animatedVisitedNodeCount += 1
         game.viewControllerComunicationsManager(updatingPlayButton: false)
-//        print("Debugging", game!.visitedNodeArray.count)
         
         if dispatchCalled == false {
             DispatchQueue.main.asyncAfter(deadline: .now() + squareWait.duration) {
-//                self.game.viewControllerComunicationsManager(updatingPlayButton: false)
-//                print("Dispatch called", self.dispatchCalled)
                 self.animatePathNew(run: self.dispatchCalled)
             }
-//            game.viewControllerComunicationsManager(updatingPlayButton: false)
             dispatchCalled = true
-        } else {
-//            game.viewControllerComunicationsManager(updatingPlayButton: false)
-//            print("should be getting hit")
         }
     }
     
-    func pathTeeest(square: SKShapeNode) {
-        square.run(.sequence([gameSquareAnimation(animation: 2)]))
-        square.fillColor = pathSquareColor
-//        game.viewControllerComunicationsManager(updatingPlayButton: false)
+    func pathTeeest(square: SKShapeNode, squareIndex: Int) {
+        if squareIndex != 0 {
+            square.run(.sequence([gameSquareAnimation(animation: 2)]))
+            square.fillColor = pathSquareColor
+        }
     }
     
-    var ranPathShown = false
     func animatePathNew(run: Bool) {
         if run == true {
-//            game.viewControllerComunicationsManager(updatingPlayButton: false)
             for (squareIndex, square) in (game.pathSquareArray).enumerated() {
-                square.run(.sequence([squareWait,gameSquareAnimation(animation: 3)]), completion: {self.pathTeeest(square: square)})
-                squareWait = .wait(forDuration: TimeInterval(squareIndex) * 0.020)
-                // temp removal
-                game!.pathSquareArray.remove(at: 0)
-                ranPathShown == true
+//                if squareIndex != 0 {
+                    square.run(.sequence([squareWait,gameSquareAnimation(animation: 3)]), completion: {self.pathTeeest(square: square, squareIndex: squareIndex)})
+                    squareWait = .wait(forDuration: TimeInterval(squareIndex) * 0.020)
+                    game!.pathSquareArray.remove(at: 0)
+//                }
             }
         }
-//        game.viewControllerComunicationsManager(updatingPlayButton: false)
     }
+    
     // Called before each frame is rendered
     // perhapse this can be used to pass in settings? maybe
     override func update(_ currentTime: TimeInterval) {
@@ -410,7 +400,7 @@ class GameScene: SKScene {
 //                game.viewControllerComunicationsManager(updatingPlayButton: false)
                 squareWait = .wait(forDuration: TimeInterval(squareIndex) * 0.020)
                 game!.visitedNodeArray.remove(at: 0)
-                print("Debugging", game!.visitedNodeArray.count)
+//                print("Debugging", game!.visitedNodeArray.count)
                 game.viewControllerComunicationsManager(updatingPlayButton: false)
                 animatedVisitedNodeCount = 0
             }
@@ -418,14 +408,6 @@ class GameScene: SKScene {
             
         }
         
-//        if game!.visitedNodeArray.count > 0 {
-//            let wait = SKAction.wait(forDuration: 0.01)
-//            let sequance = SKAction.sequence([wait])
-//                let node = game!.visitedNodeArray[0]
-//                node.run(sequance)
-//                node.fillColor = visitedSquareColor
-//                game!.visitedNodeArray.remove(at: 0)
-//        }
         game.update(time: currentTime)
     }
 }

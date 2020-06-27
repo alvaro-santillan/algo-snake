@@ -415,6 +415,7 @@ class GameManager {
     var minX = Int()
     var minY = Int()
     var newPath = Bool()
+    var foodBlocksAnimated = Bool()
     
     func spawnFoodBlock() {
         let foodPalletsNeeded = (foodSpawnMax - foodLocationArray.count)
@@ -422,6 +423,7 @@ class GameManager {
         
         // need to use queue.
         for _ in 1...foodPalletsNeeded {
+            foodBlocksAnimated = false
             // Modified
             var randomX = Int.random(in: 0...verticalMaxBoundry+1)
             var randomY = Int.random(in: 0...horizontalMaxBoundry+1)
@@ -503,6 +505,8 @@ class GameManager {
                 for i in pathBlockCordinatesNotReversed {
                     pathSquares(visitedX: i.0, visitedY: i.1)
                 }
+            pathSquareArray.removeLast()
+//            pathSquareArray.removeFirst()
             }
 //            print(UserDefaults.standard.bool(forKey: "Step Mode On Setting"))
             if UserDefaults.standard.bool(forKey: "Step Mode On Setting") {
@@ -698,10 +702,14 @@ class GameManager {
 //                }
 //            }
             
-            for i in (scene.foodPosition) {
-                if Int((i.x)) == yy && Int((i.y)) == xx {
-                    node.fillColor = scene.foodSquareColor
-//                    node.run(scene.gameSquareAnimation(animation: 2))
+            if foodBlocksAnimated == false {
+                for i in (scene.foodPosition) {
+//                    print("Tempcolor food ran")
+                    if Int((i.x)) == yy && Int((i.y)) == xx {
+                        node.fillColor = scene.foodSquareColor
+                        node.run(scene.gameSquareAnimation(animation: 2))
+                        foodBlocksAnimated = true
+                    }
                 }
             }
             
