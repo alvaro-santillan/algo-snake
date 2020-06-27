@@ -31,6 +31,7 @@ class GameManager {
     var matrix = [[Int]]()
     var test = [Int]()
     var pathBlockCordinates = [(Int, Int)]()
+    var pathBlockCordinatesNotReversed = [(Int, Int)]()
     var onPathMode = false
     var scene: GameScene!
     var nextTime: Double?
@@ -232,6 +233,9 @@ class GameManager {
     
     var visitedNodeArray = [SKShapeNode]()
     var fronteerSquareArray = [SKShapeNode]()
+    var pathSquareArray = [SKShapeNode]()
+    
+
     
     func colorVisitedSquares(visitedX: Int, visitedY: Int) {
         let node = scene.gameBoard.first(where: {$0.x == visitedX && $0.y == visitedY})?.node
@@ -246,6 +250,8 @@ class GameManager {
     //        node!.fillColor = UserDefaults.standard.colorForKey(key: "Visited Square")!
 //            print("Node at:", visitedX, visitedY)
         }
+    
+
 
     // Steps in Breath First Search
     // Mark parent
@@ -479,6 +485,7 @@ class GameManager {
                 } else if mainScreenAlgoChoice == 2 {
                     path = breathFirstSearch(startSquare: Tuple(x:snakeHead.y, y:snakeHead.x), goalSquare: Tuple(x: Int(minY), y: Int(minX)), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: matrix), returnPathCost: false, returnSquaresVisited: false)
                     test = path.0.reversed()
+                    pathBlockCordinatesNotReversed = path.1
                     pathBlockCordinates = path.1.reversed()
                     newPath = true
                 } else if mainScreenAlgoChoice == 3 {
@@ -487,10 +494,14 @@ class GameManager {
 //                    print("gameBoard:", gameBoardMatrixToDictionary(gameBoardMatrix: matrix))
                     path = depthFirstSearch(startSquare: Tuple(x:snakeHead.y, y:snakeHead.x), goalSquare: Tuple(x: Int(minY), y: Int(minX)), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: matrix), returnPathCost: false, returnSquaresVisited: false)
                     test = path.0.reversed()
+                    pathBlockCordinatesNotReversed = path.1
                     pathBlockCordinates = path.1.reversed()
                     newPath = true
                 } else {
                     test = []
+                }
+                for i in pathBlockCordinatesNotReversed {
+                    pathSquares(visitedX: i.0, visitedY: i.1)
                 }
             }
 //            print(UserDefaults.standard.bool(forKey: "Step Mode On Setting"))
@@ -505,6 +516,13 @@ class GameManager {
         // 1 == left, 2 == up, 3 == right, 4 == down
         prevX = Int(minY)
         prevY = Int(minX)
+    }
+    
+    func pathSquares(visitedX: Int, visitedY: Int) {
+        let node = scene.gameBoard.first(where: {$0.x == visitedY && $0.y == visitedX})?.node
+        pathSquareArray.append(node!)
+//        node!.fillColor = UserDefaults.standard.colorForKey(key: "Visited Square")!
+//            print("Node at:", visitedX, visitedY)
     }
     
     func viewControllerComunicationsManager(updatingPlayButton: Bool) {
@@ -526,7 +544,7 @@ class GameManager {
             }
             
             let scoreButtonTag = self.viewController?.scoreButton.tag
-            print("Sender Tag", scoreButtonTag)
+//            print("Sender Tag", scoreButtonTag)
             
             switch scoreButtonTag {
             case 1: // Highscore
@@ -671,7 +689,7 @@ class GameManager {
                 }
             }
             
-            scene.animateThePath(pathBlocks: pathBlockCordinates)
+//            scene.animateThePath(pathBlocks: pathBlockCordinates)
             // temp removal
 //            for i in (pathBlockCordinates) {
 //                if Int((i.0)) == yy && Int((i.1)) == xx {

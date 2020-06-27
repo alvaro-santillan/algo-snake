@@ -352,13 +352,40 @@ class GameScene: SKScene {
     }
     
     var squareWait = SKAction()
-//    for (squareIndex, square) in nodes.enumerated() {
-//        square.run(.sequence([squareWait, gameSquareAnimation(animation: 1)]))
-//        squareWait = .wait(forDuration: TimeInterval(squareIndex) * 0.003)
-//    }
+
+    var dispatchCalled = false
+    
     func teeest(square: SKShapeNode) {
         square.run(.sequence([gameSquareAnimation(animation: 2)]))
         square.fillColor = visitedSquareColor
+        
+        if dispatchCalled == false {
+            DispatchQueue.main.asyncAfter(deadline: .now() + squareWait.duration) {
+                print("Dispatch called", self.dispatchCalled)
+                self.animatePathNew(run: self.dispatchCalled)
+            }
+            dispatchCalled = true
+        } else {
+            print("should be getting hit")
+        }
+    }
+    
+    func pathTeeest(square: SKShapeNode) {
+        square.run(.sequence([gameSquareAnimation(animation: 2)]))
+        square.fillColor = pathSquareColor
+    }
+    
+    var ranPathShown = false
+    func animatePathNew(run: Bool) {
+        if run == true {
+            for (squareIndex, square) in (game.pathSquareArray).enumerated() {
+                square.run(.sequence([squareWait,gameSquareAnimation(animation: 3)]), completion: {self.pathTeeest(square: square)})
+                squareWait = .wait(forDuration: TimeInterval(squareIndex) * 0.020)
+                // temp removal
+                game!.pathSquareArray.remove(at: 0)
+                ranPathShown == true
+            }
+        }
     }
     // Called before each frame is rendered
     // perhapse this can be used to pass in settings? maybe
@@ -370,14 +397,9 @@ class GameScene: SKScene {
             for (squareIndex, square) in (game.visitedNodeArray).enumerated() {
                 square.run(.sequence([squareWait,gameSquareAnimation(animation: 3)]), completion: {self.teeest(square: square)})
                 squareWait = .wait(forDuration: TimeInterval(squareIndex) * 0.020)
-//                let node = game!.visitedNodeArray[0]
-                
-//                node.run(.sequence([squareWait]))
                 game!.visitedNodeArray.remove(at: 0)
-//                squareWait = .wait(forDuration: TimeInterval(currentTime) * 0.03)
-//                spriteWhite.run(SKAction.group([moveRight, swipeRight]),
-//                completion: { self.doThisFunction(withThisValue) })
             }
+            dispatchCalled = false
         }
         
 //        if game!.visitedNodeArray.count > 0 {
