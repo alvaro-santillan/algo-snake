@@ -150,12 +150,24 @@ class GameScene: SKScene {
         animateTheGameboard()
     }
     
+    var gameBoarddispatchCalled = Bool()
+    var gamboardAnimationEnded = Bool()
+    var gameboardsquareWait = SKAction()
     func animateTheGameboard() {
+        func gameBoardAnimationComplition() {
+            if gameBoarddispatchCalled == false {
+                DispatchQueue.main.asyncAfter(deadline: .now() + gameboardsquareWait.duration) {
+                    self.gamboardAnimationEnded = true
+                }
+                gameBoarddispatchCalled = true
+            }
+        }
+        
         func animateNodes(_ nodes: [SKShapeNode]) {
-            var squareWait = SKAction()
+//            var gameboardsquareWait = SKAction()
             for (squareIndex, square) in nodes.enumerated() {
-                square.run(.sequence([squareWait, gameSquareAnimation(animation: 1)]))
-                squareWait = .wait(forDuration: TimeInterval(squareIndex) * 0.003)
+                square.run(.sequence([gameboardsquareWait, gameSquareAnimation(animation: 1)]), completion: {gameBoardAnimationComplition()})
+                gameboardsquareWait = .wait(forDuration: TimeInterval(squareIndex) * 0.003)
             }
         }
         
@@ -164,60 +176,6 @@ class GameScene: SKScene {
             squares.append(i.node)
         }
         animateNodes(squares)
-    }
-    
-    func animateThePath(pathBlocks: [(Int, Int)]) {
-        
-        func animateNodes(_ nodes: [SKShapeNode]) {
-            var squareWait = SKAction()
-            for (squareIndex, square) in nodes.enumerated() {
-                
-                square.run(.sequence([squareWait, gameSquareAnimation(animation: 2)]))
-                squareWait = .wait(forDuration: TimeInterval(squareIndex) * 0.03)
-                square.fillColor = pathSquareColor
-            }
-        }
-        
-        var squares = [SKShapeNode]()
-        if game.newPath == true {
-            for i in pathBlocks {
-                if let ttt = gameBoard.first(where: {$0.x == i.1 && $0.y == i.0})?.node {
-                    squares.append(ttt)
-                } else {
-                    print("GameScene Error: Square not found in gameboard.")
-                    print(i)
-                }
-            }
-            animateNodes(squares)
-            game.newPath = false
-        }
-    }
-    
-    func animateVisited(pathBlocks: [(Int, Int)]) {
-        
-        func animateNodes(_ nodes: [SKShapeNode]) {
-            var squareWait = SKAction()
-            for (squareIndex, square) in nodes.enumerated() {
-                
-                square.run(.sequence([squareWait, gameSquareAnimation(animation: 2)]))
-                squareWait = .wait(forDuration: TimeInterval(squareIndex) * 0.03)
-                square.fillColor = pathSquareColor
-            }
-        }
-        
-        var squares = [SKShapeNode]()
-        if game.newPath == true {
-            for i in pathBlocks {
-                if let ttt = gameBoard.first(where: {$0.x == i.1 && $0.y == i.0})?.node {
-                    squares.append(ttt)
-                } else {
-                    print("GameScene Error: Square not found in gameboard.")
-                    print(i)
-                }
-            }
-            animateNodes(squares)
-            game.newPath = false
-        }
     }
     
     func gameSquareAnimation(animation: Int) -> SKAction {
@@ -379,11 +337,9 @@ class GameScene: SKScene {
     func animatePathNew(run: Bool) {
         if run == true {
             for (squareIndex, square) in (game.pathSquareArray).enumerated() {
-//                if squareIndex != 0 {
-                    square.run(.sequence([squareWait,gameSquareAnimation(animation: 3)]), completion: {self.pathTeeest(square: square, squareIndex: squareIndex)})
-                    squareWait = .wait(forDuration: TimeInterval(squareIndex) * 0.020)
-                    game!.pathSquareArray.remove(at: 0)
-//                }
+                square.run(.sequence([squareWait,gameSquareAnimation(animation: 3)]), completion: {self.pathTeeest(square: square, squareIndex: squareIndex)})
+                squareWait = .wait(forDuration: TimeInterval(squareIndex) * 0.020)
+                game!.pathSquareArray.remove(at: 0)
             }
         }
     }
@@ -394,13 +350,11 @@ class GameScene: SKScene {
         UserDefaults.standard.bool(forKey: "Settings Value Modified") ? (settingLoader(firstRun: false)) : ()
         game.viewControllerComunicationsManager(updatingPlayButton: false)
         
-        if game!.visitedNodeArray.count > 0 {
+        if game!.visitedNodeArray.count > 0 && gamboardAnimationEnded == true {
             for (squareIndex, square) in (game.visitedNodeArray).enumerated() {
                 square.run(.sequence([squareWait,gameSquareAnimation(animation: 3)]), completion: {self.teeest(square: square)})
-//                game.viewControllerComunicationsManager(updatingPlayButton: false)
                 squareWait = .wait(forDuration: TimeInterval(squareIndex) * 0.020)
                 game!.visitedNodeArray.remove(at: 0)
-//                print("Debugging", game!.visitedNodeArray.count)
                 game.viewControllerComunicationsManager(updatingPlayButton: false)
                 animatedVisitedNodeCount = 0
             }
