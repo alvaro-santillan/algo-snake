@@ -167,7 +167,6 @@ class GameScene: SKScene {
 //        animateNodes(squares)
     }
     
-    var hit = false
     func animateThePath(pathBlocks: [(Int, Int)]) {
         
         func animateNodes(_ nodes: [SKShapeNode]) {
@@ -181,13 +180,39 @@ class GameScene: SKScene {
         }
         
         var squares = [SKShapeNode]()
-//        print(pathBlocks)
         if game.newPath == true {
             for i in pathBlocks {
                 if let ttt = gameBoard.first(where: {$0.x == i.1 && $0.y == i.0})?.node {
                     squares.append(ttt)
                 } else {
-                    print("Error not found")
+                    print("GameScene Error: Square not found in gameboard.")
+                    print(i)
+                }
+            }
+            animateNodes(squares)
+            game.newPath = false
+        }
+    }
+    
+    func animateVisited(pathBlocks: [(Int, Int)]) {
+        
+        func animateNodes(_ nodes: [SKShapeNode]) {
+            var squareWait = SKAction()
+            for (squareIndex, square) in nodes.enumerated() {
+                
+                square.run(.sequence([squareWait, gameSquareAnimation(animation: 2)]))
+                squareWait = .wait(forDuration: TimeInterval(squareIndex) * 0.03)
+                square.fillColor = pathSquareColor
+            }
+        }
+        
+        var squares = [SKShapeNode]()
+        if game.newPath == true {
+            for i in pathBlocks {
+                if let ttt = gameBoard.first(where: {$0.x == i.1 && $0.y == i.0})?.node {
+                    squares.append(ttt)
+                } else {
+                    print("GameScene Error: Square not found in gameboard.")
                     print(i)
                 }
             }
@@ -206,11 +231,14 @@ class GameScene: SKScene {
         let shrink2 = SKAction.scale(by: 0.95, duration: 0.05)
         let shrink3 = SKAction.scale(by: 0.95, duration: 0.10)
         let shrink4 = SKAction.scale(by: 0.97, duration: 0.05)
+        let shrink5 = SKAction.scale(by: 0.75, duration: 0.05)
 
         if animation == 1 {
             return SKAction.sequence([wait0, grow1, wait1, shrink1, wait1, scale1, shrink2, wait2, scale1])
-        } else {
+        } else if animation == 2 {
             return SKAction.sequence([grow1, wait1, shrink3, wait1, scale1, shrink4, wait2, scale1])
+        } else {
+            return SKAction.sequence([shrink5, wait1, scale1])
         }
     }
     
@@ -323,30 +351,43 @@ class GameScene: SKScene {
         }
     }
     
+    var squareWait = SKAction()
+//    for (squareIndex, square) in nodes.enumerated() {
+//        square.run(.sequence([squareWait, gameSquareAnimation(animation: 1)]))
+//        squareWait = .wait(forDuration: TimeInterval(squareIndex) * 0.003)
+//    }
+    func teeest(square: SKShapeNode) {
+        square.run(.sequence([gameSquareAnimation(animation: 2)]))
+        square.fillColor = visitedSquareColor
+    }
     // Called before each frame is rendered
     // perhapse this can be used to pass in settings? maybe
     override func update(_ currentTime: TimeInterval) {
         UserDefaults.standard.bool(forKey: "Settings Value Modified") ? (settingLoader(firstRun: false)) : ()
         game.viewControllerComunicationsManager(updatingPlayButton: false)
         
-        if game!.fronteerSquareArray.count > 0 {
-            let wait = SKAction.wait(forDuration: 0.0)
-            let sequance = SKAction.sequence([wait])
-                let node = game!.fronteerSquareArray[0]
-                node.run(sequance)
-                node.fillColor = queuedSquareColor
-                node.run(SKAction.wait(forDuration: 1.0))
-                game!.fronteerSquareArray.remove(at: 0)
+        if game!.visitedNodeArray.count > 0 {
+            for (squareIndex, square) in (game.visitedNodeArray).enumerated() {
+                square.run(.sequence([squareWait,gameSquareAnimation(animation: 3)]), completion: {self.teeest(square: square)})
+                squareWait = .wait(forDuration: TimeInterval(squareIndex) * 0.020)
+//                let node = game!.visitedNodeArray[0]
+                
+//                node.run(.sequence([squareWait]))
+                game!.visitedNodeArray.remove(at: 0)
+//                squareWait = .wait(forDuration: TimeInterval(currentTime) * 0.03)
+//                spriteWhite.run(SKAction.group([moveRight, swipeRight]),
+//                completion: { self.doThisFunction(withThisValue) })
+            }
         }
         
-        if game!.visitedNodeArray.count > 0{
-            let wait = SKAction.wait(forDuration: 1.0)
-            let sequance = SKAction.sequence([wait])
-                let node = game!.visitedNodeArray[0]
-                node.run(sequance)
-                node.fillColor = visitedSquareColor
-                game!.visitedNodeArray.remove(at: 0)
-        }
+//        if game!.visitedNodeArray.count > 0 {
+//            let wait = SKAction.wait(forDuration: 0.01)
+//            let sequance = SKAction.sequence([wait])
+//                let node = game!.visitedNodeArray[0]
+//                node.run(sequance)
+//                node.fillColor = visitedSquareColor
+//                game!.visitedNodeArray.remove(at: 0)
+//        }
         game.update(time: currentTime)
     }
 }

@@ -272,6 +272,7 @@ class GameManager {
             // Mark current node as visited. (If statement required due to first node.)
             if !(visitedSquares.contains(currentSquare)) {
                 visitedSquares += [currentSquare]
+                colorVisitedSquares(visitedX: currentSquare.y, visitedY: currentSquare.x)
                 visitedSquareCount += 1
             }
             
@@ -537,16 +538,16 @@ class GameManager {
             case 4: // Path
                 self.viewController?.scoreButton.setTitle(String(test.count), for: .normal)
             case 5: // Visited
-                self.viewController?.scoreButton.setTitle("-na-", for: .normal)
+                self.viewController?.scoreButton.setTitle("NA", for: .normal)
             case 6: // Queued
-                self.viewController?.scoreButton.setTitle("-na-", for: .normal)
+                self.viewController?.scoreButton.setTitle("NA", for: .normal)
             case 7: // Barriers
                 self.viewController?.scoreButton.setTitle(String(barrierNodesWaitingToBeDisplayed.count), for: .normal)
             case 8: // Weight
-                self.viewController?.scoreButton.setTitle("-na-", for: .normal)
+                self.viewController?.scoreButton.setTitle("NA", for: .normal)
             case 9: // Score
                 if UserDefaults.standard.bool(forKey: "God Button On Setting") {
-                    self.viewController?.scoreButton.setTitle("G0D", for: .normal)
+                    self.viewController?.scoreButton.setTitle("NA", for: .normal)
                 } else {
                     self.viewController?.scoreButton.setTitle(String(currentScore), for: .normal)
                 }
