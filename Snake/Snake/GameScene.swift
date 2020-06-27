@@ -354,30 +354,40 @@ class GameScene: SKScene {
     var squareWait = SKAction()
 
     var dispatchCalled = false
+    var animatedVisitedNodeCount = 0
     
     func teeest(square: SKShapeNode) {
         square.run(.sequence([gameSquareAnimation(animation: 2)]))
         square.fillColor = visitedSquareColor
         
+        animatedVisitedNodeCount += 1
+        game.viewControllerComunicationsManager(updatingPlayButton: false)
+//        print("Debugging", game!.visitedNodeArray.count)
+        
         if dispatchCalled == false {
             DispatchQueue.main.asyncAfter(deadline: .now() + squareWait.duration) {
-                print("Dispatch called", self.dispatchCalled)
+//                self.game.viewControllerComunicationsManager(updatingPlayButton: false)
+//                print("Dispatch called", self.dispatchCalled)
                 self.animatePathNew(run: self.dispatchCalled)
             }
+//            game.viewControllerComunicationsManager(updatingPlayButton: false)
             dispatchCalled = true
         } else {
-            print("should be getting hit")
+//            game.viewControllerComunicationsManager(updatingPlayButton: false)
+//            print("should be getting hit")
         }
     }
     
     func pathTeeest(square: SKShapeNode) {
         square.run(.sequence([gameSquareAnimation(animation: 2)]))
         square.fillColor = pathSquareColor
+//        game.viewControllerComunicationsManager(updatingPlayButton: false)
     }
     
     var ranPathShown = false
     func animatePathNew(run: Bool) {
         if run == true {
+//            game.viewControllerComunicationsManager(updatingPlayButton: false)
             for (squareIndex, square) in (game.pathSquareArray).enumerated() {
                 square.run(.sequence([squareWait,gameSquareAnimation(animation: 3)]), completion: {self.pathTeeest(square: square)})
                 squareWait = .wait(forDuration: TimeInterval(squareIndex) * 0.020)
@@ -386,6 +396,7 @@ class GameScene: SKScene {
                 ranPathShown == true
             }
         }
+//        game.viewControllerComunicationsManager(updatingPlayButton: false)
     }
     // Called before each frame is rendered
     // perhapse this can be used to pass in settings? maybe
@@ -396,10 +407,15 @@ class GameScene: SKScene {
         if game!.visitedNodeArray.count > 0 {
             for (squareIndex, square) in (game.visitedNodeArray).enumerated() {
                 square.run(.sequence([squareWait,gameSquareAnimation(animation: 3)]), completion: {self.teeest(square: square)})
+//                game.viewControllerComunicationsManager(updatingPlayButton: false)
                 squareWait = .wait(forDuration: TimeInterval(squareIndex) * 0.020)
                 game!.visitedNodeArray.remove(at: 0)
+                print("Debugging", game!.visitedNodeArray.count)
+                game.viewControllerComunicationsManager(updatingPlayButton: false)
+                animatedVisitedNodeCount = 0
             }
             dispatchCalled = false
+            
         }
         
 //        if game!.visitedNodeArray.count > 0 {

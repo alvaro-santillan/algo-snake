@@ -556,7 +556,7 @@ class GameManager {
             case 4: // Path
                 self.viewController?.scoreButton.setTitle(String(test.count), for: .normal)
             case 5: // Visited
-                self.viewController?.scoreButton.setTitle("NA", for: .normal)
+                self.viewController?.scoreButton.setTitle(String(scene.animatedVisitedNodeCount), for: .normal)
             case 6: // Queued
                 self.viewController?.scoreButton.setTitle("NA", for: .normal)
             case 7: // Barriers
@@ -660,6 +660,7 @@ class GameManager {
             tempColor()
             paused = true
         } else {
+            scene.animatedVisitedNodeCount = 0
             gameSpeed = UserDefaults.standard.float(forKey: "Snake Move Speed")
             paused = false
         }
