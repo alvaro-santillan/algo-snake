@@ -703,6 +703,7 @@ class GameManager {
         }
     }
     
+    var foodName = String()
     func tempColor() {
 //        for square in game.snakeBodyPos {
 //            print(childNode(withName: "//2,2"))
@@ -740,6 +741,7 @@ class GameManager {
 //                    print("Tempcolor food ran")
                     if Int((i.x)) == yy && Int((i.y)) == xx && scene.gamboardAnimationEnded == true {
                         node.fillColor = scene.foodSquareColor
+                        foodName = node.name!
                         node.run(scene.gameSquareAnimation(animation: 3))
                         foodBlocksHaveAnimated = true
                     }

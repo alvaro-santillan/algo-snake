@@ -325,20 +325,22 @@ class GameScene: SKScene {
     var animatedVisitedNodeCount = 0
     var animatedQueuedNodeCount = 0
     
-    func pathTeeest(square: SKShapeNode) {
-//        if squareIndex != 0 {
+    var firstSquare = false
+    func pathTeeest(square: SKShapeNode, squareIndex: Int) {
+        
+        if squareIndex != 0 {
             square.run(.sequence([gameSquareAnimation(animation: 2)]))
             square.fillColor = pathSquareColor
             self.pathFindingAnimationsEnded = true
             //enable this one
 //            game.viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: true)
-//        }
+        }
     }
 
     func animatePathNew(run: Bool) {
         if run == true {
             for (squareIndex, square) in (game.pathSquareArray).enumerated() {
-                square.run(.sequence([pathSquareWait,gameSquareAnimation(animation: 3)]), completion: {self.pathTeeest(square: square)})
+                square.run(.sequence([pathSquareWait,gameSquareAnimation(animation: 3)]), completion: {self.pathTeeest(square: square, squareIndex: squareIndex)})
                 // DONT TOUCH TIME NOT RELATED TO VISITED
                 pathSquareWait = .wait(forDuration: TimeInterval(squareIndex) * 0.005)
                 game!.pathSquareArray.remove(at: 0)
@@ -362,8 +364,10 @@ class GameScene: SKScene {
     }
     
     func queuedSquareFill(square: SKShapeNode) {
-        square.run(.sequence([gameSquareAnimation(animation: 2)]))
-        square.fillColor = queuedSquareColor
+        if square.name != game.foodName {
+            square.run(.sequence([gameSquareAnimation(animation: 2)]))
+            square.fillColor = queuedSquareColor
+        }
         
         animatedQueuedNodeCount += 1
     }
