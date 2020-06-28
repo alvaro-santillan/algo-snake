@@ -302,10 +302,10 @@ class GameManager {
                     }
                 }
             }
-            if !(newFornterSquareHolder.isEmpty) {
+//            if !(newFornterSquareHolder.isEmpty) {
                 fronteerSquaress(rawSquares: newFornterSquareHolder)
                 fronterInArrayFormat.append(newFornterSquareHolder)
-            }
+//            }
             
 
             
