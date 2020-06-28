@@ -54,6 +54,10 @@ class GameScene: SKScene {
         gameboardSquareColor = correctColorArray[legendData[8][1] as! Int] // "Gameboard"
         gameboardBackgroundColor = UIColor(named: "Left View Background")!
         UserDefaults.standard.set(false, forKey: "Settings Value Modified")
+        // problem
+//        UserDefaults.standard.set(true, forKey: "Game Is Paused Setting")
+        // problem
+//        game.viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: false)
         
         if !(firstRun) {
             if UserDefaults.standard.bool(forKey: "Clear All Setting") {
@@ -152,12 +156,14 @@ class GameScene: SKScene {
     
     var gameBoarddispatchCalled = Bool()
     var gamboardAnimationEnded = Bool()
+    var pathFindingAnimationsEnded = Bool()
     var gameboardsquareWait = SKAction()
     func animateTheGameboard() {
         func gameBoardAnimationComplition() {
             if gameBoarddispatchCalled == false {
                 DispatchQueue.main.asyncAfter(deadline: .now() + gameboardsquareWait.duration) {
                     self.gamboardAnimationEnded = true
+//                    self.game.viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: true)
                 }
                 gameBoarddispatchCalled = true
             }
@@ -166,12 +172,14 @@ class GameScene: SKScene {
         func animateNodes(_ nodes: [SKShapeNode]) {
 //            var gameboardsquareWait = SKAction()
             for (squareIndex, square) in nodes.enumerated() {
+                
                 square.run(.sequence([gameboardsquareWait, gameSquareAnimation(animation: 1)]), completion: {gameBoardAnimationComplition()})
                 gameboardsquareWait = .wait(forDuration: TimeInterval(squareIndex) * 0.003)
             }
         }
         
         var squares = [SKShapeNode]()
+//        game.viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: false)
         for i in gameBoard {
             squares.append(i.node)
         }
@@ -239,6 +247,7 @@ class GameScene: SKScene {
         let topCenter = CGPoint(x: 0, y: (frame.size.height / 2) - 25)
         algorithimChoiceName.run(SKAction.move(to: topCenter, duration: 0.4)) {
             self.game.initiateSnakeStartingPosition()
+            
         }
     }
     
@@ -317,7 +326,8 @@ class GameScene: SKScene {
         square.fillColor = visitedSquareColor
         
         animatedVisitedNodeCount += 1
-        game.viewControllerComunicationsManager(updatingPlayButton: false)
+        // enable this one maybe not
+        game.viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: false)
         
         if dispatchCalled == false {
             DispatchQueue.main.asyncAfter(deadline: .now() + squareWait.duration) {
@@ -327,10 +337,29 @@ class GameScene: SKScene {
         }
     }
     
+    func Queuedteeest(square: SKShapeNode) {
+        square.run(.sequence([gameSquareAnimation(animation: 2)]))
+        square.fillColor = queuedSquareColor
+        
+        animatedVisitedNodeCount += 1
+        // enable this one maybe not
+        game.viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: false)
+        
+        if dispatchCalled == false {
+            DispatchQueue.main.asyncAfter(deadline: .now() + squareWait.duration) {
+//                self.animatePathNew(run: self.dispatchCalled)
+            }
+            dispatchCalled = true
+        }
+    }
+    
     func pathTeeest(square: SKShapeNode, squareIndex: Int) {
         if squareIndex != 0 {
             square.run(.sequence([gameSquareAnimation(animation: 2)]))
             square.fillColor = pathSquareColor
+            self.pathFindingAnimationsEnded = true
+            //enable this one
+            game.viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: true)
         }
     }
     
@@ -348,17 +377,29 @@ class GameScene: SKScene {
     // perhapse this can be used to pass in settings? maybe
     override func update(_ currentTime: TimeInterval) {
         UserDefaults.standard.bool(forKey: "Settings Value Modified") ? (settingLoader(firstRun: false)) : ()
-        game.viewControllerComunicationsManager(updatingPlayButton: false)
+        // enable this one
+        game.viewControllerComunicationsManager(updatingPlayButton: false, playButtonIsEnabled: false)
         
         if game!.visitedNodeArray.count > 0 && gamboardAnimationEnded == true {
             for (squareIndex, square) in (game.visitedNodeArray).enumerated() {
+                // Easter would go here enable this one
+                game.viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: false)
                 square.run(.sequence([squareWait,gameSquareAnimation(animation: 3)]), completion: {self.teeest(square: square)})
                 squareWait = .wait(forDuration: TimeInterval(squareIndex) * 0.020)
                 game!.visitedNodeArray.remove(at: 0)
-                game.viewControllerComunicationsManager(updatingPlayButton: false)
+                
                 animatedVisitedNodeCount = 0
             }
             dispatchCalled = false
+            for (squareIndex, square) in (game.fronteerSquareArray).enumerated() {
+                // Easter would go here enable this one
+//                game.viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: false)
+                square.run(.sequence([squareWait,gameSquareAnimation(animation: 3)]), completion: {self.Queuedteeest(square: square)})
+                squareWait = .wait(forDuration: TimeInterval(squareIndex) * 0.020)
+                game!.fronteerSquareArray.remove(at: 0)
+                
+//                animatedVisitedNodeCount = 0
+            }
             
         }
         

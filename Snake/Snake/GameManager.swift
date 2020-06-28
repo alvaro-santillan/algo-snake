@@ -244,12 +244,12 @@ class GameManager {
 //        print("Node at:", visitedX, visitedY)
     }
 
-        func fronteerSquares(visitedX: Int, visitedY: Int) {
-            let node = scene.gameBoard.first(where: {$0.x == visitedY && $0.y == visitedX})?.node
-            fronteerSquareArray.append(node!)
-    //        node!.fillColor = UserDefaults.standard.colorForKey(key: "Visited Square")!
+    func fronteerSquares(visitedX: Int, visitedY: Int) {
+        let node = scene.gameBoard.first(where: {$0.x == visitedY && $0.y == visitedX})?.node
+        fronteerSquareArray.append(node!)
+//        node!.fillColor = UserDefaults.standard.colorForKey(key: "Visited Square")!
 //            print("Node at:", visitedX, visitedY)
-        }
+    }
     
 
 
@@ -288,6 +288,7 @@ class GameManager {
                 if !(visitedSquares.contains(prospectFronterSquare)) {
                     if !(fronterSquares.contains(prospectFronterSquare)){
                         fronterSquares += [prospectFronterSquare]
+                        fronteerSquares(visitedX: prospectFronterSquare.x, visitedY: prospectFronterSquare.y)
                         squareAndParentSquare[prospectFronterSquare] = currentSquare
                     }
                 }
@@ -415,7 +416,8 @@ class GameManager {
     var minX = Int()
     var minY = Int()
     var newPath = Bool()
-    var foodBlocksAnimated = Bool()
+    var foodBlocksHaveAnimated = Bool()
+    var snakeBlockHaveAnimated = false
     
     func spawnFoodBlock() {
         let foodPalletsNeeded = (foodSpawnMax - foodLocationArray.count)
@@ -423,7 +425,7 @@ class GameManager {
         
         // need to use queue.
         for _ in 1...foodPalletsNeeded {
-            foodBlocksAnimated = false
+            foodBlocksHaveAnimated = false
             // Modified
             var randomX = Int.random(in: 0...verticalMaxBoundry+1)
             var randomY = Int.random(in: 0...horizontalMaxBoundry+1)
@@ -490,6 +492,7 @@ class GameManager {
                     pathBlockCordinatesNotReversed = path.1
                     pathBlockCordinates = path.1.reversed()
                     newPath = true
+//                    pathSquareArray.removeLast()
                 } else if mainScreenAlgoChoice == 3 {
 //                    print("startSquare:", Tuple(x: Int(minY), y: Int(minX)))
 //                    print("goalSquare:", Tuple(x:snakeHead.y, y:snakeHead.x))
@@ -499,18 +502,20 @@ class GameManager {
                     pathBlockCordinatesNotReversed = path.1
                     pathBlockCordinates = path.1.reversed()
                     newPath = true
+//                    pathSquareArray.removeLast()
                 } else {
                     test = []
                 }
                 for i in pathBlockCordinatesNotReversed {
                     pathSquares(visitedX: i.0, visitedY: i.1)
                 }
-            pathSquareArray.removeLast()
+                pathSquareArray.removeLast()
 //            pathSquareArray.removeFirst()
             }
 //            print(UserDefaults.standard.bool(forKey: "Step Mode On Setting"))
-            if UserDefaults.standard.bool(forKey: "Step Mode On Setting") {
-                viewControllerComunicationsManager(updatingPlayButton: true)
+        if UserDefaults.standard.bool(forKey: "Step Mode On Setting") {
+                // problem
+                viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: true)
 
             
             UserDefaults.standard.set(true, forKey: "Game Is Paused Setting")
@@ -529,14 +534,20 @@ class GameManager {
 //            print("Node at:", visitedX, visitedY)
     }
     
-    func viewControllerComunicationsManager(updatingPlayButton: Bool) {
+    func viewControllerComunicationsManager(updatingPlayButton: Bool, playButtonIsEnabled: Bool) {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         if let vc = appDelegate.window?.rootViewController {
             self.viewController = (vc.presentedViewController as? GameScreenViewController)
             
             if updatingPlayButton {
-                self.viewController?.playButton.setImage(UIImage(named: "Play_Icon_Set"), for: .normal)
-                self.viewController?.barrierButton.isEnabled = true
+                if playButtonIsEnabled == true {
+                    self.viewController?.playButton.setImage(UIImage(named: "Play_Icon_Set"), for: .normal)
+                    self.viewController?.barrierButton.isEnabled = true
+                    self.viewController?.playButton.isEnabled = true
+                } else if playButtonIsEnabled == false {
+                    self.viewController?.playButton.setImage(UIImage(named: "Pause_Icon_Set"), for: .normal)
+                    self.viewController?.playButton.isEnabled = false
+                }
             }
 
             if conditionGreen {
@@ -649,7 +660,7 @@ class GameManager {
                 
                 barrierNodesWaitingToBeDisplayed = Array(Set(barrierNodesWaitingToBeDisplayed).subtracting(barrierNodesWaitingToBeRemoved))
                 barrierNodesWaitingToBeRemoved.removeAll()
-                viewControllerComunicationsManager(updatingPlayButton: false)
+                viewControllerComunicationsManager(updatingPlayButton: false, playButtonIsEnabled: false)
                 runPredeterminedPath()
                 updateSnakePosition()
                 checkIfPaused()
@@ -702,23 +713,48 @@ class GameManager {
 //                }
 //            }
             
-            if foodBlocksAnimated == false {
+            if foodBlocksHaveAnimated == false {
                 for i in (scene.foodPosition) {
 //                    print("Tempcolor food ran")
-                    if Int((i.x)) == yy && Int((i.y)) == xx {
+                    if Int((i.x)) == yy && Int((i.y)) == xx && scene.gamboardAnimationEnded == true {
                         node.fillColor = scene.foodSquareColor
-                        node.run(scene.gameSquareAnimation(animation: 2))
-                        foodBlocksAnimated = true
+                        node.run(scene.gameSquareAnimation(animation: 3))
+                        foodBlocksHaveAnimated = true
                     }
                 }
             }
             
-            if contains(a: snakeBodyPos, v: Tuple(x: xx, y: yy)) {
-                node.fillColor = scene.snakeBodySquareColor
-                if contains(a: [snakeBodyPos.first!], v: Tuple(x: xx, y: yy)) {
-                    node.fillColor = scene.snakeHeadSquareColor
+//            if snakeBlockHaveAnimated == false {
+//                var bodyCount = 0
+//                for i in (snakeBodyPos) {
+////                    print("i", i, "snakebodyCount", snakeBodyPos.count)
+////                    print(i.x, xx, i.y, yy)
+//                    if Int((i.x)) == xx && Int((i.y)) == yy && scene.gamboardAnimationEnded == true {
+////                        print("i", i, "snakebodyCount", snakeBodyPos.count)
+//                        print("ram")
+//                        bodyCount += 1
+////                        if contains(a: [snakeBodyPos.first!], v: Tuple(x: xx, y: yy)) {
+////                            node.fillColor = scene.snakeHeadSquareColor
+////                        } else {
+//                            node.fillColor = scene.snakeBodySquareColor
+////                        }
+//                        node.run(scene.gameSquareAnimation(animation: 3))
+//                        if bodyCount >= 2 {
+//                            snakeBlockHaveAnimated = true
+//                            print("true if hit", bodyCount)
+//                        }
+//                    }
+//                }
+//            }
+            
+//            if snakeBlockHaveAnimated == true {
+                if contains(a: snakeBodyPos, v: Tuple(x: xx, y: yy)) && scene.gamboardAnimationEnded == true {
+                    node.fillColor = scene.snakeBodySquareColor
+                    if contains(a: [snakeBodyPos.first!], v: Tuple(x: xx, y: yy)) {
+                        node.fillColor = scene.snakeHeadSquareColor
+                    }
                 }
-            }
+//            )
 //            else {
 //                node.fillColor = scene.gameboardSquareColor
 //            }
