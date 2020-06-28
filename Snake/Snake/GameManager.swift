@@ -594,7 +594,7 @@ class GameManager {
             case 5: // Visited
                 self.viewController?.scoreButton.setTitle(String(scene.animatedVisitedNodeCount), for: .normal)
             case 6: // Queued
-                self.viewController?.scoreButton.setTitle("NA", for: .normal)
+                self.viewController?.scoreButton.setTitle(String(scene.animatedQueuedNodeCount), for: .normal)
             case 7: // Barriers
                 self.viewController?.scoreButton.setTitle(String(barrierNodesWaitingToBeDisplayed.count), for: .normal)
             case 8: // Weight
@@ -697,6 +697,7 @@ class GameManager {
             paused = true
         } else {
             scene.animatedVisitedNodeCount = 0
+            scene.animatedQueuedNodeCount = 0
             gameSpeed = UserDefaults.standard.float(forKey: "Snake Move Speed")
             paused = false
         }

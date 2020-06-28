@@ -323,6 +323,7 @@ class GameScene: SKScene {
     var smallWait = SKAction()
     var dispatchCalled = false
     var animatedVisitedNodeCount = 0
+    var animatedQueuedNodeCount = 0
     
     func pathTeeest(square: SKShapeNode) {
 //        if squareIndex != 0 {
@@ -347,7 +348,7 @@ class GameScene: SKScene {
     
     // 3 Called
     func visitedSquareFill(square: SKShapeNode) {
-//        square.run(.sequence([gameSquareAnimation(animation: 2)]))
+        square.run(.sequence([gameSquareAnimation(animation: 2)]))
         square.fillColor = visitedSquareColor
         
         animatedVisitedNodeCount += 1
@@ -361,8 +362,10 @@ class GameScene: SKScene {
     }
     
     func queuedSquareFill(square: SKShapeNode) {
-//        square.run(.sequence([gameSquareAnimation(animation: 2)]))
+        square.run(.sequence([gameSquareAnimation(animation: 2)]))
         square.fillColor = queuedSquareColor
+        
+        animatedQueuedNodeCount += 1
     }
     
     func fronterrInitalAnimation() {
