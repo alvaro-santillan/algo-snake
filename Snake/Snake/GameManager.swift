@@ -252,7 +252,8 @@ class GameManager {
     }
     
 
-
+    var currentInArrayFormat = [[Tuple]]()
+    var fronterInArrayFormat = [[Tuple]]()
     // Steps in Breath First Search
     // Mark parent
     // Mark current node as visited.
@@ -279,21 +280,29 @@ class GameManager {
             if !(visitedSquares.contains(currentSquare)) {
                 visitedSquares += [currentSquare]
                 colorVisitedSquares(visitedX: currentSquare.y, visitedY: currentSquare.x)
+                currentInArrayFormat.append([Tuple(x: currentSquare.x, y: currentSquare.y)])
                 visitedSquareCount += 1
             }
             
             // Repeat through all the nodes in the sub dictionary.
             // Append to fronter and mark parent.
+            var newFornterSquareHolder = [Tuple]()
             for (prospectFronterSquare, _) in gameBoard[currentSquare]! {
                 if !(visitedSquares.contains(prospectFronterSquare)) {
                     if !(fronterSquares.contains(prospectFronterSquare)){
                         fronterSquares += [prospectFronterSquare]
                         fronteerSquares(visitedX: prospectFronterSquare.x, visitedY: prospectFronterSquare.y)
+                        newFornterSquareHolder.append(Tuple(x: prospectFronterSquare.x, y: prospectFronterSquare.y))
                         squareAndParentSquare[prospectFronterSquare] = currentSquare
                     }
                 }
             }
+            if !(newFornterSquareHolder.isEmpty) {
+                fronterInArrayFormat.append(newFornterSquareHolder)
+            }
             
+            
+            // Update current and fronter
             if fronterSquares.count != 0 {
                 // New currentNode is first in queue (BFS).
                 currentSquare = fronterSquares[0]
@@ -310,6 +319,8 @@ class GameManager {
                     conditionRed = true
                     print("Condition red", squareAndParentSquare.count)
                 }
+                print("visitedInArrayFormat", currentInArrayFormat)
+                print("fronterInArrayFormat", fronterInArrayFormat)
                 return(formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: currentSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited))
             }
         }
@@ -318,6 +329,8 @@ class GameManager {
         conditionGreen = true
         conditionYellow = false
         conditionRed = false
+        print("visitedInArrayFormat", currentInArrayFormat)
+        print("fronterInArrayFormat", fronterInArrayFormat)
         return(formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: goalSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited))
     }
 

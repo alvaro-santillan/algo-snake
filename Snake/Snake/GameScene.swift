@@ -337,7 +337,9 @@ class GameScene: SKScene {
         }
     }
     
-    func Queuedteeest(square: SKShapeNode) {
+    var squarewaitTimeForQueued = SKAction()
+    func Queuedteeest(square: SKShapeNode, squareIndex: Int) {
+        
         square.run(.sequence([gameSquareAnimation(animation: 2)]))
         square.fillColor = queuedSquareColor
         
@@ -346,8 +348,9 @@ class GameScene: SKScene {
         game.viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: false)
         
         if dispatchCalled == false {
-            DispatchQueue.main.asyncAfter(deadline: .now() + squareWait.duration) {
+            DispatchQueue.main.asyncAfter(deadline: .now() ) {
 //                self.animatePathNew(run: self.dispatchCalled)
+                self.visitedSquareInitial()
             }
             dispatchCalled = true
         }
@@ -367,10 +370,23 @@ class GameScene: SKScene {
         if run == true {
             for (squareIndex, square) in (game.pathSquareArray).enumerated() {
                 square.run(.sequence([squareWait,gameSquareAnimation(animation: 3)]), completion: {self.pathTeeest(square: square, squareIndex: squareIndex)})
-                squareWait = .wait(forDuration: TimeInterval(squareIndex) * 0.020)
+                squareWait = .wait(forDuration: TimeInterval(squareIndex) + (0.25*2))
                 game!.pathSquareArray.remove(at: 0)
             }
         }
+    }
+    
+    func visitedSquareInitial() {
+        for (squareIndex, square) in (game.visitedNodeArray).enumerated() {
+            // Easter would go here enable this one
+            game.viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: false)
+            square.run(.sequence([squareWait,gameSquareAnimation(animation: 3)]), completion: {self.teeest(square: square)})
+            squareWait = .wait(forDuration: TimeInterval(squareIndex) + 0.25)
+            game!.visitedNodeArray.remove(at: 0)
+            
+            animatedVisitedNodeCount = 0
+        }
+        dispatchCalled = false
     }
     
     // Called before each frame is rendered
@@ -381,28 +397,15 @@ class GameScene: SKScene {
         game.viewControllerComunicationsManager(updatingPlayButton: false, playButtonIsEnabled: false)
         
         if game!.visitedNodeArray.count > 0 && gamboardAnimationEnded == true {
-            for (squareIndex, square) in (game.visitedNodeArray).enumerated() {
-                // Easter would go here enable this one
-                game.viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: false)
-                square.run(.sequence([squareWait,gameSquareAnimation(animation: 3)]), completion: {self.teeest(square: square)})
-                squareWait = .wait(forDuration: TimeInterval(squareIndex) * 0.020)
-                game!.visitedNodeArray.remove(at: 0)
-                
-                animatedVisitedNodeCount = 0
-            }
-            dispatchCalled = false
             for (squareIndex, square) in (game.fronteerSquareArray).enumerated() {
                 // Easter would go here enable this one
 //                game.viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: false)
-                square.run(.sequence([squareWait,gameSquareAnimation(animation: 3)]), completion: {self.Queuedteeest(square: square)})
-                squareWait = .wait(forDuration: TimeInterval(squareIndex) * 0.020)
+                square.run(.sequence([squareWait,gameSquareAnimation(animation: 3)]), completion: {self.Queuedteeest(square: square, squareIndex: squareIndex)})
+                squareWait = .wait(forDuration: TimeInterval(squareIndex) + 0.25)
                 game!.fronteerSquareArray.remove(at: 0)
-                
 //                animatedVisitedNodeCount = 0
             }
-            
         }
-        
         game.update(time: currentTime)
     }
 }
