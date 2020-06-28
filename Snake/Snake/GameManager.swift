@@ -232,7 +232,7 @@ class GameManager {
     }
     
     var visitedNodeArray = [SKShapeNode]()
-    var fronteerSquareArray = [SKShapeNode]()
+    var fronteerSquareArray = [[SKShapeNode]]()
     var pathSquareArray = [SKShapeNode]()
     
 
@@ -244,9 +244,14 @@ class GameManager {
 //        print("Node at:", visitedX, visitedY)
     }
 
-    func fronteerSquares(visitedX: Int, visitedY: Int) {
-        let node = scene.gameBoard.first(where: {$0.x == visitedY && $0.y == visitedX})?.node
-        fronteerSquareArray.append(node!)
+    
+    func fronteerSquaress(rawSquares: [Tuple]) {
+        var innerFronterSquares = [SKShapeNode]()
+        for node in rawSquares {
+            let node = scene.gameBoard.first(where: {$0.x == node.y && $0.y == node.x})?.node
+            innerFronterSquares.append(node!)
+        }
+        fronteerSquareArray.append(innerFronterSquares)
 //        node!.fillColor = UserDefaults.standard.colorForKey(key: "Visited Square")!
 //            print("Node at:", visitedX, visitedY)
     }
@@ -291,15 +296,18 @@ class GameManager {
                 if !(visitedSquares.contains(prospectFronterSquare)) {
                     if !(fronterSquares.contains(prospectFronterSquare)){
                         fronterSquares += [prospectFronterSquare]
-                        fronteerSquares(visitedX: prospectFronterSquare.x, visitedY: prospectFronterSquare.y)
+//                        fronteerSquares(visitedX: prospectFronterSquare.x, visitedY: prospectFronterSquare.y)
                         newFornterSquareHolder.append(Tuple(x: prospectFronterSquare.x, y: prospectFronterSquare.y))
                         squareAndParentSquare[prospectFronterSquare] = currentSquare
                     }
                 }
             }
             if !(newFornterSquareHolder.isEmpty) {
+                fronteerSquaress(rawSquares: newFornterSquareHolder)
                 fronterInArrayFormat.append(newFornterSquareHolder)
             }
+            
+
             
             
             // Update current and fronter
@@ -311,26 +319,26 @@ class GameManager {
                 conditionGreen = false
                 conditionYellow = true
                 conditionRed = false
-                print("Condition yellow", squareAndParentSquare.count)
+//                print("Condition yellow", squareAndParentSquare.count)
                 
                 if conditionYellow == true && squareAndParentSquare.count < 15 {
                     conditionGreen = false
                     conditionYellow = false
                     conditionRed = true
-                    print("Condition red", squareAndParentSquare.count)
+//                    print("Condition red", squareAndParentSquare.count)
                 }
-                print("visitedInArrayFormat", currentInArrayFormat)
-                print("fronterInArrayFormat", fronterInArrayFormat)
+//                print("visitedInArrayFormat", currentInArrayFormat)
+//                print("fronterInArrayFormat", fronterInArrayFormat)
                 return(formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: currentSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited))
             }
         }
         // Genarate a path and optional statistics from the results of BFS.
-        print("Condition Green", squareAndParentSquare.count)
+//        print("Condition Green", squareAndParentSquare.count)
         conditionGreen = true
         conditionYellow = false
         conditionRed = false
-        print("visitedInArrayFormat", currentInArrayFormat)
-        print("fronterInArrayFormat", fronterInArrayFormat)
+//        print("visitedInArrayFormat", currentInArrayFormat)
+//        print("fronterInArrayFormat", fronterInArrayFormat)
         return(formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: goalSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited))
     }
 
