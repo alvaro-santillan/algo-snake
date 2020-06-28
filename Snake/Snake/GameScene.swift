@@ -179,7 +179,8 @@ class GameScene: SKScene {
         }
         
         var squares = [SKShapeNode]()
-//        game.viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: false)
+        game.viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: false)
+//        UserDefaults.standard.set(true, forKey: "Game Is Paused Setting")
         for i in gameBoard {
             squares.append(i.node)
         }
@@ -333,7 +334,7 @@ class GameScene: SKScene {
             square.fillColor = pathSquareColor
             self.pathFindingAnimationsEnded = true
             //enable this one
-//            game.viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: true)
+            game.viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: true)
         }
     }
 
@@ -397,15 +398,18 @@ class GameScene: SKScene {
     
     // Called before each frame is rendered
     // perhapse this can be used to pass in settings? maybe
+    var firstAnimationSequanceComleted = Bool()
     override func update(_ currentTime: TimeInterval) {
         UserDefaults.standard.bool(forKey: "Settings Value Modified") ? (settingLoader(firstRun: false)) : ()
         // enable this one
         game.viewControllerComunicationsManager(updatingPlayButton: false, playButtonIsEnabled: false)
         
         if game!.visitedNodeArray.count > 0 && gamboardAnimationEnded == true {
+            game.viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: false)
             dispatchCalled = false
             fronterrInitalAnimation()
             visitedSquareInitialAnimation()
+            firstAnimationSequanceComleted = true
         }
         game.update(time: currentTime)
     }

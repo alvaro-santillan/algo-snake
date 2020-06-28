@@ -536,7 +536,9 @@ class GameManager {
 //            print(UserDefaults.standard.bool(forKey: "Step Mode On Setting"))
         if UserDefaults.standard.bool(forKey: "Step Mode On Setting") {
                 // problem
+            if scene.firstAnimationSequanceComleted == true {
                 viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: true)
+            }
 
             
             UserDefaults.standard.set(true, forKey: "Game Is Paused Setting")
@@ -568,6 +570,7 @@ class GameManager {
                 } else if playButtonIsEnabled == false {
                     self.viewController?.playButton.setImage(UIImage(named: "Pause_Icon_Set"), for: .normal)
                     self.viewController?.playButton.isEnabled = false
+                    self.viewController?.barrierButton.isEnabled = false
                 }
             }
 
