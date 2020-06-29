@@ -259,6 +259,7 @@ class GameManager {
 
     var currentInArrayFormat = [[Tuple]]()
     var fronterInArrayFormat = [[Tuple]]()
+    var newFornterSquareHolder = [Tuple]()
     // Steps in Breath First Search
     // Mark parent
     // Mark current node as visited.
@@ -291,24 +292,17 @@ class GameManager {
             
             // Repeat through all the nodes in the sub dictionary.
             // Append to fronter and mark parent.
-            var newFornterSquareHolder = [Tuple]()
             for (prospectFronterSquare, _) in gameBoard[currentSquare]! {
                 if !(visitedSquares.contains(prospectFronterSquare)) {
                     if !(fronterSquares.contains(prospectFronterSquare)){
                         fronterSquares += [prospectFronterSquare]
-//                        fronteerSquares(visitedX: prospectFronterSquare.x, visitedY: prospectFronterSquare.y)
                         newFornterSquareHolder.append(Tuple(x: prospectFronterSquare.x, y: prospectFronterSquare.y))
                         squareAndParentSquare[prospectFronterSquare] = currentSquare
                     }
                 }
             }
-//            if !(newFornterSquareHolder.isEmpty) {
-                fronteerSquaress(rawSquares: newFornterSquareHolder)
-                fronterInArrayFormat.append(newFornterSquareHolder)
-//            }
-            
-
-            
+            fronteerSquaress(rawSquares: newFornterSquareHolder)
+            fronterInArrayFormat.append(newFornterSquareHolder)
             
             // Update current and fronter
             if fronterSquares.count != 0 {
@@ -319,26 +313,19 @@ class GameManager {
                 conditionGreen = false
                 conditionYellow = true
                 conditionRed = false
-//                print("Condition yellow", squareAndParentSquare.count)
                 
                 if conditionYellow == true && squareAndParentSquare.count < 15 {
                     conditionGreen = false
                     conditionYellow = false
                     conditionRed = true
-//                    print("Condition red", squareAndParentSquare.count)
                 }
-//                print("visitedInArrayFormat", currentInArrayFormat)
-//                print("fronterInArrayFormat", fronterInArrayFormat)
                 return(formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: currentSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited))
             }
         }
         // Genarate a path and optional statistics from the results of BFS.
-//        print("Condition Green", squareAndParentSquare.count)
         conditionGreen = true
         conditionYellow = false
         conditionRed = false
-//        print("visitedInArrayFormat", currentInArrayFormat)
-//        print("fronterInArrayFormat", fronterInArrayFormat)
         return(formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: goalSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited))
     }
 
@@ -366,6 +353,8 @@ class GameManager {
             // Mark current node as visited. (If statement required due to first node.)
             if !(visitedSquares.contains(currentSquare)) {
                 visitedSquares += [currentSquare]
+                colorVisitedSquares(visitedX: currentSquare.y, visitedY: currentSquare.x)
+                currentInArrayFormat.append([Tuple(x: currentSquare.x, y: currentSquare.y)])
                 visitedSquareCount += 1
             }
             
@@ -375,10 +364,13 @@ class GameManager {
                 if !(visitedSquares.contains(prospectFronterSquare)) {
                     if !(fronterSquares.contains(prospectFronterSquare)){
                         fronterSquares += [prospectFronterSquare]
+                        newFornterSquareHolder.append(Tuple(x: prospectFronterSquare.x, y: prospectFronterSquare.y))
                         squareAndParentSquare[prospectFronterSquare] = currentSquare
                     }
                 }
             }
+            fronteerSquaress(rawSquares: newFornterSquareHolder)
+            fronterInArrayFormat.append(newFornterSquareHolder)
             
             if fronterSquares.count != 0 {
                 currentSquare = fronterSquares.last!
@@ -387,19 +379,16 @@ class GameManager {
                 conditionGreen = false
                 conditionYellow = true
                 conditionRed = false
-                print("Condition yellow", squareAndParentSquare.count)
                 
                 if conditionYellow == true && squareAndParentSquare.count < 15 {
                     conditionGreen = false
                     conditionYellow = false
                     conditionRed = true
-                    print("Condition red", squareAndParentSquare.count)
                 }
                 return(formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: currentSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited))
             }
         }
         // Genarate a path and optional statistics from the results of DFS.
-        print("Condition Green", squareAndParentSquare.count)
         conditionGreen = true
         conditionYellow = false
         conditionRed = false
@@ -513,17 +502,12 @@ class GameManager {
                     pathBlockCordinatesNotReversed = path.1
                     pathBlockCordinates = path.1.reversed()
                     newPath = true
-//                    pathSquareArray.removeLast()
                 } else if mainScreenAlgoChoice == 3 {
-//                    print("startSquare:", Tuple(x: Int(minY), y: Int(minX)))
-//                    print("goalSquare:", Tuple(x:snakeHead.y, y:snakeHead.x))
-//                    print("gameBoard:", gameBoardMatrixToDictionary(gameBoardMatrix: matrix))
                     path = depthFirstSearch(startSquare: Tuple(x:snakeHead.y, y:snakeHead.x), goalSquare: Tuple(x: Int(minY), y: Int(minX)), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: matrix), returnPathCost: false, returnSquaresVisited: false)
                     test = path.0.reversed()
                     pathBlockCordinatesNotReversed = path.1
                     pathBlockCordinates = path.1.reversed()
                     newPath = true
-//                    pathSquareArray.removeLast()
                 } else {
                     test = []
                 }
@@ -531,9 +515,7 @@ class GameManager {
                     pathSquares(visitedX: i.0, visitedY: i.1)
                 }
                 pathSquareArray.removeLast()
-//            pathSquareArray.removeFirst()
             }
-//            print(UserDefaults.standard.bool(forKey: "Step Mode On Setting"))
         if UserDefaults.standard.bool(forKey: "Step Mode On Setting") {
                 // problem
             if scene.firstAnimationSequanceComleted == true {
