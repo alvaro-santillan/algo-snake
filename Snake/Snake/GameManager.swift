@@ -715,7 +715,7 @@ class GameManager {
             for (v1) in a { if v1.x == c1 && v1.y == c2 { return true } }
             return false
         }
-        // Still need to impliment weight blocks
+        // Still need to impliment weight blocks.
         
         for (node, xx, yy) in scene.gameBoard  {
             barrierNodesWaitingToBeDisplayed = Array(Set(barrierNodesWaitingToBeDisplayed).subtracting(barrierNodesWaitingToBeRemoved))
@@ -726,8 +726,6 @@ class GameManager {
                     node.fillColor = scene.barrierSquareColor
                 }
             }
-            
-
             
             for i in (scene.foodPosition) {
                 if Int((i.x)) == yy && Int((i.y)) == xx && scene.gamboardAnimationEnded == true {

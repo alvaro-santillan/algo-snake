@@ -7,6 +7,7 @@
 //
 
 import SpriteKit
+import UIKit
 
 class GameScene: SKScene {
     var game: GameManager!
@@ -42,7 +43,15 @@ class GameScene: SKScene {
     func settingLoader(firstRun: Bool) {
         let legendData = UserDefaults.standard.array(forKey: "Legend Preferences") as! [[Any]]
         var correctColorArray = [UIColor]()
-        UserDefaults.standard.bool(forKey: "Dark Mode On Setting") ? (correctColorArray = darkBackgroundColors) : (correctColorArray = lightBackgroundColors)
+        
+        if UserDefaults.standard.bool(forKey: "Dark Mode On Setting") {
+            correctColorArray = darkBackgroundColors
+            gameboardBackgroundColor = UIColor(red: 0.11, green: 0.11, blue: 0.11, alpha: 1.00)
+        } else {
+            correctColorArray = lightBackgroundColors
+            gameboardBackgroundColor = UIColor(red: 1.00, green: 1.00, blue: 1.00, alpha: 1.00)
+        }
+        
         pathFindingAnimationSpeed = (UserDefaults.standard.float(forKey: "Snake Move Speed") * 0.14)
         
         snakeHeadSquareColor = colors[legendData[0][1] as! Int] // "Snake Head"
@@ -54,10 +63,18 @@ class GameScene: SKScene {
         barrierSquareColor = colors[legendData[6][1] as! Int] // "Barrier"
         weightSquareColor = colors[legendData[7][1] as! Int] // "Weight"
         gameboardSquareColor = correctColorArray[legendData[8][1] as! Int] // "Gameboard"
-        gameboardBackgroundColor = UIColor(named: "Left View Background")!
+        
         UserDefaults.standard.set(false, forKey: "Settings Value Modified")
         
         if !(firstRun) {
+            if UserDefaults.standard.bool(forKey: "Dark Mode On Setting") {
+                gameBackground!.fillColor = gameboardBackgroundColor
+                gameBackground!.strokeColor = gameboardBackgroundColor
+            } else {
+                gameBackground!.fillColor = gameboardBackgroundColor
+                gameBackground!.strokeColor = gameboardBackgroundColor
+            }
+            
             if UserDefaults.standard.bool(forKey: "Clear All Setting") {
                 game.barrierNodesWaitingToBeDisplayed.removeAll()
                 game.barrierNodesWaitingToBeRemoved.removeAll()
