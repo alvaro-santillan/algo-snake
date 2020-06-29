@@ -523,7 +523,10 @@ class GameManager {
                 for i in pathBlockCordinatesNotReversed {
                     pathSquares(visitedX: i.0, visitedY: i.1)
                 }
+            if mainScreenAlgoChoice != 0 {
                 pathSquareArray.removeLast()
+            }
+                
 //            pathSquareArray.removeFirst()
             }
 //            print(UserDefaults.standard.bool(forKey: "Step Mode On Setting"))
