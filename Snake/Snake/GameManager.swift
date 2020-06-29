@@ -259,7 +259,6 @@ class GameManager {
 
     var currentInArrayFormat = [[Tuple]]()
     var fronterInArrayFormat = [[Tuple]]()
-    var newFornterSquareHolder = [Tuple]()
     // Steps in Breath First Search
     // Mark parent
     // Mark current node as visited.
@@ -292,6 +291,7 @@ class GameManager {
             
             // Repeat through all the nodes in the sub dictionary.
             // Append to fronter and mark parent.
+            var newFornterSquareHolder = [Tuple]()
             for (prospectFronterSquare, _) in gameBoard[currentSquare]! {
                 if !(visitedSquares.contains(prospectFronterSquare)) {
                     if !(fronterSquares.contains(prospectFronterSquare)){
@@ -303,6 +303,9 @@ class GameManager {
             }
             fronteerSquaress(rawSquares: newFornterSquareHolder)
             fronterInArrayFormat.append(newFornterSquareHolder)
+            
+
+            
             
             // Update current and fronter
             if fronterSquares.count != 0 {
@@ -360,6 +363,7 @@ class GameManager {
             
             // Repeat through all the nodes in the sub dictionary.
             // Append to fronter and mark parent.
+            var newFornterSquareHolder = [Tuple]()
             for (prospectFronterSquare, _) in gameBoard[currentSquare]! {
                 if !(visitedSquares.contains(prospectFronterSquare)) {
                     if !(fronterSquares.contains(prospectFronterSquare)){
@@ -502,12 +506,17 @@ class GameManager {
                     pathBlockCordinatesNotReversed = path.1
                     pathBlockCordinates = path.1.reversed()
                     newPath = true
+//                    pathSquareArray.removeLast()
                 } else if mainScreenAlgoChoice == 3 {
+//                    print("startSquare:", Tuple(x: Int(minY), y: Int(minX)))
+//                    print("goalSquare:", Tuple(x:snakeHead.y, y:snakeHead.x))
+//                    print("gameBoard:", gameBoardMatrixToDictionary(gameBoardMatrix: matrix))
                     path = depthFirstSearch(startSquare: Tuple(x:snakeHead.y, y:snakeHead.x), goalSquare: Tuple(x: Int(minY), y: Int(minX)), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: matrix), returnPathCost: false, returnSquaresVisited: false)
                     test = path.0.reversed()
                     pathBlockCordinatesNotReversed = path.1
                     pathBlockCordinates = path.1.reversed()
                     newPath = true
+//                    pathSquareArray.removeLast()
                 } else {
                     test = []
                 }
@@ -515,7 +524,9 @@ class GameManager {
                     pathSquares(visitedX: i.0, visitedY: i.1)
                 }
                 pathSquareArray.removeLast()
+//            pathSquareArray.removeFirst()
             }
+//            print(UserDefaults.standard.bool(forKey: "Step Mode On Setting"))
         if UserDefaults.standard.bool(forKey: "Step Mode On Setting") {
                 // problem
             if scene.firstAnimationSequanceComleted == true {
@@ -1044,3 +1055,4 @@ class GameManager {
 //         scene.highScore.text = "High Score: \(UserDefaults.standard.integer(forKey: "highScore"))"
     }
 }
+

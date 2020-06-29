@@ -411,6 +411,10 @@ class GameScene: SKScene {
             visitedSquareInitialAnimation()
             firstAnimationSequanceComleted = true
         }
+        
+        if game.mainScreenAlgoChoice == 0 {
+            firstAnimationSequanceComleted = true
+        }
         game.update(time: currentTime)
     }
 }
