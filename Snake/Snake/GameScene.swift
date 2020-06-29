@@ -7,15 +7,18 @@
 //
 
 import SpriteKit
+import UIKit
 
 class GameScene: SKScene {
     var game: GameManager!
     var algorithimChoiceName: SKLabelNode!
+    var scoreLabel: SKLabelNode!
     var foodPosition = [CGPoint]()
     var gameBackground: SKShapeNode!
     var gameBoard: [(node: SKShapeNode, x: Int, y: Int)] = []
     let rowCount = 17 // 17
     let columnCount = 30 // 30
+    var pathFindingAnimationSpeed = Float()
     
     var snakeHeadSquareColor = UIColor() // "Snake Head"
     var snakeBodySquareColor = UIColor() // "Snake Body"
@@ -40,7 +43,16 @@ class GameScene: SKScene {
     func settingLoader(firstRun: Bool) {
         let legendData = UserDefaults.standard.array(forKey: "Legend Preferences") as! [[Any]]
         var correctColorArray = [UIColor]()
-        UserDefaults.standard.bool(forKey: "Dark Mode On Setting") ? (correctColorArray = darkBackgroundColors) : (correctColorArray = lightBackgroundColors)
+        
+        if UserDefaults.standard.bool(forKey: "Dark Mode On Setting") {
+            correctColorArray = darkBackgroundColors
+            gameboardBackgroundColor = UIColor(red: 0.11, green: 0.11, blue: 0.11, alpha: 1.00)
+        } else {
+            correctColorArray = lightBackgroundColors
+            gameboardBackgroundColor = UIColor(red: 1.00, green: 1.00, blue: 1.00, alpha: 1.00)
+        }
+        
+        pathFindingAnimationSpeed = (UserDefaults.standard.float(forKey: "Snake Move Speed") * 0.14)
         
         snakeHeadSquareColor = colors[legendData[0][1] as! Int] // "Snake Head"
         snakeBodySquareColor = colors[legendData[1][1] as! Int] // "Snake Body"
@@ -51,10 +63,18 @@ class GameScene: SKScene {
         barrierSquareColor = colors[legendData[6][1] as! Int] // "Barrier"
         weightSquareColor = colors[legendData[7][1] as! Int] // "Weight"
         gameboardSquareColor = correctColorArray[legendData[8][1] as! Int] // "Gameboard"
-        gameboardBackgroundColor = UIColor(named: "Left View Background")!
+        
         UserDefaults.standard.set(false, forKey: "Settings Value Modified")
         
         if !(firstRun) {
+            if UserDefaults.standard.bool(forKey: "Dark Mode On Setting") {
+                gameBackground!.fillColor = gameboardBackgroundColor
+                gameBackground!.strokeColor = gameboardBackgroundColor
+            } else {
+                gameBackground!.fillColor = gameboardBackgroundColor
+                gameBackground!.strokeColor = gameboardBackgroundColor
+            }
+            
             if UserDefaults.standard.bool(forKey: "Clear All Setting") {
                 game.barrierNodesWaitingToBeDisplayed.removeAll()
                 game.barrierNodesWaitingToBeRemoved.removeAll()
@@ -149,16 +169,33 @@ class GameScene: SKScene {
         animateTheGameboard()
     }
     
+    var gameBoarddispatchCalled = Bool()
+    var gamboardAnimationEnded = Bool()
+    var pathFindingAnimationsEnded = false
+    var gameboardsquareWait = SKAction()
     func animateTheGameboard() {
+        func gameBoardAnimationComplition() {
+            if gameBoarddispatchCalled == false {
+                DispatchQueue.main.asyncAfter(deadline: .now() + gameboardsquareWait.duration) {
+                    self.gamboardAnimationEnded = true
+//                    self.game.viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: true)
+                }
+                gameBoarddispatchCalled = true
+            }
+        }
+        
         func animateNodes(_ nodes: [SKShapeNode]) {
-            var squareWait = SKAction()
+//            var gameboardsquareWait = SKAction()
             for (squareIndex, square) in nodes.enumerated() {
-                square.run(.sequence([squareWait, gameSquareAnimation(animation: 1)]))
-                squareWait = .wait(forDuration: TimeInterval(squareIndex) * 0.003)
+                
+                square.run(.sequence([gameboardsquareWait, gameSquareAnimation(animation: 1)]), completion: {gameBoardAnimationComplition()}) //0.003
+                gameboardsquareWait = .wait(forDuration: TimeInterval(squareIndex) * 0.0003)
             }
         }
         
         var squares = [SKShapeNode]()
+        game.viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: false)
+//        UserDefaults.standard.set(true, forKey: "Game Is Paused Setting")
         for i in gameBoard {
             squares.append(i.node)
         }
@@ -175,11 +212,14 @@ class GameScene: SKScene {
         let shrink2 = SKAction.scale(by: 0.95, duration: 0.05)
         let shrink3 = SKAction.scale(by: 0.95, duration: 0.10)
         let shrink4 = SKAction.scale(by: 0.97, duration: 0.05)
+        let shrink5 = SKAction.scale(by: 0.75, duration: 0.05)
 
         if animation == 1 {
             return SKAction.sequence([wait0, grow1, wait1, shrink1, wait1, scale1, shrink2, wait2, scale1])
-        } else {
+        } else if animation == 2 {
             return SKAction.sequence([grow1, wait1, shrink3, wait1, scale1, shrink4, wait2, scale1])
+        } else {
+            return SKAction.sequence([shrink5, wait1, scale1])
         }
     }
     
@@ -223,6 +263,7 @@ class GameScene: SKScene {
         let topCenter = CGPoint(x: 0, y: (frame.size.height / 2) - 25)
         algorithimChoiceName.run(SKAction.move(to: topCenter, duration: 0.4)) {
             self.game.initiateSnakeStartingPosition()
+            
         }
     }
     
@@ -230,6 +271,7 @@ class GameScene: SKScene {
         if UserDefaults.standard.bool(forKey: "Game Is Paused Setting") {
             swipeManager(swipeGesturesAreOn: false)
             barrierManager(touches: touches)
+            swipeManager(swipeGesturesAreOn: true)
         }
     }
     
@@ -257,6 +299,7 @@ class GameScene: SKScene {
         func IsSquareOccupied(squareLocation: Tuple) -> Bool {
             for square in game.snakeBodyPos {if squareLocation.x == square.x && squareLocation.y == square.y {return true}}
             for square in game.foodLocationArray {if squareLocation.x == square[0] && squareLocation.y == square[1] {return true}}
+            for square in game.pathBlockCordinates {if squareLocation.x == square.1 && squareLocation.y == square.0 {return true}}
             return false
         }
         
@@ -290,28 +333,119 @@ class GameScene: SKScene {
         }
     }
     
+    var queuedSquareWait = SKAction()
+    var visitedSquareWait = SKAction()
+    var pathSquareWait = SKAction()
+    var smallWait = SKAction()
+    var dispatchCalled = false
+    var pathdispatchCalled = false
+    var animatedVisitedNodeCount = 0
+    var animatedQueuedNodeCount = 0
+    
+    var firstSquare = false
+    func pathTeeest(square: SKShapeNode, squareIndex: Int) {
+        
+        if squareIndex != 0 {
+            square.run(.sequence([gameSquareAnimation(animation: 2)]))
+            square.fillColor = pathSquareColor
+            //enable this one
+            game.viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: true)
+        }
+        if pathdispatchCalled == false {
+            DispatchQueue.main.asyncAfter(deadline: .now() + pathSquareWait.duration) {
+//                self.animatePathNew(run: self.dispatchCalled)
+                self.pathFindingAnimationsEnded = true
+            }
+            pathdispatchCalled = true
+        }
+    }
+
+    var temporaryPath = [SKShapeNode]()
+    func animatePathNew(run: Bool) {
+        temporaryPath = game.pathSquareArray
+        temporaryPath.removeFirst()
+//        temporaryPath.removeLast()
+        if run == true {
+            for (squareIndex, square) in (game.pathSquareArray).enumerated() {
+                square.run(.sequence([pathSquareWait,gameSquareAnimation(animation: 3)]), completion: {self.pathTeeest(square: square, squareIndex: squareIndex)})
+                // DONT TOUCH TIME NOT RELATED TO VISITED
+                pathSquareWait = .wait(forDuration: TimeInterval(squareIndex) * 0.005)
+                game!.pathSquareArray.remove(at: 0)
+            }
+        }
+    }
+    
+    // 3 Called
+    func visitedSquareFill(square: SKShapeNode) {
+        square.run(.sequence([gameSquareAnimation(animation: 2)]))
+        square.fillColor = visitedSquareColor
+        
+        animatedVisitedNodeCount += 1
+
+        if dispatchCalled == false {
+            DispatchQueue.main.asyncAfter(deadline: .now() + visitedSquareWait.duration) {
+                self.animatePathNew(run: self.dispatchCalled)
+            }
+            dispatchCalled = true
+        }
+    }
+    
+    func queuedSquareFill(square: SKShapeNode) {
+        if square.name != game.foodName {
+            square.run(.sequence([gameSquareAnimation(animation: 2)]))
+            square.fillColor = queuedSquareColor
+        }
+        animatedQueuedNodeCount += 1
+    }
+    
+    var temporaryFronteerSquareArray = [[SKShapeNode]]()
+    var temporaryVisitedSquareArray = [SKShapeNode]()
+    func fronterrInitalAnimation() {
+        temporaryFronteerSquareArray = game.fronteerSquareArray
+//        temporaryFronteerSquareArray = (game.fronteerSquareArray - game.visitedNodeArray)
+        for (squareIndex, innerSquareArray) in (game.fronteerSquareArray).enumerated() {
+            for square in innerSquareArray {
+                // Easter would go here enable this one
+                square.run(.sequence([queuedSquareWait]), completion: {self.queuedSquareFill(square: square)})
+                queuedSquareWait = .wait(forDuration: TimeInterval(squareIndex) * Double(pathFindingAnimationSpeed))
+            }
+            game!.fronteerSquareArray.remove(at: 0)
+        }
+        game!.fronteerSquareArray.removeAll()
+    }
+    
+    func visitedSquareInitialAnimation() {
+        temporaryVisitedSquareArray = game.visitedNodeArray
+        temporaryVisitedSquareArray.removeFirst()
+        for (squareIIndex, square) in (game.visitedNodeArray).enumerated() {
+            // Easter would go here enable this one
+            square.run(.sequence([visitedSquareWait]), completion: {self.visitedSquareFill(square: square)})
+            visitedSquareWait = .wait(forDuration: TimeInterval(squareIIndex) * Double(pathFindingAnimationSpeed))
+            game!.visitedNodeArray.remove(at: 0)
+        }
+        game!.visitedNodeArray.removeAll()
+    }
+    
     // Called before each frame is rendered
     // perhapse this can be used to pass in settings? maybe
+    var firstAnimationSequanceComleted = Bool()
     override func update(_ currentTime: TimeInterval) {
         UserDefaults.standard.bool(forKey: "Settings Value Modified") ? (settingLoader(firstRun: false)) : ()
+        // enable this one
+        game.viewControllerComunicationsManager(updatingPlayButton: false, playButtonIsEnabled: false)
         
-        if game!.fronteerSquareArray.count > 0 {
-            let wait = SKAction.wait(forDuration: 0.0)
-            let sequance = SKAction.sequence([wait])
-                let node = game!.fronteerSquareArray[0]
-                node.run(sequance)
-                node.fillColor = queuedSquareColor
-                node.run(SKAction.wait(forDuration: 1.0))
-                game!.fronteerSquareArray.remove(at: 0)
+        if game!.visitedNodeArray.count > 0 && gamboardAnimationEnded == true {
+            game.viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: false)
+            dispatchCalled = false
+            pathFindingAnimationsEnded = false
+            fronterrInitalAnimation()
+            visitedSquareInitialAnimation()
+            firstAnimationSequanceComleted = true
         }
         
-        if game!.visitedNodeArray.count > 0{
-            let wait = SKAction.wait(forDuration: 1.0)
-            let sequance = SKAction.sequence([wait])
-                let node = game!.visitedNodeArray[0]
-                node.run(sequance)
-                node.fillColor = visitedSquareColor
-                game!.visitedNodeArray.remove(at: 0)
+        if game.mainScreenAlgoChoice == 0 {
+            firstAnimationSequanceComleted = true
+            pathFindingAnimationsEnded = true
         }
         game.update(time: currentTime)
     }

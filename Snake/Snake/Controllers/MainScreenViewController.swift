@@ -40,6 +40,7 @@ class MainScreenViewController: UIViewController, UITableViewDelegate, UITableVi
             UserDefaults.standard.set(false, forKey: "Step Mode On Setting")
             UserDefaults.standard.set(true, forKey: "Dark Mode On Setting")
             UserDefaults.standard.set(true, forKey: "Not First Launch")
+            UserDefaults.standard.set(true, forKey: "Game Is Paused Setting")
             overrideUserInterfaceStyle = .dark
         }
     }
