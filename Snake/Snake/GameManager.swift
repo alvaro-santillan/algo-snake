@@ -715,6 +715,7 @@ class GameManager {
             for (v1) in a { if v1.x == c1 && v1.y == c2 { return true } }
             return false
         }
+        // Still need to impliment weight blocks
         
         for (node, xx, yy) in scene.gameBoard  {
             barrierNodesWaitingToBeDisplayed = Array(Set(barrierNodesWaitingToBeDisplayed).subtracting(barrierNodesWaitingToBeRemoved))
@@ -723,29 +724,48 @@ class GameManager {
             for i in (barrierNodesWaitingToBeDisplayed) {
                 if i.y == yy && i.x == xx {
                     node.fillColor = scene.barrierSquareColor
-//                    node.run(scene.gameSquareAnimation(animation: 2))
                 }
             }
             
-//            scene.animateThePath(pathBlocks: pathBlockCordinates)
-            // temp removal
-//            for i in (pathBlockCordinates) {
-//                if Int((i.0)) == yy && Int((i.1)) == xx {
-//                    node.fillColor = scene.pathSquareColor
-//                }
-//            }
+
             
-            if foodBlocksHaveAnimated == false {
-                for i in (scene.foodPosition) {
-//                    print("Tempcolor food ran")
-                    if Int((i.x)) == yy && Int((i.y)) == xx && scene.gamboardAnimationEnded == true {
-                        node.fillColor = scene.foodSquareColor
-                        foodName = node.name!
-                        node.run(scene.gameSquareAnimation(animation: 3))
-                        foodBlocksHaveAnimated = true
+            for i in (scene.foodPosition) {
+                if Int((i.x)) == yy && Int((i.y)) == xx && scene.gamboardAnimationEnded == true {
+                    node.fillColor = scene.foodSquareColor
+                    foodName = node.name!
+                }
+                if foodBlocksHaveAnimated == false {
+                    node.run(scene.gameSquareAnimation(animation: 3))
+                    foodBlocksHaveAnimated = true
+                }
+            }
+            
+            
+            // Works need to optimise this 14 frames cuz of this.
+            for i in (scene.temporaryFronteerSquareArray) {
+                for j in i {
+                    if scene.pathFindingAnimationsEnded == true {
+                        if j.name != foodName {
+                            j.fillColor = scene.queuedSquareColor
+                        }
                     }
                 }
             }
+            
+            for i in (scene.temporaryVisitedSquareArray) {
+                if scene.pathFindingAnimationsEnded == true {
+                    i.fillColor = scene.visitedSquareColor
+                }
+            }
+            
+            for i in (scene.temporaryPath) {
+                if scene.pathFindingAnimationsEnded == true {
+//                    if Int((i.0)) == yy && Int((i.1)) == xx {
+                        i.fillColor = scene.pathSquareColor
+//                    }
+                }
+            }
+
             
 //            if snakeBlockHaveAnimated == false {
 //                var bodyCount = 0
@@ -770,13 +790,17 @@ class GameManager {
 //                }
 //            }
             
-//            if snakeBlockHaveAnimated == true {
-                if contains(a: snakeBodyPos, v: Tuple(x: xx, y: yy)) && scene.gamboardAnimationEnded == true {
-                    node.fillColor = scene.snakeBodySquareColor
-                    if contains(a: [snakeBodyPos.first!], v: Tuple(x: xx, y: yy)) {
-                        node.fillColor = scene.snakeHeadSquareColor
-                    }
+            if contains(a: snakeBodyPos, v: Tuple(x: xx, y: yy)) && scene.gamboardAnimationEnded == true {
+                node.fillColor = scene.snakeBodySquareColor
+                if contains(a: [snakeBodyPos.first!], v: Tuple(x: xx, y: yy)) {
+                    node.fillColor = scene.snakeHeadSquareColor
                 }
+            }
+            
+            if node.name == "gameBackground" {
+                node.fillColor = scene.gameboardBackgroundColor
+                node.strokeColor = scene.gameboardBackgroundColor
+            }
 //            )
 //            else {
 //                node.fillColor = scene.gameboardSquareColor

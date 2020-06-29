@@ -17,6 +17,7 @@ class GameScene: SKScene {
     var gameBoard: [(node: SKShapeNode, x: Int, y: Int)] = []
     let rowCount = 17 // 17
     let columnCount = 30 // 30
+    var pathFindingAnimationSpeed = Float()
     
     var snakeHeadSquareColor = UIColor() // "Snake Head"
     var snakeBodySquareColor = UIColor() // "Snake Body"
@@ -42,6 +43,7 @@ class GameScene: SKScene {
         let legendData = UserDefaults.standard.array(forKey: "Legend Preferences") as! [[Any]]
         var correctColorArray = [UIColor]()
         UserDefaults.standard.bool(forKey: "Dark Mode On Setting") ? (correctColorArray = darkBackgroundColors) : (correctColorArray = lightBackgroundColors)
+        pathFindingAnimationSpeed = (UserDefaults.standard.float(forKey: "Snake Move Speed") * 0.14)
         
         snakeHeadSquareColor = colors[legendData[0][1] as! Int] // "Snake Head"
         snakeBodySquareColor = colors[legendData[1][1] as! Int] // "Snake Body"
@@ -54,10 +56,6 @@ class GameScene: SKScene {
         gameboardSquareColor = correctColorArray[legendData[8][1] as! Int] // "Gameboard"
         gameboardBackgroundColor = UIColor(named: "Left View Background")!
         UserDefaults.standard.set(false, forKey: "Settings Value Modified")
-        // problem
-//        UserDefaults.standard.set(true, forKey: "Game Is Paused Setting")
-        // problem
-//        game.viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: false)
         
         if !(firstRun) {
             if UserDefaults.standard.bool(forKey: "Clear All Setting") {
@@ -156,7 +154,7 @@ class GameScene: SKScene {
     
     var gameBoarddispatchCalled = Bool()
     var gamboardAnimationEnded = Bool()
-    var pathFindingAnimationsEnded = Bool()
+    var pathFindingAnimationsEnded = false
     var gameboardsquareWait = SKAction()
     func animateTheGameboard() {
         func gameBoardAnimationComplition() {
@@ -323,6 +321,7 @@ class GameScene: SKScene {
     var pathSquareWait = SKAction()
     var smallWait = SKAction()
     var dispatchCalled = false
+    var pathdispatchCalled = false
     var animatedVisitedNodeCount = 0
     var animatedQueuedNodeCount = 0
     
@@ -332,13 +331,23 @@ class GameScene: SKScene {
         if squareIndex != 0 {
             square.run(.sequence([gameSquareAnimation(animation: 2)]))
             square.fillColor = pathSquareColor
-            self.pathFindingAnimationsEnded = true
             //enable this one
             game.viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: true)
         }
+        if pathdispatchCalled == false {
+            DispatchQueue.main.asyncAfter(deadline: .now() + pathSquareWait.duration) {
+//                self.animatePathNew(run: self.dispatchCalled)
+                self.pathFindingAnimationsEnded = true
+            }
+            pathdispatchCalled = true
+        }
     }
 
+    var temporaryPath = [SKShapeNode]()
     func animatePathNew(run: Bool) {
+        temporaryPath = game.pathSquareArray
+        temporaryPath.removeFirst()
+//        temporaryPath.removeLast()
         if run == true {
             for (squareIndex, square) in (game.pathSquareArray).enumerated() {
                 square.run(.sequence([pathSquareWait,gameSquareAnimation(animation: 3)]), completion: {self.pathTeeest(square: square, squareIndex: squareIndex)})
@@ -369,17 +378,19 @@ class GameScene: SKScene {
             square.run(.sequence([gameSquareAnimation(animation: 2)]))
             square.fillColor = queuedSquareColor
         }
-        
         animatedQueuedNodeCount += 1
     }
     
+    var temporaryFronteerSquareArray = [[SKShapeNode]]()
+    var temporaryVisitedSquareArray = [SKShapeNode]()
     func fronterrInitalAnimation() {
+        temporaryFronteerSquareArray = game.fronteerSquareArray
+//        temporaryFronteerSquareArray = (game.fronteerSquareArray - game.visitedNodeArray)
         for (squareIndex, innerSquareArray) in (game.fronteerSquareArray).enumerated() {
             for square in innerSquareArray {
                 // Easter would go here enable this one
                 square.run(.sequence([queuedSquareWait]), completion: {self.queuedSquareFill(square: square)})
-                queuedSquareWait = .wait(forDuration: TimeInterval(squareIndex) * 0.0025)
-                
+                queuedSquareWait = .wait(forDuration: TimeInterval(squareIndex) * Double(pathFindingAnimationSpeed))
             }
             game!.fronteerSquareArray.remove(at: 0)
         }
@@ -387,10 +398,12 @@ class GameScene: SKScene {
     }
     
     func visitedSquareInitialAnimation() {
+        temporaryVisitedSquareArray = game.visitedNodeArray
+        temporaryVisitedSquareArray.removeFirst()
         for (squareIIndex, square) in (game.visitedNodeArray).enumerated() {
             // Easter would go here enable this one
             square.run(.sequence([visitedSquareWait]), completion: {self.visitedSquareFill(square: square)})
-            visitedSquareWait = .wait(forDuration: TimeInterval(squareIIndex) * 0.0025)
+            visitedSquareWait = .wait(forDuration: TimeInterval(squareIIndex) * Double(pathFindingAnimationSpeed))
             game!.visitedNodeArray.remove(at: 0)
         }
         game!.visitedNodeArray.removeAll()
@@ -407,6 +420,7 @@ class GameScene: SKScene {
         if game!.visitedNodeArray.count > 0 && gamboardAnimationEnded == true {
             game.viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: false)
             dispatchCalled = false
+            pathFindingAnimationsEnded = false
             fronterrInitalAnimation()
             visitedSquareInitialAnimation()
             firstAnimationSequanceComleted = true
@@ -414,6 +428,7 @@ class GameScene: SKScene {
         
         if game.mainScreenAlgoChoice == 0 {
             firstAnimationSequanceComleted = true
+            pathFindingAnimationsEnded = true
         }
         game.update(time: currentTime)
     }
