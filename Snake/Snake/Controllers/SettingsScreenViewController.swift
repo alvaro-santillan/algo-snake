@@ -139,16 +139,19 @@ class SettingsSceenViewController: UIViewController, UITableViewDelegate, UITabl
         clearBarrierButton.setTitle("Barriers Cleared", for: .normal)
         clearPathButton.setTitle("Path Cleared", for: .normal)
         defaults.set(true, forKey: "Clear All Setting")
+        defaults.set(true, forKey: "Settings Value Modified")
     }
     
     @IBAction func clearBarrierButtonTapped(_ sender: UIButton) {
         sender.setTitle("Barriers Cleared", for: .normal)
         defaults.set(true, forKey: "Clear Barrier Setting")
+        defaults.set(true, forKey: "Settings Value Modified")
     }
     
     @IBAction func clearPathButtonTapped(_ sender: UIButton) {
         sender.setTitle("Path Cleared", for: .normal)
         defaults.set(true, forKey: "Clear Path Setting")
+        defaults.set(true, forKey: "Settings Value Modified")
     }
     
     @IBAction func snakeSpeedButtonTapped(_ sender: UIButton) {

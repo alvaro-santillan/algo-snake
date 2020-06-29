@@ -42,6 +42,10 @@ class GameScreenViewController: UIViewController {
         UserDefaults.standard.set(true, forKey: "Add Barrier Mode On Setting")
         boolButtonLoader(isIconButton: true, targetButton: barrierButton, key: "Add Barrier Mode On Setting", trueOption: "Plus_Icon_Set", falseOption: "Minus_Icon_Set")
         
+        loadScoreButtonStyling()
+    }
+    
+    func loadScoreButtonStyling() {
         scoreButton.layer.borderWidth = 2
         scoreButton.layer.borderColor = UIColor(named: "UI Button")!.withAlphaComponent(0.8).cgColor
         scoreButton.layer.backgroundColor = UIColor(named: "UI Button")!.withAlphaComponent(0.5).cgColor

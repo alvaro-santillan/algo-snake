@@ -257,8 +257,6 @@ class GameManager {
     }
     
 
-    var currentInArrayFormat = [[Tuple]]()
-    var fronterInArrayFormat = [[Tuple]]()
     // Steps in Breath First Search
     // Mark parent
     // Mark current node as visited.
@@ -285,7 +283,6 @@ class GameManager {
             if !(visitedSquares.contains(currentSquare)) {
                 visitedSquares += [currentSquare]
                 colorVisitedSquares(visitedX: currentSquare.y, visitedY: currentSquare.x)
-                currentInArrayFormat.append([Tuple(x: currentSquare.x, y: currentSquare.y)])
                 visitedSquareCount += 1
             }
             
@@ -302,10 +299,6 @@ class GameManager {
                 }
             }
             fronteerSquaress(rawSquares: newFornterSquareHolder)
-            fronterInArrayFormat.append(newFornterSquareHolder)
-            
-
-            
             
             // Update current and fronter
             if fronterSquares.count != 0 {
@@ -322,6 +315,7 @@ class GameManager {
                     conditionYellow = false
                     conditionRed = true
                 }
+                
                 return(formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: currentSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited))
             }
         }
@@ -357,7 +351,6 @@ class GameManager {
             if !(visitedSquares.contains(currentSquare)) {
                 visitedSquares += [currentSquare]
                 colorVisitedSquares(visitedX: currentSquare.y, visitedY: currentSquare.x)
-                currentInArrayFormat.append([Tuple(x: currentSquare.x, y: currentSquare.y)])
                 visitedSquareCount += 1
             }
             
@@ -374,7 +367,6 @@ class GameManager {
                 }
             }
             fronteerSquaress(rawSquares: newFornterSquareHolder)
-            fronterInArrayFormat.append(newFornterSquareHolder)
             
             if fronterSquares.count != 0 {
                 currentSquare = fronterSquares.last!
@@ -533,7 +525,7 @@ class GameManager {
         if UserDefaults.standard.bool(forKey: "Step Mode On Setting") {
                 // problem
             if scene.firstAnimationSequanceComleted == true {
-                viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: true)
+                viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: true, updatingScoreButton: false)
             }
 
             
@@ -553,7 +545,7 @@ class GameManager {
 //            print("Node at:", visitedX, visitedY)
     }
     
-    func viewControllerComunicationsManager(updatingPlayButton: Bool, playButtonIsEnabled: Bool) {
+    func viewControllerComunicationsManager(updatingPlayButton: Bool, playButtonIsEnabled: Bool, updatingScoreButton: Bool) {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         if let vc = appDelegate.window?.rootViewController {
             self.viewController = (vc.presentedViewController as? GameScreenViewController)
@@ -568,6 +560,10 @@ class GameManager {
                     self.viewController?.playButton.isEnabled = false
                     self.viewController?.barrierButton.isEnabled = false
                 }
+            }
+            
+            if updatingScoreButton {
+                self.viewController?.loadScoreButtonStyling()
             }
 
             if conditionGreen {
@@ -680,7 +676,7 @@ class GameManager {
                 
                 barrierNodesWaitingToBeDisplayed = Array(Set(barrierNodesWaitingToBeDisplayed).subtracting(barrierNodesWaitingToBeRemoved))
                 barrierNodesWaitingToBeRemoved.removeAll()
-                viewControllerComunicationsManager(updatingPlayButton: false, playButtonIsEnabled: false)
+                viewControllerComunicationsManager(updatingPlayButton: false, playButtonIsEnabled: false, updatingScoreButton: false)
                 runPredeterminedPath()
                 updateSnakePosition()
                 checkIfPaused()
@@ -704,105 +700,90 @@ class GameManager {
     
     var foodName = String()
     func tempColor() {
-//        for square in game.snakeBodyPos {
-//            print(childNode(withName: "//2,2"))
-//            square.fillColor = snakeBodySquareColor
-//        }
-        
         func contains(a:[Tuple], v:Tuple) -> Bool {
             let c1 = v.x
             let c2 = v.y
             for (v1) in a { if v1.x == c1 && v1.y == c2 { return true } }
             return false
         }
-        // Still need to impliment weight blocks.
         
         for (node, xx, yy) in scene.gameBoard  {
+            var squareHasBeenUpdated = false
+            
             barrierNodesWaitingToBeDisplayed = Array(Set(barrierNodesWaitingToBeDisplayed).subtracting(barrierNodesWaitingToBeRemoved))
             barrierNodesWaitingToBeRemoved.removeAll()
             
-            for i in (barrierNodesWaitingToBeDisplayed) {
-                if i.y == yy && i.x == xx {
-                    node.fillColor = scene.barrierSquareColor
-                }
+            if scene.pathFindingAnimationsEnded == true && UserDefaults.standard.bool(forKey: "Game Is Paused Setting") == false{
+                node.fillColor = scene.gameboardSquareColor
             }
             
-            for i in (scene.foodPosition) {
-                if Int((i.x)) == yy && Int((i.y)) == xx && scene.gamboardAnimationEnded == true {
-                    node.fillColor = scene.foodSquareColor
-                    foodName = node.name!
+            if scene.pathFindingAnimationsEnded == false {
+                // Works need to optimise this 14 frames cuz of this.
+                if squareHasBeenUpdated == false {
+                    for i in (scene.temporaryFronteerSquareArray) {
+                        for j in i {
+                            if scene.pathFindingAnimationsEnded == true {
+                                if j.name != foodName {
+                                    j.fillColor = scene.queuedSquareColor
+                                    squareHasBeenUpdated = true
+                                }
+                            }
+                        }
+                    }
                 }
-                if foodBlocksHaveAnimated == false {
-                    node.run(scene.gameSquareAnimation(animation: 3))
-                    foodBlocksHaveAnimated = true
+            
+                if squareHasBeenUpdated == false {
+                    for i in (scene.temporaryVisitedSquareArray) {
+                        if scene.pathFindingAnimationsEnded == true {
+                            i.fillColor = scene.visitedSquareColor
+                            squareHasBeenUpdated = true
+                        }
+                    }
                 }
-            }
             
-            
-            // Works need to optimise this 14 frames cuz of this.
-            for i in (scene.temporaryFronteerSquareArray) {
-                for j in i {
-                    if scene.pathFindingAnimationsEnded == true {
-                        if j.name != foodName {
-                            j.fillColor = scene.queuedSquareColor
+                if squareHasBeenUpdated == false {
+                    for i in (scene.temporaryPath) {
+                        if scene.pathFindingAnimationsEnded == true {
+                            i.fillColor = scene.pathSquareColor
+                            squareHasBeenUpdated = true
                         }
                     }
                 }
             }
+            // End Of Only While Animation
             
-            for i in (scene.temporaryVisitedSquareArray) {
-                if scene.pathFindingAnimationsEnded == true {
-                    i.fillColor = scene.visitedSquareColor
+            if squareHasBeenUpdated == false {
+                for i in (barrierNodesWaitingToBeDisplayed) {
+                    if i.y == yy && i.x == xx {
+                        node.fillColor = scene.barrierSquareColor
+                        squareHasBeenUpdated = true
+                    }
                 }
             }
             
-            for i in (scene.temporaryPath) {
-                if scene.pathFindingAnimationsEnded == true {
-//                    if Int((i.0)) == yy && Int((i.1)) == xx {
-                        i.fillColor = scene.pathSquareColor
-//                    }
-                }
-            }
-
-            
-//            if snakeBlockHaveAnimated == false {
-//                var bodyCount = 0
-//                for i in (snakeBodyPos) {
-////                    print("i", i, "snakebodyCount", snakeBodyPos.count)
-////                    print(i.x, xx, i.y, yy)
-//                    if Int((i.x)) == xx && Int((i.y)) == yy && scene.gamboardAnimationEnded == true {
-////                        print("i", i, "snakebodyCount", snakeBodyPos.count)
-//                        print("ram")
-//                        bodyCount += 1
-////                        if contains(a: [snakeBodyPos.first!], v: Tuple(x: xx, y: yy)) {
-////                            node.fillColor = scene.snakeHeadSquareColor
-////                        } else {
-//                            node.fillColor = scene.snakeBodySquareColor
-////                        }
-//                        node.run(scene.gameSquareAnimation(animation: 3))
-//                        if bodyCount >= 2 {
-//                            snakeBlockHaveAnimated = true
-//                            print("true if hit", bodyCount)
-//                        }
-//                    }
-//                }
-//            }
-            
-            if contains(a: snakeBodyPos, v: Tuple(x: xx, y: yy)) && scene.gamboardAnimationEnded == true {
-                node.fillColor = scene.snakeBodySquareColor
-                if contains(a: [snakeBodyPos.first!], v: Tuple(x: xx, y: yy)) {
-                    node.fillColor = scene.snakeHeadSquareColor
+            if squareHasBeenUpdated == false {
+                if contains(a: snakeBodyPos, v: Tuple(x: xx, y: yy)) && scene.gamboardAnimationEnded == true {
+                    node.fillColor = scene.snakeBodySquareColor
+                    if contains(a: [snakeBodyPos.first!], v: Tuple(x: xx, y: yy)) {
+                        node.fillColor = scene.snakeHeadSquareColor
+                        squareHasBeenUpdated = true
+                    }
                 }
             }
             
-            if node.name == "gameBackground" {
-                node.fillColor = scene.gameboardBackgroundColor
-                node.strokeColor = scene.gameboardBackgroundColor
+            if squareHasBeenUpdated == false {
+                for i in (scene.foodPosition) {
+                    if Int((i.x)) == yy && Int((i.y)) == xx && scene.gamboardAnimationEnded == true {
+                        node.fillColor = scene.foodSquareColor
+                        foodName = node.name!
+                        squareHasBeenUpdated = true
+                    }
+                    if foodBlocksHaveAnimated == false {
+                        node.run(scene.gameSquareAnimation(animation: 3))
+                        foodBlocksHaveAnimated = true
+                    }
+                }
             }
-//            )
-//            else {
-//                node.fillColor = scene.gameboardSquareColor
-//            }
         }
     }
     
@@ -987,78 +968,7 @@ class GameManager {
                 }
             }
         }
-        colorGameNodes()
-    }
-    
-    func colorGameNodes() {
-        
-        for (node, x, y) in scene.gameBoard {
-            
-            if contains(a: snakeBodyPos, v: Tuple(x: x, y: y)) {
-                if (onPathMode == false) {
-                    node.fillColor = SKColor.white
-//                    node.run(scene.gameSquareAnimation())
-//                    node.run(scene.gameSquareAnimation(animation: 2))
-                }
-            }
-            
-//            // temp removal
-//            for i in (pathBlockCordinates) {
-//                if Int((i.0)) == y && Int((i.1)) == x {
-//                    node.fillColor = scene.pathSquareColor
-//                }
-//            }
-            
-            // add closest food to legend
-            if contains(a: snakeBodyPos, v: Tuple(x: x, y: y)) {
-                if (onPathMode == true) {
-                    
-                    node.fillColor = scene.snakeBodySquareColor
-                    if contains(a: [snakeBodyPos.first!], v: Tuple(x: x, y: y)) {
-                        node.fillColor = scene.snakeHeadSquareColor
-//                        node.run(scene.gameSquareAnimation(animation: 2))
-//                        colorVisitedSquares(visited: [Tuple(x: x, y: y)])
-                    }
-                }
-            }
-            
-            else {
-                // error loading colors on first lanch for food pellet.
-                // error snake speed on first load.
-                // paused is broken
-                node.fillColor = scene.gameboardSquareColor
-                if scene.foodPosition.isEmpty != true {
-                    
-                    for i in (barrierNodesWaitingToBeDisplayed) {
-                        if i.y == y && i.x == x {
-                            node.fillColor = scene.barrierSquareColor
-                        }
-                    }
-                    
-                    
-                    // if this works its more effietient.
-                    //            if onPathMode == true {
-                    //                if contains(a: pathBlockCordinates, v: (x,y)) {
-                    //                    node.fillColor = UserDefaults.standard.colorForKey(key: "Path")!
-                    //                }
-                    //            }
-                    
-                    for i in (pathBlockCordinates) {
-                        if Int((i.0)) == y && Int((i.1)) == x {
-//                            print("-")
-                            node.fillColor = scene.pathSquareColor
-                        }
-                    }
-                    
-                    for i in (scene.foodPosition) {
-                        if Int((i.x)) == y && Int((i.y)) == x {
-                            node.fillColor = scene.foodSquareColor
-//                            node.run(scene.gameSquareAnimation(animation: 2))
-                        }
-                    }
-                }
-            }
-        }
+        tempColor()
     }
     
     func contains(a:[Tuple], v:Tuple) -> Bool {

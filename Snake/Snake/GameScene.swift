@@ -75,14 +75,18 @@ class GameScene: SKScene {
                 gameBackground!.strokeColor = gameboardBackgroundColor
             }
             
+            game.viewControllerComunicationsManager(updatingPlayButton: false, playButtonIsEnabled: false, updatingScoreButton: true)
+            
             if UserDefaults.standard.bool(forKey: "Clear All Setting") {
                 game.barrierNodesWaitingToBeDisplayed.removeAll()
                 game.barrierNodesWaitingToBeRemoved.removeAll()
+                temporaryFronteerSquareArray.removeAll()
+                temporaryVisitedSquareArray.removeAll()
                 // clear path
-                // clear visited
-                // clear queued
                 UserDefaults.standard.set(false, forKey: "Clear All Setting")
-            } else {
+            }
+            else {
+//            print("debug", UserDefaults.standard.bool(forKey: "Clear Barrier Setting") )
                 if UserDefaults.standard.bool(forKey: "Clear Barrier Setting") {
                     game.barrierNodesWaitingToBeDisplayed.removeAll()
                     game.barrierNodesWaitingToBeRemoved.removeAll()
@@ -194,7 +198,7 @@ class GameScene: SKScene {
         }
         
         var squares = [SKShapeNode]()
-        game.viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: false)
+        game.viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: false, updatingScoreButton: false)
 //        UserDefaults.standard.set(true, forKey: "Game Is Paused Setting")
         for i in gameBoard {
             squares.append(i.node)
@@ -349,7 +353,7 @@ class GameScene: SKScene {
             square.run(.sequence([gameSquareAnimation(animation: 2)]))
             square.fillColor = pathSquareColor
             //enable this one
-            game.viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: true)
+            game.viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: true, updatingScoreButton: false)
         }
         if pathdispatchCalled == false {
             DispatchQueue.main.asyncAfter(deadline: .now() + pathSquareWait.duration) {
@@ -430,12 +434,13 @@ class GameScene: SKScene {
     // perhapse this can be used to pass in settings? maybe
     var firstAnimationSequanceComleted = Bool()
     override func update(_ currentTime: TimeInterval) {
+//        print("Debugging", UserDefaults.standard.bool(forKey: "Settings Value Modified"))
         UserDefaults.standard.bool(forKey: "Settings Value Modified") ? (settingLoader(firstRun: false)) : ()
         // enable this one
-        game.viewControllerComunicationsManager(updatingPlayButton: false, playButtonIsEnabled: false)
+        game.viewControllerComunicationsManager(updatingPlayButton: false, playButtonIsEnabled: false, updatingScoreButton: false)
         
         if game!.visitedNodeArray.count > 0 && gamboardAnimationEnded == true {
-            game.viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: false)
+            game.viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: false, updatingScoreButton: false)
             dispatchCalled = false
             pathFindingAnimationsEnded = false
             fronterrInitalAnimation()
