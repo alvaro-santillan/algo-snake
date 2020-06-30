@@ -475,7 +475,8 @@ class GameManager {
             foodLocationArray.append([randomX,randomY])
             let DistanceFromSnake = abs(snakeHead.x - randomX) + abs(snakeHead.y - randomY)
             foodDistanceFromHead.append(DistanceFromSnake)
-            scene.foodPosition.append(CGPoint(x: randomY, y: randomX))
+            scene.foodPosition.append(Tuple(x: randomY, y: randomX))
+//            scene.foodPosition.append(CGPoint(x: randomY, y: randomX))
             
         }
 //        viewControllerComunicationsManager(updatingPlayButton: false)
@@ -712,6 +713,8 @@ class GameManager {
         }
     }
     
+    var snakeBodyPosSK = [SKShapeNode]()
+    var foodSK = [SKShapeNode]()
     var pathHasBeenAnimated = false
     var foodName = String()
     func tempColor() {
@@ -722,8 +725,22 @@ class GameManager {
             return false
         }
         
+        func convertSnakeToSKShape() {
+            for i in snakeBodyPos {
+                let node = scene.gameBoard.first(where: {$0.x == i.x && $0.y == i.y})?.node
+                snakeBodyPosSK.append(node!)
+            }
+        }
+        
+        func convertFoodToSKShape() {
+            for i in scene.foodPosition {
+                let node = scene.gameBoard.first(where: {$0.x == i.y && $0.y == i.x})?.node
+                foodSK.append(node!)
+            }
+        }
+        
+        // Re-renders changes when user instructs blocks to change color.
         func manageSquareColorWhilePathFindingAnimationsAreStillBeingDisplayed() {
-            // Re-renders changes when user instructs blocks to change color.
             
             // Works need to optimise this 14 frames cuz of this.
             for i in (scene.temporaryFronteerSquareArray) {
@@ -744,68 +761,80 @@ class GameManager {
             pathHasBeenAnimated = true
         }
         
+        func colorGameboard() {
+            for i in scene.gameBoard {
+                i.node.fillColor = scene.gameboardSquareColor
+            }
+        }
+        
         func colorPath() {
             for i in (scene.temporaryPath) {
                 i.fillColor = .systemOrange
             }
         }
         
-        for (node, xx, yy) in scene.gameBoard  {
-            var squareHasBeenUpdated = false
-            
-            if scene.pathFindingAnimationsEnded {
-                if !(UserDefaults.standard.bool(forKey: "Game Is Paused Setting")) {
-                    node.fillColor = scene.gameboardSquareColor
-                }
-            
-                if scene.settingsWereChanged {
-                    manageSquareColorWhilePathFindingAnimationsAreStillBeingDisplayed()
-                }
-                
-                // Displays path after path finding animation ends.
-                // Bug scene.pathFindingAnimationsEnded is broken or other if needed.
-                colorPath()
+        func colorBarriers() {
+            for i in (barrierSquaresSKNodes) {
+                i.fillColor = scene.barrierSquareColor
             }
-            
-            if squareHasBeenUpdated == false {
-//                for i in (barrierNodesWaitingToBeDisplayed) {
-//                    if i.y == yy && i.x == xx {
-//                        node.fillColor = scene.barrierSquareColor
-//                        squareHasBeenUpdated = true
-//                    }
-//                }
-                
-                for i in (barrierSquaresSKNodes) {
-                    i.fillColor = scene.barrierSquareColor
-                }
-            }
-            
-            if scene.gamboardAnimationEnded == true {
-                if squareHasBeenUpdated == false {
-                    if contains(a: snakeBodyPos, v: Tuple(x: xx, y: yy)) {
-                        node.fillColor = scene.snakeBodySquareColor
-                        if contains(a: [snakeBodyPos.first!], v: Tuple(x: xx, y: yy)) {
-                            node.fillColor = scene.snakeHeadSquareColor
-                            squareHasBeenUpdated = true
-                        }
-                    }
-                }
-                
-                if squareHasBeenUpdated == false {
-                    for i in (scene.foodPosition) {
-                        if Int((i.x)) == yy && Int((i.y)) == xx {
-                            node.fillColor = scene.foodSquareColor
-                            foodName = node.name!
-                            squareHasBeenUpdated = true
-                        }
-                        if foodBlocksHaveAnimated == false {
-                            node.run(scene.gameSquareAnimation(animation: 3))
-                            foodBlocksHaveAnimated = true
-                        }
-                    }
+        }
+        
+        func colorSnake() {
+            for (index, i) in snakeBodyPosSK.enumerated() {
+                if index == 0 {
+                    i.fillColor = scene.snakeHeadSquareColor
+                } else {
+                    i.fillColor = scene.snakeBodySquareColor
                 }
             }
         }
+        
+        func colorFood() {
+            for i in (foodSK) {
+                i.fillColor = scene.foodSquareColor
+                foodName = i.name!
+                
+                if foodBlocksHaveAnimated == false {
+                    i.run(scene.gameSquareAnimation(animation: 3))
+                    foodBlocksHaveAnimated = true
+                }
+            }
+        }
+        
+        convertSnakeToSKShape()
+        convertFoodToSKShape()
+        var squareHasBeenUpdated = false
+        
+        if scene.pathFindingAnimationsEnded {
+            if !(UserDefaults.standard.bool(forKey: "Game Is Paused Setting")) {
+                colorGameboard()
+            }
+        
+            if scene.settingsWereChanged {
+                manageSquareColorWhilePathFindingAnimationsAreStillBeingDisplayed()
+            }
+            
+            // Displays path after path finding animation ends.
+            // Bug scene.pathFindingAnimationsEnded is broken or other if needed.
+            colorPath()
+        }
+        
+        if squareHasBeenUpdated == false {
+            colorBarriers()
+        }
+        
+        if scene.gamboardAnimationEnded == true {
+            if squareHasBeenUpdated == false {
+                colorSnake()
+            }
+            
+            if squareHasBeenUpdated == false {
+                colorFood()
+                squareHasBeenUpdated = true
+            }
+        }
+        snakeBodyPosSK.removeAll()
+        foodSK.removeAll()
     }
     
     func endTheGame() {

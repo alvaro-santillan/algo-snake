@@ -13,7 +13,7 @@ class GameScene: SKScene {
     var game: GameManager!
     var algorithimChoiceName: SKLabelNode!
     var scoreLabel: SKLabelNode!
-    var foodPosition = [CGPoint]()
+    var foodPosition = [Tuple]()
     var gameBackground: SKShapeNode!
     var gameBoard: [(node: SKShapeNode, x: Int, y: Int)] = []
     let rowCount = 15 // 17
