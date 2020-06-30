@@ -707,48 +707,41 @@ class GameManager {
             return false
         }
         
+        
         for (node, xx, yy) in scene.gameBoard  {
             var squareHasBeenUpdated = false
+            var pathHasBeenAnimated = false
             
-            barrierNodesWaitingToBeDisplayed = Array(Set(barrierNodesWaitingToBeDisplayed).subtracting(barrierNodesWaitingToBeRemoved))
-            barrierNodesWaitingToBeRemoved.removeAll()
-            
-            if scene.pathFindingAnimationsEnded == true && UserDefaults.standard.bool(forKey: "Game Is Paused Setting") == false{
+//            print("scene.pathFindingAnimationsEnded", scene.pathFindingAnimationsEnded, "(UserDefaults.standard.bool(forKey: Game Is Paused Setting", (UserDefaults.standard.bool(forKey: "Game Is Paused Setting")))
+            if scene.pathFindingAnimationsEnded && !(UserDefaults.standard.bool(forKey: "Game Is Paused Setting")) {
                 node.fillColor = scene.gameboardSquareColor
             }
             
-            if scene.pathFindingAnimationsEnded == false {
+            if scene.pathFindingAnimationsEnded && scene.settingsWereChanged {
+//                Cant Overlap Other Square For This To Work.
+//                if squareHasBeenUpdated == false {
+//                    squareHasBeenUpdated = true
+//                }
+                
                 // Works need to optimise this 14 frames cuz of this.
-                if squareHasBeenUpdated == false {
-                    for i in (scene.temporaryFronteerSquareArray) {
-                        for j in i {
-                            if scene.pathFindingAnimationsEnded == true {
-                                if j.name != foodName {
-                                    j.fillColor = scene.queuedSquareColor
-                                    squareHasBeenUpdated = true
-                                }
-                            }
+                for i in (scene.temporaryFronteerSquareArray) {
+                    for j in i {
+                        if j.name != foodName {
+                            j.fillColor = scene.queuedSquareColor
                         }
                     }
                 }
             
-                if squareHasBeenUpdated == false {
-                    for i in (scene.temporaryVisitedSquareArray) {
-                        if scene.pathFindingAnimationsEnded == true {
-                            i.fillColor = scene.visitedSquareColor
-                            squareHasBeenUpdated = true
-                        }
-                    }
+                for i in (scene.temporaryVisitedSquareArray) {
+                    i.fillColor = scene.visitedSquareColor
                 }
-            
-                if squareHasBeenUpdated == false {
-                    for i in (scene.temporaryPath) {
-                        if scene.pathFindingAnimationsEnded == true {
-                            i.fillColor = scene.pathSquareColor
-                            squareHasBeenUpdated = true
-                        }
-                    }
+        
+                for i in (scene.temporaryPath) {
+                    i.fillColor = scene.pathSquareColor
                 }
+                
+                scene.settingsWereChanged = false
+                pathHasBeenAnimated = true
             }
             // End Of Only While Animation
             
@@ -757,6 +750,14 @@ class GameManager {
                     if i.y == yy && i.x == xx {
                         node.fillColor = scene.barrierSquareColor
                         squareHasBeenUpdated = true
+                    }
+                }
+            }
+            
+            if pathHasBeenAnimated != true {
+                for i in (pathBlockCordinates) {
+                    if Int((i.0)) == yy && Int((i.1)) == xx {
+                        node.fillColor = scene.pathSquareColor
                     }
                 }
             }

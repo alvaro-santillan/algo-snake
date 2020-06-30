@@ -16,9 +16,10 @@ class GameScene: SKScene {
     var foodPosition = [CGPoint]()
     var gameBackground: SKShapeNode!
     var gameBoard: [(node: SKShapeNode, x: Int, y: Int)] = []
-    let rowCount = 17 // 17
-    let columnCount = 30 // 30
+    let rowCount = 9 // 17
+    let columnCount = 9 // 30
     var pathFindingAnimationSpeed = Float()
+    var settingsWereChanged = Bool()
     
     var snakeHeadSquareColor = UIColor() // "Snake Head"
     var snakeBodySquareColor = UIColor() // "Snake Body"
@@ -65,6 +66,7 @@ class GameScene: SKScene {
         gameboardSquareColor = correctColorArray[legendData[8][1] as! Int] // "Gameboard"
         
         UserDefaults.standard.set(false, forKey: "Settings Value Modified")
+        settingsWereChanged = true
         
         if !(firstRun) {
             if UserDefaults.standard.bool(forKey: "Dark Mode On Setting") {
@@ -358,6 +360,7 @@ class GameScene: SKScene {
         if pathdispatchCalled == false {
             DispatchQueue.main.asyncAfter(deadline: .now() + pathSquareWait.duration) {
 //                self.animatePathNew(run: self.dispatchCalled)
+                print("Set true after dispached")
                 self.pathFindingAnimationsEnded = true
             }
             pathdispatchCalled = true
@@ -436,19 +439,22 @@ class GameScene: SKScene {
     override func update(_ currentTime: TimeInterval) {
 //        print("Debugging", UserDefaults.standard.bool(forKey: "Settings Value Modified"))
         UserDefaults.standard.bool(forKey: "Settings Value Modified") ? (settingLoader(firstRun: false)) : ()
-        // enable this one
+
         game.viewControllerComunicationsManager(updatingPlayButton: false, playButtonIsEnabled: false, updatingScoreButton: false)
         
         if game!.visitedNodeArray.count > 0 && gamboardAnimationEnded == true {
             game.viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: false, updatingScoreButton: false)
             dispatchCalled = false
             pathFindingAnimationsEnded = false
+            print("set false by update first if")
             fronterrInitalAnimation()
             visitedSquareInitialAnimation()
+            pathdispatchCalled = false
             firstAnimationSequanceComleted = true
         }
         
         if game.mainScreenAlgoChoice == 0 {
+            print("set true by update sec if")
             firstAnimationSequanceComleted = true
             pathFindingAnimationsEnded = true
         }
