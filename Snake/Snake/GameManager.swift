@@ -268,7 +268,7 @@ class GameManager {
     // BFS produces a dictionary in which each valid square points too only one parent.
     // Then the dictionary is processed to create a valid path.
     // The nodes are traversed in order found in the dictionary parameter.
-    func breathFirstSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple : Dictionary<Tuple, Float>], returnPathCost: Bool, returnSquaresVisited: Bool) -> ([Int], [(Int, Int)], Int, Int) {
+    func breathFirstSearch(startSquare: Tuple, gameBoard: [Tuple : Dictionary<Tuple, Float>], returnPathCost: Bool, returnSquaresVisited: Bool) -> ([Int], [(Int, Int)], Int, Int) {
         // Initalize variable and add first square manually.
         var visitedSquares = [Tuple]()
         var fronterSquares = [startSquare]
@@ -278,7 +278,7 @@ class GameManager {
         var squareAndParentSquare = [startSquare : Tuple(x:-1, y:-1)]
         
         // Break once the goal is reached (the goals parent is noted a cycle before when it was a new node.)
-        while (currentSquare != goalSquare) {
+        while (!(scene.foodPosition.contains(currentSquare))) {
             // Mark current node as visited. (If statement required due to first node.)
             if !(visitedSquares.contains(currentSquare)) {
                 visitedSquares += [currentSquare]
@@ -323,7 +323,7 @@ class GameManager {
         conditionGreen = true
         conditionYellow = false
         conditionRed = false
-        return(formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: goalSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited))
+        return(formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: currentSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited))
     }
 
     // Steps in Depth First Search
@@ -336,7 +336,7 @@ class GameManager {
     // DFS produces a dictionary in which each valid square points too only one parent.
     // Then the dictionary is processed to create a valid path.
     // The nodes are traversed in order found in the dictionary parameter.
-    func depthFirstSearch(startSquare: Tuple, goalSquare: Tuple, gameBoard: [Tuple : Dictionary<Tuple, Float>], returnPathCost: Bool, returnSquaresVisited: Bool) -> ([Int], [(Int, Int)], Int, Int) {
+    func depthFirstSearch(startSquare: Tuple, gameBoard: [Tuple : Dictionary<Tuple, Float>], returnPathCost: Bool, returnSquaresVisited: Bool) -> ([Int], [(Int, Int)], Int, Int) {
         // Initalize variable and add first square manually.
         var visitedSquares = [Tuple]()
         var fronterSquares = [startSquare]
@@ -346,7 +346,8 @@ class GameManager {
         var squareAndParentSquare = [startSquare : Tuple(x:-1, y:-1)]
         
         // Break once the goal is reached (the goals parent is noted a cycle before when it was a new node.)
-        while (currentSquare != goalSquare) {
+        
+        while (!(scene.foodPosition.contains(currentSquare))) {
             // Mark current node as visited. (If statement required due to first node.)
             if !(visitedSquares.contains(currentSquare)) {
                 visitedSquares += [currentSquare]
@@ -388,7 +389,7 @@ class GameManager {
         conditionGreen = true
         conditionYellow = false
         conditionRed = false
-        return(formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: goalSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited))
+        return(formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: currentSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited))
     }
     
     // Understood - Initiate the starting position of the snake.
@@ -415,13 +416,11 @@ class GameManager {
     var prevY = -1
     var closetFoodBlockHit = false
     var foodLocationArray: [[Int]] = []
-    var foodDistanceFromHead: [Int] = []
     var foodCollisionPoint = Int()
     let foodSpawnMax = (UserDefaults.standard.integer(forKey: "Food Count Setting"))
     let mainScreenAlgoChoice = UserDefaults.standard.integer(forKey: "Selected Path Finding Algorithim")
     var minX = Int()
     var minY = Int()
-    var newPath = Bool()
     var foodBlocksHaveAnimated = Bool()
     var snakeBlockHaveAnimated = false
     
@@ -440,6 +439,7 @@ class GameManager {
             
             var validFoodLocationConfirmed = false
             var foodLocationChnaged = false
+            
             while validFoodLocationConfirmed == false {
                 validFoodLocationConfirmed = true
                 for i in (barrierNodesWaitingToBeDisplayed) {
@@ -473,56 +473,39 @@ class GameManager {
                         
             matrix[randomX][randomY] = 3
             foodLocationArray.append([randomX,randomY])
-            let DistanceFromSnake = abs(snakeHead.x - randomX) + abs(snakeHead.y - randomY)
-            foodDistanceFromHead.append(DistanceFromSnake)
             scene.foodPosition.append(Tuple(x: randomY, y: randomX))
-//            scene.foodPosition.append(CGPoint(x: randomY, y: randomX))
             
         }
-//        viewControllerComunicationsManager(updatingPlayButton: false)
-        // Calculation for closest food block is wrong mathamaticlly sometimes.
-        let temp = foodDistanceFromHead.min()!
-        minX = foodLocationArray[foodDistanceFromHead.firstIndex(of: temp)!][0]
-        minY = foodLocationArray[foodDistanceFromHead.firstIndex(of: temp)!][1]
         
         let path: ([Int], [(Int, Int)], Int, Int)
         
-//        if mainScreenAlgoChoice == 3 &&
+        func pathManager() {
+            test = path.0.reversed()
+            pathBlockCordinatesNotReversed = path.1
+            pathBlockCordinates = path.1.reversed()
+//            pathSquareArray.removeLast()
+        }
         
         if (((prevX == -1) && prevY == -1) || closetFoodBlockHit == true || currentScore == 0) {
                 closetFoodBlockHit = false
-                if mainScreenAlgoChoice == 0 {
-                    test = []
-                } else if mainScreenAlgoChoice == 2 {
-                    path = breathFirstSearch(startSquare: Tuple(x:snakeHead.y, y:snakeHead.x), goalSquare: Tuple(x: Int(minY), y: Int(minX)), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: matrix), returnPathCost: false, returnSquaresVisited: false)
-                    test = path.0.reversed()
-                    pathBlockCordinatesNotReversed = path.1
-                    pathBlockCordinates = path.1.reversed()
-                    newPath = true
-//                    pathSquareArray.removeLast()
+            
+                let snakeHead = Tuple(x:snakeHead.y, y:snakeHead.x)
+                let gameBoardDictionary = gameBoardMatrixToDictionary(gameBoardMatrix: matrix)
+                if mainScreenAlgoChoice == 2 {
+                    path = breathFirstSearch(startSquare: snakeHead, gameBoard: gameBoardDictionary, returnPathCost: false, returnSquaresVisited: false)
+                    pathManager()
                 } else if mainScreenAlgoChoice == 3 {
-//                    print("startSquare:", Tuple(x: Int(minY), y: Int(minX)))
-//                    print("goalSquare:", Tuple(x:snakeHead.y, y:snakeHead.x))
-//                    print("gameBoard:", gameBoardMatrixToDictionary(gameBoardMatrix: matrix))
-                    path = depthFirstSearch(startSquare: Tuple(x:snakeHead.y, y:snakeHead.x), goalSquare: Tuple(x: Int(minY), y: Int(minX)), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: matrix), returnPathCost: false, returnSquaresVisited: false)
-                    test = path.0.reversed()
-                    pathBlockCordinatesNotReversed = path.1
-                    pathBlockCordinates = path.1.reversed()
-                    newPath = true
-//                    pathSquareArray.removeLast()
+                    path = depthFirstSearch(startSquare: snakeHead, gameBoard: gameBoardDictionary, returnPathCost: false, returnSquaresVisited: false)
+                    pathManager()
                 } else {
                     test = []
                 }
                 for i in pathBlockCordinatesNotReversed {
-                    pathSquares(visitedX: i.0, visitedY: i.1)
+                    let node = scene.gameBoard.first(where: {$0.x == i.1 && $0.y == i.0})?.node
+                    pathSquareArray.append(node!)
                 }
-            if mainScreenAlgoChoice != 0 {
-                pathSquareArray.removeLast()
             }
-                
-//            pathSquareArray.removeFirst()
-            }
-//            print(UserDefaults.standard.bool(forKey: "Step Mode On Setting"))
+
         if UserDefaults.standard.bool(forKey: "Step Mode On Setting") {
                 // problem
             if scene.firstAnimationSequanceComleted == true {
@@ -537,13 +520,6 @@ class GameManager {
         // 1 == left, 2 == up, 3 == right, 4 == down
         prevX = Int(minY)
         prevY = Int(minX)
-    }
-    
-    func pathSquares(visitedX: Int, visitedY: Int) {
-        let node = scene.gameBoard.first(where: {$0.x == visitedY && $0.y == visitedX})?.node
-        pathSquareArray.append(node!)
-//        node!.fillColor = UserDefaults.standard.colorForKey(key: "Visited Square")!
-//            print("Node at:", visitedX, visitedY)
     }
     
     func viewControllerComunicationsManager(updatingPlayButton: Bool, playButtonIsEnabled: Bool, updatingScoreButton: Bool) {
@@ -638,7 +614,7 @@ class GameManager {
         if mainScreenAlgoChoice == 0 {
             test = []
         } else if mainScreenAlgoChoice == 2 {
-            path = breathFirstSearch(startSquare: Tuple(x: Int(minY), y: Int(minX)), goalSquare: Tuple(x:snakeHead.y, y:snakeHead.x), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: matrix), returnPathCost: false, returnSquaresVisited: false)
+            path = breathFirstSearch(startSquare: Tuple(x: Int(minY), y: Int(minX)), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: matrix), returnPathCost: false, returnSquaresVisited: false)
             onPathMode = true
             return path.0
             pathBlockCordinates = path.1
@@ -646,7 +622,7 @@ class GameManager {
 //                    print("startSquare:", Tuple(x: Int(minY), y: Int(minX)))
 //                    print("goalSquare:", Tuple(x:snakeHead.y, y:snakeHead.x))
 //                    print("gameBoard:", gameBoardMatrixToDictionary(gameBoardMatrix: matrix))
-            path = depthFirstSearch(startSquare: Tuple(x:snakeHead.y, y:snakeHead.x), goalSquare: Tuple(x: Int(minY), y: Int(minX)), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: matrix), returnPathCost: false, returnSquaresVisited: false)
+            path = depthFirstSearch(startSquare: Tuple(x:snakeHead.y, y:snakeHead.x), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: matrix), returnPathCost: false, returnSquaresVisited: false)
             onPathMode = true
             test = path.0
             test = test.reversed()
@@ -889,7 +865,7 @@ class GameManager {
                     foodCollisionPoint = counter
                     foodLocationArray.remove(at: foodCollisionPoint)
                     scene.foodPosition.remove(at: foodCollisionPoint)
-                    foodDistanceFromHead.remove(at: foodCollisionPoint)
+//                    foodDistanceFromHead.remove(at: foodCollisionPoint)
                     
                     
                     spawnFoodBlock()
