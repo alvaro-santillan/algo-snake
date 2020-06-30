@@ -718,10 +718,7 @@ class GameManager {
             }
             
             if scene.pathFindingAnimationsEnded && scene.settingsWereChanged {
-//                Cant Overlap Other Square For This To Work.
-//                if squareHasBeenUpdated == false {
-//                    squareHasBeenUpdated = true
-//                }
+                // Re-renders changes when user instructs blocks to change color.
                 
                 // Works need to optimise this 14 frames cuz of this.
                 for i in (scene.temporaryFronteerSquareArray) {
@@ -754,7 +751,8 @@ class GameManager {
                 }
             }
             
-            if pathHasBeenAnimated != true {
+            // Displays path after path finding animation ends.
+            if scene.pathFindingAnimationsEnded && pathHasBeenAnimated == true {
                 for i in (pathBlockCordinates) {
                     if Int((i.0)) == yy && Int((i.1)) == xx {
                         node.fillColor = scene.pathSquareColor
