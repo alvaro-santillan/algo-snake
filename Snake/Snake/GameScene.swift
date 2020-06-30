@@ -16,8 +16,8 @@ class GameScene: SKScene {
     var foodPosition = [CGPoint]()
     var gameBackground: SKShapeNode!
     var gameBoard: [(node: SKShapeNode, x: Int, y: Int)] = []
-    let rowCount = 9 // 17
-    let columnCount = 9 // 30
+    let rowCount = 15 // 17
+    let columnCount = 15 // 30
     var pathFindingAnimationSpeed = Float()
     var settingsWereChanged = Bool()
     
@@ -320,6 +320,7 @@ class GameScene: SKScene {
                         if !(IsSquareOccupied(squareLocation: squareLocation)) {
                             if UserDefaults.standard.bool(forKey: "Add Barrier Mode On Setting") {
                                 game.barrierNodesWaitingToBeDisplayed.append(squareLocation)
+//                                game.barrierSquaresSKNodes.append(selectedSquare)
                                 selectedSquare.fillColor = barrierSquareColor
                                 let generator = UIImpactFeedbackGenerator(style: .medium)
                                 generator.impactOccurred()
@@ -347,6 +348,7 @@ class GameScene: SKScene {
     var pathdispatchCalled = false
     var animatedVisitedNodeCount = 0
     var animatedQueuedNodeCount = 0
+    var clearToDisplayPath = false
     
     var firstSquare = false
     func pathTeeest(square: SKShapeNode, squareIndex: Int) {
@@ -362,6 +364,7 @@ class GameScene: SKScene {
 //                self.animatePathNew(run: self.dispatchCalled)
                 print("Set true after dispached")
                 self.pathFindingAnimationsEnded = true
+                self.clearToDisplayPath = true
             }
             pathdispatchCalled = true
         }
@@ -408,6 +411,8 @@ class GameScene: SKScene {
     var temporaryFronteerSquareArray = [[SKShapeNode]]()
     var temporaryVisitedSquareArray = [SKShapeNode]()
     func fronterrInitalAnimation() {
+        pathFindingAnimationsEnded = false
+        clearToDisplayPath = false
         temporaryFronteerSquareArray = game.fronteerSquareArray
 //        temporaryFronteerSquareArray = (game.fronteerSquareArray - game.visitedNodeArray)
         for (squareIndex, innerSquareArray) in (game.fronteerSquareArray).enumerated() {
@@ -445,7 +450,7 @@ class GameScene: SKScene {
         if game!.visitedNodeArray.count > 0 && gamboardAnimationEnded == true {
             game.viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: false, updatingScoreButton: false)
             dispatchCalled = false
-            pathFindingAnimationsEnded = false
+            game.pathHasBeenAnimated = false
             print("set false by update first if")
             fronterrInitalAnimation()
             visitedSquareInitialAnimation()

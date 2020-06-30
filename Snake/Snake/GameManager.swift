@@ -617,6 +617,9 @@ class GameManager {
                 swipe(ID: test[0])
                 test.remove(at: 0)
                 pathBlockCordinates.remove(at: 0)
+                if !(scene.temporaryPath.isEmpty) {
+                    scene.temporaryPath.removeLast()
+                }
                 playSound(selectedSoundFileName: "sfx_coin_single3")
                 onPathMode = true
             } else {
@@ -673,9 +676,7 @@ class GameManager {
         else {
             if time >= nextTime! {
                 nextTime = time + Double(gameSpeed)
-                
-                barrierNodesWaitingToBeDisplayed = Array(Set(barrierNodesWaitingToBeDisplayed).subtracting(barrierNodesWaitingToBeRemoved))
-                barrierNodesWaitingToBeRemoved.removeAll()
+                barrierSquareManager()
                 viewControllerComunicationsManager(updatingPlayButton: false, playButtonIsEnabled: false, updatingScoreButton: false)
                 runPredeterminedPath()
                 updateSnakePosition()
@@ -683,6 +684,18 @@ class GameManager {
                 checkForDeath()
                 checkForFoodCollision()
             }
+        }
+    }
+    
+    var barrierSquaresSKNodes = [SKShapeNode]()
+    func barrierSquareManager() {
+        barrierSquaresSKNodes.removeAll()
+        barrierNodesWaitingToBeDisplayed = Array(Set(barrierNodesWaitingToBeDisplayed).subtracting(barrierNodesWaitingToBeRemoved))
+        barrierNodesWaitingToBeRemoved.removeAll()
+        
+        for i in barrierNodesWaitingToBeDisplayed {
+            let node = scene.gameBoard.first(where: {$0.x == i.x && $0.y == i.y})?.node
+            barrierSquaresSKNodes.append(node!)
         }
     }
     
@@ -694,10 +707,12 @@ class GameManager {
             scene.animatedVisitedNodeCount = 0
             scene.animatedQueuedNodeCount = 0
             gameSpeed = UserDefaults.standard.float(forKey: "Snake Move Speed")
+//            scene.clearToDisplayPath = false
             paused = false
         }
     }
     
+    var pathHasBeenAnimated = false
     var foodName = String()
     func tempColor() {
         func contains(a:[Tuple], v:Tuple) -> Bool {
@@ -707,79 +722,86 @@ class GameManager {
             return false
         }
         
+        func manageSquareColorWhilePathFindingAnimationsAreStillBeingDisplayed() {
+            // Re-renders changes when user instructs blocks to change color.
+            
+            // Works need to optimise this 14 frames cuz of this.
+            for i in (scene.temporaryFronteerSquareArray) {
+                for j in i {
+                    if j.name != foodName {
+                        j.fillColor = scene.queuedSquareColor
+                    }
+                }
+            }
+        
+            for i in (scene.temporaryVisitedSquareArray) {
+                i.fillColor = scene.visitedSquareColor
+            }
+    
+            colorPath()
+            
+            scene.settingsWereChanged = false
+            pathHasBeenAnimated = true
+        }
+        
+        func colorPath() {
+            for i in (scene.temporaryPath) {
+                i.fillColor = .systemOrange
+            }
+        }
         
         for (node, xx, yy) in scene.gameBoard  {
             var squareHasBeenUpdated = false
-            var pathHasBeenAnimated = false
             
-//            print("scene.pathFindingAnimationsEnded", scene.pathFindingAnimationsEnded, "(UserDefaults.standard.bool(forKey: Game Is Paused Setting", (UserDefaults.standard.bool(forKey: "Game Is Paused Setting")))
-            if scene.pathFindingAnimationsEnded && !(UserDefaults.standard.bool(forKey: "Game Is Paused Setting")) {
-                node.fillColor = scene.gameboardSquareColor
+            if scene.pathFindingAnimationsEnded {
+                if !(UserDefaults.standard.bool(forKey: "Game Is Paused Setting")) {
+                    node.fillColor = scene.gameboardSquareColor
+                }
+            
+                if scene.settingsWereChanged {
+                    manageSquareColorWhilePathFindingAnimationsAreStillBeingDisplayed()
+                }
+                
+                // Displays path after path finding animation ends.
+                // Bug scene.pathFindingAnimationsEnded is broken or other if needed.
+                colorPath()
             }
             
-            if scene.pathFindingAnimationsEnded && scene.settingsWereChanged {
-                // Re-renders changes when user instructs blocks to change color.
+            if squareHasBeenUpdated == false {
+//                for i in (barrierNodesWaitingToBeDisplayed) {
+//                    if i.y == yy && i.x == xx {
+//                        node.fillColor = scene.barrierSquareColor
+//                        squareHasBeenUpdated = true
+//                    }
+//                }
                 
-                // Works need to optimise this 14 frames cuz of this.
-                for i in (scene.temporaryFronteerSquareArray) {
-                    for j in i {
-                        if j.name != foodName {
-                            j.fillColor = scene.queuedSquareColor
+                for i in (barrierSquaresSKNodes) {
+                    i.fillColor = scene.barrierSquareColor
+                }
+            }
+            
+            if scene.gamboardAnimationEnded == true {
+                if squareHasBeenUpdated == false {
+                    if contains(a: snakeBodyPos, v: Tuple(x: xx, y: yy)) {
+                        node.fillColor = scene.snakeBodySquareColor
+                        if contains(a: [snakeBodyPos.first!], v: Tuple(x: xx, y: yy)) {
+                            node.fillColor = scene.snakeHeadSquareColor
+                            squareHasBeenUpdated = true
                         }
                     }
                 }
-            
-                for i in (scene.temporaryVisitedSquareArray) {
-                    i.fillColor = scene.visitedSquareColor
-                }
-        
-                for i in (scene.temporaryPath) {
-                    i.fillColor = scene.pathSquareColor
-                }
                 
-                scene.settingsWereChanged = false
-                pathHasBeenAnimated = true
-            }
-            // End Of Only While Animation
-            
-            if squareHasBeenUpdated == false {
-                for i in (barrierNodesWaitingToBeDisplayed) {
-                    if i.y == yy && i.x == xx {
-                        node.fillColor = scene.barrierSquareColor
-                        squareHasBeenUpdated = true
-                    }
-                }
-            }
-            
-            // Displays path after path finding animation ends.
-            if scene.pathFindingAnimationsEnded && pathHasBeenAnimated == true {
-                for i in (pathBlockCordinates) {
-                    if Int((i.0)) == yy && Int((i.1)) == xx {
-                        node.fillColor = scene.pathSquareColor
-                    }
-                }
-            }
-            
-            if squareHasBeenUpdated == false {
-                if contains(a: snakeBodyPos, v: Tuple(x: xx, y: yy)) && scene.gamboardAnimationEnded == true {
-                    node.fillColor = scene.snakeBodySquareColor
-                    if contains(a: [snakeBodyPos.first!], v: Tuple(x: xx, y: yy)) {
-                        node.fillColor = scene.snakeHeadSquareColor
-                        squareHasBeenUpdated = true
-                    }
-                }
-            }
-            
-            if squareHasBeenUpdated == false {
-                for i in (scene.foodPosition) {
-                    if Int((i.x)) == yy && Int((i.y)) == xx && scene.gamboardAnimationEnded == true {
-                        node.fillColor = scene.foodSquareColor
-                        foodName = node.name!
-                        squareHasBeenUpdated = true
-                    }
-                    if foodBlocksHaveAnimated == false {
-                        node.run(scene.gameSquareAnimation(animation: 3))
-                        foodBlocksHaveAnimated = true
+                if squareHasBeenUpdated == false {
+                    for i in (scene.foodPosition) {
+                        if Int((i.x)) == yy && Int((i.y)) == xx {
+                            node.fillColor = scene.foodSquareColor
+                            foodName = node.name!
+                            squareHasBeenUpdated = true
+                        }
+                        if foodBlocksHaveAnimated == false {
+                            node.run(scene.gameSquareAnimation(animation: 3))
+                            foodBlocksHaveAnimated = true
+                        }
                     }
                 }
             }
