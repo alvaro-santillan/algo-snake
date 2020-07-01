@@ -91,8 +91,7 @@
 				3812395823C68F450066B3FA /* GameManager.swift */,
 				384607BC23E7ECCD001C944D /* Controllers */,
 				3812394D23C68E2C0066B3FA /* Assets.xcassets */,
-				3803D8932495DD63002A6251 /* dogicapixelbold.ttf */,
-				3803D88E2495DD51002A6251 /* dogicapixel.ttf */,
+				383DB19C24AC56190071EC65 /* Fonts */,
 				3812394023C68E290066B3FA /* AppDelegate.swift */,
 				38B35F3524885B11009E2613 /* sfx_coin_double3.wav */,
 				38B35F33248858D9009E2613 /* sfx_coin_single3.wav */,
@@ -100,6 +99,15 @@
 				3812395223C68E2C0066B3FA /* Info.plist */,
 			);
 			path = Snake;
+			sourceTree = "<group>";
+		};
+		383DB19C24AC56190071EC65 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				3803D8932495DD63002A6251 /* dogicapixelbold.ttf */,
+				3803D88E2495DD51002A6251 /* dogicapixel.ttf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 		384607BC23E7ECCD001C944D /* Controllers */ = {
