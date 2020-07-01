@@ -414,19 +414,16 @@ class GameManager {
     // Understood - Spawn a new food block into the game.
     var prevX = -1
     var prevY = -1
-    var closetFoodBlockHit = false
     var foodLocationArray: [[Int]] = []
     var foodCollisionPoint = Int()
-    let foodSpawnMax = (UserDefaults.standard.integer(forKey: "Food Count Setting"))
     let mainScreenAlgoChoice = UserDefaults.standard.integer(forKey: "Selected Path Finding Algorithim")
-    var minX = Int()
-    var minY = Int()
+    var firstRun = true
     var foodBlocksHaveAnimated = Bool()
     var snakeBlockHaveAnimated = false
     
     func spawnFoodBlock() {
-        let foodPalletsNeeded = (foodSpawnMax - foodLocationArray.count)
-        let snakeHead = snakeBodyPos[0]
+        let foodPalletsNeeded = (UserDefaults.standard.integer(forKey: "Food Count Setting") - foodLocationArray.count)
+        var snakeHead = snakeBodyPos[0]
         
         // need to use queue.
         for _ in 1...foodPalletsNeeded {
@@ -465,16 +462,15 @@ class GameManager {
     //                    randomY = Int.random(in: 1...horizontalMaxBoundry)
                     }
                 }
+                
                 foodLocationArray = Array(Set(foodLocationArray))
                 if foodLocationChnaged == false {
                     validFoodLocationConfirmed = true
                 }
             }
-                        
             matrix[randomX][randomY] = 3
             foodLocationArray.append([randomX,randomY])
             scene.foodPosition.append(Tuple(x: randomY, y: randomX))
-            
         }
         
         let path: ([Int], [(Int, Int)], Int, Int)
@@ -483,28 +479,23 @@ class GameManager {
             test = path.0.reversed()
             pathBlockCordinatesNotReversed = path.1
             pathBlockCordinates = path.1.reversed()
-//            pathSquareArray.removeLast()
         }
         
-        if (((prevX == -1) && prevY == -1) || closetFoodBlockHit == true || currentScore == 0) {
-                closetFoodBlockHit = false
-            
-                let snakeHead = Tuple(x:snakeHead.y, y:snakeHead.x)
-                let gameBoardDictionary = gameBoardMatrixToDictionary(gameBoardMatrix: matrix)
-                if mainScreenAlgoChoice == 2 {
-                    path = breathFirstSearch(startSquare: snakeHead, gameBoard: gameBoardDictionary, returnPathCost: false, returnSquaresVisited: false)
-                    pathManager()
-                } else if mainScreenAlgoChoice == 3 {
-                    path = depthFirstSearch(startSquare: snakeHead, gameBoard: gameBoardDictionary, returnPathCost: false, returnSquaresVisited: false)
-                    pathManager()
-                } else {
-                    test = []
-                }
-                for i in pathBlockCordinatesNotReversed {
-                    let node = scene.gameBoard.first(where: {$0.x == i.1 && $0.y == i.0})?.node
-                    pathSquareArray.append(node!)
-                }
-            }
+        snakeHead = Tuple(x:snakeHead.y, y:snakeHead.x)
+        let gameBoardDictionary = gameBoardMatrixToDictionary(gameBoardMatrix: matrix)
+        if mainScreenAlgoChoice == 2 {
+            path = breathFirstSearch(startSquare: snakeHead, gameBoard: gameBoardDictionary, returnPathCost: false, returnSquaresVisited: false)
+            pathManager()
+        } else if mainScreenAlgoChoice == 3 {
+            path = depthFirstSearch(startSquare: snakeHead, gameBoard: gameBoardDictionary, returnPathCost: false, returnSquaresVisited: false)
+            pathManager()
+        } else {
+            test = []
+        }
+        for i in pathBlockCordinatesNotReversed {
+            let node = scene.gameBoard.first(where: {$0.x == i.1 && $0.y == i.0})?.node
+            pathSquareArray.append(node!)
+        }
 
         if UserDefaults.standard.bool(forKey: "Step Mode On Setting") {
                 // problem
@@ -517,9 +508,7 @@ class GameManager {
             paused = true
             checkIfPaused()
         }
-        // 1 == left, 2 == up, 3 == right, 4 == down
-        prevX = Int(minY)
-        prevY = Int(minX)
+        firstRun = false
     }
     
     func viewControllerComunicationsManager(updatingPlayButton: Bool, playButtonIsEnabled: Bool, updatingScoreButton: Bool) {
@@ -614,7 +603,7 @@ class GameManager {
         if mainScreenAlgoChoice == 0 {
             test = []
         } else if mainScreenAlgoChoice == 2 {
-            path = breathFirstSearch(startSquare: Tuple(x: Int(minY), y: Int(minX)), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: matrix), returnPathCost: false, returnSquaresVisited: false)
+            path = breathFirstSearch(startSquare: snakeHead, gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: matrix), returnPathCost: false, returnSquaresVisited: false)
             onPathMode = true
             return path.0
             pathBlockCordinates = path.1
@@ -622,7 +611,7 @@ class GameManager {
 //                    print("startSquare:", Tuple(x: Int(minY), y: Int(minX)))
 //                    print("goalSquare:", Tuple(x:snakeHead.y, y:snakeHead.x))
 //                    print("gameBoard:", gameBoardMatrixToDictionary(gameBoardMatrix: matrix))
-            path = depthFirstSearch(startSquare: Tuple(x:snakeHead.y, y:snakeHead.x), gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: matrix), returnPathCost: false, returnSquaresVisited: false)
+            path = depthFirstSearch(startSquare: snakeHead, gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: matrix), returnPathCost: false, returnSquaresVisited: false)
             onPathMode = true
             test = path.0
             test = test.reversed()
@@ -644,12 +633,6 @@ class GameManager {
 //            If the game is paused keep chicking if its paused.
             checkIfPaused()
         }
-//        else if (generateVisited == true) {
-//            nextTime = time + Double(gameSpeed)
-//            print("update hit")
-////            colorGameNodes()
-////            checkIfPaused()
-//        }
         else {
             if time >= nextTime! {
                 nextTime = time + Double(gameSpeed)
@@ -853,19 +836,12 @@ class GameManager {
             var counter = 0
             
             for i in (scene.foodPosition) {
-//                if Int((scene.foodPosition?.x)!) == y && Int((scene.foodPosition?.y)!) == x {
                 if Int((i.x)) == y && Int((i.y)) == x {
-                    if prevX == Int((i.x)) && prevY == Int((i.y)) {
-//                        print("closet hit")
-                        closetFoodBlockHit = true
-                    }
                     
-//                    matrix[Int(i.x)][Int(i.y)] = 0
                     matrix[Int(i.y)][Int(i.x)] = 0
                     foodCollisionPoint = counter
                     foodLocationArray.remove(at: foodCollisionPoint)
                     scene.foodPosition.remove(at: foodCollisionPoint)
-//                    foodDistanceFromHead.remove(at: foodCollisionPoint)
                     
                     
                     spawnFoodBlock()
