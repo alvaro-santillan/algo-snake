@@ -79,27 +79,24 @@ class GameScene: SKScene {
             
             game.viewControllerComunicationsManager(updatingPlayButton: false, playButtonIsEnabled: false, updatingScoreButton: true)
             
-            if UserDefaults.standard.bool(forKey: "Clear All Setting") {
-                game.barrierNodesWaitingToBeDisplayed.removeAll()
-                game.barrierNodesWaitingToBeRemoved.removeAll()
-                temporaryFronteerSquareArray.removeAll()
-                temporaryVisitedSquareArray.removeAll()
-                // clear path
-                UserDefaults.standard.set(false, forKey: "Clear All Setting")
-            }
-            else {
-//            print("debug", UserDefaults.standard.bool(forKey: "Clear Barrier Setting") )
-                if UserDefaults.standard.bool(forKey: "Clear Barrier Setting") {
-                    game.barrierNodesWaitingToBeDisplayed.removeAll()
-                    game.barrierNodesWaitingToBeRemoved.removeAll()
-                    UserDefaults.standard.set(false, forKey: "Clear Barrier Setting")
-                }
-                
-                if UserDefaults.standard.bool(forKey: "Clear Path Setting") {
-                    // Path
-                    UserDefaults.standard.set(false, forKey: "Clear Path Setting")
-                }
-            }
+            game.clearBoardManager()
+//            if UserDefaults.standard.bool(forKey: "Clear All Setting") {
+//                game.clearBoard()
+//                UserDefaults.standard.set(false, forKey: "Clear All Setting")
+//            }
+//            else {
+////            print("debug", UserDefaults.standard.bool(forKey: "Clear Barrier Setting") )
+//                if UserDefaults.standard.bool(forKey: "Clear Barrier Setting") {
+//                    game.barrierNodesWaitingToBeDisplayed.removeAll()
+//                    game.barrierNodesWaitingToBeRemoved.removeAll()
+//                    UserDefaults.standard.set(false, forKey: "Clear Barrier Setting")
+//                }
+//
+//                if UserDefaults.standard.bool(forKey: "Clear Path Setting") {
+//                    temporaryPath.removeAll()
+//                    UserDefaults.standard.set(false, forKey: "Clear Path Setting")
+//                }
+//            }
         }
     }
     

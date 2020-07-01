@@ -624,6 +624,7 @@ class GameManager {
     }
     
     var barrierSquaresSKNodes = [SKShapeNode]()
+//    var barrierSquaresSKNodes: [(node: SKShapeNode, x: Int, y: Int)] = []
     func barrierSquareManager() {
         barrierSquaresSKNodes.removeAll()
         barrierNodesWaitingToBeDisplayed = Array(Set(barrierNodesWaitingToBeDisplayed).subtracting(barrierNodesWaitingToBeRemoved))
@@ -770,6 +771,63 @@ class GameManager {
         }
         snakeBodyPosSK.removeAll()
         foodSK.removeAll()
+    }
+    
+    func clearBoardManager() {
+        // buggy
+        func barrierClear() {
+            for i in (barrierSquaresSKNodes) {
+                i.fillColor = scene.gameboardSquareColor
+//                matrix[i.0][i] = 0
+            }
+        }
+        
+        func pathClear() {
+            for i in (scene.temporaryPath) {
+                i.fillColor = scene.gameboardSquareColor
+            }
+        }
+        
+        func fronteerClear() {
+            for i in (scene.temporaryFronteerSquareArray) {
+                for j in i {
+                    if j.name != foodName {
+                        j.fillColor = scene.gameboardSquareColor
+                    }
+                }
+            }
+        }
+        
+        func visitedClear() {
+            for i in (scene.temporaryVisitedSquareArray) {
+                i.fillColor = scene.gameboardSquareColor
+            }
+        }
+        
+        if UserDefaults.standard.bool(forKey: "Clear All Setting") {
+            barrierClear()
+            pathClear()
+            fronteerClear()
+            visitedClear()
+            
+            barrierNodesWaitingToBeDisplayed.removeAll()
+            barrierNodesWaitingToBeRemoved.removeAll()
+            scene.temporaryFronteerSquareArray.removeAll()
+            scene.temporaryVisitedSquareArray.removeAll()
+            scene.temporaryPath.removeAll()
+            UserDefaults.standard.set(false, forKey: "Clear All Setting")
+        }
+//        else {
+            if UserDefaults.standard.bool(forKey: "Clear Barrier Setting") {
+                barrierClear()
+                UserDefaults.standard.set(false, forKey: "Clear Barrier Setting")
+            }
+            
+            if UserDefaults.standard.bool(forKey: "Clear Path Setting") {
+                pathClear()
+                UserDefaults.standard.set(false, forKey: "Clear Path Setting")
+            }
+//        }
     }
     
     func endTheGame() {
