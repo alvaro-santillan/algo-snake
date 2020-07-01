@@ -13,7 +13,6 @@ class GameScene: SKScene {
     var game: GameManager!
     var algorithimChoiceName: SKLabelNode!
     var scoreLabel: SKLabelNode!
-    var foodPosition = [Tuple]()
     var gameBackground: SKShapeNode!
     var gameBoard: [(node: SKShapeNode, x: Int, y: Int)] = []
     let rowCount = 15 // 17
@@ -80,23 +79,6 @@ class GameScene: SKScene {
             game.viewControllerComunicationsManager(updatingPlayButton: false, playButtonIsEnabled: false, updatingScoreButton: true)
             
             game.clearBoardManager()
-//            if UserDefaults.standard.bool(forKey: "Clear All Setting") {
-//                game.clearBoard()
-//                UserDefaults.standard.set(false, forKey: "Clear All Setting")
-//            }
-//            else {
-////            print("debug", UserDefaults.standard.bool(forKey: "Clear Barrier Setting") )
-//                if UserDefaults.standard.bool(forKey: "Clear Barrier Setting") {
-//                    game.barrierNodesWaitingToBeDisplayed.removeAll()
-//                    game.barrierNodesWaitingToBeRemoved.removeAll()
-//                    UserDefaults.standard.set(false, forKey: "Clear Barrier Setting")
-//                }
-//
-//                if UserDefaults.standard.bool(forKey: "Clear Path Setting") {
-//                    temporaryPath.removeAll()
-//                    UserDefaults.standard.set(false, forKey: "Clear Path Setting")
-//                }
-//            }
         }
     }
     
@@ -302,7 +284,7 @@ class GameScene: SKScene {
         func IsSquareOccupied(squareLocation: Tuple) -> Bool {
             for square in game.snakeBodyPos {if squareLocation.x == square.location.x && squareLocation.y == square.location.y {return true}}
             for square in game.foodLocationArray {if squareLocation.x == square[0] && squareLocation.y == square[1] {return true}}
-            for square in game.pathBlockCordinates {if squareLocation.x == square.1 && squareLocation.y == square.0 {return true}}
+            for square in game.pathBlockCordinates {if squareLocation.x == square.y && squareLocation.y == square.x {return true}}
             return false
         }
         
@@ -367,10 +349,10 @@ class GameScene: SKScene {
         }
     }
 
-    var temporaryPath = [SKShapeNode]()
+//    var temporaryPath = [SKShapeNode]()
     func animatePathNew(run: Bool) {
-        temporaryPath = game.pathSquareArray
-        temporaryPath.removeFirst()
+//        temporaryPath = game.pathSquareArray
+//        temporaryPath.removeFirst()
 //        temporaryPath.removeLast()
         if run == true {
             for (squareIndex, square) in (game.pathSquareArray).enumerated() {
@@ -405,13 +387,9 @@ class GameScene: SKScene {
         animatedQueuedNodeCount += 1
     }
     
-    var temporaryFronteerSquareArray = [[SKShapeNode]]()
-    var temporaryVisitedSquareArray = [SKShapeNode]()
     func fronterrInitalAnimation() {
         pathFindingAnimationsEnded = false
         clearToDisplayPath = false
-        temporaryFronteerSquareArray = game.fronteerSquareArray
-//        temporaryFronteerSquareArray = (game.fronteerSquareArray - game.visitedNodeArray)
         for (squareIndex, innerSquareArray) in (game.fronteerSquareArray).enumerated() {
             for square in innerSquareArray {
                 // Easter would go here enable this one
@@ -424,8 +402,6 @@ class GameScene: SKScene {
     }
     
     func visitedSquareInitialAnimation() {
-        temporaryVisitedSquareArray = game.visitedNodeArray
-        temporaryVisitedSquareArray.removeFirst()
         for (squareIIndex, square) in (game.visitedNodeArray).enumerated() {
             // Easter would go here enable this one
             square.run(.sequence([visitedSquareWait]), completion: {self.visitedSquareFill(square: square)})
@@ -439,7 +415,6 @@ class GameScene: SKScene {
     // perhapse this can be used to pass in settings? maybe
     var firstAnimationSequanceComleted = Bool()
     override func update(_ currentTime: TimeInterval) {
-//        print("Debugging", UserDefaults.standard.bool(forKey: "Settings Value Modified"))
         UserDefaults.standard.bool(forKey: "Settings Value Modified") ? (settingLoader(firstRun: false)) : ()
 
         game.viewControllerComunicationsManager(updatingPlayButton: false, playButtonIsEnabled: false, updatingScoreButton: false)
@@ -448,7 +423,6 @@ class GameScene: SKScene {
             game.viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: false, updatingScoreButton: false)
             dispatchCalled = false
             game.pathHasBeenAnimated = false
-            print("set false by update first if")
             fronterrInitalAnimation()
             visitedSquareInitialAnimation()
             pathdispatchCalled = false
@@ -456,7 +430,6 @@ class GameScene: SKScene {
         }
         
         if game.mainScreenAlgoChoice == 0 {
-            print("set true by update sec if")
             firstAnimationSequanceComleted = true
             pathFindingAnimationsEnded = true
         }
