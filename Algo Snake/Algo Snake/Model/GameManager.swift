@@ -54,6 +54,7 @@ class GameManager {
     var conditionRed = Bool()
     var scoreButtonHalo = UIColor()
     
+    
     init(scene: GameScene) {
         self.scene = scene
     }
@@ -423,7 +424,7 @@ class GameManager {
     
     func spawnFoodBlock() {
         let foodPalletsNeeded = (UserDefaults.standard.integer(forKey: "Food Count Setting") - foodLocationArray.count)
-        var snakeHead = snakeBodyPos[0]
+        
         
         // need to use queue.
         for _ in 1...foodPalletsNeeded {
@@ -471,17 +472,20 @@ class GameManager {
             matrix[randomX][randomY] = 3
             foodLocationArray.append([randomX,randomY])
             scene.foodPosition.append(Tuple(x: randomY, y: randomX))
+            pathSelector()
         }
+    }
         
-        let path: ([Int], [(Int, Int)], Int, Int)
-        
+    func pathSelector() {
+        var path: ([Int], [(Int, Int)], Int, Int)?
         func pathManager() {
-            test = path.0.reversed()
-            pathBlockCordinatesNotReversed = path.1
-            pathBlockCordinates = path.1.reversed()
+            test = path!.0.reversed()
+            pathBlockCordinatesNotReversed = path!.1
+            pathBlockCordinates = path!.1.reversed()
         }
         
-        snakeHead = Tuple(x:snakeHead.y, y:snakeHead.x)
+//        snakeHead = Tuple(x:snakeHead.y, y:snakeHead.x)
+        let snakeHead = Tuple(x: snakeBodyPos[0].y, y: snakeBodyPos[0].x)
         let gameBoardDictionary = gameBoardMatrixToDictionary(gameBoardMatrix: matrix)
         if mainScreenAlgoChoice == 2 {
             path = breathFirstSearch(startSquare: snakeHead, gameBoard: gameBoardDictionary, returnPathCost: false, returnSquaresVisited: false)
