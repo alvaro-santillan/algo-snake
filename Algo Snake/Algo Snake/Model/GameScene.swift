@@ -300,7 +300,7 @@ class GameScene: SKScene {
         }
         
         func IsSquareOccupied(squareLocation: Tuple) -> Bool {
-            for square in game.snakeBodyPos {if squareLocation.x == square.x && squareLocation.y == square.y {return true}}
+            for square in game.snakeBodyPos {if squareLocation.x == square.location.x && squareLocation.y == square.location.y {return true}}
             for square in game.foodLocationArray {if squareLocation.x == square[0] && squareLocation.y == square[1] {return true}}
             for square in game.pathBlockCordinates {if squareLocation.x == square.1 && squareLocation.y == square.0 {return true}}
             return false
@@ -316,14 +316,14 @@ class GameScene: SKScene {
 //                    if squareLocation.y != 0 && squareLocation.y != (columnCount - 1) {
                         if !(IsSquareOccupied(squareLocation: squareLocation)) {
                             if UserDefaults.standard.bool(forKey: "Add Barrier Mode On Setting") {
-                                game.barrierNodesWaitingToBeDisplayed.append(squareLocation)
+                                game.barrierNodesWaitingToBeDisplayed.append(SkNodeAndLocation(square: selectedSquare, location: squareLocation))
 //                                game.barrierSquaresSKNodes.append(selectedSquare)
                                 selectedSquare.fillColor = barrierSquareColor
                                 let generator = UIImpactFeedbackGenerator(style: .medium)
                                 generator.impactOccurred()
                                 game.matrix[squareLocation.x][squareLocation.y] = 7
                             } else {
-                                game.barrierNodesWaitingToBeRemoved.append(squareLocation)
+                                game.barrierNodesWaitingToBeRemoved.append(SkNodeAndLocation(square: selectedSquare, location: squareLocation))
                                 selectedSquare.fillColor = gameboardSquareColor
                                 let generator = UIImpactFeedbackGenerator(style: .medium)
                                 generator.impactOccurred()

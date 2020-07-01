@@ -13,6 +13,11 @@ struct Tuple {
     var y: Int
 }
 
+struct SkNodeAndLocation: Hashable {
+    var square: SKShapeNode
+    var location: Tuple
+}
+
 // Make the tuple hashable.
 extension Tuple: Hashable {
     public var hashValue: Int {
@@ -39,10 +44,10 @@ class GameManager {
     var paused = false
     var playerDirection: Int = 4 // 1 == left, 2 == up, 3 == right, 4 == down
     var currentScore: Int = 0
-    var barrierNodesWaitingToBeDisplayed = [Tuple]()
-    var barrierNodesWaitingToBeRemoved = [Tuple]()
+    var barrierNodesWaitingToBeDisplayed: [(SkNodeAndLocation)] = []
+    var barrierNodesWaitingToBeRemoved: [(SkNodeAndLocation)] = []
     var teeeemp = [(SKShapeNode, Tuple)]()
-    var snakeBodyPos: [Tuple] = []
+    var snakeBodyPos: [(SkNodeAndLocation)] = []
     var godModeWasTurnedOn = false
     var verticalMaxBoundry = Int()
     var verticalMinBoundry = Int()
@@ -402,14 +407,16 @@ class GameManager {
         horizontalMinBoundry = 1
         
         // Dont forget to change back
-        snakeBodyPos.append(Tuple(x: 0, y: 0))
+        var node = scene.gameBoard.first(where: {$0.x == 0 && $0.y == 0})?.node
+        snakeBodyPos.append(SkNodeAndLocation(square: node!, location: Tuple(x: 0, y: 0)))
         matrix[0][0] = 1
-        snakeBodyPos.append(Tuple(x: 0, y: 1))
+        
+        node = scene.gameBoard.first(where: {$0.x == 0 && $0.y == 1})?.node
+        snakeBodyPos.append(SkNodeAndLocation(square: node!, location: Tuple(x: 0, y: 1)))
         matrix[0][1] = 2
+        
         spawnFoodBlock()
         gameStarted = true
-        
-//        node.run(scene.gameSquareAnimation())
     }
     
     // Understood - Spawn a new food block into the game.
@@ -440,7 +447,7 @@ class GameManager {
                 while validFoodLocationConfirmed == false {
                     validFoodLocationConfirmed = true
                     for i in (barrierNodesWaitingToBeDisplayed) {
-                        if i.y == randomY && i.x == randomX {
+                        if i.location.y == randomY && i.location.x == randomX {
                             randomX = Int.random(in: 0...verticalMaxBoundry+1)
                             randomY = Int.random(in: 0...horizontalMaxBoundry+1)
                             validFoodLocationConfirmed = false
@@ -452,7 +459,7 @@ class GameManager {
                     }
 
                     for i in (snakeBodyPos) {
-                        if i.y == randomY && i.x == randomX {
+                        if i.location.y == randomY && i.location.x == randomX {
                             randomX = Int.random(in: 0...verticalMaxBoundry+1)
                             randomY = Int.random(in: 0...horizontalMaxBoundry+1)
                             validFoodLocationConfirmed = false
@@ -485,7 +492,7 @@ class GameManager {
         }
         
 //        snakeHead = Tuple(x:snakeHead.y, y:snakeHead.x)
-        let snakeHead = Tuple(x: snakeBodyPos[0].y, y: snakeBodyPos[0].x)
+        let snakeHead = Tuple(x: snakeBodyPos[0].location.y, y: snakeBodyPos[0].location.x)
         let gameBoardDictionary = gameBoardMatrixToDictionary(gameBoardMatrix: matrix)
         if mainScreenAlgoChoice == 2 {
             path = breathFirstSearch(startSquare: snakeHead, gameBoard: gameBoardDictionary, returnPathCost: false, returnSquaresVisited: false)
@@ -623,16 +630,21 @@ class GameManager {
         }
     }
     
-    var barrierSquaresSKNodes = [SKShapeNode]()
-//    var barrierSquaresSKNodes: [(node: SKShapeNode, x: Int, y: Int)] = []
+    var barrierSquaresSKNodes: [(square: SKShapeNode, x: Int, y: Int)] = []
     func barrierSquareManager() {
         barrierSquaresSKNodes.removeAll()
+        
+//        for (square, location) in barrierNodesWaitingToBeRemoved.enumerated() {
+//            if barrierNodesWaitingToBeDisplayed
+//        }
+        
         barrierNodesWaitingToBeDisplayed = Array(Set(barrierNodesWaitingToBeDisplayed).subtracting(barrierNodesWaitingToBeRemoved))
         barrierNodesWaitingToBeRemoved.removeAll()
         
         for i in barrierNodesWaitingToBeDisplayed {
-            let node = scene.gameBoard.first(where: {$0.x == i.x && $0.y == i.y})?.node
-            barrierSquaresSKNodes.append(node!)
+            let node = scene.gameBoard.first(where: {$0.x == i.location.x && $0.y == i.location.y})?.node
+//            barrierSquaresSKNodes.append(node!)
+            barrierSquaresSKNodes.append((square: node!, x: i.location.x, y: i.location.y))
         }
     }
     
@@ -663,7 +675,7 @@ class GameManager {
         
         func convertSnakeToSKShape() {
             for i in snakeBodyPos {
-                let node = scene.gameBoard.first(where: {$0.x == i.x && $0.y == i.y})?.node
+                let node = scene.gameBoard.first(where: {$0.x == i.location.x && $0.y == i.location.y})?.node
                 snakeBodyPosSK.append(node!)
             }
         }
@@ -711,7 +723,7 @@ class GameManager {
         
         func colorBarriers() {
             for i in (barrierSquaresSKNodes) {
-                i.fillColor = scene.barrierSquareColor
+                i.square.fillColor = scene.barrierSquareColor
             }
         }
         
@@ -776,9 +788,10 @@ class GameManager {
     func clearBoardManager() {
         // buggy
         func barrierClear() {
+            print("Barrier count", barrierSquaresSKNodes.count)
             for i in (barrierSquaresSKNodes) {
-                i.fillColor = scene.gameboardSquareColor
-//                matrix[i.0][i] = 0
+                i.square.fillColor = scene.gameboardSquareColor
+                matrix[i.x][i.y] = 0
             }
         }
         
@@ -847,8 +860,8 @@ class GameManager {
             // The snake dies in corners becouse blocks are stacked.
             
 
-            
-            if contains(a: snakeBody, v: snakeBodyPos[0]) {
+            if snakeBody.contains(snakeBodyPos[0]) {
+//            if contains(a: snakeBody, v: snakeBodyPos[0]) {
                 if UserDefaults.standard.bool(forKey: "God Button On Setting") {
                     godModeWasTurnedOn = true
                 } else {
@@ -856,7 +869,8 @@ class GameManager {
                 }
             }
             
-            let snakeHead = Tuple(x: snakeBodyPos[0].x, y: snakeBodyPos[0].y)
+            let snakeHead = snakeBodyPos[0]
+            // temp removal
             if barrierNodesWaitingToBeDisplayed.contains(snakeHead) {
                 endTheGame()
             }
@@ -865,8 +879,8 @@ class GameManager {
     
     func checkForFoodCollision() {
         if scene.foodPosition != nil {
-            let x = snakeBodyPos[0].x
-            let y = snakeBodyPos[0].y
+            let x = snakeBodyPos[0].location.x
+            let y = snakeBodyPos[0].location.y
             var counter = 0
             
             for i in (scene.foodPosition) {
@@ -958,16 +972,16 @@ class GameManager {
 
         if snakeBodyPos.count > 0 {
             var start = snakeBodyPos.count - 1
-            matrix[snakeBodyPos[start].x][snakeBodyPos[start].y] = 0
+            matrix[snakeBodyPos[start].location.x][snakeBodyPos[start].location.y] = 0
             while start > 0 {
                 snakeBodyPos[start] = snakeBodyPos[start - 1]
                 start -= 1
             }
             // Can be reduced only 3 blocks need to be updated.
-            snakeBodyPos[0].x = (snakeBodyPos[0].x + yChange)
-            snakeBodyPos[0].y = (snakeBodyPos[0].y + xChange)
-            matrix[snakeBodyPos[0].x][snakeBodyPos[0].y] = 1
-            matrix[snakeBodyPos[1].x][snakeBodyPos[1].y] = 2
+            snakeBodyPos[0].location.x = (snakeBodyPos[0].location.x + yChange)
+            snakeBodyPos[0].location.y = (snakeBodyPos[0].location.y + xChange)
+            matrix[snakeBodyPos[0].location.x][snakeBodyPos[0].location.y] = 1
+            matrix[snakeBodyPos[1].location.x][snakeBodyPos[1].location.y] = 2
 //            matrix[snakeBodyPos[2].0][snakeBodyPos[2].1] = 2
 //            matrix[snakeBodyPos[3].0][snakeBodyPos[3].1] = 2
 //            matrix[snakeBodyPos[4].0][snakeBodyPos[4].1] = 2
@@ -979,8 +993,8 @@ class GameManager {
         }
         
         if snakeBodyPos.count > 0 {
-            let x = snakeBodyPos[0].y
-            let y = snakeBodyPos[0].x
+            let x = snakeBodyPos[0].location.y
+            let y = snakeBodyPos[0].location.x
             if UserDefaults.standard.bool(forKey: "God Button On Setting") {
                 // modified to debug
 //                if y > verticalMaxBoundry { // Moving To Bottom
