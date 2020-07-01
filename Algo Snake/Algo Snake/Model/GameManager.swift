@@ -418,62 +418,62 @@ class GameManager {
     var foodLocationArray: [[Int]] = []
     var foodCollisionPoint = Int()
     let mainScreenAlgoChoice = UserDefaults.standard.integer(forKey: "Selected Path Finding Algorithim")
-    var firstRun = true
     var foodBlocksHaveAnimated = Bool()
     var snakeBlockHaveAnimated = false
     
     func spawnFoodBlock() {
         let foodPalletsNeeded = (UserDefaults.standard.integer(forKey: "Food Count Setting") - foodLocationArray.count)
         
-        
         // need to use queue.
-        for _ in 1...foodPalletsNeeded {
-            foodBlocksHaveAnimated = false
-            // Modified
-            var randomX = Int.random(in: 0...verticalMaxBoundry+1)
-            var randomY = Int.random(in: 0...horizontalMaxBoundry+1)
-//            var randomX = Int.random(in: 1...verticalMaxBoundry)
-//            var randomY = Int.random(in: 1...horizontalMaxBoundry)
-            
-            var validFoodLocationConfirmed = false
-            var foodLocationChnaged = false
-            
-            while validFoodLocationConfirmed == false {
-                validFoodLocationConfirmed = true
-                for i in (barrierNodesWaitingToBeDisplayed) {
-                    if i.y == randomY && i.x == randomX {
-                        randomX = Int.random(in: 0...verticalMaxBoundry+1)
-                        randomY = Int.random(in: 0...horizontalMaxBoundry+1)
-                        validFoodLocationConfirmed = false
-                        foodLocationChnaged = true
-                        // Modified
-    //                    randomX = Int.random(in: 1...verticalMaxBoundry)
-    //                    randomY = Int.random(in: 1...horizontalMaxBoundry)
-                    }
-                }
-
-                for i in (snakeBodyPos) {
-                    if i.y == randomY && i.x == randomX {
-                        randomX = Int.random(in: 0...verticalMaxBoundry+1)
-                        randomY = Int.random(in: 0...horizontalMaxBoundry+1)
-                        validFoodLocationConfirmed = false
-                        foodLocationChnaged = true
-                        // Modified
-    //                    randomX = Int.random(in: 1...verticalMaxBoundry)
-    //                    randomY = Int.random(in: 1...horizontalMaxBoundry)
-                    }
-                }
+        if foodPalletsNeeded > 0 {
+            for _ in 1...foodPalletsNeeded {
+                foodBlocksHaveAnimated = false
+                // Modified
+                var randomX = Int.random(in: 0...verticalMaxBoundry+1)
+                var randomY = Int.random(in: 0...horizontalMaxBoundry+1)
+    //            var randomX = Int.random(in: 1...verticalMaxBoundry)
+    //            var randomY = Int.random(in: 1...horizontalMaxBoundry)
                 
-                foodLocationArray = Array(Set(foodLocationArray))
-                if foodLocationChnaged == false {
+                var validFoodLocationConfirmed = false
+                var foodLocationChnaged = false
+                
+                while validFoodLocationConfirmed == false {
                     validFoodLocationConfirmed = true
+                    for i in (barrierNodesWaitingToBeDisplayed) {
+                        if i.y == randomY && i.x == randomX {
+                            randomX = Int.random(in: 0...verticalMaxBoundry+1)
+                            randomY = Int.random(in: 0...horizontalMaxBoundry+1)
+                            validFoodLocationConfirmed = false
+                            foodLocationChnaged = true
+                            // Modified
+        //                    randomX = Int.random(in: 1...verticalMaxBoundry)
+        //                    randomY = Int.random(in: 1...horizontalMaxBoundry)
+                        }
+                    }
+
+                    for i in (snakeBodyPos) {
+                        if i.y == randomY && i.x == randomX {
+                            randomX = Int.random(in: 0...verticalMaxBoundry+1)
+                            randomY = Int.random(in: 0...horizontalMaxBoundry+1)
+                            validFoodLocationConfirmed = false
+                            foodLocationChnaged = true
+                            // Modified
+        //                    randomX = Int.random(in: 1...verticalMaxBoundry)
+        //                    randomY = Int.random(in: 1...horizontalMaxBoundry)
+                        }
+                    }
+                    
+                    foodLocationArray = Array(Set(foodLocationArray))
+                    if foodLocationChnaged == false {
+                        validFoodLocationConfirmed = true
+                    }
                 }
+                matrix[randomX][randomY] = 3
+                foodLocationArray.append([randomX,randomY])
+                scene.foodPosition.append(Tuple(x: randomY, y: randomX))
             }
-            matrix[randomX][randomY] = 3
-            foodLocationArray.append([randomX,randomY])
-            scene.foodPosition.append(Tuple(x: randomY, y: randomX))
-            pathSelector()
         }
+        pathSelector()
     }
         
     func pathSelector() {
@@ -512,7 +512,6 @@ class GameManager {
             paused = true
             checkIfPaused()
         }
-        firstRun = false
     }
     
     func viewControllerComunicationsManager(updatingPlayButton: Bool, playButtonIsEnabled: Bool, updatingScoreButton: Bool) {
@@ -594,39 +593,12 @@ class GameManager {
                 onPathMode = true
             } else {
                 onPathMode = false
-                generateNewPath()
+//                UserDefaults.standard.set(true, forKey: "Game Is Paused Setting")
+//                paused = true
+                pathSelector()
                 onPathMode = true
             }
         }
-    }
-    
-    func generateNewPath() -> [Int] {
-        print("generateNewPath() hit")
-        let path: ([Int], [(Int, Int)], Int, Int)
-        let snakeHead = snakeBodyPos[0]
-        if mainScreenAlgoChoice == 0 {
-            test = []
-        } else if mainScreenAlgoChoice == 2 {
-            path = breathFirstSearch(startSquare: snakeHead, gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: matrix), returnPathCost: false, returnSquaresVisited: false)
-            onPathMode = true
-            return path.0
-            pathBlockCordinates = path.1
-        } else if mainScreenAlgoChoice == 3 {
-//                    print("startSquare:", Tuple(x: Int(minY), y: Int(minX)))
-//                    print("goalSquare:", Tuple(x:snakeHead.y, y:snakeHead.x))
-//                    print("gameBoard:", gameBoardMatrixToDictionary(gameBoardMatrix: matrix))
-            path = depthFirstSearch(startSquare: snakeHead, gameBoard: gameBoardMatrixToDictionary(gameBoardMatrix: matrix), returnPathCost: false, returnSquaresVisited: false)
-            onPathMode = true
-            test = path.0
-            test = test.reversed()
-            pathBlockCordinates = path.1
-            pathBlockCordinates = pathBlockCordinates.reversed()
-            return test
-        } else {
-            test = []
-        }
-        onPathMode = true
-        return [0]
     }
     
     func update(time: Double) {
