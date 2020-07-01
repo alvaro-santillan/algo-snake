@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "3812393C23C68E290066B3FA"
-               BuildableName = "Snake.app"
-               BlueprintName = "Snake"
-               ReferencedContainer = "container:Snake.xcodeproj">
+               BuildableName = "Algo Snake.app"
+               BlueprintName = "Algo Snake"
+               ReferencedContainer = "container:Algo Snake.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -45,9 +45,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "3812393C23C68E290066B3FA"
-            BuildableName = "Snake.app"
-            BlueprintName = "Snake"
-            ReferencedContainer = "container:Snake.xcodeproj">
+            BuildableName = "Algo Snake.app"
+            BlueprintName = "Algo Snake"
+            ReferencedContainer = "container:Algo Snake.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -62,9 +62,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "3812393C23C68E290066B3FA"
-            BuildableName = "Snake.app"
-            BlueprintName = "Snake"
-            ReferencedContainer = "container:Snake.xcodeproj">
+            BuildableName = "Algo Snake.app"
+            BlueprintName = "Algo Snake"
+            ReferencedContainer = "container:Algo Snake.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

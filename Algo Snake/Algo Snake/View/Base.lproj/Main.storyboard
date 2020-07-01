@@ -19,7 +19,7 @@
         <!--Main Screen View Controller-->
         <scene sceneID="tXr-a1-R10">
             <objects>
-                <viewController storyboardIdentifier="HomeScreeen" id="BV1-FR-VrT" customClass="MainScreenViewController" customModule="Snake" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HomeScreeen" id="BV1-FR-VrT" customClass="MainScreenViewController" customModule="Algo_Snake" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" multipleTouchEnabled="YES" contentMode="scaleToFill" id="3se-qz-xqx" customClass="SKView">
                         <rect key="frame" x="0.0" y="0.0" width="736" height="414"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -55,7 +55,7 @@
                                         <fontDescription key="fontDescription" name="Dogica_Pixel" family="Dogica Pixel" pointSize="11"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l5o-q0-oD3" customClass="IconUIButton" customModule="Snake" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l5o-q0-oD3" customClass="IconUIButton" customModule="Algo_Snake" customModuleProvider="target">
                                         <rect key="frame" x="20" y="334" width="60" height="60"/>
                                         <color key="backgroundColor" name="UI Button"/>
                                         <constraints>
@@ -69,7 +69,7 @@
                                             <segue destination="x7L-u7-4Ti" kind="show" id="f62-Ey-MOA"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JGo-DO-Zbt" customClass="IconUIButton" customModule="Snake" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JGo-DO-Zbt" customClass="IconUIButton" customModule="Algo_Snake" customModuleProvider="target">
                                         <rect key="frame" x="100" y="334" width="248" height="60"/>
                                         <color key="backgroundColor" name="UI Button"/>
                                         <constraints>
@@ -106,17 +106,17 @@
                                     <constraint firstItem="OaO-jX-FWi" firstAttribute="leading" secondItem="OZL-bp-kcR" secondAttribute="leading" constant="20" id="tgd-cP-78N"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GwY-Km-gxB" userLabel="Left View" customClass="LeftUIView" customModule="Snake" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GwY-Km-gxB" userLabel="Left View" customClass="LeftUIView" customModule="Algo_Snake" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="369" height="414"/>
                                 <subviews>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ZpZ-XN-DRd">
                                         <rect key="frame" x="20" y="72" width="329" height="316"/>
                                         <color key="backgroundColor" name="Left View Background"/>
                                         <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" rowHeight="34" id="OnX-qu-dyM" customClass="ViewControllerTableViewCell" customModule="Snake" customModuleProvider="target">
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" rowHeight="34" id="OnX-qu-dyM" customClass="ViewControllerTableViewCell" customModule="Algo_Snake" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="28" width="329" height="34"/>
                                                 <autoresizingMask key="autoresizingMask"/>
-                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="OnX-qu-dyM" id="3Xt-JA-Krb" customClass="ViewControllerTableViewCell" customModule="Snake" customModuleProvider="target">
+                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="OnX-qu-dyM" id="3Xt-JA-Krb" customClass="ViewControllerTableViewCell" customModule="Algo_Snake" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="0.0" width="329" height="34"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
@@ -200,7 +200,7 @@
         <!--MainScreen-->
         <scene sceneID="JvJ-p6-B9n">
             <objects>
-                <viewController title="MainScreen" id="x7L-u7-4Ti" customClass="SettingsSceenViewController" customModule="Snake" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="MainScreen" id="x7L-u7-4Ti" customClass="SettingsSceenViewController" customModule="Algo_Snake" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="DhK-yG-hbA">
                         <rect key="frame" x="0.0" y="0.0" width="736" height="414"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -217,7 +217,7 @@
                                         <fontDescription key="fontDescription" name="Dogica_Pixel_Bold" family="Dogica Pixel" pointSize="24"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fvk-QH-ZQf" customClass="TextUIButton" customModule="Snake" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fvk-QH-ZQf" customClass="TextUIButton" customModule="Algo_Snake" customModuleProvider="target">
                                         <rect key="frame" x="21" y="73" width="196" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" name="UI Button"/>
@@ -229,7 +229,7 @@
                                             <action selector="clearAllButtonTapped:" destination="x7L-u7-4Ti" eventType="touchUpInside" id="C9J-sb-DR2"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pb4-yG-aAq" customClass="TextUIButton" customModule="Snake" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pb4-yG-aAq" customClass="TextUIButton" customModule="Algo_Snake" customModuleProvider="target">
                                         <rect key="frame" x="21" y="123" width="196" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" name="UI Button"/>
@@ -241,7 +241,7 @@
                                             <action selector="clearBarrierButtonTapped:" destination="x7L-u7-4Ti" eventType="touchUpInside" id="xvZ-0b-6O4"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A0B-4l-xoA" customClass="TextUIButton" customModule="Snake" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A0B-4l-xoA" customClass="TextUIButton" customModule="Algo_Snake" customModuleProvider="target">
                                         <rect key="frame" x="21" y="171" width="196" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" name="UI Button"/>
@@ -253,7 +253,7 @@
                                             <action selector="clearPathButtonTapped:" destination="x7L-u7-4Ti" eventType="touchUpInside" id="X33-zW-wWm"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Q6-95-HQk" customClass="TextUIButton" customModule="Snake" customModuleProvider="target">
+                                    <button opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Q6-95-HQk" customClass="TextUIButton" customModule="Algo_Snake" customModuleProvider="target">
                                         <rect key="frame" x="228" y="73" width="196" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" name="UI Button"/>
@@ -265,7 +265,7 @@
                                             <action selector="snakeSpeedButtonTapped:" destination="x7L-u7-4Ti" eventType="touchUpInside" id="5W1-RR-UIj"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hDw-Gg-rpE" customClass="TextUIButton" customModule="Snake" customModuleProvider="target">
+                                    <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hDw-Gg-rpE" customClass="TextUIButton" customModule="Algo_Snake" customModuleProvider="target">
                                         <rect key="frame" x="228" y="123" width="196" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" name="UI Button"/>
@@ -277,7 +277,7 @@
                                             <action selector="foodWeightButtonTapped:" destination="x7L-u7-4Ti" eventType="touchUpInside" id="HQ6-GL-d6S"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dca-WQ-y2k" customClass="TextUIButton" customModule="Snake" customModuleProvider="target">
+                                    <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dca-WQ-y2k" customClass="TextUIButton" customModule="Algo_Snake" customModuleProvider="target">
                                         <rect key="frame" x="228" y="171" width="196" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" name="UI Button"/>
@@ -289,7 +289,7 @@
                                             <action selector="foodCountButtonTapped:" destination="x7L-u7-4Ti" eventType="touchUpInside" id="bKH-wZ-QM1"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iw0-3b-GoY" customClass="TextUIButton" customModule="Snake" customModuleProvider="target">
+                                    <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iw0-3b-GoY" customClass="TextUIButton" customModule="Algo_Snake" customModuleProvider="target">
                                         <rect key="frame" x="21" y="219" width="403" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" name="UI Button"/>
@@ -301,7 +301,7 @@
                                             <action selector="godButtonTapped:" destination="x7L-u7-4Ti" eventType="touchUpInside" id="1BS-yH-73U"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rF9-Fn-yKR" userLabel="Sound" customClass="IconUIButton" customModule="Snake" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rF9-Fn-yKR" userLabel="Sound" customClass="IconUIButton" customModule="Algo_Snake" customModuleProvider="target">
                                         <rect key="frame" x="211" y="352" width="45" height="45"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" name="UI Button"/>
@@ -312,7 +312,7 @@
                                             <action selector="soundButtonTapped:" destination="x7L-u7-4Ti" eventType="touchUpInside" id="5Jb-0f-9Hx"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GfL-tN-qLN" userLabel="Step / Auto Play " customClass="IconUIButton" customModule="Snake" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GfL-tN-qLN" userLabel="Step / Auto Play " customClass="IconUIButton" customModule="Algo_Snake" customModuleProvider="target">
                                         <rect key="frame" x="267" y="352" width="45" height="45"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" name="UI Button"/>
@@ -323,7 +323,7 @@
                                             <action selector="stepButtonTapped:" destination="x7L-u7-4Ti" eventType="touchUpInside" id="LlL-WL-N8I"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NXh-5F-g45" userLabel="Dark/ Light Mode" customClass="IconUIButton" customModule="Snake" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NXh-5F-g45" userLabel="Dark/ Light Mode" customClass="IconUIButton" customModule="Algo_Snake" customModuleProvider="target">
                                         <rect key="frame" x="323" y="352" width="45" height="45"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" name="UI Button"/>
@@ -334,7 +334,7 @@
                                             <action selector="darkModeButtonTapped:" destination="x7L-u7-4Ti" eventType="touchUpInside" id="5EY-ds-Z9P"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e4T-iy-Fyn" userLabel="Home" customClass="IconUIButton" customModule="Snake" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e4T-iy-Fyn" userLabel="Home" customClass="IconUIButton" customModule="Algo_Snake" customModuleProvider="target">
                                         <rect key="frame" x="379" y="352" width="45" height="45"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" name="UI Button"/>
@@ -345,7 +345,7 @@
                                             <segue destination="BV1-FR-VrT" kind="show" id="Bhq-DF-cdl"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="upX-fy-FEE" userLabel="Help" customClass="IconUIButton" customModule="Snake" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="upX-fy-FEE" userLabel="Help" customClass="IconUIButton" customModule="Algo_Snake" customModuleProvider="target">
                                         <rect key="frame" x="156" y="352" width="45" height="45"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" name="UI Button"/>
@@ -356,7 +356,7 @@
                                             <segue destination="9gE-ur-Y08" kind="show" id="bDA-CS-kIA"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8uq-B1-7Ui" userLabel="Sound" customClass="IconUIButton" customModule="Snake" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8uq-B1-7Ui" userLabel="Sound" customClass="IconUIButton" customModule="Algo_Snake" customModuleProvider="target">
                                         <rect key="frame" x="21" y="352" width="45" height="45"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" name="UI Button"/>
@@ -370,7 +370,7 @@
                                 </subviews>
                                 <color key="backgroundColor" name="Right View Background"/>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gzl-h0-Vcb" userLabel="Left View" customClass="LeftUIView" customModule="Snake" customModuleProvider="target">
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gzl-h0-Vcb" userLabel="Left View" customClass="LeftUIView" customModule="Algo_Snake" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="296" height="414"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
@@ -387,10 +387,10 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" name="Left View Background"/>
                                         <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" rowHeight="34" id="Nju-Ya-EcK" customClass="SettingsScreenTableViewCell" customModule="Snake" customModuleProvider="target">
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" rowHeight="34" id="Nju-Ya-EcK" customClass="SettingsScreenTableViewCell" customModule="Algo_Snake" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="28" width="268" height="34"/>
                                                 <autoresizingMask key="autoresizingMask"/>
-                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Nju-Ya-EcK" id="yrd-gP-fDt" customClass="SettingsScreenTableViewCell" customModule="Snake" customModuleProvider="target">
+                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Nju-Ya-EcK" id="yrd-gP-fDt" customClass="SettingsScreenTableViewCell" customModule="Algo_Snake" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="0.0" width="268" height="34"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
@@ -451,12 +451,12 @@
         <!--Game Screen View Controller-->
         <scene sceneID="wct-s6-TV9">
             <objects>
-                <viewController storyboardIdentifier="GameScreen" id="bKH-RY-faG" customClass="GameScreenViewController" customModule="Snake" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="GameScreen" id="bKH-RY-faG" customClass="GameScreenViewController" customModule="Algo_Snake" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="V6u-dH-R6S" customClass="SKView">
                         <rect key="frame" x="0.0" y="0.0" width="736" height="414"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gjg-eF-i5t" userLabel="Return To Settings" customClass="IconUIButton" customModule="Snake" customModuleProvider="target">
+                            <button opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gjg-eF-i5t" userLabel="Return To Settings" customClass="IconUIButton" customModule="Algo_Snake" customModuleProvider="target">
                                 <rect key="frame" x="563" y="349" width="45" height="45"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" name="UI Button"/>
@@ -467,7 +467,7 @@
                                     <action selector="barrierButtonTapped:" destination="bKH-RY-faG" eventType="touchUpInside" id="iOb-KA-bxv"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="00f-v8-ibJ" userLabel="Return To Settings" customClass="IconUIButton" customModule="Snake" customModuleProvider="target">
+                            <button opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="00f-v8-ibJ" userLabel="Return To Settings" customClass="IconUIButton" customModule="Algo_Snake" customModuleProvider="target">
                                 <rect key="frame" x="671" y="349" width="45" height="45"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" name="UI Button"/>
@@ -478,7 +478,7 @@
                                     <segue destination="x7L-u7-4Ti" kind="show" id="HB8-7U-962"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0t6-qA-ACA" userLabel="Home" customClass="IconUIButton" customModule="Snake" customModuleProvider="target">
+                            <button opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0t6-qA-ACA" userLabel="Home" customClass="IconUIButton" customModule="Algo_Snake" customModuleProvider="target">
                                 <rect key="frame" x="617" y="349" width="45" height="45"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" name="UI Button"/>
@@ -489,7 +489,7 @@
                                     <action selector="homeButtonTapped:" destination="bKH-RY-faG" eventType="touchUpInside" id="XYl-ak-CEM"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" alpha="0.80000000000000004" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5GO-jV-W0k" userLabel="Step / Auto Play " customClass="IconUIButton" customModule="Snake" customModuleProvider="target">
+                            <button opaque="NO" alpha="0.80000000000000004" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5GO-jV-W0k" userLabel="Step / Auto Play " customClass="IconUIButton" customModule="Algo_Snake" customModuleProvider="target">
                                 <rect key="frame" x="508" y="349" width="45" height="45"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" name="UI Button"/>
@@ -500,7 +500,7 @@
                                     <action selector="stepButtonTapped:" destination="bKH-RY-faG" eventType="touchUpInside" id="9z7-kV-FLG"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" alpha="0.80000000000000004" tag="9" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hZ8-7E-hZ7" userLabel="Score Button" customClass="IconUIButton" customModule="Snake" customModuleProvider="target">
+                            <button opaque="NO" alpha="0.80000000000000004" tag="9" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hZ8-7E-hZ7" userLabel="Score Button" customClass="IconUIButton" customModule="Algo_Snake" customModuleProvider="target">
                                 <rect key="frame" x="20" y="349" width="90" height="45"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" name="UI Button"/>
@@ -532,7 +532,7 @@
         <!--Help Screen View Controller-->
         <scene sceneID="ykz-Db-5xt">
             <objects>
-                <viewController id="9gE-ur-Y08" customClass="HelpScreenViewController" customModule="Snake" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="9gE-ur-Y08" customClass="HelpScreenViewController" customModule="Algo_Snake" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="1O6-pw-nWf">
                         <rect key="frame" x="0.0" y="0.0" width="736" height="414"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -541,7 +541,7 @@
                                 <rect key="frame" x="296" y="0.0" width="440" height="414"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7gV-6f-ISG" userLabel="Return To Settings" customClass="IconUIButton" customModule="Snake" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7gV-6f-ISG" userLabel="Return To Settings" customClass="IconUIButton" customModule="Algo_Snake" customModuleProvider="target">
                                         <rect key="frame" x="21" y="352" width="45" height="45"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" name="UI Button"/>
@@ -552,7 +552,7 @@
                                             <action selector="ReturnToSettingsButtonTapped:" destination="9gE-ur-Y08" eventType="touchUpInside" id="A5g-fd-Fhv"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KzI-oe-N6e" userLabel="Home" customClass="IconUIButton" customModule="Snake" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KzI-oe-N6e" userLabel="Home" customClass="IconUIButton" customModule="Algo_Snake" customModuleProvider="target">
                                         <rect key="frame" x="379" y="352" width="45" height="45"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" name="UI Button"/>
@@ -566,7 +566,7 @@
                                 </subviews>
                                 <color key="backgroundColor" name="Right View Background"/>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Jid-tj-SUa" userLabel="Left View" customClass="LeftUIView" customModule="Snake" customModuleProvider="target">
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Jid-tj-SUa" userLabel="Left View" customClass="LeftUIView" customModule="Algo_Snake" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="296" height="414"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
@@ -584,7 +584,7 @@
                                         <color key="textColor" name="Text"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5bU-CR-ltO" userLabel="Linked-In" customClass="IconUIButton" customModule="Snake" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5bU-CR-ltO" userLabel="Linked-In" customClass="IconUIButton" customModule="Algo_Snake" customModuleProvider="target">
                                         <rect key="frame" x="44" y="108" width="60" height="60"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" name="Social UI Button"/>
@@ -593,7 +593,7 @@
                                             <action selector="linkedInButtonTapped:" destination="9gE-ur-Y08" eventType="touchUpInside" id="iBZ-nH-3qc"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dOa-dg-iZM" userLabel="Github" customClass="IconUIButton" customModule="Snake" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dOa-dg-iZM" userLabel="Github" customClass="IconUIButton" customModule="Algo_Snake" customModuleProvider="target">
                                         <rect key="frame" x="118" y="108" width="60" height="60"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" name="Social UI Button"/>
@@ -602,7 +602,7 @@
                                             <action selector="personalWebisteButtonTapped:" destination="9gE-ur-Y08" eventType="touchUpInside" id="CfQ-zT-hfN"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bjA-tu-N8I" userLabel="Github" customClass="IconUIButton" customModule="Snake" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bjA-tu-N8I" userLabel="Github" customClass="IconUIButton" customModule="Algo_Snake" customModuleProvider="target">
                                         <rect key="frame" x="192" y="108" width="60" height="60"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" name="Social UI Button"/>
@@ -611,7 +611,7 @@
                                             <action selector="githubButtonTapped:" destination="9gE-ur-Y08" eventType="touchUpInside" id="ScO-5C-eJF"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pbF-dl-b7y" customClass="TextUIButton" customModule="Snake" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pbF-dl-b7y" customClass="TextUIButton" customModule="Algo_Snake" customModuleProvider="target">
                                         <rect key="frame" x="80" y="181" width="134" height="45"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" name="Social UI Button"/>
@@ -675,7 +675,7 @@
         </namedColor>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="HB8-7U-962"/>
+        <segue reference="f62-Ey-MOA"/>
         <segue reference="Bhq-DF-cdl"/>
     </inferredMetricsTieBreakers>
 </document>
