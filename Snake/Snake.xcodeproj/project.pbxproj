@@ -7,11 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3803D88B2495DAE0002A6251 /* Pixeled.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3803D88A2495DAE0002A6251 /* Pixeled.ttf */; };
-		3803D88D2495DC73002A6251 /* PixelCrypt.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3803D88C2495DC73002A6251 /* PixelCrypt.ttf */; };
 		3803D88F2495DD51002A6251 /* dogicapixel.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3803D88E2495DD51002A6251 /* dogicapixel.ttf */; };
-		3803D8942495DD64002A6251 /* dogicabold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3803D8902495DD63002A6251 /* dogicabold.ttf */; };
-		3803D8952495DD64002A6251 /* dogica.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3803D8912495DD63002A6251 /* dogica.ttf */; };
 		3803D8972495DD64002A6251 /* dogicapixelbold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3803D8932495DD63002A6251 /* dogicapixelbold.ttf */; };
 		3803D89B2497F7D7002A6251 /* Custom UI Styling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3803D89A2497F7D7002A6251 /* Custom UI Styling.swift */; };
 		3803D89D2497F87A002A6251 /* Custom Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3803D89C2497F87A002A6251 /* Custom Extensions.swift */; };
@@ -33,11 +29,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3803D88A2495DAE0002A6251 /* Pixeled.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Pixeled.ttf; sourceTree = "<group>"; };
-		3803D88C2495DC73002A6251 /* PixelCrypt.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = PixelCrypt.ttf; sourceTree = "<group>"; };
 		3803D88E2495DD51002A6251 /* dogicapixel.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = dogicapixel.ttf; sourceTree = "<group>"; };
-		3803D8902495DD63002A6251 /* dogicabold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = dogicabold.ttf; sourceTree = "<group>"; };
-		3803D8912495DD63002A6251 /* dogica.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = dogica.ttf; sourceTree = "<group>"; };
 		3803D8932495DD63002A6251 /* dogicapixelbold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = dogicapixelbold.ttf; sourceTree = "<group>"; };
 		3803D89A2497F7D7002A6251 /* Custom UI Styling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Custom UI Styling.swift"; sourceTree = "<group>"; };
 		3803D89C2497F87A002A6251 /* Custom Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Custom Extensions.swift"; sourceTree = "<group>"; };
@@ -78,12 +70,6 @@
 				3803D89C2497F87A002A6251 /* Custom Extensions.swift */,
 				3812393F23C68E290066B3FA /* Snake */,
 				3812393E23C68E290066B3FA /* Products */,
-				3803D88A2495DAE0002A6251 /* Pixeled.ttf */,
-				3803D88C2495DC73002A6251 /* PixelCrypt.ttf */,
-				3803D8912495DD63002A6251 /* dogica.ttf */,
-				3803D8902495DD63002A6251 /* dogicabold.ttf */,
-				3803D8932495DD63002A6251 /* dogicapixelbold.ttf */,
-				3803D88E2495DD51002A6251 /* dogicapixel.ttf */,
 			);
 			sourceTree = "<group>";
 		};
@@ -105,6 +91,8 @@
 				3812395823C68F450066B3FA /* GameManager.swift */,
 				384607BC23E7ECCD001C944D /* Controllers */,
 				3812394D23C68E2C0066B3FA /* Assets.xcassets */,
+				3803D8932495DD63002A6251 /* dogicapixelbold.ttf */,
+				3803D88E2495DD51002A6251 /* dogicapixel.ttf */,
 				3812394023C68E290066B3FA /* AppDelegate.swift */,
 				38B35F3524885B11009E2613 /* sfx_coin_double3.wav */,
 				38B35F33248858D9009E2613 /* sfx_coin_single3.wav */,
@@ -192,17 +180,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3803D8952495DD64002A6251 /* dogica.ttf in Resources */,
-				3803D88B2495DAE0002A6251 /* Pixeled.ttf in Resources */,
 				38B35F34248858D9009E2613 /* sfx_coin_single3.wav in Resources */,
 				3812394C23C68E290066B3FA /* Main.storyboard in Resources */,
 				3803D88F2495DD51002A6251 /* dogicapixel.ttf in Resources */,
 				3812394323C68E290066B3FA /* GameScene.sks in Resources */,
 				3812394E23C68E2C0066B3FA /* Assets.xcassets in Resources */,
 				3803D8972495DD64002A6251 /* dogicapixelbold.ttf in Resources */,
-				3803D8942495DD64002A6251 /* dogicabold.ttf in Resources */,
 				38B35F3624885B11009E2613 /* sfx_coin_double3.wav in Resources */,
-				3803D88D2495DC73002A6251 /* PixelCrypt.ttf in Resources */,
 				3812395123C68E2C0066B3FA /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

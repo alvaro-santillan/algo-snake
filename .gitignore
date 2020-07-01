@@ -4,3 +4,5 @@ Snake/Snake/.DS_Store
 Snake/Snake.xcodeproj/project.xcworkspace/xcuserdata/alvaro.xcuserdatad/UserInterfaceState.xcuserstate
 Snake/Snake.xcodeproj/project.xcworkspace/xcuserdata/alvaro.xcuserdatad/UserInterfaceState.xcuserstate
 *.xcuserstate
+*.pbxproj
+*.xcuserstate
