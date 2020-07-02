@@ -41,6 +41,11 @@ class GameManager {
     
     init(scene: GameScene) {
         self.scene = scene
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        if let vc = appDelegate.window?.rootViewController {
+            self.viewController = (vc.presentedViewController as? GameScreenViewController)
+        }
     }
     
     func initiateSnakeStartingPosition() {
@@ -119,14 +124,14 @@ class GameManager {
         pathSelector()
     }
         
-    var nnnpath: (([Int], [(Tuple)], Int, Int), [SKShapeNode], [[SKShapeNode]], [SKShapeNode], [Bool])?
+    var nnnpath: (([Int], [(Tuple)], Int, Int), [SkNodeAndLocation], [[SkNodeAndLocation]], [SkNodeAndLocation], [Bool])?
     var conditionGreen = Bool()
     var conditionYellow = Bool()
     var conditionRed = Bool()
     var scoreButtonHalo = UIColor()
-    var visitedNodeArray = [SKShapeNode]()
-    var fronteerSquareArray = [[SKShapeNode]]()
-    var pathSquareArray = [SKShapeNode]()
+    var visitedNodeArray = [SkNodeAndLocation]()
+    var fronteerSquareArray = [[SkNodeAndLocation]]()
+    var pathSquareArray = [SkNodeAndLocation]()
     
     func pathSelector() {
         let sceleton = AlgorithmHelper(scene: scene)
@@ -146,13 +151,13 @@ class GameManager {
         }
         for i in pathBlockCordinatesNotReversed {
             let node = scene.gameBoard.first(where: {$0.x == i.y && $0.y == i.x})?.node
-            pathSquareArray.append(node!)
+            pathSquareArray.append(SkNodeAndLocation(square: node!, location: Tuple(x: i.x, y: i.y)))
         }
 
         if UserDefaults.standard.bool(forKey: "Step Mode On Setting") {
                 // problem may not be needed
             if scene.firstAnimationSequanceComleted == true {
-                viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: true, updatingScoreButton: false)
+                viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: true)
             }
             
             UserDefaults.standard.set(true, forKey: "Game Is Paused Setting")
@@ -174,11 +179,7 @@ class GameManager {
         conditionRed = nnnpath!.4[2]
     }
     
-    func viewControllerComunicationsManager(updatingPlayButton: Bool, playButtonIsEnabled: Bool, updatingScoreButton: Bool) {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        if let vc = appDelegate.window?.rootViewController {
-            self.viewController = (vc.presentedViewController as? GameScreenViewController)
-            
+    func viewControllerComunicationsManager(updatingPlayButton: Bool, playButtonIsEnabled: Bool) {
             if updatingPlayButton {
                 if playButtonIsEnabled == true {
                     self.viewController?.playButton.setImage(UIImage(named: "Play_Icon_Set"), for: .normal)
@@ -189,10 +190,6 @@ class GameManager {
                     self.viewController?.playButton.isEnabled = false
                     self.viewController?.barrierButton.isEnabled = false
                 }
-            }
-            
-            if updatingScoreButton {
-                self.viewController?.loadScoreButtonStyling()
             }
 
             if conditionGreen {
@@ -231,8 +228,6 @@ class GameManager {
             default:
                 print("Score button loading error")
             }
-            
-        }
     }
     
     func bringOvermatrix(tempMatrix: [[Int]]) {
@@ -273,7 +268,7 @@ class GameManager {
                         nextTime = time + Double(gameSpeed)
                         barrierSquareManager()
                         // reenable
-                        viewControllerComunicationsManager(updatingPlayButton: false, playButtonIsEnabled: false, updatingScoreButton: false)
+                        viewControllerComunicationsManager(updatingPlayButton: false, playButtonIsEnabled: false)
                         runPredeterminedPath()
                         
                         checkIfPaused()
@@ -305,146 +300,91 @@ class GameManager {
     var foodName = String()
     func tempColor() {
         // Re-renders changes when user instructs blocks to change color.
-        func manageSquareColorWhilePathFindingAnimationsAreStillBeingDisplayed() {
-            for i in (fronteerSquareArray) {
-                for j in i {
-                    j.fillColor = scene.queuedSquareColor
-                }
-            }
-        
-            for i in (visitedNodeArray) {
-                i.fillColor = scene.visitedSquareColor
-            }
-    
-            colorPath()
-            scene.settingsWereChanged = false
-            pathHasBeenAnimated = true
-        }
-        
-        func colorGameboard() {
-            for i in scene.gameBoard {
-                i.node.fillColor = scene.gameboardSquareColor
-            }
-        }
-        
-        func colorPath() {
-            for i in (pathSquareArray) {
-                i.fillColor = .systemOrange
-            }
-        }
-        
-        func colorBarriers() {
-            for i in (barrierNodesWaitingToBeDisplayed) {
-                i.square.fillColor = scene.barrierSquareColor
-            }
-        }
-        
-        func colorSnake() {
-            for (index, squareAndLocation) in snakeBodyPos.enumerated() {
-                if index == 0 {
-                    squareAndLocation.square.fillColor = scene.snakeHeadSquareColor
-                } else {
-                    squareAndLocation.square.fillColor = scene.snakeBodySquareColor
-                }
-            }
-        }
-        
-        func colorFood() {
-            for i in (foodPosition) {
-                i.square.fillColor = scene.foodSquareColor
-                foodName = i.square.name!
-                
-                if foodBlocksHaveAnimated == false {
-                    i.square.run(scene.gameSquareAnimation(animation: 3))
-                    foodBlocksHaveAnimated = true
-                }
-            }
-        }
-        
-        var squareHasBeenUpdated = false
-        
-        if scene.pathFindingAnimationsEnded {
-            if !(UserDefaults.standard.bool(forKey: "Game Is Paused Setting")) {
-                colorGameboard()
-            }
-        
-            if scene.settingsWereChanged {
-                manageSquareColorWhilePathFindingAnimationsAreStillBeingDisplayed()
-            }
-            
-            // Displays path after path finding animation ends.
-            // Bug scene.pathFindingAnimationsEnded is broken or other if needed.
-            colorPath()
-        }
-        
-        if squareHasBeenUpdated == false {
-            colorBarriers()
-        }
-        
-        if scene.gamboardAnimationEnded == true {
-            if squareHasBeenUpdated == false {
-                colorSnake()
-            }
-            
-            if squareHasBeenUpdated == false {
-                colorFood()
-                squareHasBeenUpdated = true
-            }
-        }
-    }
-    
-    func clearBoardManager() {
-        // buggy
-        func barrierClear() {
-            print("Barrier count", barrierNodesWaitingToBeDisplayed.count)
-            for i in (barrierNodesWaitingToBeDisplayed) {
-                i.square.fillColor = scene.gameboardSquareColor
-                matrix[i.location.x][i.location.y] = 0
-            }
-        }
-        
-        func pathClear() {
-            for i in (pathSquareArray) {
-                i.fillColor = scene.gameboardSquareColor
-            }
-        }
-        
-        func fronteerClear() {
-            for i in (fronteerSquareArray) {
-                for j in i {
-                    j.fillColor = scene.gameboardSquareColor
-                }
-            }
-        }
-        
-        func visitedClear() {
-            for i in (visitedNodeArray) {
-                i.fillColor = scene.gameboardSquareColor
-            }
-        }
-        
-        if UserDefaults.standard.bool(forKey: "Clear All Setting") {
-            barrierClear()
-            pathClear()
-            fronteerClear()
-            visitedClear()
-            
-            barrierNodesWaitingToBeDisplayed.removeAll()
-            barrierNodesWaitingToBeRemoved.removeAll()
-            // dont delete need to look into
-//            scene.temporaryPath.removeAll()
-            UserDefaults.standard.set(false, forKey: "Clear All Setting")
-        }
-//        else {
-            if UserDefaults.standard.bool(forKey: "Clear Barrier Setting") {
-                barrierClear()
-                UserDefaults.standard.set(false, forKey: "Clear Barrier Setting")
-            }
-            
-            if UserDefaults.standard.bool(forKey: "Clear Path Setting") {
-                pathClear()
-                UserDefaults.standard.set(false, forKey: "Clear Path Setting")
-            }
+//        func manageSquareColorWhilePathFindingAnimationsAreStillBeingDisplayed() {
+//            for i in (fronteerSquareArray) {
+//                for j in i {
+//                    j.fillColor = scene.queuedSquareColor
+//                }
+//            }
+//
+//            for i in (visitedNodeArray) {
+//                i.fillColor = scene.visitedSquareColor
+//            }
+//
+//            colorPath()
+//            scene.settingsWereChanged = false
+//            pathHasBeenAnimated = true
+//        }
+//
+//        func colorGameboard() {
+//            for i in scene.gameBoard {
+//                i.node.fillColor = scene.gameboardSquareColor
+//            }
+//        }
+//
+//        func colorPath() {
+//            for i in (pathSquareArray) {
+//                i.fillColor = .systemOrange
+//            }
+//        }
+//
+//        func colorBarriers() {
+//            for i in (barrierNodesWaitingToBeDisplayed) {
+//                i.square.fillColor = scene.barrierSquareColor
+//            }
+//        }
+//
+//        func colorSnake() {
+//            for (index, squareAndLocation) in snakeBodyPos.enumerated() {
+//                if index == 0 {
+//                    squareAndLocation.square.fillColor = scene.snakeHeadSquareColor
+//                } else {
+//                    squareAndLocation.square.fillColor = scene.snakeBodySquareColor
+//                }
+//            }
+//        }
+//
+//        func colorFood() {
+//            for i in (foodPosition) {
+//                i.square.fillColor = scene.foodSquareColor
+//                foodName = i.square.name!
+//
+//                if foodBlocksHaveAnimated == false {
+//                    i.square.run(scene.gameSquareAnimation(animation: 3))
+//                    foodBlocksHaveAnimated = true
+//                }
+//            }
+//        }
+//
+//        var squareHasBeenUpdated = false
+//
+//        if scene.pathFindingAnimationsEnded {
+//            if !(UserDefaults.standard.bool(forKey: "Game Is Paused Setting")) {
+//                colorGameboard()
+//            }
+//
+//            if scene.settingsWereChanged {
+//                manageSquareColorWhilePathFindingAnimationsAreStillBeingDisplayed()
+//            }
+//
+//            // Displays path after path finding animation ends.
+//            // Bug scene.pathFindingAnimationsEnded is broken or other if needed.
+//            colorPath()
+//        }
+//
+//        if squareHasBeenUpdated == false {
+//            colorBarriers()
+//        }
+//
+//        if scene.gamboardAnimationEnded == true {
+//            if squareHasBeenUpdated == false {
+//                colorSnake()
+//            }
+//
+//            if squareHasBeenUpdated == false {
+//                colorFood()
+//                squareHasBeenUpdated = true
+//            }
 //        }
     }
     
@@ -454,7 +394,7 @@ class GameManager {
         self.viewController?.scoreButton.layer.borderColor = UIColor.red.cgColor
         updateScore()
         gameIsOver = true
-        viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: true, updatingScoreButton: false)
+        viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: true)
     }
     
     // this is run when game hasent started. fix for optimization.

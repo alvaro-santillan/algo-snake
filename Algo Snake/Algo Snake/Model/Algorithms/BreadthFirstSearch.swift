@@ -22,9 +22,9 @@ class BreadthFirstSearch {
     var conditionGreen = Bool()
     var conditionYellow = Bool()
     var conditionRed = Bool()
-    var visitedSquareArray = [SKShapeNode]()
-    var fronteerSquareArray = [[SKShapeNode]]()
-    var pathSquareArray = [SKShapeNode]()
+    var visitedSquareArray = [SkNodeAndLocation]()
+    var fronteerSquareArray = [[SkNodeAndLocation]]()
+    var pathSquareArray = [SkNodeAndLocation]()
 
     init(scene: GameScene) {
         self.scene = scene
@@ -32,14 +32,14 @@ class BreadthFirstSearch {
     
     func visitedSquareBuilder(visitedX: Int, visitedY: Int) {
         let squareSK = scene.gameBoard.first(where: {$0.x == visitedX && $0.y == visitedY})?.node
-        visitedSquareArray.append(squareSK!)
+        visitedSquareArray.append(SkNodeAndLocation(square: squareSK!, location: Tuple(x: visitedX, y: visitedY)))
     }
     
     func fronteerSquaresBuilder(squareArray: [Tuple]) {
-        var innerFronterSKSquareArray = [SKShapeNode]()
+        var innerFronterSKSquareArray = [SkNodeAndLocation]()
         for square in squareArray {
             let squareSK = scene.gameBoard.first(where: {$0.x == square.y && $0.y == square.x})?.node
-            innerFronterSKSquareArray.append(squareSK!)
+            innerFronterSKSquareArray.append(SkNodeAndLocation(square: squareSK!, location: Tuple(x: square.x, y: square.y)))
         }
         fronteerSquareArray.append(innerFronterSKSquareArray)
     }
@@ -47,7 +47,7 @@ class BreadthFirstSearch {
     // BFS produces a dictionary in which each valid square points too only one parent.
     // Then the dictionary is processed to create a valid path.
     // The nodes are traversed in order found in the dictionary parameter.
-    func breathFirstSearch(startSquare: Tuple, foodLocations: [SkNodeAndLocation], gameBoard: [Tuple : Dictionary<Tuple, Float>], returnPathCost: Bool, returnSquaresVisited: Bool) -> (([Int], [(Tuple)], Int, Int), [SKShapeNode], [[SKShapeNode]], [SKShapeNode], [Bool]) {
+    func breathFirstSearch(startSquare: Tuple, foodLocations: [SkNodeAndLocation], gameBoard: [Tuple : Dictionary<Tuple, Float>], returnPathCost: Bool, returnSquaresVisited: Bool) -> (([Int], [(Tuple)], Int, Int), [SkNodeAndLocation], [[SkNodeAndLocation]], [SkNodeAndLocation], [Bool]) {
         let algorithmHelperObject = AlgorithmHelper(scene: scene)
         // Initalize variable and add first square manually.
         var visitedSquares = [Tuple]()

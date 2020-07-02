@@ -234,7 +234,7 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" name="UI Button"/>
                                         <fontDescription key="fontDescription" name="Dogica_Pixel" family="Dogica Pixel" pointSize="11"/>
-                                        <state key="normal" title="Clear Barrier">
+                                        <state key="normal" title="Clear Barriers">
                                             <color key="titleColor" name="Text"/>
                                         </state>
                                         <connections>
