@@ -1,5 +1,5 @@
 //
-//  Custom UI Styling.swift
+//  Custom UI Managers.swift
 //  Snake
 //
 //  Created by Álvaro Santillan on 6/15/20.
@@ -8,11 +8,7 @@
 
 import UIKit
 
-//class DarkModeManager {
-//
-//}
-
-class SettingsUIButton: UIButton {
+class GeneralUIButton: UIButton {
     override func awakeFromNib() {
         super.awakeFromNib()
         self.layer.shadowOffset = .zero
@@ -22,14 +18,14 @@ class SettingsUIButton: UIButton {
     }
 }
 
-class TextUIButton: SettingsUIButton {
+class TextUIButton: GeneralUIButton {
     override func awakeFromNib() {
         super.awakeFromNib()
         self.layer.shadowOpacity = 0.2
     }
 }
 
-class IconUIButton: SettingsUIButton {
+class IconUIButton: GeneralUIButton {
     override func awakeFromNib() {
         super.awakeFromNib()
         self.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
@@ -46,7 +42,6 @@ class LeftUIView: UIView {
     }
 }
     
-//class XCooolor {
 let colors = [
     UIColor(red: 0.94, green: 0.33, blue: 0.31, alpha: 1.00), // Light Red
     UIColor(red: 0.83, green: 0.18, blue: 0.18, alpha: 1.00), // Dark Red
@@ -80,31 +75,25 @@ let colors = [
     UIColor(red: 0.96, green: 0.49, blue: 0.00, alpha: 1.00), // Dark Orange
     UIColor(red: 1.00, green: 0.44, blue: 0.26, alpha: 1.00), // Light Deep Orange
     UIColor(red: 0.90, green: 0.29, blue: 0.10, alpha: 1.00)] // Dark Deep Orange
+
 let lightBackgroundColors = [
     UIColor(red:0.93, green:0.94, blue:0.95, alpha:1.00), // White Clouds
     UIColor(red:0.74, green:0.76, blue:0.78, alpha:1.00), // White Silver
     UIColor(red:0.58, green:0.65, blue:0.65, alpha:1.00), // Light Gray Concrete
     UIColor(red:0.50, green:0.55, blue:0.55, alpha:1.00)] // Light Gray Asbestos
+
 let darkBackgroundColors = [
     UIColor(red:0.20, green:0.29, blue:0.37, alpha:1.00), // Dark Gray Wet Asphalt
     UIColor(red:0.17, green:0.24, blue:0.31, alpha:1.00), // Dark Gray Green Sea
     UIColor(red:0.20, green:0.29, blue:0.37, alpha:1.00), // Dark Gray Wet Asphalt
     UIColor(red:0.17, green:0.24, blue:0.31, alpha:1.00)] // Dark Gray Green Sea
 
-func colorPaletteDesigner(cellText: (String?)) -> ([UIColor]) {
-    if cellText == "Gameboard" {
-        return UserDefaults.standard.bool(forKey: "Dark Mode On Setting") ? darkBackgroundColors : lightBackgroundColors
-    } else {
-        return colors
-    }
-}
-
 func boolButtonLoader(isIconButton: Bool, targetButton: UIButton, key: String, trueOption: String, falseOption: String) {
     let buttonSetting = UserDefaults.standard.bool(forKey: key)
-    if isIconButton == true {
-        buttonSetting == true ? (targetButton.setImage(UIImage(named: trueOption), for: .normal)) : (targetButton.setImage(UIImage(named: falseOption), for: .normal))
+    if isIconButton {
+        buttonSetting ? (targetButton.setImage(UIImage(named: trueOption), for: .normal)) : (targetButton.setImage(UIImage(named: falseOption), for: .normal))
     } else {
-        buttonSetting == true ? (targetButton.setTitle(trueOption, for: .normal)) : (targetButton.setTitle(falseOption, for: .normal))
+        buttonSetting ? (targetButton.setTitle(trueOption, for: .normal)) : (targetButton.setTitle(falseOption, for: .normal))
     }
 }
 
@@ -174,6 +163,13 @@ func fourOptionButtonResponder(_ sender: UIButton, isSpeedButton: Bool, key: Str
     changeNotifier()
 }
 
+func colorPaletteManager(cellText: (String?)) -> ([UIColor]) {
+    if cellText == "Gameboard" {
+        return UserDefaults.standard.bool(forKey: "Dark Mode On Setting") ? darkBackgroundColors : lightBackgroundColors
+    } else {
+        return colors
+    }
+}
 
 func changeNotifier() {
     UserDefaults.standard.set(true, forKey: "Settings Value Modified")

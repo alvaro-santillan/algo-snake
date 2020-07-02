@@ -1,5 +1,5 @@
 //
-//  GameViewController.swift
+//  MainScreenViewController.swift
 //  Snake
 //
 //  Created by Álvaro Santillan on 1/8/20.
@@ -13,9 +13,12 @@ class MainScreenViewController: UIViewController, UITableViewDelegate, UITableVi
     @IBOutlet weak var tableVIew: UITableView!
     @IBOutlet weak var lastScoreLabel: UITextField!
     @IBOutlet weak var highScoreLabel: UITextField!
-
+    
     let pathFindingAlgorithmList = [["Player","0","0"], ["A-Star Search","1","1"], ["Breath First Search","1","0"], ["Depth First Search","1","0"], ["Dijkstra's Search","1","1"], ["Greedy Depth First Search","1","0"], ["Uniform Cost Search","1","1"]]
+    
     let mazeGenrationAlgorithimList = [["None","0","0"], ["Breadth-first search","1","0"], ["Depth-first search","1","0"], ["Eller's algorithm","1","1"], ["Hunt and kill algorithm","1","1"], ["Kruskal's algorithm","1","1"], ["Prim's algorithm","1","1"], ["Recursive backtracking algorithm","1","1"], ["Sidewinder algorithm","1","1"]]
+    
+    let defaults = UserDefaults.standard
     var selectedPathAlgorithim = UserDefaults.standard.integer(forKey: "Selected Path Finding Algorithim")
     var selectedMazeAlgorithim = UserDefaults.standard.integer(forKey: "Selected Maze Algorithim")
     lazy var tableViewDisplayList = pathFindingAlgorithmList
@@ -27,28 +30,28 @@ class MainScreenViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     func checkIfFirstRun() {
-        if !UserDefaults.standard.bool(forKey: "Not First Launch") {
+        if !defaults.bool(forKey: "Not First Launch") {
             let legendData = [["Snake Head", 0], ["Snake Body", 0], ["Food", 3], ["Path", 17], ["Visited Square", 5], ["Queued Square", 15], ["Barrier", 7], ["Weight", 19],  ["Gameboard", 1]]
             
-            UserDefaults.standard.set(legendData, forKey: "Legend Preferences")
-            UserDefaults.standard.set(2, forKey: "Snake Speed Text Setting")
-            UserDefaults.standard.set(0.25, forKey: "Snake Move Speed")
-            UserDefaults.standard.set(true, forKey: "Food Weight Setting")
-            UserDefaults.standard.set(true, forKey: "Food Count Setting")
-            UserDefaults.standard.set(false, forKey: "God Button On Setting")
-            UserDefaults.standard.set(true, forKey: "Volume On Setting")
-            UserDefaults.standard.set(false, forKey: "Step Mode On Setting")
-            UserDefaults.standard.set(true, forKey: "Dark Mode On Setting")
-            UserDefaults.standard.set(true, forKey: "Not First Launch")
-            UserDefaults.standard.set(true, forKey: "Game Is Paused Setting")
+            defaults.set(legendData, forKey: "Legend Preferences")
+            defaults.set(2, forKey: "Snake Speed Text Setting")
+            defaults.set(0.25, forKey: "Snake Move Speed")
+            defaults.set(true, forKey: "Food Weight Setting")
+            defaults.set(true, forKey: "Food Count Setting")
+            defaults.set(false, forKey: "God Button On Setting")
+            defaults.set(true, forKey: "Volume On Setting")
+            defaults.set(false, forKey: "Step Mode On Setting")
+            defaults.set(true, forKey: "Dark Mode On Setting")
+            defaults.set(true, forKey: "Not First Launch")
+            defaults.set(true, forKey: "Game Is Paused Setting")
             overrideUserInterfaceStyle = .dark
         }
     }
     
     func loadUserData() {
-        highScoreLabel.text = "High Score: \(UserDefaults.standard.integer(forKey: "highScore"))"
-        lastScoreLabel.text = "Last Score: \(UserDefaults.standard.integer(forKey: "lastScore"))"
-        UserDefaults.standard.bool(forKey: "Dark Mode On Setting") == true ? (overrideUserInterfaceStyle = .dark) : (overrideUserInterfaceStyle = .light)
+        highScoreLabel.text = "High Score: \(defaults.integer(forKey: "highScore"))"
+        lastScoreLabel.text = "Last Score: \(defaults.integer(forKey: "lastScore"))"
+        defaults.bool(forKey: "Dark Mode On Setting") ? (overrideUserInterfaceStyle = .dark) : (overrideUserInterfaceStyle = .light)
         segControl.font(name: "Dogica_Pixel", size: 9)
     }
     
@@ -69,13 +72,13 @@ class MainScreenViewController: UIViewController, UITableViewDelegate, UITableVi
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if segControl.selectedSegmentIndex == 0 {
             selectedPathAlgorithim = indexPath.row
-            UserDefaults.standard.set(indexPath.row, forKey: "Selected Path Finding Algorithim")
-            UserDefaults.standard.set(pathFindingAlgorithmList[indexPath.row][0], forKey: "Selected Path Finding Algorithim Name")
+            defaults.set(indexPath.row, forKey: "Selected Path Finding Algorithim")
+            defaults.set(pathFindingAlgorithmList[indexPath.row][0], forKey: "Selected Path Finding Algorithim Name")
         }
         if segControl.selectedSegmentIndex == 1 {
             selectedMazeAlgorithim = indexPath.row
-            UserDefaults.standard.set(indexPath.row, forKey: "Selected Maze Algorithim")
-            UserDefaults.standard.set(mazeGenrationAlgorithimList[indexPath.row][0], forKey: "Selected Maze Algorithim Name")
+            defaults.set(indexPath.row, forKey: "Selected Maze Algorithim")
+            defaults.set(mazeGenrationAlgorithimList[indexPath.row][0], forKey: "Selected Maze Algorithim Name")
         }
     }
     

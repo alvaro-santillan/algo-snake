@@ -229,7 +229,7 @@ class GameManager {
                     self.viewController?.scoreButton.setTitle(String(currentScore), for: .normal)
                 }
             default:
-                print("Error")
+                print("Score button loading error")
             }
             
         }

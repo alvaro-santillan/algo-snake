@@ -15,7 +15,7 @@ extension UserDefaults {
             do {
                 colorData = try NSKeyedArchiver.archivedData(withRootObject: color, requiringSecureCoding: false) as NSData?
                 set(colorData, forKey: key)
-            } catch let error {print("Error archiving data", error)}
+            } catch let error {print("Error archiving color", error)}
         }
     }
     
@@ -24,7 +24,7 @@ extension UserDefaults {
         if let colorData = data(forKey: key) {
             do {
                 color = try NSKeyedUnarchiver.unarchivedObject(ofClass: UIColor.self, from: colorData)
-            } catch let error {print("Error unarchiving data", error)}
+            } catch let error {print("Error unarchiving color", error)}
         }
         return color
     }

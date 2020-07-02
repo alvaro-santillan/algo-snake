@@ -1,5 +1,5 @@
 //
-//  HelpViewController.swift
+//  HelpScreenViewController.swift
 //  Snake
 //
 //  Created by Álvaro Santillan on 3/21/20.
@@ -16,7 +16,7 @@ class HelpScreenViewController: UIViewController {
     }
     
     func loadUserData() {
-        UserDefaults.standard.bool(forKey: "Dark Mode On Setting") == true ? (overrideUserInterfaceStyle = .dark) : (overrideUserInterfaceStyle = .light)
+        UserDefaults.standard.bool(forKey: "Dark Mode On Setting") ? (overrideUserInterfaceStyle = .dark) : (overrideUserInterfaceStyle = .light)
     }
     
     func urlSelector(webURL: String, appURL: String) {

@@ -15,12 +15,15 @@ class GameScreenViewController: UIViewController {
     @IBOutlet weak var homeButton: UIButton!
     @IBOutlet weak var settingsButton: UIButton!
     
+    let defaults = UserDefaults.standard
+    let legendData = UserDefaults.standard.array(forKey: "Legend Preferences") as! [[Any]]
     var currentGame: GameManager?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         loadUserData()
         loadButtonStyling()
+        loadScoreButtonStyling()
         
         if let view = self.view as! SKView? {
             if let scene = SKScene(fileNamed: "GameScene") {
@@ -33,16 +36,15 @@ class GameScreenViewController: UIViewController {
     }
     
     func loadUserData() {
-        UserDefaults.standard.bool(forKey: "Dark Mode On Setting") == true ? (overrideUserInterfaceStyle = .dark) : (overrideUserInterfaceStyle = .light)
+        defaults.bool(forKey: "Dark Mode On Setting") ? (overrideUserInterfaceStyle = .dark) : (overrideUserInterfaceStyle = .light)
     }
     
     func loadButtonStyling() {
         boolButtonLoader(isIconButton: true, targetButton: playButton, key: "Game Is Paused Setting", trueOption: "Play_Icon_Set", falseOption: "Pause_Icon_Set")
-        UserDefaults.standard.bool(forKey: "Game Is Paused Setting") ? (barrierButton.isEnabled = true) : (barrierButton.isEnabled = false)
-        UserDefaults.standard.set(true, forKey: "Add Barrier Mode On Setting")
-        boolButtonLoader(isIconButton: true, targetButton: barrierButton, key: "Add Barrier Mode On Setting", trueOption: "Plus_Icon_Set", falseOption: "Minus_Icon_Set")
+        defaults.bool(forKey: "Game Is Paused Setting") ? (barrierButton.isEnabled = true) : (barrierButton.isEnabled = false)
+        defaults.set(true, forKey: "Add Barrier Mode On Setting")
         
-        loadScoreButtonStyling()
+        boolButtonLoader(isIconButton: true, targetButton: barrierButton, key: "Add Barrier Mode On Setting", trueOption: "Plus_Icon_Set", falseOption: "Minus_Icon_Set")
     }
     
     func loadScoreButtonStyling() {
@@ -51,50 +53,36 @@ class GameScreenViewController: UIViewController {
         scoreButton.layer.backgroundColor = UIColor(named: "UI Button")!.withAlphaComponent(0.5).cgColor
     }
     
-    let legendData = UserDefaults.standard.array(forKey: "Legend Preferences") as! [[Any]]
-    
     @IBAction func scoreButtonTapped(_ sender: UIButton) {
         
-        func scoreButtonBackgroundManager(_ sender: UIButton) {
-            sender.backgroundColor = colors[(legendData[sender.tag][1] as? Int)!].withAlphaComponent(0.5)
-            sender.tag = sender.tag + 1
-        }
-        
-            // If button tapped switch to next option.
-            switch sender.tag {
+        // If button tapped switch to next option.
+        switch sender.tag {
             case 1:
                 print("Snake lenght count")
-//                    scoreButtonBackgroundManager(sender)
                 sender.backgroundColor = colors[(legendData[sender.tag][1] as? Int)!].withAlphaComponent(0.5)
                 sender.tag = 2
             case 2:
                 print("Food count")
-//                    scoreButtonBackgroundManager(sender)
                 sender.backgroundColor = colors[(legendData[sender.tag][1] as? Int)!].withAlphaComponent(0.5)
                 sender.tag = 3
             case 3:
                 print("Path square count")
-//                    scoreButtonBackgroundManager(sender)
                 sender.backgroundColor = colors[(legendData[sender.tag][1] as? Int)!].withAlphaComponent(0.5)
                 sender.tag = 4
             case 4:
                 print("Visited square")
-//                    scoreButtonBackgroundManager(sender)
                 sender.backgroundColor = colors[(legendData[sender.tag][1] as? Int)!].withAlphaComponent(0.5)
                 sender.tag = 5
             case 5:
                 print("Queued Square")
-//                    scoreButtonBackgroundManager(sender)
                 sender.backgroundColor = colors[(legendData[sender.tag][1] as? Int)!].withAlphaComponent(0.5)
                 sender.tag = 6
             case 6:
                 print("Barrier count")
-//                    scoreButtonBackgroundManager(sender)
                 sender.backgroundColor = colors[(legendData[sender.tag][1] as? Int)!].withAlphaComponent(0.5)
                 sender.tag = 7
             case 7:
                 print("Weight")
-//                    scoreButtonBackgroundManager(sender)
                 sender.backgroundColor = colors[(legendData[sender.tag][1] as? Int)!].withAlphaComponent(0.5)
                 sender.tag = 8
             case 8:
@@ -106,7 +94,7 @@ class GameScreenViewController: UIViewController {
                 sender.backgroundColor = UIColor(named: "UI Button")!.withAlphaComponent(0.5)
                 sender.tag = 1
             default:
-                scoreButtonBackgroundManager(sender)
+                print("Score button loading error")
         }
     }
     

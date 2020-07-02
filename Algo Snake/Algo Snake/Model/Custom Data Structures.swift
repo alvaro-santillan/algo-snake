@@ -6,7 +6,6 @@
 //  Copyright © 2020 Álvaro Santillan. All rights reserved.
 //
 
-import Foundation
 import SpriteKit
 
 struct Tuple: Hashable {
