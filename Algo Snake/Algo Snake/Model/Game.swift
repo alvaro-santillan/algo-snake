@@ -39,21 +39,10 @@ class GameManager {
     var horizontalMinBoundry = Int()
     var foodPosition: [SkNodeAndLocation] = []
     
-    var conditionGreen = Bool()
-    var conditionYellow = Bool()
-    var conditionRed = Bool()
-    var scoreButtonHalo = UIColor()
-    
-    
     init(scene: GameScene) {
         self.scene = scene
     }
     
-    var visitedNodeArray = [SKShapeNode]()
-    var fronteerSquareArray = [[SKShapeNode]]()
-    var pathSquareArray = [SKShapeNode]()
-    
-    // Understood - Initiate the starting position of the snake.
     func initiateSnakeStartingPosition() {
         // Must be run at the very begining.
         verticalMaxBoundry = (scene.rowCount - 2)
@@ -74,7 +63,6 @@ class GameManager {
         gameStarted = true
     }
     
-    // Understood - Spawn a new food block into the game.
     var prevX = -1
     var prevY = -1
     var foodLocationArray: [[Int]] = []
@@ -131,52 +119,28 @@ class GameManager {
         pathSelector()
     }
         
+    var nnnpath: (([Int], [(Tuple)], Int, Int), [SKShapeNode], [[SKShapeNode]], [SKShapeNode], [Bool])?
+    var conditionGreen = Bool()
+    var conditionYellow = Bool()
+    var conditionRed = Bool()
+    var scoreButtonHalo = UIColor()
+    var visitedNodeArray = [SKShapeNode]()
+    var fronteerSquareArray = [[SKShapeNode]]()
+    var pathSquareArray = [SKShapeNode]()
+    
     func pathSelector() {
         let sceleton = AlgorithmHelper(scene: scene)
         let dfs = DepthFirstSearch(scene: scene)
         let bfs = BreadthFirstSearch(scene: scene)
-        var path: ([Int], [(Tuple)], Int, Int)?
-        var nnnpath: (([Int], [(Tuple)], Int, Int), [SKShapeNode], [[SKShapeNode]], [SKShapeNode], [Bool])?
         
-        func pathManager() {
-//            print(path!.0)
-            moveInstructions = path!.0.reversed()
-//            print(moveInstructions)
-            pathBlockCordinatesNotReversed = path!.1
-            pathBlockCordinates = path!.1.reversed()
-        }
-        
-//        snakeHead = Tuple(x:snakeHead.y, y:snakeHead.x)
         let snakeHead = Tuple(x: snakeBodyPos[0].location.y, y: snakeBodyPos[0].location.x)
         let gameBoardDictionary = sceleton.gameBoardMatrixToDictionary(gameBoardMatrix: matrix)
         if mainScreenAlgoChoice == 2 {
             nnnpath = bfs.breathFirstSearch(startSquare: snakeHead, foodLocations: foodPosition, gameBoard: gameBoardDictionary, returnPathCost: false, returnSquaresVisited: false)
-//            pathManager()
-            moveInstructions = nnnpath!.0.0
-            moveInstructions = moveInstructions.reversed()
-            pathBlockCordinatesNotReversed = nnnpath!.0.1
-            pathBlockCordinates = pathBlockCordinatesNotReversed.reversed()
-            visitedNodeArray = nnnpath!.1
-            fronteerSquareArray = nnnpath!.2
-            pathSquareArray = nnnpath!.3
-            conditionGreen = nnnpath!.4[0]
-            conditionYellow = nnnpath!.4[1]
-            conditionRed = nnnpath!.4[2]
+            pathManager()
         } else if mainScreenAlgoChoice == 3 {
-            
             nnnpath = dfs.depthFirstSearch(startSquare: snakeHead, foodLocations: foodPosition, gameBoard: gameBoardDictionary, returnPathCost: false, returnSquaresVisited: false)
-//            print(path)
-//            pathManager()
-            moveInstructions = nnnpath!.0.0
-            moveInstructions = moveInstructions.reversed()
-            pathBlockCordinatesNotReversed = nnnpath!.0.1
-            pathBlockCordinates = pathBlockCordinatesNotReversed.reversed()
-            visitedNodeArray = nnnpath!.1
-            fronteerSquareArray = nnnpath!.2
-            pathSquareArray = nnnpath!.3
-            conditionGreen = nnnpath!.4[0]
-            conditionYellow = nnnpath!.4[1]
-            conditionRed = nnnpath!.4[2]
+            pathManager()
         } else {
             moveInstructions = []
         }
@@ -190,12 +154,24 @@ class GameManager {
             if scene.firstAnimationSequanceComleted == true {
                 viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: true, updatingScoreButton: false)
             }
-
             
             UserDefaults.standard.set(true, forKey: "Game Is Paused Setting")
             paused = true
             checkIfPaused()
         }
+    }
+    
+    func pathManager() {
+        moveInstructions = nnnpath!.0.0
+        moveInstructions = moveInstructions.reversed()
+        pathBlockCordinatesNotReversed = nnnpath!.0.1
+        pathBlockCordinates = pathBlockCordinatesNotReversed.reversed()
+        visitedNodeArray = nnnpath!.1
+        fronteerSquareArray = nnnpath!.2
+        pathSquareArray = nnnpath!.3
+        conditionGreen = nnnpath!.4[0]
+        conditionYellow = nnnpath!.4[1]
+        conditionRed = nnnpath!.4[2]
     }
     
     func viewControllerComunicationsManager(updatingPlayButton: Bool, playButtonIsEnabled: Bool, updatingScoreButton: Bool) {
@@ -228,7 +204,6 @@ class GameManager {
             }
             
             let scoreButtonTag = self.viewController?.scoreButton.tag
-//            print("Sender Tag", scoreButtonTag)
             
             switch scoreButtonTag {
             case 1: // Highscore
@@ -266,20 +241,14 @@ class GameManager {
     
     func runPredeterminedPath() {
         if gameStarted == true {
-            print("Moveinstructions:", moveInstructions)
             if (moveInstructions.count != 0) {
                 swipe(ID: moveInstructions[0])
                 moveInstructions.remove(at: 0)
                 pathBlockCordinates.remove(at: 0)
-//                if !(scene.temporaryPath.isEmpty) {
-//                    scene.temporaryPath.removeLast()
-//                }
                 playSound(selectedSoundFileName: "sfx_coin_single3")
                 onPathMode = true
             } else {
                 onPathMode = false
-//                UserDefaults.standard.set(true, forKey: "Game Is Paused Setting")
-//                paused = true
                 pathSelector()
                 onPathMode = true
             }
@@ -291,20 +260,26 @@ class GameManager {
         if nextTime == nil {
             nextTime = time + Double(gameSpeed)
         } else if (paused == true) {
-//            If the game is paused keep chicking if its paused.
-            checkIfPaused()
+            if gameIsOver != true {
+                checkIfPaused()
+            }
         }
         else {
             if time >= nextTime! {
-                nextTime = time + Double(gameSpeed)
-                barrierSquareManager()
-                // reenable
-//                viewControllerComunicationsManager(updatingPlayButton: false, playButtonIsEnabled: false, updatingScoreButton: false)
-                runPredeterminedPath()
-                updateSnakePosition()
-                checkIfPaused()
-                checkForDeath()
-                checkForFoodCollision()
+                if gameIsOver != true {
+                    checkForDeath()
+                    updateSnakePosition()
+                    if gameIsOver != true {
+                        nextTime = time + Double(gameSpeed)
+                        barrierSquareManager()
+                        // reenable
+                        viewControllerComunicationsManager(updatingPlayButton: false, playButtonIsEnabled: false, updatingScoreButton: false)
+                        runPredeterminedPath()
+                        
+                        checkIfPaused()
+                        checkForFoodCollision()
+                    }
+                }
             }
         }
     }
@@ -322,7 +297,6 @@ class GameManager {
             scene.animatedVisitedNodeCount = 0
             scene.animatedQueuedNodeCount = 0
             gameSpeed = UserDefaults.standard.float(forKey: "Snake Move Speed")
-//            scene.clearToDisplayPath = false
             paused = false
         }
     }
@@ -417,8 +391,6 @@ class GameManager {
                 squareHasBeenUpdated = true
             }
         }
-//        snakeBodyPosSK.removeAll()
-//        foodSK.removeAll()
     }
     
     func clearBoardManager() {
@@ -476,10 +448,13 @@ class GameManager {
 //        }
     }
     
+    var gameIsOver = Bool()
     func endTheGame() {
+        scene.algorithimChoiceName.text = "Game Over"
+        self.viewController?.scoreButton.layer.borderColor = UIColor.red.cgColor
         updateScore()
-        foodPosition.removeAll()
-        snakeBodyPos.removeAll()
+        gameIsOver = true
+        viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: true, updatingScoreButton: false)
     }
     
     // this is run when game hasent started. fix for optimization.
@@ -503,7 +478,6 @@ class GameManager {
             }
             
             let snakeHead = snakeBodyPos[0]
-            // temp removal
             if barrierNodesWaitingToBeDisplayed.contains(snakeHead) {
                 endTheGame()
             }
@@ -614,8 +588,14 @@ class GameManager {
             // Can be reduced only 3 blocks need to be updated.
             snakeBodyPos[0].location.x = (snakeBodyPos[0].location.x + yChange)
             snakeBodyPos[0].location.y = (snakeBodyPos[0].location.y + xChange)
-            matrix[snakeBodyPos[0].location.x][snakeBodyPos[0].location.y] = 1
-            matrix[snakeBodyPos[1].location.x][snakeBodyPos[1].location.y] = 2
+            if snakeBodyPos[0].location.x < 0 || snakeBodyPos[0].location.y < 0 {
+                endTheGame()
+            }
+            print("location update", snakeBodyPos[0])
+            if gameIsOver != true {
+                matrix[snakeBodyPos[0].location.x][snakeBodyPos[0].location.y] = 1
+                matrix[snakeBodyPos[1].location.x][snakeBodyPos[1].location.y] = 2
+            }
 //            matrix[snakeBodyPos[2].0][snakeBodyPos[2].1] = 2
 //            matrix[snakeBodyPos[3].0][snakeBodyPos[3].1] = 2
 //            matrix[snakeBodyPos[4].0][snakeBodyPos[4].1] = 2
@@ -625,34 +605,36 @@ class GameManager {
 //            }
 //            print("----")
         }
-        
-        if snakeBodyPos.count > 0 {
-            let x = snakeBodyPos[0].location.y
-            let y = snakeBodyPos[0].location.x
-            if UserDefaults.standard.bool(forKey: "God Button On Setting") {
-                // modified to debug
-//                if y > verticalMaxBoundry { // Moving To Bottom
-//                    snakeBodyPos[0].0 = verticalMinBoundry // Spawning At Top
-//                } else if y < verticalMinBoundry { // Moving to top
-//                    snakeBodyPos[0].0 = verticalMaxBoundry // Spawning at bottom
-//                } else if x > horizontalMaxBoundry { // Moving to right
-//                    snakeBodyPos[0].1 = horizontalMinBoundry // Spawning on left
-//                } else if x < horizontalMinBoundry { // Moving to left
-//                    snakeBodyPos[0].1 = horizontalMaxBoundry // Spawning on right
-//                }
-            } else {
-                if y > verticalMaxBoundry { // Moving To Bottom
-                    endTheGame()
-                } else if y < verticalMinBoundry { // Moving to top
-                    endTheGame()
-                } else if x > horizontalMaxBoundry { // Moving to right
-                    endTheGame()
-                } else if x < horizontalMinBoundry { // Moving to left
-                    endTheGame()
+    
+        if gameIsOver != true {
+            if snakeBodyPos.count > 0 {
+                let x = snakeBodyPos[0].location.y
+                let y = snakeBodyPos[0].location.x
+                if UserDefaults.standard.bool(forKey: "God Button On Setting") {
+                    // modified to debug
+    //                if y > verticalMaxBoundry { // Moving To Bottom
+    //                    snakeBodyPos[0].0 = verticalMinBoundry // Spawning At Top
+    //                } else if y < verticalMinBoundry { // Moving to top
+    //                    snakeBodyPos[0].0 = verticalMaxBoundry // Spawning at bottom
+    //                } else if x > horizontalMaxBoundry { // Moving to right
+    //                    snakeBodyPos[0].1 = horizontalMinBoundry // Spawning on left
+    //                } else if x < horizontalMinBoundry { // Moving to left
+    //                    snakeBodyPos[0].1 = horizontalMaxBoundry // Spawning on right
+    //                }
+                } else {
+                    if y > verticalMaxBoundry { // Moving To Bottom
+                        endTheGame()
+                    } else if y < verticalMinBoundry { // Moving to top
+                        endTheGame()
+                    } else if x > horizontalMaxBoundry { // Moving to right
+                        endTheGame()
+                    } else if x < horizontalMinBoundry { // Moving to left
+                        endTheGame()
+                    }
                 }
             }
+            tempColor()
         }
-        tempColor()
     }
 
     func updateScore() {

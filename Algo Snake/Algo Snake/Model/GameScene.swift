@@ -87,6 +87,7 @@ class GameScene: SKScene {
         let mazeGenerationAlgorithimName = UserDefaults.standard.string(forKey: "Selected Maze Algorithim Name")
         
         algorithimChoiceName = SKLabelNode(fontNamed: "Dogica_Pixel")
+//        if game.gameIsOver != true {
         algorithimChoiceName.text = "Path: \(pathFindingAlgorithimName ?? "Player"), Maze: \(mazeGenerationAlgorithimName ?? "None")"
         algorithimChoiceName.fontColor = UIColor(named: "Text")
         algorithimChoiceName.fontSize = 11
@@ -163,14 +164,12 @@ class GameScene: SKScene {
             if gameBoarddispatchCalled == false {
                 DispatchQueue.main.asyncAfter(deadline: .now() + gameboardsquareWait.duration) {
                     self.gamboardAnimationEnded = true
-//                    self.game.viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: true)
                 }
                 gameBoarddispatchCalled = true
             }
         }
         
         func animateNodes(_ nodes: [SKShapeNode]) {
-//            var gameboardsquareWait = SKAction()
             for (squareIndex, square) in nodes.enumerated() {
                 
                 square.run(.sequence([gameboardsquareWait, gameSquareAnimation(animation: 1)]), completion: {gameBoardAnimationComplition()}) //0.003
@@ -179,9 +178,7 @@ class GameScene: SKScene {
         }
         
         var squares = [SKShapeNode]()
-        // temp connet
-//        game.viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: false, updatingScoreButton: false)
-//        UserDefaults.standard.set(true, forKey: "Game Is Paused Setting")
+        game.viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: false, updatingScoreButton: false)
         for i in gameBoard {
             squares.append(i.node)
         }
@@ -336,13 +333,10 @@ class GameScene: SKScene {
         if squareIndex != 0 {
             square.run(.sequence([gameSquareAnimation(animation: 2)]))
             square.fillColor = pathSquareColor
-            //enable this one
             game.viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: true, updatingScoreButton: false)
         }
         if pathdispatchCalled == false {
             DispatchQueue.main.asyncAfter(deadline: .now() + pathSquareWait.duration) {
-//                self.animatePathNew(run: self.dispatchCalled)
-                print("Set true after dispached")
                 self.pathFindingAnimationsEnded = true
                 self.clearToDisplayPath = true
             }
@@ -350,11 +344,7 @@ class GameScene: SKScene {
         }
     }
 
-//    var temporaryPath = [SKShapeNode]()
     func animatePathNew(run: Bool) {
-//        temporaryPath = game.pathSquareArray
-//        temporaryPath.removeFirst()
-//        temporaryPath.removeLast()
         if run == true {
             for (squareIndex, square) in (game.pathSquareArray).enumerated() {
                 square.run(.sequence([pathSquareWait,gameSquareAnimation(animation: 3)]), completion: {self.pathTeeest(square: square, squareIndex: squareIndex)})
@@ -365,7 +355,6 @@ class GameScene: SKScene {
         }
     }
     
-    // 3 Called
     func visitedSquareFill(square: SKShapeNode) {
         square.run(.sequence([gameSquareAnimation(animation: 2)]))
         square.fillColor = visitedSquareColor
@@ -417,11 +406,10 @@ class GameScene: SKScene {
     var firstAnimationSequanceComleted = Bool()
     override func update(_ currentTime: TimeInterval) {
         UserDefaults.standard.bool(forKey: "Settings Value Modified") ? (settingLoader(firstRun: false)) : ()
-// both temp commented
-//        game.viewControllerComunicationsManager(updatingPlayButton: false, playButtonIsEnabled: false, updatingScoreButton: false)
+        game.viewControllerComunicationsManager(updatingPlayButton: false, playButtonIsEnabled: false, updatingScoreButton: false)
         
         if game!.visitedNodeArray.count > 0 && gamboardAnimationEnded == true {
-//            game.viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: false, updatingScoreButton: false)
+            game.viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: false, updatingScoreButton: false)
             dispatchCalled = false
             game.pathHasBeenAnimated = false
             fronterrInitalAnimation()
