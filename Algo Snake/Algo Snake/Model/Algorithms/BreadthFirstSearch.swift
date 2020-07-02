@@ -1,5 +1,5 @@
 //
-//  DepthFirstSearch.swift
+//  BreadthFirstSearch.swift
 //  Algo Snake
 //
 //  Created by Álvaro Santillan on 7/1/20.
@@ -9,7 +9,7 @@
 import Foundation
 import SpriteKit
 
-class DepthFirstSearch {
+class BreadthFirstSearch {
     var scene: GameScene!
     var conditionGreen = Bool()
     var conditionYellow = Bool()
@@ -36,17 +36,18 @@ class DepthFirstSearch {
         fronteerSquareArray.append(innerFronterSquares)
     }
     
-    // Steps in Depth First Search
+    // Steps in Breath First Search
     // Mark parent
     // Mark current node as visited.
     // Append children nodes if needed to the fronter.
-    // Select the last unvisited child node to explore.
+    // Select one by one a unvisited child node to explore.
+    // Do this for all the child nodes
     // Repeat untill the goal is visited.
 
-    // DFS produces a dictionary in which each valid square points too only one parent.
+    // BFS produces a dictionary in which each valid square points too only one parent.
     // Then the dictionary is processed to create a valid path.
     // The nodes are traversed in order found in the dictionary parameter.
-    func depthFirstSearch(startSquare: Tuple, foodLocations: [SkNodeAndLocation], gameBoard: [Tuple : Dictionary<Tuple, Float>], returnPathCost: Bool, returnSquaresVisited: Bool) -> (([Int], [(Tuple)], Int, Int), [SKShapeNode], [[SKShapeNode]], [SKShapeNode], [Bool]) {
+    func breathFirstSearch(startSquare: Tuple, foodLocations: [SkNodeAndLocation], gameBoard: [Tuple : Dictionary<Tuple, Float>], returnPathCost: Bool, returnSquaresVisited: Bool) -> (([Int], [(Tuple)], Int, Int), [SKShapeNode], [[SKShapeNode]], [SKShapeNode], [Bool]) {
         let sceleton = AlgorithmHelper(scene: scene)
         // Initalize variable and add first square manually.
         var visitedSquares = [Tuple]()
@@ -57,7 +58,6 @@ class DepthFirstSearch {
         var squareAndParentSquare = [startSquare : Tuple(x:-1, y:-1)]
         
         // Break once the goal is reached (the goals parent is noted a cycle before when it was a new node.)
-        
         while (!(foodLocations.contains(where: { $0.location == currentSquare }))) {
             // Mark current node as visited. (If statement required due to first node.)
             if !(visitedSquares.contains(currentSquare)) {
@@ -80,9 +80,11 @@ class DepthFirstSearch {
             }
             fronteerSquaress(rawSquares: newFornterSquareHolder)
             
+            // Update current and fronter
             if fronterSquares.count != 0 {
-                currentSquare = fronterSquares.last!
-                fronterSquares.popLast()
+                // New currentNode is first in queue (BFS).
+                currentSquare = fronterSquares[0]
+                fronterSquares.remove(at: 0)
             } else {
                 conditionGreen = false
                 conditionYellow = true
@@ -97,11 +99,11 @@ class DepthFirstSearch {
                 return(sceleton.formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: currentSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited), visitedNodeArray: visitedNodeArray, fronteerSquareArray: fronteerSquareArray, pathSquareArray: pathSquareArray, conditions: [conditionGreen, conditionYellow, conditionRed])
             }
         }
-        // Genarate a path and optional statistics from the results of DFS.
+        // Genarate a path and optional statistics from the results of BFS.
         conditionGreen = true
         conditionYellow = false
         conditionRed = false
-
+        
         return(sceleton.formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: currentSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited), visitedNodeArray: visitedNodeArray, fronteerSquareArray: fronteerSquareArray, pathSquareArray: pathSquareArray, conditions: [conditionGreen, conditionYellow, conditionRed])
     }
 }
