@@ -140,9 +140,9 @@
                                                 </tableViewCellContentView>
                                                 <color key="backgroundColor" name="Left View Background"/>
                                                 <connections>
-                                                    <outlet property="myImage" destination="hHW-Bo-5qD" id="IbS-Ps-Geq"/>
-                                                    <outlet property="myImage2" destination="CXC-6R-ftb" id="14y-co-apv"/>
-                                                    <outlet property="myLabel" destination="XhV-Uv-nos" id="G0M-6p-9CU"/>
+                                                    <outlet property="guaranteedIconSquare" destination="hHW-Bo-5qD" id="IbS-Ps-Geq"/>
+                                                    <outlet property="label" destination="XhV-Uv-nos" id="E33-PF-Abq"/>
+                                                    <outlet property="optimalIconSquare" destination="CXC-6R-ftb" id="14y-co-apv"/>
                                                 </connections>
                                             </tableViewCell>
                                         </prototypes>

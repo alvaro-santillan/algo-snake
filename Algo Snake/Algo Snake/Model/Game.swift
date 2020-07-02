@@ -1,5 +1,5 @@
 //
-//  GameManager.swift
+//  Game.swift
 //  Snake
 //
 //  Created by Álvaro Santillan on 1/8/20.

@@ -59,12 +59,12 @@ class MainScreenViewController: UIViewController, UITableViewDelegate, UITableVi
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ViewControllerTableViewCell
-        cell.myLabel.text = tableViewDisplayList[indexPath.row][0]
-        cell.myImage.contentMode = .scaleAspectFit
+        cell.label.text = tableViewDisplayList[indexPath.row][0]
+        cell.guaranteedIconSquare.contentMode = .scaleAspectFit
         cell.layer.cornerRadius = 5
         
-        tableViewDisplayList[indexPath.row][1] == "1" ? (cell.myImage.image = UIImage(named: "Guaranteed_Icon_Set.pdf")) : (cell.myImage.image = nil)
-        tableViewDisplayList[indexPath.row][2] == "1" ? (cell.myImage2.image = UIImage(named: "Optimal_Icon_Set.pdf")) : (cell.myImage2.image = nil)
+        tableViewDisplayList[indexPath.row][1] == "1" ? (cell.guaranteedIconSquare.image = UIImage(named: "Guaranteed_Icon_Set.pdf")) : (cell.guaranteedIconSquare.image = nil)
+        tableViewDisplayList[indexPath.row][2] == "1" ? (cell.optimalIconSquare.image = UIImage(named: "Optimal_Icon_Set.pdf")) : (cell.optimalIconSquare.image = nil)
         
         return cell
     }
