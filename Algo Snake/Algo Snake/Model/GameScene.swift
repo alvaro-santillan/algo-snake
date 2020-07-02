@@ -179,7 +179,8 @@ class GameScene: SKScene {
         }
         
         var squares = [SKShapeNode]()
-        game.viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: false, updatingScoreButton: false)
+        // temp connet
+//        game.viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: false, updatingScoreButton: false)
 //        UserDefaults.standard.set(true, forKey: "Game Is Paused Setting")
         for i in gameBoard {
             squares.append(i.node)
@@ -416,11 +417,11 @@ class GameScene: SKScene {
     var firstAnimationSequanceComleted = Bool()
     override func update(_ currentTime: TimeInterval) {
         UserDefaults.standard.bool(forKey: "Settings Value Modified") ? (settingLoader(firstRun: false)) : ()
-
-        game.viewControllerComunicationsManager(updatingPlayButton: false, playButtonIsEnabled: false, updatingScoreButton: false)
+// both temp commented
+//        game.viewControllerComunicationsManager(updatingPlayButton: false, playButtonIsEnabled: false, updatingScoreButton: false)
         
         if game!.visitedNodeArray.count > 0 && gamboardAnimationEnded == true {
-            game.viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: false, updatingScoreButton: false)
+//            game.viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: false, updatingScoreButton: false)
             dispatchCalled = false
             game.pathHasBeenAnimated = false
             fronterrInitalAnimation()
