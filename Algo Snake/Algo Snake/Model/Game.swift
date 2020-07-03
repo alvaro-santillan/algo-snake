@@ -132,6 +132,7 @@ class GameManager {
     var visitedNodeArray = [SkNodeAndLocation]()
     var fronteerSquareArray = [[SkNodeAndLocation]]()
     var pathSquareArray = [SkNodeAndLocation]()
+    var displayPathSquareArray = [SkNodeAndLocation]()
     
     func pathSelector() {
         let sceleton = AlgorithmHelper(scene: scene)
@@ -149,10 +150,14 @@ class GameManager {
         } else {
             moveInstructions = []
         }
+        
         for i in pathBlockCordinatesNotReversed {
             let node = scene.gameBoard.first(where: {$0.x == i.y && $0.y == i.x})?.node
             pathSquareArray.append(SkNodeAndLocation(square: node!, location: Tuple(x: i.x, y: i.y)))
+            displayPathSquareArray.append(SkNodeAndLocation(square: node!, location: Tuple(x: i.x, y: i.y)))
         }
+        displayPathSquareArray.removeFirst()
+        displayPathSquareArray.removeLast()
 
         if UserDefaults.standard.bool(forKey: "Step Mode On Setting") {
                 // problem may not be needed

@@ -22,6 +22,9 @@ class GameScene: SKScene {
     // Game settings
     var pathFindingAnimationSpeed = Float()
     var settingsWereChanged = Bool()
+    var clearAllWasTapped = Bool()
+    var clearBarriersWasTapped = Bool()
+    var clearPathWasTapped = Bool()
     
     var snakeHeadSquareColor = UIColor() // "Snake Head"
     var snakeBodySquareColor = UIColor() // "Snake Body"
@@ -90,7 +93,75 @@ class GameScene: SKScene {
             // Check and respond to clear button interaction.
             clearButtonManager()
         }
+        settingsChangeSquareColorManager()
         UserDefaults.standard.set(false, forKey: "Settings Value Modified")
+    }
+    
+    func settingsChangeSquareColorManager() {
+        func colorGameboard() {
+            for i in gameBoard {
+                i.node.fillColor = gameboardSquareColor
+            }
+        }
+        
+        func colorQueued() {
+            for i in (game.fronteerSquareArray) {
+                for j in i {
+                    j.square.fillColor = queuedSquareColor
+                }
+            }
+        }
+        
+        func colorVisited() {
+            for i in (temporaryVisitedSquareArray) {
+                i.square.fillColor = visitedSquareColor
+            }
+        }
+        
+        func colorPath() {
+            for i in game.displayPathSquareArray {
+                i.square.fillColor = pathSquareColor
+            }
+        }
+        
+        func colorBarriers() {
+            for i in game.barrierNodesWaitingToBeDisplayed {
+                i.square.fillColor = barrierSquareColor
+            }
+        }
+        
+        func colorSnake() {
+            for (index, squareAndLocation) in game.snakeBodyPos.enumerated() {
+                if index == 0 {
+                    squareAndLocation.square.fillColor = snakeHeadSquareColor
+                } else {
+                    squareAndLocation.square.fillColor = snakeBodySquareColor
+                }
+            }
+        }
+        
+        func colorFood() {
+            for i in (game.foodPosition) {
+                i.square.fillColor = foodSquareColor
+            }
+        }
+        
+        if pathFindingAnimationsEnded == true {
+            if clearAllWasTapped != true {
+                colorGameboard()
+                colorQueued()
+                colorVisited()
+                if clearPathWasTapped != true {
+                    colorPath()
+                }
+                
+                if clearBarriersWasTapped != true {
+                    colorBarriers()
+                }
+                colorSnake()
+                colorFood()
+            }
+        }
     }
     
     // Effects happen in real time.
@@ -107,6 +178,7 @@ class GameScene: SKScene {
             // Prevent barriers from respawning.
             game.barrierNodesWaitingToBeDisplayed.removeAll()
             game.barrierNodesWaitingToBeRemoved.removeAll()
+            clearAllWasTapped = true
             UserDefaults.standard.set(false, forKey: "Clear All Setting")
             
         } else if (UserDefaults.standard.bool(forKey: "Clear Barrier Setting")) {
@@ -119,17 +191,16 @@ class GameScene: SKScene {
             // Prevent barriers from respawning.
             game.barrierNodesWaitingToBeDisplayed.removeAll()
             game.barrierNodesWaitingToBeRemoved.removeAll()
+            clearBarriersWasTapped = true
             UserDefaults.standard.set(false, forKey: "Clear Barrier Setting")
             
         } else if (UserDefaults.standard.bool(forKey: "Clear Path Setting")) {
-            game.pathSquareArray.removeFirst()
-            game.pathSquareArray.removeLast()
-        
             // Visually convert each square back to a gameboard square.
-            for i in (game.pathSquareArray) {
+            for i in (game.displayPathSquareArray) {
                 i.square.fillColor = gameboardSquareColor
                 game.matrix[i.location.x][i.location.y] = 0
             }
+            clearPathWasTapped = true
             UserDefaults.standard.set(false, forKey: "Clear Path Setting")
         }
     }
@@ -381,11 +452,10 @@ class GameScene: SKScene {
     var firstSquare = false
     
     func pathTeeest(square: SKShapeNode, squareIndex: Int) {
-        if squareIndex != 0 {
             square.run(.sequence([gameSquareAnimation(animation: 2)]))
             square.fillColor = pathSquareColor
             game.viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: true)
-        }
+        
         if pathdispatchCalled == false {
             DispatchQueue.main.asyncAfter(deadline: .now() + pathSquareWait.duration) {
                 self.pathFindingAnimationsEnded = true
@@ -397,8 +467,7 @@ class GameScene: SKScene {
 
     func animatePathNew(run: Bool) {
         if run == true {
-            var temporaryPathSquareArray = game.pathSquareArray
-            temporaryPathSquareArray.removeLast()
+            var temporaryPathSquareArray = game.displayPathSquareArray
             for (squareIndex, squareAndLocation) in (temporaryPathSquareArray).enumerated() {
                 squareAndLocation.square.run(.sequence([pathSquareWait,gameSquareAnimation(animation: 3)]), completion: {self.pathTeeest(square: squareAndLocation.square, squareIndex: squareIndex)})
                 // DONT TOUCH TIME NOT RELATED TO VISITED
@@ -445,14 +514,16 @@ class GameScene: SKScene {
         temporaryFronteerSquareArray.removeAll()
     }
     
+    var temporaryVisitedSquareArray = [SkNodeAndLocation]()
     func visitedSquareInitialAnimation() {
+        temporaryVisitedSquareArray = game.visitedNodeArray
         for (squareIIndex, squareAndLocation) in (game.visitedNodeArray).enumerated() {
             // Easter would go here enable this one
             squareAndLocation.square.run(.sequence([visitedSquareWait]), completion: {self.visitedSquareFill(square: squareAndLocation.square)})
             visitedSquareWait = .wait(forDuration: TimeInterval(squareIIndex) * Double(pathFindingAnimationSpeed))
-            game!.visitedNodeArray.remove(at: 0)
+            game.visitedNodeArray.remove(at: 0)
         }
-        game!.visitedNodeArray.removeAll()
+        game.visitedNodeArray.removeAll()
     }
     
     // Called before each frame is rendered
