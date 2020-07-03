@@ -26,18 +26,25 @@ class GameScene: SKScene {
     var clearBarriersWasTapped = Bool()
     var clearPathWasTapped = Bool()
     
-    var snakeHeadSquareColor = UIColor() // "Snake Head"
-    var snakeBodySquareColor = UIColor() // "Snake Body"
-    var foodSquareColor = UIColor() // "Food"
-    var pathSquareColor = UIColor() // "Path"
-    var visitedSquareColor = UIColor() // "Visited Square"
-    var queuedSquareColor = UIColor() // "Queued Square"
-    var barrierSquareColor = UIColor() // "Barrier"
-    var weightSquareColor = UIColor() // "Weight"
-    var gameboardSquareColor = UIColor() // "Gameboard"
-    var gameBackgroundColor = UIColor() // Background
+    var snakeHeadSquareColor = UIColor()
+    var snakeBodySquareColor = UIColor()
+    var foodSquareColor = UIColor()
+    var pathSquareColor = UIColor()
+    var visitedSquareColor = UIColor()
+    var queuedSquareColor = UIColor()
+    var barrierSquareColor = UIColor()
+    var weightSquareColor = UIColor()
+    var gameboardSquareColor = UIColor()
+    var gameBackgroundColor = UIColor()
+    var screenLabelColor = UIColor()
+    var scoreButtonColor = UIColor()
 
     override func didMove(to view: SKView) {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        if let vc = appDelegate.window?.rootViewController {
+            self.viewController = (vc.presentedViewController as? GameScreenViewController)
+        }
+        
         game = GameManager(scene: self)
         settingLoader(firstRun: true)
         createScreenLabels()
@@ -47,11 +54,6 @@ class GameScene: SKScene {
     }
     
     func settingLoader(firstRun: Bool) {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        if let vc = appDelegate.window?.rootViewController {
-            self.viewController = (vc.presentedViewController as? GameScreenViewController)
-        }
-        
         settingsWereChanged = true
         
         // Retrive legend preferences
@@ -61,40 +63,82 @@ class GameScene: SKScene {
         pathFindingAnimationSpeed = (UserDefaults.standard.float(forKey: "Snake Move Speed") * 0.14)
         
         // Update square colors, seen by the user in the next frame update.
-        snakeHeadSquareColor = colors[legendData[0][1] as! Int] // "Snake Head"
-        snakeBodySquareColor = colors[legendData[1][1] as! Int] // "Snake Body"
-        foodSquareColor = colors[legendData[2][1] as! Int] // "Food"
-        pathSquareColor = colors[legendData[3][1] as! Int] // "Path"
-        visitedSquareColor = colors[legendData[4][1] as! Int] // "Visited Square"
-        queuedSquareColor = colors[legendData[5][1] as! Int] // "Queued Square"
-        barrierSquareColor = colors[legendData[6][1] as! Int] // "Barrier"
-        weightSquareColor = colors[legendData[7][1] as! Int] // "Weight"
+        snakeHeadSquareColor = colors[legendData[0][1] as! Int]
+        snakeBodySquareColor = colors[legendData[1][1] as! Int]
+        foodSquareColor = colors[legendData[2][1] as! Int]
+        pathSquareColor = colors[legendData[3][1] as! Int]
+        visitedSquareColor = colors[legendData[4][1] as! Int]
+        queuedSquareColor = colors[legendData[5][1] as! Int]
+        barrierSquareColor = colors[legendData[6][1] as! Int]
+        weightSquareColor = colors[legendData[7][1] as! Int]
         
         if UserDefaults.standard.bool(forKey: "Dark Mode On Setting") {
-            gameboardSquareColor = darkBackgroundColors[legendData[8][1] as! Int] // "Gameboard"
+            gameboardSquareColor = darkBackgroundColors[legendData[8][1] as! Int]
             gameBackgroundColor = UIColor(red: 0.11, green: 0.11, blue: 0.11, alpha: 1.00)
+            screenLabelColor = UIColor(red: 0.95, green: 0.95, blue: 0.97, alpha: 1.00)
+            scoreButtonColor = UIColor(red: 0.25, green: 0.25, blue: 0.27, alpha: 1.00)
         } else {
-            gameboardSquareColor = lightBackgroundColors[legendData[8][1] as! Int] // "Gameboard"
+            gameboardSquareColor = lightBackgroundColors[legendData[8][1] as! Int]
             gameBackgroundColor = UIColor(red: 1.00, green: 1.00, blue: 1.00, alpha: 1.00)
+            screenLabelColor = UIColor(red: 0.00, green: 0.00, blue: 0.00, alpha: 1.00)
+            scoreButtonColor = UIColor(red: 1.00, green: 1.00, blue: 1.00, alpha: 1.00)
         }
         
         if !(firstRun) {
-            // Update background color, seen by the user in the next frame update.
-            if UserDefaults.standard.bool(forKey: "Dark Mode On Setting") {
-                gameBackground!.fillColor = gameBackgroundColor
-                gameBackground!.strokeColor = gameBackgroundColor
-            } else {
-                gameBackground!.fillColor = gameBackgroundColor
-                gameBackground!.strokeColor = gameBackgroundColor
-            }
+            // Update stored UI colors.
+            gameBackground!.fillColor = gameBackgroundColor
+            gameBackground!.strokeColor = gameBackgroundColor
+            algorithimChoiceName.fontColor = screenLabelColor
+            self.viewController?.scoreButton.layer.borderColor = scoreButtonColor.withAlphaComponent(0.8).cgColor
+            self.viewController?.scoreButton.layer.backgroundColor = scoreButtonColor.withAlphaComponent(0.5).cgColor
             
-            // Reload the score button so it detects a UI change.
-            self.viewController?.loadScoreButtonStyling()
-            // Check and respond to clear button interaction.
+            // Check and respond to clear button interactions.
             clearButtonManager()
         }
+        // Render the changed square color live.
         settingsChangeSquareColorManager()
         UserDefaults.standard.set(false, forKey: "Settings Value Modified")
+    }
+    
+    // Effects happen in real time.
+    func clearButtonManager() {
+        if UserDefaults.standard.bool(forKey: "Clear All Setting") {
+            // Visually convert each square back to a gameboard square.
+            for i in (game.fronteerSquareArray) {
+                for j in i {
+                    j.square.fillColor = gameboardSquareColor
+                    game.matrix[j.location.x][j.location.y] = 0
+                }
+            }
+            
+            // Prevent barriers from respawning.
+            game.barrierNodesWaitingToBeDisplayed.removeAll()
+            game.barrierNodesWaitingToBeRemoved.removeAll()
+            clearAllWasTapped = true
+            UserDefaults.standard.set(false, forKey: "Clear All Setting")
+            
+        } else if (UserDefaults.standard.bool(forKey: "Clear Barrier Setting")) {
+            // Visually convert each square back to a gameboard square.
+            for i in (game.barrierNodesWaitingToBeDisplayed) {
+                i.square.fillColor = gameboardSquareColor
+                game.matrix[i.location.x][i.location.y] = 0
+            }
+            
+            // Prevent barriers from respawning.
+            game.barrierNodesWaitingToBeDisplayed.removeAll()
+            game.barrierNodesWaitingToBeRemoved.removeAll()
+            clearBarriersWasTapped = true
+            UserDefaults.standard.set(false, forKey: "Clear Barrier Setting")
+            
+        } else if (UserDefaults.standard.bool(forKey: "Clear Path Setting")) {
+            // Visually convert each square back to a gameboard square.
+            for i in (game.displayPathSquareArray) {
+                i.square.fillColor = gameboardSquareColor
+                game.matrix[i.location.x][i.location.y] = 0
+            }
+            clearPathWasTapped = true
+            UserDefaults.standard.set(false, forKey: "Clear Path Setting")
+        }
     }
     
     func settingsChangeSquareColorManager() {
@@ -113,7 +157,7 @@ class GameScene: SKScene {
         }
         
         func colorVisited() {
-            for i in (temporaryVisitedSquareArray) {
+            for i in (game.displayVisitedSquareArray) {
                 i.square.fillColor = visitedSquareColor
             }
         }
@@ -164,54 +208,13 @@ class GameScene: SKScene {
         }
     }
     
-    // Effects happen in real time.
-    func clearButtonManager() {
-        if UserDefaults.standard.bool(forKey: "Clear All Setting") {
-            // Visually convert each square back to a gameboard square.
-            for i in (game.fronteerSquareArray) {
-                for j in i {
-                    j.square.fillColor = gameboardSquareColor
-                    game.matrix[j.location.x][j.location.y] = 0
-                }
-            }
-            
-            // Prevent barriers from respawning.
-            game.barrierNodesWaitingToBeDisplayed.removeAll()
-            game.barrierNodesWaitingToBeRemoved.removeAll()
-            clearAllWasTapped = true
-            UserDefaults.standard.set(false, forKey: "Clear All Setting")
-            
-        } else if (UserDefaults.standard.bool(forKey: "Clear Barrier Setting")) {
-            // Visually convert each square back to a gameboard square.
-            for i in (game.barrierNodesWaitingToBeDisplayed) {
-                i.square.fillColor = gameboardSquareColor
-                game.matrix[i.location.x][i.location.y] = 0
-            }
-            
-            // Prevent barriers from respawning.
-            game.barrierNodesWaitingToBeDisplayed.removeAll()
-            game.barrierNodesWaitingToBeRemoved.removeAll()
-            clearBarriersWasTapped = true
-            UserDefaults.standard.set(false, forKey: "Clear Barrier Setting")
-            
-        } else if (UserDefaults.standard.bool(forKey: "Clear Path Setting")) {
-            // Visually convert each square back to a gameboard square.
-            for i in (game.displayPathSquareArray) {
-                i.square.fillColor = gameboardSquareColor
-                game.matrix[i.location.x][i.location.y] = 0
-            }
-            clearPathWasTapped = true
-            UserDefaults.standard.set(false, forKey: "Clear Path Setting")
-        }
-    }
-    
     private func createScreenLabels() {
         let pathFindingAlgorithimName = UserDefaults.standard.string(forKey: "Selected Path Finding Algorithim Name")
         let mazeGenerationAlgorithimName = UserDefaults.standard.string(forKey: "Selected Maze Algorithim Name")
         
         algorithimChoiceName = SKLabelNode(fontNamed: "Dogica_Pixel")
         algorithimChoiceName.text = "Path: \(pathFindingAlgorithimName ?? "Player"), Maze: \(mazeGenerationAlgorithimName ?? "None")"
-        algorithimChoiceName.fontColor = UIColor(named: "Text")
+        algorithimChoiceName.fontColor = screenLabelColor
         algorithimChoiceName.fontSize = 11
         algorithimChoiceName.horizontalAlignmentMode = .center
         algorithimChoiceName.position = CGPoint(x: 0, y: 185)

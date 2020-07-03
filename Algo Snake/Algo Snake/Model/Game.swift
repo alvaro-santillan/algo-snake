@@ -128,11 +128,12 @@ class GameManager {
     var conditionGreen = Bool()
     var conditionYellow = Bool()
     var conditionRed = Bool()
-    var scoreButtonHalo = UIColor()
+//    var scoreButtonHalo = UIColor()
     var visitedNodeArray = [SkNodeAndLocation]()
     var fronteerSquareArray = [[SkNodeAndLocation]]()
     var pathSquareArray = [SkNodeAndLocation]()
     var displayPathSquareArray = [SkNodeAndLocation]()
+    var displayVisitedSquareArray = [SkNodeAndLocation]()
     
     func pathSelector() {
         let sceleton = AlgorithmHelper(scene: scene)
@@ -177,6 +178,7 @@ class GameManager {
         pathBlockCordinatesNotReversed = nnnpath!.0.1
         pathBlockCordinates = pathBlockCordinatesNotReversed.reversed()
         visitedNodeArray = nnnpath!.1
+        displayVisitedSquareArray = visitedNodeArray
         fronteerSquareArray = nnnpath!.2
         pathSquareArray = nnnpath!.3
         conditionGreen = nnnpath!.4[0]
