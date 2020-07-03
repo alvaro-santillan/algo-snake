@@ -55,14 +55,29 @@ class GameManager {
         horizontalMaxBoundry = (scene.columnCount - 2)
         horizontalMinBoundry = 1
         
-        // Dont forget to change back
-        var node = scene.gameBoard.first(where: {$0.x == 0 && $0.y == 0})?.node
-        snakeBodyPos.append(SkNodeAndLocation(square: node!, location: Tuple(x: 0, y: 0)))
-        matrix[0][0] = 1
-        
-        node = scene.gameBoard.first(where: {$0.x == 0 && $0.y == 1})?.node
-        snakeBodyPos.append(SkNodeAndLocation(square: node!, location: Tuple(x: 0, y: 1)))
-        matrix[0][1] = 2
+        var node = scene.gameBoard.first(where: {$0.location == Tuple(x: 2, y: 7)})!.square
+        snakeBodyPos.append(SkNodeAndLocation(square: node, location: Tuple(x: 2, y: 7)))
+        matrix[2][7] = 1
+
+        node = scene.gameBoard.first(where: {$0.location == Tuple(x: 2, y: 6)})!.square
+        snakeBodyPos.append(SkNodeAndLocation(square: node, location: Tuple(x: 2, y: 6)))
+        matrix[2][6] = 2
+
+        node = scene.gameBoard.first(where: {$0.location == Tuple(x: 2, y: 5)})!.square
+        snakeBodyPos.append(SkNodeAndLocation(square: node, location: Tuple(x: 2, y: 5)))
+        matrix[2][5] = 2
+
+        node = scene.gameBoard.first(where: {$0.location == Tuple(x: 2, y: 4)})!.square
+        snakeBodyPos.append(SkNodeAndLocation(square: node, location: Tuple(x: 2, y: 4)))
+        matrix[2][4] = 2
+
+        node = scene.gameBoard.first(where: {$0.location == Tuple(x: 2, y: 3)})!.square
+        snakeBodyPos.append(SkNodeAndLocation(square: node, location: Tuple(x: 2, y: 3)))
+        matrix[2][3] = 2
+
+        node = scene.gameBoard.first(where: {$0.location == Tuple(x: 2, y: 2)})!.square
+        snakeBodyPos.append(SkNodeAndLocation(square: node, location: Tuple(x: 2, y: 2)))
+        matrix[2][2] = 2
         
         spawnFoodBlock()
         gameStarted = true
@@ -70,14 +85,14 @@ class GameManager {
     
     var prevX = -1
     var prevY = -1
-    var foodLocationArray: [[Int]] = []
+//    var foodLocationArray: [Tuple] = []
     var foodCollisionPoint = Int()
     let mainScreenAlgoChoice = UserDefaults.standard.integer(forKey: "Selected Path Finding Algorithim")
     var foodBlocksHaveAnimated = Bool()
     var snakeBlockHaveAnimated = false
     
     func spawnFoodBlock() {
-        let foodPalletsNeeded = (UserDefaults.standard.integer(forKey: "Food Count Setting") - foodLocationArray.count)
+        let foodPalletsNeeded = (UserDefaults.standard.integer(forKey: "Food Count Setting") - foodPosition.count)
         
         // need to use queue.
         if foodPalletsNeeded > 0 {
@@ -109,15 +124,14 @@ class GameManager {
                         }
                     }
                     
-                    foodLocationArray = Array(Set(foodLocationArray))
+                    foodPosition = Array(Set(foodPosition))
                     if foodLocationChnaged == false {
                         validFoodLocationConfirmed = true
                     }
                 }
                 matrix[randomX][randomY] = 3
-                foodLocationArray.append([randomX,randomY])
                 // potential reverseal
-                let node = scene.gameBoard.first(where: {$0.x == randomX && $0.y == randomY})?.node
+                let node = scene.gameBoard.first(where: {$0.location == Tuple(x: randomX, y: randomY)})?.square
                 foodPosition.append(SkNodeAndLocation(square: node!, location: Tuple(x: randomY, y: randomX)))
             }
         }
@@ -153,7 +167,7 @@ class GameManager {
         }
         
         for i in pathBlockCordinatesNotReversed {
-            let node = scene.gameBoard.first(where: {$0.x == i.y && $0.y == i.x})?.node
+            let node = scene.gameBoard.first(where: {$0.location == Tuple(x: i.y, y: i.x)})?.square
             pathSquareArray.append(SkNodeAndLocation(square: node!, location: Tuple(x: i.x, y: i.y)))
             displayPathSquareArray.append(SkNodeAndLocation(square: node!, location: Tuple(x: i.x, y: i.y)))
         }
@@ -215,7 +229,7 @@ class GameManager {
             case 2: // Snake lenght
                 self.viewController?.scoreButton.setTitle(String(snakeBodyPos.count), for: .normal)
             case 3: // Food
-                self.viewController?.scoreButton.setTitle(String(foodLocationArray.count), for: .normal)
+                self.viewController?.scoreButton.setTitle(String(foodPosition.count), for: .normal)
             case 4: // Path
                 self.viewController?.scoreButton.setTitle(String(moveInstructions.count), for: .normal)
             case 5: // Visited
@@ -443,7 +457,6 @@ class GameManager {
                     
                     matrix[Int(i.location.y)][Int(i.location.x)] = 0
                     foodCollisionPoint = counter
-                    foodLocationArray.remove(at: foodCollisionPoint)
                     foodPosition.remove(at: foodCollisionPoint)
                     
                     

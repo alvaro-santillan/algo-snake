@@ -30,14 +30,14 @@ class DepthFirstSearch {
     }
     
     func visitedSquareBuilder(visitedX: Int, visitedY: Int) {
-        let squareSK = scene.gameBoard.first(where: {$0.x == visitedX && $0.y == visitedY})?.node
+        let squareSK = scene.gameBoard.first(where: {$0.location == Tuple(x: visitedX, y: visitedY)})?.square
         visitedSquareArray.append(SkNodeAndLocation(square: squareSK!, location: Tuple(x: visitedX, y: visitedY)))
     }
     
     func fronteerSquaresBuilder(squareArray: [Tuple]) {
         var innerFronterSKSquareArray = [SkNodeAndLocation]()
         for square in squareArray {
-            let squareSK = scene.gameBoard.first(where: {$0.x == square.y && $0.y == square.x})?.node
+            let squareSK = scene.gameBoard.first(where: {$0.location == Tuple(x: square.y, y: square.x)})?.square
             innerFronterSKSquareArray.append(SkNodeAndLocation(square: squareSK!, location: Tuple(x: square.x, y: square.y)))
         }
         fronteerSquareArray.append(innerFronterSKSquareArray)

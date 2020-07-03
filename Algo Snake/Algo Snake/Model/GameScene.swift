@@ -15,7 +15,7 @@ class GameScene: SKScene {
     var game: GameManager!
     var algorithimChoiceName: SKLabelNode!
     var gameBackground: SKShapeNode!
-    var gameBoard: [(node: SKShapeNode, x: Int, y: Int)] = []
+    var gameBoard: [SkNodeAndLocation] = []
     let rowCount = 15 // 17
     let columnCount = 15 // 30
     
@@ -35,6 +35,7 @@ class GameScene: SKScene {
     var barrierSquareColor = UIColor()
     var weightSquareColor = UIColor()
     var gameboardSquareColor = UIColor()
+    var fadedGameBoardSquareColor = UIColor()
     var gameBackgroundColor = UIColor()
     var screenLabelColor = UIColor()
     var scoreButtonColor = UIColor()
@@ -50,7 +51,7 @@ class GameScene: SKScene {
         createScreenLabels()
         createGameBoard()
         swipeManager(swipeGesturesAreOn: true)
-        startGame()
+        startTheGame()
     }
     
     func settingLoader(firstRun: Bool) {
@@ -74,11 +75,13 @@ class GameScene: SKScene {
         
         if UserDefaults.standard.bool(forKey: "Dark Mode On Setting") {
             gameboardSquareColor = darkBackgroundColors[legendData[8][1] as! Int]
+            fadedGameBoardSquareColor = darkBackgroundColors[legendData[8][1] as! Int].withAlphaComponent(0.5)
             gameBackgroundColor = UIColor(red: 0.11, green: 0.11, blue: 0.11, alpha: 1.00)
             screenLabelColor = UIColor(red: 0.95, green: 0.95, blue: 0.97, alpha: 1.00)
             scoreButtonColor = UIColor(red: 0.25, green: 0.25, blue: 0.27, alpha: 1.00)
         } else {
             gameboardSquareColor = lightBackgroundColors[legendData[8][1] as! Int]
+            fadedGameBoardSquareColor = lightBackgroundColors[legendData[8][1] as! Int].withAlphaComponent(0.5)
             gameBackgroundColor = UIColor(red: 1.00, green: 1.00, blue: 1.00, alpha: 1.00)
             screenLabelColor = UIColor(red: 0.00, green: 0.00, blue: 0.00, alpha: 1.00)
             scoreButtonColor = UIColor(red: 1.00, green: 1.00, blue: 1.00, alpha: 1.00)
@@ -142,9 +145,16 @@ class GameScene: SKScene {
     }
     
     func settingsChangeSquareColorManager() {
+
         func colorGameboard() {
             for i in gameBoard {
-                i.node.fillColor = gameboardSquareColor
+                if i.location.x == 0 || i.location.x == (rowCount - 1) {
+                    i.square.fillColor = fadedGameBoardSquareColor
+                } else if i.location.y == 0 || i.location.y == (columnCount - 1) {
+                    i.square.fillColor = fadedGameBoardSquareColor
+                } else {
+                    i.square.fillColor = gameboardSquareColor
+                }
             }
         }
         
@@ -169,6 +179,8 @@ class GameScene: SKScene {
         }
         
         func colorBarriers() {
+            game.barrierSquareManager()
+            
             for i in game.barrierNodesWaitingToBeDisplayed {
                 i.square.fillColor = barrierSquareColor
             }
@@ -225,7 +237,7 @@ class GameScene: SKScene {
     private func createGameBoard() {
         func createBackground() {
             let screenSizeRectangle = CGRect(x: 0-frame.size.width/2, y: 0-frame.size.height/2, width: frame.size.width, height: frame.size.height)
-            gameBackground = SKShapeNode(rect: screenSizeRectangle, cornerRadius: 0)
+            gameBackground = SKShapeNode(rect: screenSizeRectangle)
             gameBackground.fillColor = gameBackgroundColor
             gameBackground.strokeColor = gameBackgroundColor
             gameBackground.name = "gameBackground"
@@ -239,42 +251,43 @@ class GameScene: SKScene {
         let cornerRatio: CGFloat = 0.14
         let shrinkedSquareWidth = squareWidth - (squareWidth * shrinkRatio)
         let shrinkedSquareCornerRadius = squareWidth * cornerRatio
-        var x = CGFloat(0 - (Int(squareWidth) * columnCount)/2)
-        var y = CGFloat(0 + (Int(squareWidth) * rowCount)/2)
-        x = CGFloat(x + (squareWidth/2))
-        y = CGFloat(y - (squareWidth/2))
+        var xAncor = CGFloat(0 - (Int(squareWidth) * columnCount)/2)
+        var yAncor = CGFloat(0 + (Int(squareWidth) * rowCount)/2)
+        xAncor = CGFloat(xAncor + (squareWidth/2))
+        yAncor = CGFloat(yAncor - (squareWidth/2))
         
         createBackground()
         
-        // i = x and j = y confirmed
-        for i in 0...rowCount - 1 {
-            for j in 0...columnCount - 1 {
+        for x in 0...rowCount - 1 {
+            for y in 0...columnCount - 1 {
                 let square = SKShapeNode.init(rectOf: CGSize(width: shrinkedSquareWidth, height: shrinkedSquareWidth), cornerRadius: shrinkedSquareCornerRadius)
-                
-                square.name = String(i) + "," + String(j)
-                square.position = CGPoint(x: x, y: y)
-                square.fillColor = gameboardSquareColor
-                square.strokeColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0)
             
-                gameBoard.append((node: square, x: i, y: j))
+                // Make gameboard edges unexsesible and dimmer.
+                if x == 0 || x == (rowCount - 1) {
+                    row.append(9)
+                    square.fillColor = fadedGameBoardSquareColor
+                } else if y == 0 || y == (columnCount - 1) {
+                    row.append(9)
+                    square.fillColor = fadedGameBoardSquareColor
+                } else {
+                    row.append(0)
+                    square.fillColor = gameboardSquareColor
+                }
+                
+                square.name = String(x) + "," + String(y)
+                square.position = CGPoint(x: xAncor, y: yAncor)
+                square.strokeColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0)
+                
+                gameBoard.append(SkNodeAndLocation(square: square, location: Tuple(x: x, y: y)))
                 gameBackground.addChild(square)
                 
-                // Temp removal
-//                if i == 0 || i == (rowCount - 1) {
-//                    row.append(9)
-//                } else if j == 0 || j == (columnCount - 1) {
-//                    row.append(9)
-//                } else {
-                    row.append(0)
-//                }
-                
-                x += squareWidth
+                xAncor += squareWidth
             }
             matrix.append(row)
             row = [Int]()
-            // reset x, iterate y
-            x = CGFloat(x - CGFloat(Int(squareWidth) * columnCount))
-            y -= squareWidth
+            // Update x and y
+            xAncor = CGFloat(xAncor - CGFloat(Int(squareWidth) * columnCount))
+            yAncor -= squareWidth
         }
         game.bringOvermatrix(tempMatrix: matrix)
         animateTheGameboard()
@@ -316,7 +329,7 @@ class GameScene: SKScene {
         game.swipe(ID: 4)
     }
     
-    private func startGame() {
+    private func startTheGame() {
         let topCenter = CGPoint(x: 0, y: (frame.size.height / 2) - 25)
         algorithimChoiceName.run(SKAction.move(to: topCenter, duration: 0.4)) {
             self.game.initiateSnakeStartingPosition()
@@ -354,7 +367,7 @@ class GameScene: SKScene {
         
         func IsSquareOccupied(squareLocation: Tuple) -> Bool {
             for square in game.snakeBodyPos {if squareLocation.x == square.location.x && squareLocation.y == square.location.y {return true}}
-            for square in game.foodLocationArray {if squareLocation.x == square[0] && squareLocation.y == square[1] {return true}}
+            for square in game.foodPosition {if squareLocation.x == square.location.x && squareLocation.y == square.location.y {return true}}
             for square in game.pathBlockCordinates {if squareLocation.x == square.y && squareLocation.y == square.x {return true}}
             return false
         }
@@ -363,28 +376,24 @@ class GameScene: SKScene {
             if let selectedSquare = selectSquareFromTouch(touch.location(in: self)) {
                 let squareLocationAsString = (selectedSquare.name)?.components(separatedBy: ",")
                 let squareLocation = Tuple(x: Int(squareLocationAsString![0])!, y: Int(squareLocationAsString![1])!)
+                let vibration = UIImpactFeedbackGenerator(style: .medium)
                 
-                // temparary removal
-//                if squareLocation.x != 0 && squareLocation.x != (rowCount - 1) {
-//                    if squareLocation.y != 0 && squareLocation.y != (columnCount - 1) {
+                if squareLocation.x != 0 && squareLocation.x != (rowCount - 1) {
+                    if squareLocation.y != 0 && squareLocation.y != (columnCount - 1) {
                         if !(IsSquareOccupied(squareLocation: squareLocation)) {
                             if UserDefaults.standard.bool(forKey: "Add Barrier Mode On Setting") {
                                 game.barrierNodesWaitingToBeDisplayed.append(SkNodeAndLocation(square: selectedSquare, location: squareLocation))
-//                                game.barrierSquaresSKNodes.append(selectedSquare)
                                 selectedSquare.fillColor = barrierSquareColor
-                                let generator = UIImpactFeedbackGenerator(style: .medium)
-                                generator.impactOccurred()
                                 game.matrix[squareLocation.x][squareLocation.y] = 7
                             } else {
                                 game.barrierNodesWaitingToBeRemoved.append(SkNodeAndLocation(square: selectedSquare, location: squareLocation))
                                 selectedSquare.fillColor = gameboardSquareColor
-                                let generator = UIImpactFeedbackGenerator(style: .medium)
-                                generator.impactOccurred()
                                 game.matrix[squareLocation.x][squareLocation.y] = 0
                             }
+                            vibration.impactOccurred()
                         }
-//                    }
-//                }
+                    }
+                }
                 selectedSquare.run(gameSquareAnimation(animation: 2))
             }
         }
@@ -417,7 +426,7 @@ class GameScene: SKScene {
         var squares = [SKShapeNode]()
         game.viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: false)
         for i in gameBoard {
-            squares.append(i.node)
+            squares.append(i.square)
         }
         animateNodes(squares)
     }
