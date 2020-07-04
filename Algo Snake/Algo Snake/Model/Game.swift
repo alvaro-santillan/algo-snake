@@ -177,14 +177,15 @@ class GameManager {
 
         if UserDefaults.standard.bool(forKey: "Step Mode On Setting") {
                 // problem may not be needed
-            if scene.firstAnimationSequanceComleted == true {
-                viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: true)
+            if scene.firstAnimationSequanceHasCompleted == true {
+                scene.buttonManager(playButtonIsEnabled: true)
             }
             
             UserDefaults.standard.set(true, forKey: "Game Is Paused Setting")
             paused = true
             checkIfPaused()
         }
+        scene.updateScoreButtonHalo()
     }
     
     func pathManager() {
@@ -200,57 +201,6 @@ class GameManager {
         conditionGreen = nnnpath!.4[0]
         conditionYellow = nnnpath!.4[1]
         conditionRed = nnnpath!.4[2]
-    }
-    
-    func viewControllerComunicationsManager(updatingPlayButton: Bool, playButtonIsEnabled: Bool) {
-            if updatingPlayButton {
-                if playButtonIsEnabled == true {
-                    self.viewController?.playButton.setImage(UIImage(named: "Play_Icon_Set"), for: .normal)
-                    self.viewController?.barrierButton.isEnabled = true
-                    self.viewController?.playButton.isEnabled = true
-                } else if playButtonIsEnabled == false {
-                    self.viewController?.playButton.setImage(UIImage(named: "Pause_Icon_Set"), for: .normal)
-                    self.viewController?.playButton.isEnabled = false
-                    self.viewController?.barrierButton.isEnabled = false
-                }
-            }
-
-            if conditionGreen {
-                self.viewController?.scoreButton.layer.borderColor = UIColor.green.cgColor
-            } else if conditionYellow {
-                self.viewController?.scoreButton.layer.borderColor = UIColor.yellow.cgColor
-            } else if conditionRed {
-                self.viewController?.scoreButton.layer.borderColor = UIColor.red.cgColor
-            }
-            
-            let scoreButtonTag = self.viewController?.scoreButton.tag
-            
-            switch scoreButtonTag {
-            case 1: // Highscore
-                self.viewController?.scoreButton.setTitle("HS: " + String(UserDefaults.standard.integer(forKey: "highScore")), for: .normal)
-            case 2: // Snake lenght
-                self.viewController?.scoreButton.setTitle(String(snakeBodyPos.count), for: .normal)
-            case 3: // Food
-                self.viewController?.scoreButton.setTitle(String(foodPosition.count), for: .normal)
-            case 4: // Path
-                self.viewController?.scoreButton.setTitle(String(moveInstructions.count), for: .normal)
-            case 5: // Visited
-                self.viewController?.scoreButton.setTitle(String(scene.animatedVisitedSquareCount), for: .normal)
-            case 6: // Queued
-                self.viewController?.scoreButton.setTitle(String(scene.animatedQueuedSquareCount), for: .normal)
-            case 7: // Barriers
-                self.viewController?.scoreButton.setTitle(String(barrierNodesWaitingToBeDisplayed.count), for: .normal)
-            case 8: // Weight
-                self.viewController?.scoreButton.setTitle("NA", for: .normal)
-            case 9: // Score
-                if UserDefaults.standard.bool(forKey: "God Button On Setting") {
-                    self.viewController?.scoreButton.setTitle("NA", for: .normal)
-                } else {
-                    self.viewController?.scoreButton.setTitle(String(currentScore), for: .normal)
-                }
-            default:
-                print("Score button loading error")
-            }
     }
     
     func bringOvermatrix(tempMatrix: [[Int]]) {
@@ -290,8 +240,8 @@ class GameManager {
                     if gameIsOver != true {
                         nextTime = time + Double(gameSpeed)
                         barrierSquareManager()
-                        // reenable
-                        viewControllerComunicationsManager(updatingPlayButton: false, playButtonIsEnabled: false)
+                        scene.updateScoreButtonHalo()
+                        scene.updateScoreButtonText()
                         runPredeterminedPath()
                         
                         checkIfPaused()
@@ -319,7 +269,7 @@ class GameManager {
         }
     }
     
-    var pathHasBeenAnimated = false
+//    var pathHasBeenAnimated = false
     var foodName = String()
     func tempColor() {
         // Re-renders changes when user instructs blocks to change color.
@@ -417,7 +367,7 @@ class GameManager {
         self.viewController?.scoreButton.layer.borderColor = UIColor.red.cgColor
         updateScore()
         gameIsOver = true
-        viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: true)
+        scene.buttonManager(playButtonIsEnabled: true)
     }
     
     // this is run when game hasent started. fix for optimization.

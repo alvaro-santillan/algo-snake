@@ -18,7 +18,11 @@
 		3812394C23C68E290066B3FA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3812394A23C68E290066B3FA /* Main.storyboard */; };
 		3812394E23C68E2C0066B3FA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3812394D23C68E2C0066B3FA /* Assets.xcassets */; };
 		3812395123C68E2C0066B3FA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3812394F23C68E2C0066B3FA /* LaunchScreen.storyboard */; };
-		3812395923C68F450066B3FA /* GameManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3812395823C68F450066B3FA /* GameManager.swift */; };
+		3812395923C68F450066B3FA /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3812395823C68F450066B3FA /* Game.swift */; };
+		382F0F1724AD527B0022E521 /* Custom Data Structures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 382F0F1624AD527B0022E521 /* Custom Data Structures.swift */; };
+		382F0F1924AD53660022E521 /* AlgorithmHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 382F0F1824AD53660022E521 /* AlgorithmHelper.swift */; };
+		382F0F1B24AD58080022E521 /* DepthFirstSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 382F0F1A24AD58080022E521 /* DepthFirstSearch.swift */; };
+		382F0F1E24AD71990022E521 /* BreadthFirstSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 382F0F1D24AD71990022E521 /* BreadthFirstSearch.swift */; };
 		3868F97C2426960C008F7B34 /* HelpScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3868F97B2426960C008F7B34 /* HelpScreenViewController.swift */; };
 		3868F97E24269985008F7B34 /* GameScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3868F97D24269985008F7B34 /* GameScreenViewController.swift */; };
 		3868F98024269C1C008F7B34 /* SettingsScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3868F97F24269C1C008F7B34 /* SettingsScreenViewController.swift */; };
@@ -42,7 +46,11 @@
 		3812394D23C68E2C0066B3FA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3812395023C68E2C0066B3FA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3812395223C68E2C0066B3FA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3812395823C68F450066B3FA /* GameManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameManager.swift; sourceTree = "<group>"; };
+		3812395823C68F450066B3FA /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
+		382F0F1624AD527B0022E521 /* Custom Data Structures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Custom Data Structures.swift"; sourceTree = "<group>"; };
+		382F0F1824AD53660022E521 /* AlgorithmHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlgorithmHelper.swift; sourceTree = "<group>"; };
+		382F0F1A24AD58080022E521 /* DepthFirstSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepthFirstSearch.swift; sourceTree = "<group>"; };
+		382F0F1D24AD71990022E521 /* BreadthFirstSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreadthFirstSearch.swift; sourceTree = "<group>"; };
 		3868F97B2426960C008F7B34 /* HelpScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpScreenViewController.swift; sourceTree = "<group>"; };
 		3868F97D24269985008F7B34 /* GameScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScreenViewController.swift; sourceTree = "<group>"; };
 		3868F97F24269C1C008F7B34 /* SettingsScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsScreenViewController.swift; sourceTree = "<group>"; };
@@ -95,6 +103,16 @@
 			path = "Algo Snake";
 			sourceTree = "<group>";
 		};
+		382F0F1C24AD70750022E521 /* Algorithms */ = {
+			isa = PBXGroup;
+			children = (
+				382F0F1824AD53660022E521 /* AlgorithmHelper.swift */,
+				382F0F1D24AD71990022E521 /* BreadthFirstSearch.swift */,
+				382F0F1A24AD58080022E521 /* DepthFirstSearch.swift */,
+			);
+			path = Algorithms;
+			sourceTree = "<group>";
+		};
 		383DB19C24AC56190071EC65 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
@@ -118,8 +136,10 @@
 			children = (
 				3803D89A2497F7D7002A6251 /* Custom UI Managers.swift */,
 				3803D89C2497F87A002A6251 /* Custom Extensions.swift */,
+				382F0F1624AD527B0022E521 /* Custom Data Structures.swift */,
+				382F0F1C24AD70750022E521 /* Algorithms */,
 				3812394623C68E290066B3FA /* GameScene.swift */,
-				3812395823C68F450066B3FA /* GameManager.swift */,
+				3812395823C68F450066B3FA /* Game.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -230,13 +250,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				382F0F1724AD527B0022E521 /* Custom Data Structures.swift in Sources */,
 				3868F97C2426960C008F7B34 /* HelpScreenViewController.swift in Sources */,
+				382F0F1E24AD71990022E521 /* BreadthFirstSearch.swift in Sources */,
+				382F0F1924AD53660022E521 /* AlgorithmHelper.swift in Sources */,
 				3868F9822426B5EC008F7B34 /* SettingsScreenTableViewCell.swift in Sources */,
 				3868F97E24269985008F7B34 /* GameScreenViewController.swift in Sources */,
 				3803D89B2497F7D7002A6251 /* Custom UI Managers.swift in Sources */,
 				3812394723C68E290066B3FA /* GameScene.swift in Sources */,
 				387FD13B241DC51C0004FD78 /* MainScreenTableViewCell.swift in Sources */,
-				3812395923C68F450066B3FA /* GameManager.swift in Sources */,
+				382F0F1B24AD58080022E521 /* DepthFirstSearch.swift in Sources */,
+				3812395923C68F450066B3FA /* Game.swift in Sources */,
 				3812394923C68E290066B3FA /* MainScreenViewController.swift in Sources */,
 				3812394123C68E290066B3FA /* AppDelegate.swift in Sources */,
 				3803D89D2497F87A002A6251 /* Custom Extensions.swift in Sources */,

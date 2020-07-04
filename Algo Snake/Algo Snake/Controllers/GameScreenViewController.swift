@@ -96,6 +96,7 @@ class GameScreenViewController: UIViewController {
             default:
                 print("Score button loading error")
         }
+        defaults.set(true, forKey: "Score Button Is Tapped")
     }
     
     @IBAction func homeButtonTapped(_ sender: UIButton) {

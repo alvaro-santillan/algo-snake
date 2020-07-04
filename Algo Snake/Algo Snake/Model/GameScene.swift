@@ -5,12 +5,12 @@
 //  Created by Álvaro Santillan on 1/8/20.
 //  Copyright © 2020 Álvaro Santillan. All rights reserved.
 //
-
 import SpriteKit
 import UIKit
 
 class GameScene: SKScene {
     // Game construction
+    let defaults = UserDefaults.standard
     var viewController: GameScreenViewController!
     var game: GameManager!
     var algorithimChoiceName: SKLabelNode!
@@ -58,10 +58,10 @@ class GameScene: SKScene {
         settingsWereChanged = true
         
         // Retrive legend preferences
-        let legendData = UserDefaults.standard.array(forKey: "Legend Preferences") as! [[Any]]
+        let legendData = defaults.array(forKey: "Legend Preferences") as! [[Any]]
         
         // Update pathfinding animation speed
-        pathFindingAnimationSpeed = (UserDefaults.standard.float(forKey: "Snake Move Speed") * 0.14)
+        pathFindingAnimationSpeed = (defaults.float(forKey: "Snake Move Speed") * 0.14)
         
         // Update square colors, seen by the user in the next frame update.
         snakeHeadSquareColor = colors[legendData[0][1] as! Int]
@@ -73,7 +73,7 @@ class GameScene: SKScene {
         barrierSquareColor = colors[legendData[6][1] as! Int]
         weightSquareColor = colors[legendData[7][1] as! Int]
         
-        if UserDefaults.standard.bool(forKey: "Dark Mode On Setting") {
+        if defaults.bool(forKey: "Dark Mode On Setting") {
             gameboardSquareColor = darkBackgroundColors[legendData[8][1] as! Int]
             fadedGameBoardSquareColor = darkBackgroundColors[legendData[8][1] as! Int].withAlphaComponent(0.5)
             gameBackgroundColor = UIColor(red: 0.11, green: 0.11, blue: 0.11, alpha: 1.00)
@@ -87,7 +87,10 @@ class GameScene: SKScene {
             scoreButtonColor = UIColor(red: 1.00, green: 1.00, blue: 1.00, alpha: 1.00)
         }
         
-        if !(firstRun) {
+        if firstRun {
+            // Populate score button text on first run.
+            updateScoreButtonText()
+        } else {
             // Update stored UI colors.
             gameBackground!.fillColor = gameBackgroundColor
             gameBackground!.strokeColor = gameBackgroundColor
@@ -100,12 +103,12 @@ class GameScene: SKScene {
         }
         // Render the changed square color live.
         settingsChangeSquareColorManager()
-        UserDefaults.standard.set(false, forKey: "Settings Value Modified")
+        defaults.set(false, forKey: "Settings Value Modified")
     }
     
     // Effects happen in real time.
     func clearButtonManager() {
-        if UserDefaults.standard.bool(forKey: "Clear All Setting") {
+        if defaults.bool(forKey: "Clear All Setting") {
             // Visually convert each square back to a gameboard square.
             for i in (game.fronteerSquareArray) {
                 for j in i {
@@ -118,9 +121,9 @@ class GameScene: SKScene {
             game.barrierNodesWaitingToBeDisplayed.removeAll()
             game.barrierNodesWaitingToBeRemoved.removeAll()
             clearAllWasTapped = true
-            UserDefaults.standard.set(false, forKey: "Clear All Setting")
+            defaults.set(false, forKey: "Clear All Setting")
             
-        } else if (UserDefaults.standard.bool(forKey: "Clear Barrier Setting")) {
+        } else if (defaults.bool(forKey: "Clear Barrier Setting")) {
             // Visually convert each square back to a gameboard square.
             for i in (game.barrierNodesWaitingToBeDisplayed) {
                 i.square.fillColor = gameboardSquareColor
@@ -131,16 +134,16 @@ class GameScene: SKScene {
             game.barrierNodesWaitingToBeDisplayed.removeAll()
             game.barrierNodesWaitingToBeRemoved.removeAll()
             clearBarriersWasTapped = true
-            UserDefaults.standard.set(false, forKey: "Clear Barrier Setting")
+            defaults.set(false, forKey: "Clear Barrier Setting")
             
-        } else if (UserDefaults.standard.bool(forKey: "Clear Path Setting")) {
+        } else if (defaults.bool(forKey: "Clear Path Setting")) {
             // Visually convert each square back to a gameboard square.
             for i in (game.displayPathSquareArray) {
                 i.square.fillColor = gameboardSquareColor
                 game.matrix[i.location.x][i.location.y] = 0
             }
             clearPathWasTapped = true
-            UserDefaults.standard.set(false, forKey: "Clear Path Setting")
+            defaults.set(false, forKey: "Clear Path Setting")
         }
     }
     
@@ -221,8 +224,8 @@ class GameScene: SKScene {
     }
     
     private func createScreenLabels() {
-        let pathFindingAlgorithimName = UserDefaults.standard.string(forKey: "Selected Path Finding Algorithim Name")
-        let mazeGenerationAlgorithimName = UserDefaults.standard.string(forKey: "Selected Maze Algorithim Name")
+        let pathFindingAlgorithimName = defaults.string(forKey: "Selected Path Finding Algorithim Name")
+        let mazeGenerationAlgorithimName = defaults.string(forKey: "Selected Maze Algorithim Name")
         
         algorithimChoiceName = SKLabelNode(fontNamed: "Dogica_Pixel")
         algorithimChoiceName.text = "Path: \(pathFindingAlgorithimName ?? "Player"), Maze: \(mazeGenerationAlgorithimName ?? "None")"
@@ -337,7 +340,7 @@ class GameScene: SKScene {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if UserDefaults.standard.bool(forKey: "Game Is Paused Setting") {
+        if defaults.bool(forKey: "Game Is Paused Setting") {
             swipeManager(swipeGesturesAreOn: false)
             barrierManager(touches: touches)
             swipeManager(swipeGesturesAreOn: true)
@@ -345,7 +348,7 @@ class GameScene: SKScene {
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if UserDefaults.standard.bool(forKey: "Game Is Paused Setting") {
+        if defaults.bool(forKey: "Game Is Paused Setting") {
             swipeManager(swipeGesturesAreOn: false)
             barrierManager(touches: touches)
             swipeManager(swipeGesturesAreOn: true)
@@ -381,7 +384,7 @@ class GameScene: SKScene {
                 if squareLocation.x != 0 && squareLocation.x != (rowCount - 1) {
                     if squareLocation.y != 0 && squareLocation.y != (columnCount - 1) {
                         if !(IsSquareOccupied(squareLocation: squareLocation)) {
-                            if UserDefaults.standard.bool(forKey: "Add Barrier Mode On Setting") {
+                            if defaults.bool(forKey: "Add Barrier Mode On Setting") {
                                 game.barrierNodesWaitingToBeDisplayed.append(SkNodeAndLocation(square: selectedSquare, location: squareLocation))
                                 selectedSquare.fillColor = barrierSquareColor
                                 game.matrix[squareLocation.x][squareLocation.y] = 7
@@ -401,7 +404,6 @@ class GameScene: SKScene {
     
     // Animations
     var gamboardAnimationEnded = Bool()
-    var pathFindingAnimationsHaveEnded = Bool()
     
     func startingAnimation() {
         // 1
@@ -460,8 +462,106 @@ class GameScene: SKScene {
             }
         }
         
-        game.viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: false)
+        buttonManager(playButtonIsEnabled: false)
         gameBoardAnimation(gameBoard)
+    }
+    
+    var firstAnimationSequanceHasCompleted = Bool()
+    var pathFindingAnimationsHaveEnded = Bool()
+    var visitedSquareDispatchCalled = Bool()
+    var pathSquareDispatchCalled = Bool()
+    var visitedSquareWait = SKAction()
+    var pathSquareWait = SKAction()
+    var animatedVisitedSquareCount = 0
+    var animatedQueuedSquareCount = 0
+    
+    func runPathFindingAnimations() {
+        func visitedSquareAnimationBegining() {
+            for (squareIIndex, squareAndLocation) in game.visitedNodeArray.enumerated() {
+                // Easter would go here enable this one
+                squareAndLocation.square.run(.sequence([visitedSquareWait]), completion: {visitedSquareAnimationEnding(squareAndLocation: squareAndLocation)})
+                visitedSquareWait = .wait(forDuration: TimeInterval(squareIIndex) * Double(pathFindingAnimationSpeed))
+                game.visitedNodeArray.remove(at: 0)
+            }
+        }
+        
+        func visitedSquareAnimationEnding(squareAndLocation: SkNodeAndLocation) {
+            // Make sure the game dosent animate over food and the snake head.
+            // Cant animate the head or food after the fact becouse it will ruin the animation. (Big-O).
+            // Snake body and barriers will never be a consern since pathfinding animation ignores them.
+            if !(game.foodPosition.contains(squareAndLocation)) && (game.snakeBodyPos[0] != squareAndLocation) {
+                squareAndLocation.square.run(.sequence([animationSequanceManager(animation: 2)]))
+                squareAndLocation.square.fillColor = visitedSquareColor
+            }
+            animatedVisitedSquareCount += 1
+            
+            // runs one time.
+            if !visitedSquareDispatchCalled {
+                DispatchQueue.main.asyncAfter(deadline: .now() + visitedSquareWait.duration) {
+                    pathSquareAnimationBegining(run: self.visitedSquareDispatchCalled)
+                }
+                visitedSquareDispatchCalled = true
+            }
+        }
+        
+        func queuedSquareAnimationBegining() {
+            var queuedSquareWait = SKAction()
+            pathFindingAnimationsHaveEnded = false
+            
+            for (squareIndex, innerSquareArray) in game.fronteerSquareArray.enumerated() {
+                for squareAndLocation in innerSquareArray {
+                    // Easter would go here enable this one
+                    squareAndLocation.square.run(.sequence([queuedSquareWait]), completion: {queuedSquareAnimationEnding(squareAndLocation: squareAndLocation)})
+                    queuedSquareWait = .wait(forDuration: TimeInterval(squareIndex) * Double(pathFindingAnimationSpeed))
+                }
+                game.fronteerSquareArray.remove(at: 0)
+            }
+        }
+        
+        func queuedSquareAnimationEnding(squareAndLocation: SkNodeAndLocation) {
+            // Make sure the game dosent animate over food and the snake head.
+            // Cant animate the head or food after the fact becouse it will ruin the animation. (Big-O).
+            // Snake body and barriers will never be a consern since pathfinding animation ignores them.
+            if !(game.foodPosition.contains(squareAndLocation)) && (game.snakeBodyPos[0] != squareAndLocation) {
+                squareAndLocation.square.run(.sequence([animationSequanceManager(animation: 2)]))
+                squareAndLocation.square.fillColor = queuedSquareColor
+            }
+            animatedQueuedSquareCount += 1
+        }
+        
+        func pathSquareAnimationBegining(run: Bool) {
+            let lastIndex = ((game.pathSquareArray.count) - 1)
+            for (squareIndex, squareAndLocation) in game.pathSquareArray.enumerated() {
+                squareAndLocation.square.run(.sequence([pathSquareWait,animationSequanceManager(animation: 3)]), completion: {pathSquareAnimationEnding(square: squareAndLocation.square, squareIndex: squareIndex, lastIndex: lastIndex)})
+                pathSquareWait = .wait(forDuration: TimeInterval(squareIndex) * 0.005)
+                game.pathSquareArray.remove(at: 0)
+            }
+        }
+        
+        func pathSquareAnimationEnding(square: SKShapeNode, squareIndex: Int, lastIndex: Int) {
+            // Make sure the game dosent animate over food and the snake head.
+            // Cant animate the head or food after the fact becouse it will ruin the animation. (Big-O).
+            // Snake body and barriers will never be a consern since pathfinding animation ignores them.
+            if squareIndex != 0 && squareIndex != lastIndex {
+                square.run(.sequence([animationSequanceManager(animation: 2)]))
+                square.fillColor = pathSquareColor
+            }
+
+            // runs one time.
+            if !pathSquareDispatchCalled {
+                DispatchQueue.main.asyncAfter(deadline: .now() + pathSquareWait.duration) {
+                    self.buttonManager(playButtonIsEnabled: true)
+                    self.pathFindingAnimationsHaveEnded = true
+                    self.firstAnimationSequanceHasCompleted = true
+                }
+                pathSquareDispatchCalled = true
+            }
+        }
+        
+        visitedSquareDispatchCalled = false
+        pathSquareDispatchCalled = false
+        queuedSquareAnimationBegining()
+        visitedSquareAnimationBegining()
     }
     
     func animationSequanceManager(animation: Int) -> SKAction {
@@ -484,116 +584,73 @@ class GameScene: SKScene {
             return SKAction.sequence([shrink5, wait1, scale1])
         }
     }
-    
-    
-    var visitedSquareWait = SKAction()
-    var pathSquareWait = SKAction()
-    var visitedSquareDispatchCalled = Bool()
-    var pathSquareDispatchCalled = Bool()
-    var animatedVisitedSquareCount = 0
-    var animatedQueuedSquareCount = 0
-    
-    func visitedSquareAnimationBegining() {
-        for (squareIIndex, squareAndLocation) in game.visitedNodeArray.enumerated() {
-            // Easter would go here enable this one
-            squareAndLocation.square.run(.sequence([visitedSquareWait]), completion: {self.visitedSquareAnimationEnding(squareAndLocation: squareAndLocation)})
-            visitedSquareWait = .wait(forDuration: TimeInterval(squareIIndex) * Double(pathFindingAnimationSpeed))
-            game.visitedNodeArray.remove(at: 0)
-        }
-    }
-    
-    func visitedSquareAnimationEnding(squareAndLocation: SkNodeAndLocation) {
-        // Make sure the game dosent animate over food and the snake head.
-        // Cant animate the head or food after the fact becouse it will ruin the animation. (Big-O).
-        // Snake body and barriers will never be a consern since pathfinding animation ignores them.
-        if !(game.foodPosition.contains(squareAndLocation)) && (game.snakeBodyPos[0] != squareAndLocation) {
-            squareAndLocation.square.run(.sequence([animationSequanceManager(animation: 2)]))
-            squareAndLocation.square.fillColor = visitedSquareColor
-        }
-        animatedVisitedSquareCount += 1
-        
-        // runs one time.
-        if visitedSquareDispatchCalled == false {
-            DispatchQueue.main.asyncAfter(deadline: .now() + visitedSquareWait.duration) {
-                self.pathSquareAnimationBegining(run: self.visitedSquareDispatchCalled)
-            }
-            visitedSquareDispatchCalled = true
-        }
-    }
-    
-    func queuedSquareAnimationBegining() {
-        var queuedSquareWait = SKAction()
-        pathFindingAnimationsHaveEnded = false
-        
-        for (squareIndex, innerSquareArray) in game.fronteerSquareArray.enumerated() {
-            for squareAndLocation in innerSquareArray {
-                // Easter would go here enable this one
-                squareAndLocation.square.run(.sequence([queuedSquareWait]), completion: {self.queuedSquareAnimationEnding(squareAndLocation: squareAndLocation)})
-                queuedSquareWait = .wait(forDuration: TimeInterval(squareIndex) * Double(pathFindingAnimationSpeed))
-            }
-            game.fronteerSquareArray.remove(at: 0)
-        }
-    }
-    
-    func queuedSquareAnimationEnding(squareAndLocation: SkNodeAndLocation) {
-        // Make sure the game dosent animate over food and the snake head.
-        // Cant animate the head or food after the fact becouse it will ruin the animation. (Big-O).
-        // Snake body and barriers will never be a consern since pathfinding animation ignores them.
-        if !(game.foodPosition.contains(squareAndLocation)) && (game.snakeBodyPos[0] != squareAndLocation) {
-            squareAndLocation.square.run(.sequence([animationSequanceManager(animation: 2)]))
-            squareAndLocation.square.fillColor = queuedSquareColor
-        }
-        animatedQueuedSquareCount += 1
-    }
-    
-    func pathSquareAnimationBegining(run: Bool) {
-        let lastIndex = ((game.pathSquareArray.count) - 1)
-        for (squareIndex, squareAndLocation) in game.pathSquareArray.enumerated() {
-            squareAndLocation.square.run(.sequence([pathSquareWait,animationSequanceManager(animation: 3)]), completion: {self.pathSquareAnimationEnding(square: squareAndLocation.square, squareIndex: squareIndex, lastIndex: lastIndex)})
-            pathSquareWait = .wait(forDuration: TimeInterval(squareIndex) * 0.005)
-            game.pathSquareArray.remove(at: 0)
-        }
-    }
-    
-    func pathSquareAnimationEnding(square: SKShapeNode, squareIndex: Int, lastIndex: Int) {
-        // Make sure the game dosent animate over food and the snake head.
-        // Cant animate the head or food after the fact becouse it will ruin the animation. (Big-O).
-        // Snake body and barriers will never be a consern since pathfinding animation ignores them.
-        if squareIndex != 0 && squareIndex != lastIndex {
-            square.run(.sequence([animationSequanceManager(animation: 2)]))
-            square.fillColor = pathSquareColor
-        }
 
-        if pathSquareDispatchCalled == false {
-            DispatchQueue.main.asyncAfter(deadline: .now() + pathSquareWait.duration) {
-                self.game.viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: true)
-                self.pathFindingAnimationsHaveEnded = true
-            }
-            pathSquareDispatchCalled = true
-        }
-    }
-
-    // Called before each frame is rendered
-    // perhapse this can be used to pass in settings? maybe
-    var firstAnimationSequanceComleted = Bool()
     override func update(_ currentTime: TimeInterval) {
-        UserDefaults.standard.bool(forKey: "Settings Value Modified") ? (settingLoader(firstRun: false)) : ()
-        game.viewControllerComunicationsManager(updatingPlayButton: false, playButtonIsEnabled: false)
+        // Check if user settings were modified.
+        defaults.bool(forKey: "Settings Value Modified") ? (settingLoader(firstRun: false)) : ()
+        // Check if score button was tapped.
+        defaults.bool(forKey: "Score Button Is Tapped") ? (updateScoreButtonText()) : ()
         
         if game!.visitedNodeArray.count > 0 && gamboardAnimationEnded == true {
-            game.viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: false)
-            visitedSquareDispatchCalled = false
-            game.pathHasBeenAnimated = false
-            queuedSquareAnimationBegining()
-            visitedSquareAnimationBegining()
-            pathSquareDispatchCalled = false
-            firstAnimationSequanceComleted = true
+            buttonManager(playButtonIsEnabled: false)
+            runPathFindingAnimations()
         }
         
-        if game.mainScreenAlgoChoice == 0 {
-            firstAnimationSequanceComleted = true
-            pathFindingAnimationsHaveEnded = true
-        }
         game.update(time: currentTime)
+    }
+    
+    func updateScoreButtonHalo() {
+        if game.conditionGreen {
+            self.viewController?.scoreButton.layer.borderColor = UIColor.green.cgColor
+        } else if game.conditionYellow {
+            self.viewController?.scoreButton.layer.borderColor = UIColor.yellow.cgColor
+        } else if game.conditionRed {
+            self.viewController?.scoreButton.layer.borderColor = UIColor.red.cgColor
+        }
+    }
+    
+    func updateScoreButtonText() {
+        let scoreButtonTag = self.viewController?.scoreButton.tag
+        
+        switch scoreButtonTag {
+            case 1: // Highscore
+                self.viewController?.scoreButton.setTitle("HS: " + String(defaults.integer(forKey: "highScore")), for: .normal)
+            case 2: // Snake lenght
+                self.viewController?.scoreButton.setTitle(String(game.snakeBodyPos.count), for: .normal)
+            case 3: // Food
+                self.viewController?.scoreButton.setTitle(String(game.foodPosition.count), for: .normal)
+            case 4: // Path
+                self.viewController?.scoreButton.setTitle(String(game.moveInstructions.count), for: .normal)
+            case 5: // Visited
+                self.viewController?.scoreButton.setTitle(String(animatedVisitedSquareCount), for: .normal)
+            case 6: // Queued
+                self.viewController?.scoreButton.setTitle(String(animatedQueuedSquareCount), for: .normal)
+            case 7: // Barriers
+                self.viewController?.scoreButton.setTitle(String(game.barrierNodesWaitingToBeDisplayed.count), for: .normal)
+            case 8: // Weight
+                self.viewController?.scoreButton.setTitle("NA", for: .normal)
+            case 9: // Score
+                if defaults.bool(forKey: "God Button On Setting") {
+                    self.viewController?.scoreButton.setTitle("NA", for: .normal)
+                } else {
+                    self.viewController?.scoreButton.setTitle(String(game.currentScore), for: .normal)
+                }
+            default:
+                print("Score button loading error")
+        }
+        defaults.set(false, forKey: "Score Button Is Tapped")
+    }
+    
+    // barrier drawing should not work while animating fix.
+    func buttonManager(playButtonIsEnabled: Bool) {
+        if playButtonIsEnabled == true {
+            self.viewController?.playButton.setImage(UIImage(named: "Play_Icon_Set"), for: .normal)
+            self.viewController?.barrierButton.isEnabled = true
+            self.viewController?.playButton.isEnabled = true
+        } else if playButtonIsEnabled == false {
+            self.viewController?.playButton.setImage(UIImage(named: "Pause_Icon_Set"), for: .normal)
+            self.viewController?.playButton.isEnabled = false
+            self.viewController?.barrierButton.isEnabled = false
+        }
     }
 }
