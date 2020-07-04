@@ -5,6 +5,7 @@
 //  Created by Álvaro Santillan on 1/8/20.
 //  Copyright © 2020 Álvaro Santillan. All rights reserved.
 //
+
 import SpriteKit
 import UIKit
 
@@ -475,8 +476,37 @@ class GameScene: SKScene {
     var animatedVisitedSquareCount = 0
     var animatedQueuedSquareCount = 0
     
+    ///
+    func colorTheSnake() {
+        for (index, squareAndLocation) in game.snakeBodyPos.enumerated() {
+            if index == 0 {
+                squareAndLocation.square.fillColor = snakeHeadSquareColor
+            } else {
+                squareAndLocation.square.fillColor = snakeBodySquareColor
+            }
+        }
+    }
+    
+    func colorTheFood() {
+        for i in (game.foodPosition) {
+            i.square.fillColor = foodSquareColor
+        }
+    }
+    
+    func colorTheBarriers() {
+        for i in (game.barrierNodesWaitingToBeDisplayed) {
+            i.square.fillColor = barrierSquareColor
+        }
+    }
+    ///
+    
     func runPathFindingAnimations() {
         func visitedSquareAnimationBegining() {
+            // Color all squares while in animation mode.
+            colorTheSnake()
+            colorTheFood()
+            colorTheBarriers()
+            
             for (squareIIndex, squareAndLocation) in game.visitedNodeArray.enumerated() {
                 // Easter would go here enable this one
                 squareAndLocation.square.run(.sequence([visitedSquareWait]), completion: {visitedSquareAnimationEnding(squareAndLocation: squareAndLocation)})

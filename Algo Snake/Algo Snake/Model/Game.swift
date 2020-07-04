@@ -4,11 +4,7 @@
 //
 //  Created by Álvaro Santillan on 1/8/20.
 //  Copyright © 2020 Álvaro Santillan. All rights reserved.
-//  Bug Seg-fault when reach gameboard end.
-
-//--------------------
-// Create tuple data structure.
-
+//
 
 import SpriteKit
 import AVFoundation
@@ -27,7 +23,7 @@ class GameManager {
     var nextTime: Double?
     var gameSpeed: Float = 1
     var paused = false
-    var playerDirection: Int = 4 // 1 == left, 2 == up, 3 == right, 4 == down
+    var playerDirection: Int = 3 // 1 == left, 2 == up, 3 == right, 4 == down
     var currentScore: Int = 0
     var barrierNodesWaitingToBeDisplayed: [SkNodeAndLocation] = []
     var barrierNodesWaitingToBeRemoved: [SkNodeAndLocation] = []
@@ -79,22 +75,15 @@ class GameManager {
         snakeBodyPos.append(SkNodeAndLocation(square: node, location: Tuple(x: 2, y: 2)))
         matrix[2][2] = 2
         
-        spawnFoodBlock()
         gameStarted = true
+        // Look into moving
+        spawnFoodBlock()
     }
     
-    var prevX = -1
-    var prevY = -1
-//    var foodLocationArray: [Tuple] = []
-    var foodCollisionPoint = Int()
-    let mainScreenAlgoChoice = UserDefaults.standard.integer(forKey: "Selected Path Finding Algorithim")
     var foodBlocksHaveAnimated = Bool()
-    var snakeBlockHaveAnimated = false
-    
     func spawnFoodBlock() {
         let foodPalletsNeeded = (UserDefaults.standard.integer(forKey: "Food Count Setting") - foodPosition.count)
         
-        // need to use queue.
         if foodPalletsNeeded > 0 {
             for _ in 1...foodPalletsNeeded {
                 foodBlocksHaveAnimated = false
@@ -150,6 +139,7 @@ class GameManager {
     var displayVisitedSquareArray = [SkNodeAndLocation]()
     var displayPathSquareArray = [SkNodeAndLocation]()
     
+    let mainScreenAlgoChoice = UserDefaults.standard.integer(forKey: "Selected Path Finding Algorithim")
     func pathSelector() {
         let sceleton = AlgorithmHelper(scene: scene)
         let dfs = DepthFirstSearch(scene: scene)
@@ -201,6 +191,9 @@ class GameManager {
         conditionGreen = nnnpath!.4[0]
         conditionYellow = nnnpath!.4[1]
         conditionRed = nnnpath!.4[2]
+//        print("Snake head", snakeBodyPos[0].location)
+//        print("food", foodPosition)
+//        print("move instructions", moveInstructions)
     }
     
     func bringOvermatrix(tempMatrix: [[Int]]) {
@@ -212,6 +205,9 @@ class GameManager {
             if (moveInstructions.count != 0) {
                 swipe(ID: moveInstructions[0])
                 moveInstructions.remove(at: 0)
+                if displayPathSquareArray.count != 0 {
+                    displayPathSquareArray.removeLast()
+                }
                 pathBlockCordinates.remove(at: 0)
                 playSound(selectedSoundFileName: "sfx_coin_single3")
                 onPathMode = true
@@ -234,20 +230,26 @@ class GameManager {
         }
         else {
             if time >= nextTime! {
-                if gameIsOver != true {
-                    checkForDeath()
-                    updateSnakePosition()
+//                if gameIsOver != true {
+//                    checkForDeath()
+//                    updateSnakePosition()
                     if gameIsOver != true {
                         nextTime = time + Double(gameSpeed)
                         barrierSquareManager()
                         scene.updateScoreButtonHalo()
                         scene.updateScoreButtonText()
+                        
+                        // these two must be together
                         runPredeterminedPath()
+                        updateSnakePosition()
                         
                         checkIfPaused()
                         checkForFoodCollision()
+                        
+//                        checkForDeath()
+//                        updateSnakePosition()
                     }
-                }
+//                }
             }
         }
     }
@@ -269,96 +271,52 @@ class GameManager {
         }
     }
     
-//    var pathHasBeenAnimated = false
-    var foodName = String()
     func tempColor() {
-        // Re-renders changes when user instructs blocks to change color.
-//        func manageSquareColorWhilePathFindingAnimationsAreStillBeingDisplayed() {
-//            for i in (fronteerSquareArray) {
-//                for j in i {
-//                    j.fillColor = scene.queuedSquareColor
-//                }
-//            }
-//
-//            for i in (visitedNodeArray) {
-//                i.fillColor = scene.visitedSquareColor
-//            }
-//
-//            colorPath()
-//            scene.settingsWereChanged = false
-//            pathHasBeenAnimated = true
-//        }
-//
-//        func colorGameboard() {
-//            for i in scene.gameBoard {
-//                i.node.fillColor = scene.gameboardSquareColor
-//            }
-//        }
-//
-//        func colorPath() {
-//            for i in (pathSquareArray) {
-//                i.fillColor = .systemOrange
-//            }
-//        }
-//
-//        func colorBarriers() {
-//            for i in (barrierNodesWaitingToBeDisplayed) {
-//                i.square.fillColor = scene.barrierSquareColor
-//            }
-//        }
-//
-//        func colorSnake() {
-//            for (index, squareAndLocation) in snakeBodyPos.enumerated() {
-//                if index == 0 {
-//                    squareAndLocation.square.fillColor = scene.snakeHeadSquareColor
-//                } else {
-//                    squareAndLocation.square.fillColor = scene.snakeBodySquareColor
-//                }
-//            }
-//        }
-//
-//        func colorFood() {
-//            for i in (foodPosition) {
-//                i.square.fillColor = scene.foodSquareColor
-//                foodName = i.square.name!
-//
-//                if foodBlocksHaveAnimated == false {
-//                    i.square.run(scene.gameSquareAnimation(animation: 3))
-//                    foodBlocksHaveAnimated = true
-//                }
-//            }
-//        }
-//
-//        var squareHasBeenUpdated = false
-//
-//        if scene.pathFindingAnimationsEnded {
-//            if !(UserDefaults.standard.bool(forKey: "Game Is Paused Setting")) {
-//                colorGameboard()
-//            }
-//
-//            if scene.settingsWereChanged {
-//                manageSquareColorWhilePathFindingAnimationsAreStillBeingDisplayed()
-//            }
-//
-//            // Displays path after path finding animation ends.
-//            // Bug scene.pathFindingAnimationsEnded is broken or other if needed.
-//            colorPath()
-//        }
-//
-//        if squareHasBeenUpdated == false {
-//            colorBarriers()
-//        }
-//
-//        if scene.gamboardAnimationEnded == true {
-//            if squareHasBeenUpdated == false {
-//                colorSnake()
-//            }
-//
-//            if squareHasBeenUpdated == false {
-//                colorFood()
-//                squareHasBeenUpdated = true
-//            }
-//        }
+        if scene.pathFindingAnimationsHaveEnded == true && paused == false {
+            func colorTheGameboard() {
+                for i in scene.gameBoard {
+                    i.square.fillColor = scene.gameboardSquareColor
+                }
+            }
+
+            func colorTheSnake() {
+                for (index, squareAndLocation) in snakeBodyPos.enumerated() {
+                    if index == 0 {
+                        squareAndLocation.square.fillColor = scene.snakeHeadSquareColor
+                    } else {
+                        squareAndLocation.square.fillColor = scene.snakeBodySquareColor
+                    }
+                }
+            }
+            func colorTheFood() {
+                for i in (foodPosition) {
+                    i.square.fillColor = scene.foodSquareColor
+
+                    if foodBlocksHaveAnimated == false {
+                        i.square.run(scene.animationSequanceManager(animation: 3))
+                        foodBlocksHaveAnimated = true
+                    }
+                }
+            }
+            
+            func colorThePath() {
+                for i in (displayPathSquareArray) {
+                    i.square.fillColor = scene.pathSquareColor
+                }
+            }
+            
+            func colorTheBarriers() {
+                for i in (barrierNodesWaitingToBeDisplayed) {
+                    i.square.fillColor = scene.barrierSquareColor
+                }
+            }
+            
+            colorTheGameboard()
+            colorTheSnake()
+            colorTheFood()
+            colorThePath()
+            colorTheBarriers()
+        }
     }
     
     var gameIsOver = Bool()
@@ -397,6 +355,7 @@ class GameManager {
         }
     }
     
+    var foodCollisionPoint = Int()
     func checkForFoodCollision() {
         if foodPosition != nil {
             let x = snakeBodyPos[0].location.x
@@ -455,6 +414,7 @@ class GameManager {
 //        if onPathMode == false {
 //            if !(ID == 2 && playerDirection == 4) && !(ID == 4 && playerDirection == 2) {
 //                if !(ID == 1 && playerDirection == 3) && !(ID == 3 && playerDirection == 1) {
+//                print(ID)
                 playerDirection = ID
 //                }
 //            }
@@ -465,6 +425,7 @@ class GameManager {
         var xChange = -1
         var yChange = 0
 
+//        print(playerDirection)
         switch playerDirection {
             case 1:
                 //left
@@ -498,20 +459,24 @@ class GameManager {
                 start -= 1
             }
             // Can be reduced only 3 blocks need to be updated.
-            snakeBodyPos[0].location.x = (snakeBodyPos[0].location.x + yChange)
-            snakeBodyPos[0].location.y = (snakeBodyPos[0].location.y + xChange)
+            let xx = (snakeBodyPos[0].location.x + yChange)
+            let yy = (snakeBodyPos[0].location.y + xChange)
+            let newSnakeHead = scene.gameBoard.first(where: {$0.location == Tuple(x: xx, y: yy)})
+            snakeBodyPos[0] = newSnakeHead!
+//            snakeBodyPos[0].location.x = (snakeBodyPos[0].location.x + yChange)
+//            snakeBodyPos[0].location.y = (snakeBodyPos[0].location.y + xChange)
             if snakeBodyPos[0].location.x < 0 || snakeBodyPos[0].location.y < 0 {
                 endTheGame()
             }
-            print("location update", snakeBodyPos[0])
+//            print("location update", snakeBodyPos[0])
             if gameIsOver != true {
                 matrix[snakeBodyPos[0].location.x][snakeBodyPos[0].location.y] = 1
                 matrix[snakeBodyPos[1].location.x][snakeBodyPos[1].location.y] = 2
             }
-//            matrix[snakeBodyPos[2].0][snakeBodyPos[2].1] = 2
-//            matrix[snakeBodyPos[3].0][snakeBodyPos[3].1] = 2
-//            matrix[snakeBodyPos[4].0][snakeBodyPos[4].1] = 2
-//            matrix[snakeBodyPos[5].0][snakeBodyPos[5].1] = 2
+            matrix[snakeBodyPos[2].location.x][snakeBodyPos[2].location.y] = 2
+            matrix[snakeBodyPos[3].location.x][snakeBodyPos[3].location.y] = 2
+            matrix[snakeBodyPos[4].location.x][snakeBodyPos[4].location.y] = 2
+            matrix[snakeBodyPos[5].location.x][snakeBodyPos[5].location.y] = 2
 //            for i in 0...(scene.rowCount-1) {
 //                print(matrix[i])
 //            }
