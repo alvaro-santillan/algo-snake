@@ -142,12 +142,13 @@ class GameManager {
     var conditionGreen = Bool()
     var conditionYellow = Bool()
     var conditionRed = Bool()
-//    var scoreButtonHalo = UIColor()
-    var visitedNodeArray = [SkNodeAndLocation]()
+    
     var fronteerSquareArray = [[SkNodeAndLocation]]()
+    var visitedNodeArray = [SkNodeAndLocation]()
     var pathSquareArray = [SkNodeAndLocation]()
-    var displayPathSquareArray = [SkNodeAndLocation]()
+    var displayFronteerSquareArray = [[SkNodeAndLocation]]()
     var displayVisitedSquareArray = [SkNodeAndLocation]()
+    var displayPathSquareArray = [SkNodeAndLocation]()
     
     func pathSelector() {
         let sceleton = AlgorithmHelper(scene: scene)
@@ -194,6 +195,7 @@ class GameManager {
         visitedNodeArray = nnnpath!.1
         displayVisitedSquareArray = visitedNodeArray
         fronteerSquareArray = nnnpath!.2
+        displayFronteerSquareArray = fronteerSquareArray
         pathSquareArray = nnnpath!.3
         conditionGreen = nnnpath!.4[0]
         conditionYellow = nnnpath!.4[1]
@@ -233,9 +235,9 @@ class GameManager {
             case 4: // Path
                 self.viewController?.scoreButton.setTitle(String(moveInstructions.count), for: .normal)
             case 5: // Visited
-                self.viewController?.scoreButton.setTitle(String(scene.animatedVisitedNodeCount), for: .normal)
+                self.viewController?.scoreButton.setTitle(String(scene.animatedVisitedSquareCount), for: .normal)
             case 6: // Queued
-                self.viewController?.scoreButton.setTitle(String(scene.animatedQueuedNodeCount), for: .normal)
+                self.viewController?.scoreButton.setTitle(String(scene.animatedQueuedSquareCount), for: .normal)
             case 7: // Barriers
                 self.viewController?.scoreButton.setTitle(String(barrierNodesWaitingToBeDisplayed.count), for: .normal)
             case 8: // Weight
@@ -310,8 +312,8 @@ class GameManager {
             tempColor()
             paused = true
         } else {
-            scene.animatedVisitedNodeCount = 0
-            scene.animatedQueuedNodeCount = 0
+            scene.animatedVisitedSquareCount = 0
+            scene.animatedQueuedSquareCount = 0
             gameSpeed = UserDefaults.standard.float(forKey: "Snake Move Speed")
             paused = false
         }
