@@ -290,7 +290,6 @@ class GameScene: SKScene {
             yAncor -= squareWidth
         }
         game.bringOvermatrix(tempMatrix: matrix)
-        animateTheGameboard()
     }
     
     func swipeManager(swipeGesturesAreOn: Bool) {
@@ -334,6 +333,7 @@ class GameScene: SKScene {
         algorithimChoiceName.run(SKAction.move(to: topCenter, duration: 0.4)) {
             self.game.initiateSnakeStartingPosition()
         }
+        startingAnimation()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -400,35 +400,63 @@ class GameScene: SKScene {
     }
     
     // Animations
-    var gameBoarddispatchCalled = Bool()
     var gamboardAnimationEnded = Bool()
-    var pathFindingAnimationsEnded = false
-    var gameboardsquareWait = SKAction()
+    var pathFindingAnimationsEnded = Bool()
     
-    func animateTheGameboard() {
-        func gameBoardAnimationComplition() {
-            if gameBoarddispatchCalled == false {
-                DispatchQueue.main.asyncAfter(deadline: .now() + gameboardsquareWait.duration) {
-                    self.gamboardAnimationEnded = true
+    func startingAnimation() {
+        func gameBoardAnimation(_ nodes: [SkNodeAndLocation]) {
+            let lastIndex = ((nodes.count) - 1)
+            var gameBoardSquareWait = SKAction()
+            for (squareIndex, squareAndLocation) in nodes.enumerated() {
+                if squareIndex != lastIndex {
+                    squareAndLocation.square.run(.sequence([gameBoardSquareWait, gameSquareAnimation(animation: 1)]))
+                } else {
+                    squareAndLocation.square.run(.sequence([gameBoardSquareWait, gameSquareAnimation(animation: 1)]), completion: {snakeBodyAnimationBegining()})
                 }
-                gameBoarddispatchCalled = true
+                gameBoardSquareWait = .wait(forDuration: TimeInterval(squareIndex) * 0.003) // 0.003
             }
         }
         
-        func animateNodes(_ nodes: [SKShapeNode]) {
-            for (squareIndex, square) in nodes.enumerated() {
-                
-                square.run(.sequence([gameboardsquareWait, gameSquareAnimation(animation: 1)]), completion: {gameBoardAnimationComplition()}) //0.003
-                gameboardsquareWait = .wait(forDuration: TimeInterval(squareIndex) * 0.0003)
+        func snakeBodyAnimationBegining() {
+            let lastIndex = ((game.snakeBodyPos.count) - 1)
+            var snakeBodySquareWait = SKAction()
+            
+            for (squareIndex, squareAndLocation) in game.snakeBodyPos.enumerated() {
+                squareAndLocation.square.run(.sequence([snakeBodySquareWait]), completion: {snakeBodyAnimationEnding(square: squareAndLocation.square, squareIndex: squareIndex, lastIndex: lastIndex)})
+                snakeBodySquareWait = .wait(forDuration: TimeInterval(squareIndex) * 0.085) // 0.085
             }
         }
         
-        var squares = [SKShapeNode]()
+        func snakeBodyAnimationEnding(square: SKShapeNode, squareIndex: Int, lastIndex: Int) {
+            square.run(.sequence([gameSquareAnimation(animation: 2)]))
+            if squareIndex == 0 {
+                square.fillColor = snakeHeadSquareColor
+            } else {
+                square.fillColor = snakeBodySquareColor
+            }
+            
+            if squareIndex == lastIndex {
+                foodSquareAnimationBegining()
+            }
+        }
+        
+        func foodSquareAnimationBegining() {
+            for squareAndLocation in game.foodPosition {
+                squareAndLocation.square.run(.sequence([gameSquareAnimation(animation: 3)]), completion: {foodSquareAnimationEnding(square: squareAndLocation.square)})
+            }
+        }
+        
+        func foodSquareAnimationEnding(square: SKShapeNode) {
+            square.run(.sequence([gameSquareAnimation(animation: 2)]))
+            square.fillColor = foodSquareColor
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.gamboardAnimationEnded = true
+            }
+        }
+        
         game.viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: false)
-        for i in gameBoard {
-            squares.append(i.square)
-        }
-        animateNodes(squares)
+        gameBoardAnimation(gameBoard)
     }
     
     func gameSquareAnimation(animation: Int) -> SKAction {
@@ -464,9 +492,9 @@ class GameScene: SKScene {
     var firstSquare = false
     
     func pathTeeest(square: SKShapeNode, squareIndex: Int) {
-            square.run(.sequence([gameSquareAnimation(animation: 2)]))
-            square.fillColor = pathSquareColor
-            game.viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: true)
+        square.run(.sequence([gameSquareAnimation(animation: 2)]))
+        square.fillColor = pathSquareColor
+        game.viewControllerComunicationsManager(updatingPlayButton: true, playButtonIsEnabled: true)
         
         if pathdispatchCalled == false {
             DispatchQueue.main.asyncAfter(deadline: .now() + pathSquareWait.duration) {
