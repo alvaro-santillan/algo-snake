@@ -17,8 +17,8 @@ class GameScene: SKScene {
     var algorithimChoiceName: SKLabelNode!
     var gameBackground: SKShapeNode!
     var gameBoard: [SkNodeAndLocation] = []
-    let rowCount = 15 // 17
-    let columnCount = 15 // 30
+    var rowCount = 5 // Temp gets updated when the gameboard gets created.
+    var columnCount = 5 // Temp gets updated when the gameboard gets created.
     let pathFindingAlgorithimChoice = UserDefaults.standard.integer(forKey: "Selected Path Finding Algorithim")
     
     // Game settings
@@ -240,9 +240,15 @@ class GameScene: SKScene {
             self.addChild(gameBackground)
         }
         
+        let squareWidth: CGFloat = 25
+        // Creates the correct number of rows and columns based on screen size.
+        let realRowCount = Int(((frame.size.height)/squareWidth).rounded(.up)) // 17
+        let realColumnCount = Int(((frame.size.width)/squareWidth).rounded(.up)) // 30
+        rowCount = realRowCount
+        columnCount = realColumnCount
+        
         var matrix = [[Int]]()
         var row = [Int]()
-        let squareWidth: CGFloat = 25
         let shrinkRatio: CGFloat = 0.06
         let cornerRatio: CGFloat = 0.14
         let shrinkedSquareWidth = squareWidth - (squareWidth * shrinkRatio)
@@ -560,6 +566,7 @@ class GameScene: SKScene {
                     self.firstAnimationSequanceHasCompleted = true
                     
                     // new potential clean up needed.
+                    // only when step mode is off should this run
                     if self.pathFindingAlgorithimChoice != 0 {
                         if !(UserDefaults.standard.bool(forKey: "Step Mode On Setting")) {
                             if self.game.snakeBodyPos.count != 6 {

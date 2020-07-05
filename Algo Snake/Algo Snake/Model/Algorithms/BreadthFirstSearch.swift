@@ -69,7 +69,7 @@ class BreadthFirstSearch {
             // Repeat through all the nodes in the sub dictionary.
             // Append to fronter and mark parent.
             var newFornterSquareHolder = [Tuple]()
-            
+            // If statment handles seg fault so that game can continue.
             if gameBoard[currentSquare] != nil {
                 for (prospectFronterSquare, _) in gameBoard[currentSquare]! {
                     if !(visitedSquares.contains(prospectFronterSquare)) {
