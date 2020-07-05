@@ -166,11 +166,22 @@ class GameManager {
             displayPathSquareArray.removeLast()
         }
 
-        print(scene.pathFindingAnimationsHaveEnded)
+//        print(scene.pathFindingAnimationsHaveEnded)
         if UserDefaults.standard.bool(forKey: "Step Mode On Setting") {
-            if scene.pathFindingAnimationsHaveEnded == true {
-                UserDefaults.standard.set(true, forKey: "Game Is Paused Setting")
+            // working here may not need
+            UserDefaults.standard.set(true, forKey: "Game Is Paused Setting")
+            paused = true
+            checkIfPaused()
+            if scene.gamboardAnimationEnded == true {
                 self.viewController?.reloadStepButtonSettings(isTheGamePaused: true)
+            }
+        } else {
+            if scene.gamboardAnimationEnded == true {
+                // working here may not need
+                self.viewController?.reloadStepButtonSettings(isTheGamePaused: true)
+            } else {
+                // working here may not need
+                UserDefaults.standard.set(true, forKey: "Game Is Paused Setting")
                 paused = true
                 checkIfPaused()
             }
