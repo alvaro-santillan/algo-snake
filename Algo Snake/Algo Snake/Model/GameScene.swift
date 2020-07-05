@@ -19,6 +19,7 @@ class GameScene: SKScene {
     var gameBoard: [SkNodeAndLocation] = []
     let rowCount = 15 // 17
     let columnCount = 15 // 30
+    let pathFindingAlgorithimChoice = UserDefaults.standard.integer(forKey: "Selected Path Finding Algorithim")
     
     // Game settings
     var pathFindingAnimationSpeed = Float()
@@ -48,6 +49,8 @@ class GameScene: SKScene {
         }
         
         game = GameManager(scene: self)
+        // Disable buttons for initial animation.
+        animationDualButtonManager(buttonsEnabled: false)
         settingLoader(firstRun: true)
         createScreenLabels()
         createGameBoard()
@@ -111,7 +114,7 @@ class GameScene: SKScene {
     func clearButtonManager() {
         if defaults.bool(forKey: "Clear All Setting") {
             // Visually convert each square back to a gameboard square.
-            for i in (game.fronteerSquareArray) {
+            for i in (game.displayFronteerSquareArray) {
                 for j in i {
                     j.square.fillColor = gameboardSquareColor
                     game.matrix[j.location.x][j.location.y] = 0
@@ -148,19 +151,8 @@ class GameScene: SKScene {
         }
     }
     
+    // Contains duplicate functions.
     func settingsChangeSquareColorManager() {
-
-        func colorGameboard() {
-            for i in gameBoard {
-                if i.location.x == 0 || i.location.x == (rowCount - 1) {
-                    i.square.fillColor = fadedGameBoardSquareColor
-                } else if i.location.y == 0 || i.location.y == (columnCount - 1) {
-                    i.square.fillColor = fadedGameBoardSquareColor
-                } else {
-                    i.square.fillColor = gameboardSquareColor
-                }
-            }
-        }
         
         func colorQueued() {
             for i in (game.displayFronteerSquareArray) {
@@ -208,7 +200,7 @@ class GameScene: SKScene {
         
         if pathFindingAnimationsHaveEnded == true {
             if clearAllWasTapped != true {
-                colorGameboard()
+                colorTheGameboard()
                 colorQueued()
                 colorVisited()
                 if clearPathWasTapped != true {
@@ -336,8 +328,9 @@ class GameScene: SKScene {
         let topCenter = CGPoint(x: 0, y: (frame.size.height / 2) - 25)
         algorithimChoiceName.run(SKAction.move(to: topCenter, duration: 0.4)) {
             self.game.initiateSnakeStartingPosition()
+            self.game.spawnFoodBlock()
         }
-        startingAnimation()
+        startingAnimationAndSquareColoring()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -371,7 +364,7 @@ class GameScene: SKScene {
         
         func IsSquareOccupied(squareLocation: Tuple) -> Bool {
             for square in game.snakeBodyPos {if squareLocation.x == square.location.x && squareLocation.y == square.location.y {return true}}
-            for square in game.foodPosition {if squareLocation.x == square.location.x && squareLocation.y == square.location.y {return true}}
+            for square in game.foodPosition {if squareLocation.x == square.location.y && squareLocation.y == square.location.x {return true}}
             for square in game.pathBlockCordinates {if squareLocation.x == square.y && squareLocation.y == square.x {return true}}
             return false
         }
@@ -385,16 +378,18 @@ class GameScene: SKScene {
                 if squareLocation.x != 0 && squareLocation.x != (rowCount - 1) {
                     if squareLocation.y != 0 && squareLocation.y != (columnCount - 1) {
                         if !(IsSquareOccupied(squareLocation: squareLocation)) {
-                            if defaults.bool(forKey: "Add Barrier Mode On Setting") {
-                                game.barrierNodesWaitingToBeDisplayed.append(SkNodeAndLocation(square: selectedSquare, location: squareLocation))
-                                selectedSquare.fillColor = barrierSquareColor
-                                game.matrix[squareLocation.x][squareLocation.y] = 7
-                            } else {
-                                game.barrierNodesWaitingToBeRemoved.append(SkNodeAndLocation(square: selectedSquare, location: squareLocation))
-                                selectedSquare.fillColor = gameboardSquareColor
-                                game.matrix[squareLocation.x][squareLocation.y] = 0
+                            if self.viewController?.barrierButton.isEnabled == true {
+                                if defaults.bool(forKey: "Add Barrier Mode On Setting") {
+                                    game.barrierNodesWaitingToBeDisplayed.append(SkNodeAndLocation(square: selectedSquare, location: squareLocation))
+                                    selectedSquare.fillColor = barrierSquareColor
+                                    game.matrix[squareLocation.x][squareLocation.y] = 7
+                                } else {
+                                    game.barrierNodesWaitingToBeRemoved.append(SkNodeAndLocation(square: selectedSquare, location: squareLocation))
+                                    selectedSquare.fillColor = gameboardSquareColor
+                                    game.matrix[squareLocation.x][squareLocation.y] = 0
+                                }
+                                vibration.impactOccurred()
                             }
-                            vibration.impactOccurred()
                         }
                     }
                 }
@@ -406,7 +401,7 @@ class GameScene: SKScene {
     // Animations
     var gamboardAnimationEnded = Bool()
     
-    func startingAnimation() {
+    func startingAnimationAndSquareColoring() {
         // 1
         func gameBoardAnimation(_ nodes: [SkNodeAndLocation]) {
             let lastIndex = ((nodes.count) - 1)
@@ -459,11 +454,14 @@ class GameScene: SKScene {
             square.fillColor = foodSquareColor
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.firstAnimationSequanceHasCompleted = true
                 self.gamboardAnimationEnded = true
+                if self.pathFindingAlgorithimChoice == 0 {
+                    // No pathfinding animation on player node, enable the buttons after inital animation.
+                    self.animationDualButtonManager(buttonsEnabled: true)
+                }
             }
         }
-        
-        buttonManager(playButtonIsEnabled: false)
         gameBoardAnimation(gameBoard)
     }
     
@@ -476,31 +474,7 @@ class GameScene: SKScene {
     var animatedVisitedSquareCount = 0
     var animatedQueuedSquareCount = 0
     
-    ///
-    func colorTheSnake() {
-        for (index, squareAndLocation) in game.snakeBodyPos.enumerated() {
-            if index == 0 {
-                squareAndLocation.square.fillColor = snakeHeadSquareColor
-            } else {
-                squareAndLocation.square.fillColor = snakeBodySquareColor
-            }
-        }
-    }
-    
-    func colorTheFood() {
-        for i in (game.foodPosition) {
-            i.square.fillColor = foodSquareColor
-        }
-    }
-    
-    func colorTheBarriers() {
-        for i in (game.barrierNodesWaitingToBeDisplayed) {
-            i.square.fillColor = barrierSquareColor
-        }
-    }
-    ///
-    
-    func runPathFindingAnimations() {
+    func pathFindingAnimationsAndSquareColoring() {
         func visitedSquareAnimationBegining() {
             // Color all squares while in animation mode.
             colorTheSnake()
@@ -580,7 +554,8 @@ class GameScene: SKScene {
             // runs one time.
             if !pathSquareDispatchCalled {
                 DispatchQueue.main.asyncAfter(deadline: .now() + pathSquareWait.duration) {
-                    self.buttonManager(playButtonIsEnabled: true)
+                    // Animation ended re-enable the buttons.
+                    self.animationDualButtonManager(buttonsEnabled: true)
                     self.pathFindingAnimationsHaveEnded = true
                     self.firstAnimationSequanceHasCompleted = true
                 }
@@ -594,6 +569,66 @@ class GameScene: SKScene {
         visitedSquareAnimationBegining()
     }
     
+    func squareColoringWhileSnakeIsMoving() {
+        if pathFindingAlgorithimChoice == 0 {
+            colorTheGameboard()
+            colorTheSnake()
+            colorTheFood()
+            colorThePath()
+            colorTheBarriers()
+        } else if pathFindingAnimationsHaveEnded == true && game.paused == false {
+            colorTheGameboard()
+            colorTheSnake()
+            colorTheFood()
+            colorThePath()
+            colorTheBarriers()
+        }
+    }
+    
+    // Start: Square coloring helper functions.
+    func colorTheGameboard() {
+        for i in gameBoard {
+            if i.location.x == 0 || i.location.x == (rowCount - 1) {
+                i.square.fillColor = fadedGameBoardSquareColor
+            } else if i.location.y == 0 || i.location.y == (columnCount - 1) {
+                i.square.fillColor = fadedGameBoardSquareColor
+            } else {
+                i.square.fillColor = gameboardSquareColor
+            }
+        }
+    }
+    
+    func colorTheSnake() {
+        for (index, squareAndLocation) in game.snakeBodyPos.enumerated() {
+            if index == 0 {
+                squareAndLocation.square.fillColor = snakeHeadSquareColor
+            } else {
+                squareAndLocation.square.fillColor = snakeBodySquareColor
+            }
+        }
+    }
+    
+    func colorTheFood() {
+        for i in (game.foodPosition) {
+            i.square.fillColor = foodSquareColor
+        }
+    }
+    
+    func colorThePath() {
+        for i in (game.displayPathSquareArray) {
+            i.square.fillColor = pathSquareColor
+        }
+    }
+    
+    func colorTheBarriers() {
+        game.barrierSquareManager()
+        
+        for i in (game.barrierNodesWaitingToBeDisplayed) {
+            i.square.fillColor = barrierSquareColor
+        }
+    }
+    
+    // Start: Animation helper function.
     func animationSequanceManager(animation: Int) -> SKAction {
         let wait0 = SKAction.wait(forDuration: 0.80)
         let wait1 = SKAction.wait(forDuration: 0.16)
@@ -621,9 +656,12 @@ class GameScene: SKScene {
         // Check if score button was tapped.
         defaults.bool(forKey: "Score Button Is Tapped") ? (updateScoreButtonText()) : ()
         
-        if game!.visitedNodeArray.count > 0 && gamboardAnimationEnded == true {
-            buttonManager(playButtonIsEnabled: false)
-            runPathFindingAnimations()
+        if pathFindingAlgorithimChoice != 0 {
+            if game!.visitedNodeArray.count > 0 && gamboardAnimationEnded == true {
+                // Dissble buttons for pathfinding animation.
+                animationDualButtonManager(buttonsEnabled: false)
+                pathFindingAnimationsAndSquareColoring()
+            }
         }
         
         game.update(time: currentTime)
@@ -672,13 +710,11 @@ class GameScene: SKScene {
     }
     
     // barrier drawing should not work while animating fix.
-    func buttonManager(playButtonIsEnabled: Bool) {
-        if playButtonIsEnabled == true {
-            self.viewController?.playButton.setImage(UIImage(named: "Play_Icon_Set"), for: .normal)
+    func animationDualButtonManager(buttonsEnabled: Bool) {
+        if buttonsEnabled == true {
             self.viewController?.barrierButton.isEnabled = true
             self.viewController?.playButton.isEnabled = true
-        } else if playButtonIsEnabled == false {
-            self.viewController?.playButton.setImage(UIImage(named: "Pause_Icon_Set"), for: .normal)
+        } else if buttonsEnabled == false {
             self.viewController?.playButton.isEnabled = false
             self.viewController?.barrierButton.isEnabled = false
         }

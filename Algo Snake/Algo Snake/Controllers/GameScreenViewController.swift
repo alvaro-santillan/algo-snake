@@ -53,6 +53,14 @@ class GameScreenViewController: UIViewController {
         scoreButton.layer.backgroundColor = UIColor(named: "UI Button")!.withAlphaComponent(0.5).cgColor
     }
     
+    func reloadStepButtonSettings(isTheGamePaused: Bool) {
+        boolButtonLoader(isIconButton: true, targetButton: playButton, key: "Game Is Paused Setting", trueOption: "Play_Icon_Set", falseOption: "Pause_Icon_Set")
+        defaults.bool(forKey: "Game Is Paused Setting") ? (barrierButton.isEnabled = true) : (barrierButton.isEnabled = false)
+//        defaults.set(true, forKey: "Add Barrier Mode On Setting")
+        
+        boolButtonLoader(isIconButton: true, targetButton: barrierButton, key: "Add Barrier Mode On Setting", trueOption: "Plus_Icon_Set", falseOption: "Minus_Icon_Set")
+    }
+    
     @IBAction func scoreButtonTapped(_ sender: UIButton) {
         
         // If button tapped switch to next option.

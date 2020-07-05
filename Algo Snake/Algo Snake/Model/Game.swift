@@ -76,8 +76,6 @@ class GameManager {
         matrix[2][2] = 2
         
         gameStarted = true
-        // Look into moving
-        spawnFoodBlock()
     }
     
     var foodBlocksHaveAnimated = Bool()
@@ -139,7 +137,7 @@ class GameManager {
     var displayVisitedSquareArray = [SkNodeAndLocation]()
     var displayPathSquareArray = [SkNodeAndLocation]()
     
-    let mainScreenAlgoChoice = UserDefaults.standard.integer(forKey: "Selected Path Finding Algorithim")
+    
     func pathSelector() {
         let sceleton = AlgorithmHelper(scene: scene)
         let dfs = DepthFirstSearch(scene: scene)
@@ -147,10 +145,10 @@ class GameManager {
         
         let snakeHead = Tuple(x: snakeBodyPos[0].location.y, y: snakeBodyPos[0].location.x)
         let gameBoardDictionary = sceleton.gameBoardMatrixToDictionary(gameBoardMatrix: matrix)
-        if mainScreenAlgoChoice == 2 {
+        if scene.pathFindingAlgorithimChoice == 2 {
             nnnpath = bfs.breathFirstSearch(startSquare: snakeHead, foodLocations: foodPosition, gameBoard: gameBoardDictionary, returnPathCost: false, returnSquaresVisited: false)
             pathManager()
-        } else if mainScreenAlgoChoice == 3 {
+        } else if scene.pathFindingAlgorithimChoice == 3 {
             nnnpath = dfs.depthFirstSearch(startSquare: snakeHead, foodLocations: foodPosition, gameBoard: gameBoardDictionary, returnPathCost: false, returnSquaresVisited: false)
             pathManager()
         } else {
@@ -162,18 +160,20 @@ class GameManager {
             pathSquareArray.append(SkNodeAndLocation(square: node!, location: Tuple(x: i.x, y: i.y)))
             displayPathSquareArray.append(SkNodeAndLocation(square: node!, location: Tuple(x: i.x, y: i.y)))
         }
-        displayPathSquareArray.removeFirst()
-        displayPathSquareArray.removeLast()
+        
+        if scene.pathFindingAlgorithimChoice != 0 {
+            displayPathSquareArray.removeFirst()
+            displayPathSquareArray.removeLast()
+        }
 
+        print(scene.pathFindingAnimationsHaveEnded)
         if UserDefaults.standard.bool(forKey: "Step Mode On Setting") {
-                // problem may not be needed
-            if scene.firstAnimationSequanceHasCompleted == true {
-                scene.buttonManager(playButtonIsEnabled: true)
+            if scene.pathFindingAnimationsHaveEnded == true {
+                UserDefaults.standard.set(true, forKey: "Game Is Paused Setting")
+                self.viewController?.reloadStepButtonSettings(isTheGamePaused: true)
+                paused = true
+                checkIfPaused()
             }
-            
-            UserDefaults.standard.set(true, forKey: "Game Is Paused Setting")
-            paused = true
-            checkIfPaused()
         }
         scene.updateScoreButtonHalo()
     }
@@ -213,7 +213,9 @@ class GameManager {
                 onPathMode = true
             } else {
                 onPathMode = false
-                pathSelector()
+                if scene.pathFindingAlgorithimChoice != 0 {
+                    pathSelector()
+                }
                 onPathMode = true
             }
         }
@@ -261,7 +263,7 @@ class GameManager {
     
     func checkIfPaused() {
         if UserDefaults.standard.bool(forKey: "Game Is Paused Setting") {
-            tempColor()
+            scene.squareColoringWhileSnakeIsMoving()
             paused = true
         } else {
             scene.animatedVisitedSquareCount = 0
@@ -271,61 +273,14 @@ class GameManager {
         }
     }
     
-    func tempColor() {
-        if scene.pathFindingAnimationsHaveEnded == true && paused == false {
-            func colorTheGameboard() {
-                for i in scene.gameBoard {
-                    i.square.fillColor = scene.gameboardSquareColor
-                }
-            }
-
-            func colorTheSnake() {
-                for (index, squareAndLocation) in snakeBodyPos.enumerated() {
-                    if index == 0 {
-                        squareAndLocation.square.fillColor = scene.snakeHeadSquareColor
-                    } else {
-                        squareAndLocation.square.fillColor = scene.snakeBodySquareColor
-                    }
-                }
-            }
-            func colorTheFood() {
-                for i in (foodPosition) {
-                    i.square.fillColor = scene.foodSquareColor
-
-                    if foodBlocksHaveAnimated == false {
-                        i.square.run(scene.animationSequanceManager(animation: 3))
-                        foodBlocksHaveAnimated = true
-                    }
-                }
-            }
-            
-            func colorThePath() {
-                for i in (displayPathSquareArray) {
-                    i.square.fillColor = scene.pathSquareColor
-                }
-            }
-            
-            func colorTheBarriers() {
-                for i in (barrierNodesWaitingToBeDisplayed) {
-                    i.square.fillColor = scene.barrierSquareColor
-                }
-            }
-            
-            colorTheGameboard()
-            colorTheSnake()
-            colorTheFood()
-            colorThePath()
-            colorTheBarriers()
-        }
-    }
-    
     var gameIsOver = Bool()
     func endTheGame() {
         scene.algorithimChoiceName.text = "Game Over"
         self.viewController?.scoreButton.layer.borderColor = UIColor.red.cgColor
         updateScore()
         gameIsOver = true
-        scene.buttonManager(playButtonIsEnabled: true)
+        // temporary removal
+//        scene.buttonManager(playButtonIsEnabled: true)
     }
     
     // this is run when game hasent started. fix for optimization.
@@ -382,7 +337,6 @@ class GameManager {
                          currentScore += 1
                      }
                     
-                    // Grow snake by 3 blocks.
                     let max = UserDefaults.standard.integer(forKey: "Food Weight Setting")
                     for _ in 1...max {
                         snakeBodyPos.append(snakeBodyPos.last!)
@@ -510,7 +464,7 @@ class GameManager {
                     }
                 }
             }
-            tempColor()
+            scene.squareColoringWhileSnakeIsMoving()
         }
     }
 
