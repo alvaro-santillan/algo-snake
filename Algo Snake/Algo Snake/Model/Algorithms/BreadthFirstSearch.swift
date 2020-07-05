@@ -69,12 +69,15 @@ class BreadthFirstSearch {
             // Repeat through all the nodes in the sub dictionary.
             // Append to fronter and mark parent.
             var newFornterSquareHolder = [Tuple]()
-            for (prospectFronterSquare, _) in gameBoard[currentSquare]! {
-                if !(visitedSquares.contains(prospectFronterSquare)) {
-                    if !(fronterSquares.contains(prospectFronterSquare)){
-                        fronterSquares += [prospectFronterSquare]
-                        newFornterSquareHolder.append(Tuple(x: prospectFronterSquare.x, y: prospectFronterSquare.y))
-                        squareAndParentSquare[prospectFronterSquare] = currentSquare
+            
+            if gameBoard[currentSquare] != nil {
+                for (prospectFronterSquare, _) in gameBoard[currentSquare]! {
+                    if !(visitedSquares.contains(prospectFronterSquare)) {
+                        if !(fronterSquares.contains(prospectFronterSquare)){
+                            fronterSquares += [prospectFronterSquare]
+                            newFornterSquareHolder.append(Tuple(x: prospectFronterSquare.x, y: prospectFronterSquare.y))
+                            squareAndParentSquare[prospectFronterSquare] = currentSquare
+                        }
                     }
                 }
             }

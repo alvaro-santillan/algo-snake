@@ -388,8 +388,8 @@ class GameScene: SKScene {
                                     selectedSquare.fillColor = gameboardSquareColor
                                     game.matrix[squareLocation.x][squareLocation.y] = 0
                                 }
-                                vibration.impactOccurred()
                             }
+                            vibration.impactOccurred()
                         }
                     }
                 }
@@ -412,7 +412,7 @@ class GameScene: SKScene {
                 } else {
                     squareAndLocation.square.run(.sequence([gameBoardSquareWait, animationSequanceManager(animation: 1)]), completion: {snakeBodyAnimationBegining()})
                 }
-                gameBoardSquareWait = .wait(forDuration: TimeInterval(squareIndex) * 0.003) // 0.003
+                gameBoardSquareWait = .wait(forDuration: TimeInterval(squareIndex) * 0.0003) // 0.003
             }
         }
         
@@ -423,7 +423,7 @@ class GameScene: SKScene {
             
             for (squareIndex, squareAndLocation) in game.snakeBodyPos.enumerated() {
                 squareAndLocation.square.run(.sequence([snakeBodySquareWait]), completion: {snakeBodyAnimationEnding(square: squareAndLocation.square, squareIndex: squareIndex, lastIndex: lastIndex)})
-                snakeBodySquareWait = .wait(forDuration: TimeInterval(squareIndex) * 0.085) // 0.085
+                snakeBodySquareWait = .wait(forDuration: TimeInterval(squareIndex) * 0.0085) // 0.085
             }
         }
         
@@ -558,6 +558,16 @@ class GameScene: SKScene {
                     self.animationDualButtonManager(buttonsEnabled: true)
                     self.pathFindingAnimationsHaveEnded = true
                     self.firstAnimationSequanceHasCompleted = true
+                    
+                    // new potential clean up needed.
+                    if self.pathFindingAlgorithimChoice != 0 {
+                        if !(UserDefaults.standard.bool(forKey: "Step Mode On Setting")) {
+                            if self.game.snakeBodyPos.count != 6 {
+                                UserDefaults.standard.set(false, forKey: "Game Is Paused Setting")
+                                self.game.paused = false
+                            }
+                        }
+                    }
                 }
                 pathSquareDispatchCalled = true
             }

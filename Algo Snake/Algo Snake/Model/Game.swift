@@ -28,7 +28,6 @@ class GameManager {
     var barrierNodesWaitingToBeDisplayed: [SkNodeAndLocation] = []
     var barrierNodesWaitingToBeRemoved: [SkNodeAndLocation] = []
     var snakeBodyPos: [SkNodeAndLocation] = []
-    var godModeWasTurnedOn = false
     var verticalMaxBoundry = Int()
     var verticalMinBoundry = Int()
     var horizontalMaxBoundry = Int()
@@ -162,11 +161,12 @@ class GameManager {
         }
         
         if scene.pathFindingAlgorithimChoice != 0 {
-            displayPathSquareArray.removeFirst()
-            displayPathSquareArray.removeLast()
+            if displayPathSquareArray.count >= 2 {
+                displayPathSquareArray.removeFirst()
+                displayPathSquareArray.removeLast()
+            }
         }
 
-//        print(scene.pathFindingAnimationsHaveEnded)
         if UserDefaults.standard.bool(forKey: "Step Mode On Setting") {
             // working here may not need
             UserDefaults.standard.set(true, forKey: "Game Is Paused Setting")
@@ -186,6 +186,14 @@ class GameManager {
                 checkIfPaused()
             }
         }
+        
+        if scene.pathFindingAlgorithimChoice != 0 {
+            scene.pathFindingAnimationsHaveEnded = false
+            UserDefaults.standard.set(true, forKey: "Game Is Paused Setting")
+            paused = true
+            checkIfPaused()
+        }
+        
         scene.updateScoreButtonHalo()
     }
     
@@ -202,9 +210,6 @@ class GameManager {
         conditionGreen = nnnpath!.4[0]
         conditionYellow = nnnpath!.4[1]
         conditionRed = nnnpath!.4[2]
-//        print("Snake head", snakeBodyPos[0].location)
-//        print("food", foodPosition)
-//        print("move instructions", moveInstructions)
     }
     
     func bringOvermatrix(tempMatrix: [[Int]]) {
@@ -259,7 +264,7 @@ class GameManager {
                         checkIfPaused()
                         checkForFoodCollision()
                         
-//                        checkForDeath()
+                        checkForDeath()
 //                        updateSnakePosition()
                     }
 //                }
@@ -290,12 +295,11 @@ class GameManager {
         self.viewController?.scoreButton.layer.borderColor = UIColor.red.cgColor
         updateScore()
         gameIsOver = true
-        // temporary removal
-//        scene.buttonManager(playButtonIsEnabled: true)
+        scene.animationDualButtonManager(buttonsEnabled: false)
     }
     
     // this is run when game hasent started. fix for optimization.
-        func checkForDeath() {
+    func checkForDeath() {
         if snakeBodyPos.count > 0 {
             // Create temp variable of snake without the head.
             var snakeBody = snakeBodyPos
@@ -305,17 +309,14 @@ class GameManager {
             // The snake dies in corners becouse blocks are stacked.
             
 
-            if snakeBody.contains(snakeBodyPos[0]) {
-//            if contains(a: snakeBody, v: snakeBodyPos[0]) {
-                if UserDefaults.standard.bool(forKey: "God Button On Setting") {
-                    godModeWasTurnedOn = true
-                } else {
+            
+            if !(UserDefaults.standard.bool(forKey: "God Button On Setting")) {
+                if snakeBody.contains(snakeBodyPos[0]) {
                     endTheGame()
                 }
             }
             
-            let snakeHead = snakeBodyPos[0]
-            if barrierNodesWaitingToBeDisplayed.contains(snakeHead) {
+            if barrierNodesWaitingToBeDisplayed.contains(snakeBodyPos[0]) {
                 endTheGame()
             }
         }
@@ -345,7 +346,8 @@ class GameManager {
                     
                     // Update the score
                     if !(UserDefaults.standard.bool(forKey: "God Button On Setting")) {
-                         currentScore += 1
+                        currentScore += 1
+                        updateScore()
                      }
                     
                     let max = UserDefaults.standard.integer(forKey: "Food Weight Setting")
@@ -376,21 +378,21 @@ class GameManager {
     }
     
     func swipe(ID: Int) {
-//        if onPathMode == false {
-//            if !(ID == 2 && playerDirection == 4) && !(ID == 4 && playerDirection == 2) {
-//                if !(ID == 1 && playerDirection == 3) && !(ID == 3 && playerDirection == 1) {
-//                print(ID)
+        if scene.pathFindingAlgorithimChoice == 0 && !(UserDefaults.standard.bool(forKey: "God Button On Setting")){
+            if !(ID == 2 && playerDirection == 4) && !(ID == 4 && playerDirection == 2) {
+                if !(ID == 1 && playerDirection == 3) && !(ID == 3 && playerDirection == 1) {
                 playerDirection = ID
-//                }
-//            }
-//        }
+                }
+            }
+        } else {
+            playerDirection = ID
+        }
     }
     
     private func updateSnakePosition() {
         var xChange = -1
         var yChange = 0
 
-//        print(playerDirection)
         switch playerDirection {
             case 1:
                 //left
@@ -427,13 +429,17 @@ class GameManager {
             let xx = (snakeBodyPos[0].location.x + yChange)
             let yy = (snakeBodyPos[0].location.y + xChange)
             let newSnakeHead = scene.gameBoard.first(where: {$0.location == Tuple(x: xx, y: yy)})
-            snakeBodyPos[0] = newSnakeHead!
-//            snakeBodyPos[0].location.x = (snakeBodyPos[0].location.x + yChange)
-//            snakeBodyPos[0].location.y = (snakeBodyPos[0].location.y + xChange)
+            
+            if newSnakeHead != nil {
+                snakeBodyPos[0] = newSnakeHead!
+            } else {
+                endTheGame()
+            }
+
             if snakeBodyPos[0].location.x < 0 || snakeBodyPos[0].location.y < 0 {
                 endTheGame()
             }
-//            print("location update", snakeBodyPos[0])
+            
             if gameIsOver != true {
                 matrix[snakeBodyPos[0].location.x][snakeBodyPos[0].location.y] = 1
                 matrix[snakeBodyPos[1].location.x][snakeBodyPos[1].location.y] = 2
@@ -453,16 +459,17 @@ class GameManager {
                 let x = snakeBodyPos[0].location.y
                 let y = snakeBodyPos[0].location.x
                 if UserDefaults.standard.bool(forKey: "God Button On Setting") {
-                    // modified to debug
-    //                if y > verticalMaxBoundry { // Moving To Bottom
-    //                    snakeBodyPos[0].0 = verticalMinBoundry // Spawning At Top
-    //                } else if y < verticalMinBoundry { // Moving to top
-    //                    snakeBodyPos[0].0 = verticalMaxBoundry // Spawning at bottom
-    //                } else if x > horizontalMaxBoundry { // Moving to right
-    //                    snakeBodyPos[0].1 = horizontalMinBoundry // Spawning on left
-    //                } else if x < horizontalMinBoundry { // Moving to left
-    //                    snakeBodyPos[0].1 = horizontalMaxBoundry // Spawning on right
-    //                }
+                    // temporary removal buggy
+//                    if y > verticalMaxBoundry { // Moving To Bottom
+//                        snakeBodyPos[0].location.x = verticalMinBoundry-1 // Spawning At Top
+//                    } else if y < verticalMinBoundry { // Moving to top +1
+//                        snakeBodyPos[0].location.x = verticalMaxBoundry+1 // Spawning at bottom
+//                    } else if x > horizontalMaxBoundry { // Moving to right
+//                        snakeBodyPos[0].location.y = horizontalMinBoundry-1 // Spawning on left
+//                    }
+//                    else if x < horizontalMinBoundry { // Moving to left +1
+//                        snakeBodyPos[0].location.y = horizontalMaxBoundry+1 // Spawning on right
+//                    }
                 } else {
                     if y > verticalMaxBoundry { // Moving To Bottom
                         endTheGame()

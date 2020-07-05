@@ -56,7 +56,6 @@ class GameScreenViewController: UIViewController {
     func reloadStepButtonSettings(isTheGamePaused: Bool) {
         boolButtonLoader(isIconButton: true, targetButton: playButton, key: "Game Is Paused Setting", trueOption: "Play_Icon_Set", falseOption: "Pause_Icon_Set")
         defaults.bool(forKey: "Game Is Paused Setting") ? (barrierButton.isEnabled = true) : (barrierButton.isEnabled = false)
-//        defaults.set(true, forKey: "Add Barrier Mode On Setting")
         
         boolButtonLoader(isIconButton: true, targetButton: barrierButton, key: "Add Barrier Mode On Setting", trueOption: "Plus_Icon_Set", falseOption: "Minus_Icon_Set")
     }
