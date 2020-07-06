@@ -635,14 +635,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="736" height="414"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vbn-vY-beB" userLabel="RIght Label">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vbn-vY-beB" userLabel="RIght Label">
                                 <rect key="frame" x="296" y="0.0" width="440" height="414"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7gV-6f-ISG" userLabel="Return To Settings" customClass="IconUIButton" customModule="Algo_Snake" customModuleProvider="target">
-                                        <rect key="frame" x="21" y="352" width="45" height="45"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7gV-6f-ISG" userLabel="Return To Settings" customClass="IconUIButton" customModule="Algo_Snake" customModuleProvider="target">
+                                        <rect key="frame" x="20" y="349" width="45" height="45"/>
                                         <color key="backgroundColor" name="UI Button"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="7gV-6f-ISG" secondAttribute="height" multiplier="1:1" id="6oe-v7-7qr"/>
+                                        </constraints>
                                         <state key="normal" image="Chevron_Down_Icon_Set">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
@@ -650,10 +651,12 @@
                                             <action selector="ReturnToSettingsButtonTapped:" destination="9gE-ur-Y08" eventType="touchUpInside" id="A5g-fd-Fhv"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KzI-oe-N6e" userLabel="Home" customClass="IconUIButton" customModule="Algo_Snake" customModuleProvider="target">
-                                        <rect key="frame" x="379" y="352" width="45" height="45"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KzI-oe-N6e" userLabel="Home" customClass="IconUIButton" customModule="Algo_Snake" customModuleProvider="target">
+                                        <rect key="frame" x="375" y="349" width="45" height="45"/>
                                         <color key="backgroundColor" name="UI Button"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="KzI-oe-N6e" secondAttribute="height" multiplier="1:1" id="naT-t6-Khp"/>
+                                        </constraints>
                                         <state key="normal" image="Home_Icon_Set">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
@@ -663,10 +666,16 @@
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" name="Right View Background"/>
+                                <constraints>
+                                    <constraint firstItem="7gV-6f-ISG" firstAttribute="leading" secondItem="vbn-vY-beB" secondAttribute="trailing" multiplier="20/440" id="7tD-vo-Wha"/>
+                                    <constraint firstAttribute="bottom" secondItem="KzI-oe-N6e" secondAttribute="bottom" multiplier="414/394" id="Tsk-VM-AgT"/>
+                                    <constraint firstItem="7gV-6f-ISG" firstAttribute="height" secondItem="KzI-oe-N6e" secondAttribute="height" id="UYM-W9-FgN"/>
+                                    <constraint firstAttribute="bottom" secondItem="7gV-6f-ISG" secondAttribute="bottom" multiplier="414/394" id="dix-jB-Prm"/>
+                                    <constraint firstAttribute="trailing" secondItem="KzI-oe-N6e" secondAttribute="trailing" multiplier="440/420" id="fuq-bS-Y4H"/>
+                                </constraints>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Jid-tj-SUa" userLabel="Left View" customClass="LeftUIView" customModule="Algo_Snake" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jid-tj-SUa" userLabel="Left View" customClass="LeftUIView" customModule="Algo_Snake" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="296" height="414"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Sound, Design, Code, &amp; Implementation" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UAb-nG-HTZ">
                                         <rect key="frame" x="65" y="16" width="165" height="48"/>
@@ -734,6 +743,17 @@
                             </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="vbn-vY-beB" firstAttribute="top" secondItem="klF-hv-Frw" secondAttribute="top" id="827-IC-EIv"/>
+                            <constraint firstItem="vbn-vY-beB" firstAttribute="bottom" secondItem="klF-hv-Frw" secondAttribute="bottom" id="8ZB-fN-dYf"/>
+                            <constraint firstItem="Jid-tj-SUa" firstAttribute="width" secondItem="1O6-pw-nWf" secondAttribute="width" multiplier="296/736" id="J7Q-yz-gpY"/>
+                            <constraint firstItem="Jid-tj-SUa" firstAttribute="bottom" secondItem="klF-hv-Frw" secondAttribute="bottom" id="PZC-S8-JAL"/>
+                            <constraint firstItem="KzI-oe-N6e" firstAttribute="height" secondItem="1O6-pw-nWf" secondAttribute="height" multiplier="45/414" id="lHg-Zk-zeq"/>
+                            <constraint firstItem="vbn-vY-beB" firstAttribute="width" secondItem="1O6-pw-nWf" secondAttribute="width" multiplier="440/736" id="lRz-fa-pef"/>
+                            <constraint firstItem="Jid-tj-SUa" firstAttribute="top" secondItem="klF-hv-Frw" secondAttribute="top" id="nP9-cw-9um"/>
+                            <constraint firstItem="Jid-tj-SUa" firstAttribute="leading" secondItem="klF-hv-Frw" secondAttribute="leading" id="ogG-FI-000"/>
+                            <constraint firstItem="vbn-vY-beB" firstAttribute="trailing" secondItem="klF-hv-Frw" secondAttribute="trailing" id="qcm-Bp-Jbz"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="klF-hv-Frw"/>
                     </view>
                     <navigationItem key="navigationItem" id="rwE-td-HZQ"/>
@@ -774,6 +794,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="HB8-7U-962"/>
-        <segue reference="Bhq-DF-cdl"/>
+        <segue reference="TDt-jw-j1F"/>
     </inferredMetricsTieBreakers>
 </document>
