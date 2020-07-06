@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
-    <device id="retina5_5" orientation="landscape" appearance="dark"/>
+    <device id="retina5_5" orientation="landscape" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
@@ -21,29 +21,35 @@
                         <rect key="frame" x="0.0" y="0.0" width="736" height="414"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Algo Snake" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="NT7-2O-k5A">
-                                <rect key="frame" x="204" y="178" width="328" height="58"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Copyright © 2019-2020 Álvaro F Santillan. All rights reserved." textAlignment="center" lineBreakMode="wordWrap" baselineAdjustment="none" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="l4n-0Q-zcV">
+                                <rect key="frame" x="73.666666666666686" y="385" width="588.66666666666652" height="14"/>
+                                <fontDescription key="fontDescription" name="Dogica_Pixel" family="Dogica Pixel" pointSize="12"/>
+                                <color key="textColor" name="Text"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" text="Algo Snake" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="NT7-2O-k5A">
+                                <rect key="frame" x="110.33333333333331" y="174.66666666666666" width="515.33333333333348" height="64.666666666666657"/>
                                 <color key="backgroundColor" name="Left View Background"/>
                                 <color key="textColor" name="Text"/>
                                 <fontDescription key="fontDescription" name="Dogica_Pixel" family="Dogica Pixel" pointSize="54"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Copyright © 2019-2020 Álvaro F Santillan. All rights reserved." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l4n-0Q-zcV">
-                                <rect key="frame" x="83" y="382" width="570" height="12"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="Dogica_Pixel" family="Dogica Pixel" pointSize="12"/>
-                                <color key="textColor" name="Text"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" name="Left View Background"/>
+                        <constraints>
+                            <constraint firstItem="l4n-0Q-zcV" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="DR7-Se-tOj"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="l4n-0Q-zcV" secondAttribute="bottom" constant="15" id="PDZ-31-pCR"/>
+                            <constraint firstItem="NT7-2O-k5A" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="gNN-WM-NzZ"/>
+                            <constraint firstItem="l4n-0Q-zcV" firstAttribute="width" secondItem="Ze5-6b-2t3" secondAttribute="width" multiplier="0.8" id="hiR-Yd-Zn5"/>
+                            <constraint firstItem="NT7-2O-k5A" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="iRL-Zg-gY4"/>
+                            <constraint firstItem="NT7-2O-k5A" firstAttribute="width" secondItem="Ze5-6b-2t3" secondAttribute="width" multiplier="0.7" id="ijt-SE-SfB"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="52.989130434782609" y="373.91304347826087"/>
+            <point key="canvasLocation" x="52.173913043478265" y="372.46376811594206"/>
         </scene>
     </scenes>
     <resources>
