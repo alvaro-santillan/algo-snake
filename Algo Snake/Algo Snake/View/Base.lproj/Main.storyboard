@@ -27,8 +27,8 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OZL-bp-kcR" userLabel="Right View">
                                 <rect key="frame" x="368" y="0.0" width="368" height="414"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="oMK-L8-RaK" userLabel="Main Label Stack View">
-                                        <rect key="frame" x="20" y="20" width="328" height="202"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="oMK-L8-RaK" userLabel="Main Label Stack View">
+                                        <rect key="frame" x="20" y="20" width="328" height="94"/>
                                         <subviews>
                                             <textField opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Algo Snake" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OaO-jX-FWi">
                                                 <rect key="frame" x="0.0" y="0.0" width="328" height="40"/>
@@ -44,12 +44,12 @@
                                                 <fontDescription key="fontDescription" name="Dogica_Pixel_Bold" family="Dogica Pixel" pointSize="24"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
-                                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uy8-mX-5pd">
-                                                <rect key="frame" x="0.0" y="40" width="240" height="128"/>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uy8-mX-5pd">
+                                                <rect key="frame" x="0.0" y="40" width="328" height="20"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                             </view>
-                                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="EYG-IF-HxQ" userLabel="Score Stack View">
-                                                <rect key="frame" x="0.0" y="168" width="328" height="34"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EYG-IF-HxQ" userLabel="Score Stack View">
+                                                <rect key="frame" x="0.0" y="60" width="328" height="34"/>
                                                 <subviews>
                                                     <textField opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Lastscore: 0" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FCi-3a-UgI">
                                                         <rect key="frame" x="0.0" y="0.0" width="154" height="34"/>
@@ -67,11 +67,11 @@
                                                         <textInputTraits key="textInputTraits"/>
                                                     </textField>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JiO-p9-PEj">
-                                                        <rect key="frame" x="174" y="0.0" width="32" height="34"/>
+                                                        <rect key="frame" x="154" y="0.0" width="20" height="34"/>
                                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                     </view>
                                                     <textField opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Highscore: 0" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gJU-qy-YPl">
-                                                        <rect key="frame" x="226" y="0.0" width="102" height="34"/>
+                                                        <rect key="frame" x="174" y="0.0" width="154" height="34"/>
                                                         <color key="backgroundColor" name="Right View Background"/>
                                                         <accessibility key="accessibilityConfiguration">
                                                             <accessibilityTraits key="traits" staticText="YES" notEnabled="YES"/>
@@ -89,6 +89,8 @@
                                             <constraint firstItem="OaO-jX-FWi" firstAttribute="leading" secondItem="oMK-L8-RaK" secondAttribute="leading" id="HTn-P6-JMh"/>
                                             <constraint firstAttribute="trailing" secondItem="OaO-jX-FWi" secondAttribute="trailing" id="MKN-M7-reT"/>
                                             <constraint firstAttribute="trailing" secondItem="EYG-IF-HxQ" secondAttribute="trailing" id="YfD-bL-Oy6"/>
+                                            <constraint firstItem="uy8-mX-5pd" firstAttribute="leading" secondItem="oMK-L8-RaK" secondAttribute="leading" id="b59-7X-ZFk"/>
+                                            <constraint firstAttribute="trailing" secondItem="uy8-mX-5pd" secondAttribute="trailing" id="iJ8-Hj-Hxq"/>
                                             <constraint firstAttribute="bottom" secondItem="EYG-IF-HxQ" secondAttribute="bottom" id="ktn-mI-CXe"/>
                                             <constraint firstItem="OaO-jX-FWi" firstAttribute="top" secondItem="oMK-L8-RaK" secondAttribute="top" id="nMX-fH-Htt"/>
                                         </constraints>
@@ -134,10 +136,14 @@
                                 <constraints>
                                     <constraint firstItem="oMK-L8-RaK" firstAttribute="leading" secondItem="OZL-bp-kcR" secondAttribute="trailing" multiplier="20/368" id="6qC-ft-lUg"/>
                                     <constraint firstItem="xML-Cb-vHu" firstAttribute="leading" secondItem="OZL-bp-kcR" secondAttribute="trailing" multiplier="20/368" id="81Q-FY-Y6K"/>
+                                    <constraint firstItem="JiO-p9-PEj" firstAttribute="width" secondItem="OZL-bp-kcR" secondAttribute="width" multiplier="20/368" id="Cye-cs-9CS"/>
+                                    <constraint firstItem="EYG-IF-HxQ" firstAttribute="height" secondItem="OZL-bp-kcR" secondAttribute="height" multiplier="34/414" id="IZN-si-qBF"/>
                                     <constraint firstItem="a8N-5G-4W5" firstAttribute="width" secondItem="OZL-bp-kcR" secondAttribute="width" multiplier="20/368" id="QKn-rf-gfS"/>
                                     <constraint firstAttribute="bottom" secondItem="xML-Cb-vHu" secondAttribute="bottom" multiplier="414/394" id="fEJ-w8-Zbm"/>
                                     <constraint firstAttribute="trailing" secondItem="oMK-L8-RaK" secondAttribute="trailing" multiplier="368/348" id="jMB-yi-M7v"/>
+                                    <constraint firstItem="uy8-mX-5pd" firstAttribute="height" secondItem="OZL-bp-kcR" secondAttribute="height" multiplier="20/414" id="jMj-IN-AYL"/>
                                     <constraint firstItem="oMK-L8-RaK" firstAttribute="top" secondItem="OZL-bp-kcR" secondAttribute="bottom" multiplier="20/414" id="n4k-qZ-n0f"/>
+                                    <constraint firstItem="OaO-jX-FWi" firstAttribute="height" secondItem="OZL-bp-kcR" secondAttribute="height" multiplier="40/414" id="pRo-9Q-U6L"/>
                                     <constraint firstAttribute="trailing" secondItem="xML-Cb-vHu" secondAttribute="trailing" multiplier="368/348" id="vTx-uD-sGF"/>
                                 </constraints>
                             </view>
