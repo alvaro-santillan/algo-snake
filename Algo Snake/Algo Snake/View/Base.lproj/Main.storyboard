@@ -46,7 +46,6 @@
                                             </textField>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uy8-mX-5pd">
                                                 <rect key="frame" x="0.0" y="40" width="328" height="20"/>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                             </view>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EYG-IF-HxQ" userLabel="Score Stack View">
                                                 <rect key="frame" x="0.0" y="60" width="328" height="34"/>
@@ -68,7 +67,6 @@
                                                     </textField>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JiO-p9-PEj">
                                                         <rect key="frame" x="154" y="0.0" width="20" height="34"/>
-                                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                     </view>
                                                     <textField opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Highscore: 0" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gJU-qy-YPl">
                                                         <rect key="frame" x="174" y="0.0" width="154" height="34"/>
@@ -115,7 +113,6 @@
                                             </button>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a8N-5G-4W5">
                                                 <rect key="frame" x="60" y="0.0" width="20" height="60"/>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                             </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JGo-DO-Zbt" customClass="IconUIButton" customModule="Algo_Snake" customModuleProvider="target">
                                                 <rect key="frame" x="80" y="0.0" width="248" height="60"/>
@@ -166,7 +163,6 @@
                                             </segmentedControl>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dol-3z-NyM">
                                                 <rect key="frame" x="0.0" y="31" width="328" height="20"/>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                             </view>
                                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ZpZ-XN-DRd">
                                                 <rect key="frame" x="0.0" y="51" width="328" height="323"/>
@@ -532,7 +528,6 @@
                                     </button>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="et9-wm-bbf">
                                         <rect key="frame" x="90" y="0.0" width="396" height="45"/>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                     </view>
                                     <button opaque="NO" alpha="0.80000000000000004" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5GO-jV-W0k" userLabel="Step / Auto Play " customClass="IconUIButton" customModule="Algo_Snake" customModuleProvider="target">
                                         <rect key="frame" x="486" y="0.0" width="45" height="45"/>
@@ -549,7 +544,6 @@
                                     </button>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hoi-kw-a8i">
                                         <rect key="frame" x="531" y="0.0" width="10" height="45"/>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                     </view>
                                     <button opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gjg-eF-i5t" userLabel="Return To Settings" customClass="IconUIButton" customModule="Algo_Snake" customModuleProvider="target">
                                         <rect key="frame" x="541" y="0.0" width="45" height="45"/>
@@ -566,7 +560,6 @@
                                     </button>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0xp-fm-nUi">
                                         <rect key="frame" x="586" y="0.0" width="10" height="45"/>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                     </view>
                                     <button opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0t6-qA-ACA" userLabel="Home" customClass="IconUIButton" customModule="Algo_Snake" customModuleProvider="target">
                                         <rect key="frame" x="596" y="0.0" width="45" height="45"/>
@@ -583,7 +576,6 @@
                                     </button>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a7y-o8-THV">
                                         <rect key="frame" x="641" y="0.0" width="10" height="45"/>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                     </view>
                                     <button opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="00f-v8-ibJ" userLabel="Return To Settings" customClass="IconUIButton" customModule="Algo_Snake" customModuleProvider="target">
                                         <rect key="frame" x="651" y="0.0" width="45" height="45"/>
@@ -855,6 +847,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="HB8-7U-962"/>
-        <segue reference="TDt-jw-j1F"/>
+        <segue reference="Bhq-DF-cdl"/>
     </inferredMetricsTieBreakers>
 </document>
