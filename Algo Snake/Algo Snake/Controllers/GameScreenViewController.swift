@@ -17,6 +17,7 @@ class GameScreenViewController: UIViewController {
     
     let defaults = UserDefaults.standard
     let legendData = UserDefaults.standard.array(forKey: "Legend Preferences") as! [[Any]]
+    let scenee = SKScene()
     var currentGame: GameManager?
     
     override func viewDidLoad() {
@@ -26,10 +27,34 @@ class GameScreenViewController: UIViewController {
         loadScoreButtonStyling()
         
         if let view = self.view as! SKView? {
-            if let scene = SKScene(fileNamed: "GameScene") {
+            if let scenee = SKScene(fileNamed: "GameScene") {
                 // Present the scene
-                view.presentScene(scene)
-                currentGame = scene as? GameManager
+                view.presentScene(scenee)
+                currentGame = scenee as? GameManager
+                currentGame?.viewController = self
+            }
+        }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        self.view.removeFromSuperview()
+        self.removeFromParent()
+        self.dismiss(animated: true)
+        self.presentingViewController?.removeFromParent()
+        currentGame?.scene.removeFromParent()
+        currentGame?.scene.removeAllChildren()
+        currentGame?.viewController.removeFromParent()
+        
+//        if let view = self.view as? SKView{
+//            self.scene = nil //This is the line that actually got the scene to call denit.
+//            view.presentScene(nil)
+//        }
+        
+        if let view = self.view as! SKView? {
+            if let scenee = SKScene(fileNamed: "GameScene2") {
+                // Present the scene
+                view.presentScene(scenee)
+                currentGame = scenee as? GameManager
                 currentGame?.viewController = self
             }
         }
@@ -107,9 +132,27 @@ class GameScreenViewController: UIViewController {
     }
     
     @IBAction func homeButtonTapped(_ sender: UIButton) {
-        self.removeFromParent()
-        self.currentGame?.viewController.removeFromParent()
-        self.dismiss(animated: true)
+//        self.removeFromParent()
+//        self.currentGame?.viewController.removeFromParent()
+//        self.dismiss(animated: true)
+        self.currentGame?.scene.delocateMemory()
+        
+        currentGame?.scene.removeAllActions()
+        currentGame?.scene.removeAllChildren()
+        currentGame?.viewController.removeFromParent()
+        self.dismiss(animated: true, completion: nil)
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        if let vc = appDelegate.window?.rootViewController {
+            self.dismiss(animated: true) {
+                vc.presentingViewController?.dismiss(animated: true)
+                self.removeFromParent()
+                self.presentingViewController?.removeFromParent()
+                self.currentGame?.scene.removeFromParent()
+                self.currentGame?.scene.removeAllChildren()
+                self.currentGame?.viewController.removeFromParent()
+            }
+        }
     }
     
     @IBAction func stepButtonTapped(_ sender: UIButton) {

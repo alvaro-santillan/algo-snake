@@ -10,8 +10,8 @@ import SpriteKit
 import AVFoundation
 
 class GameManager {
-    var audioPlayer: AVAudioPlayer?
-    var viewController: GameScreenViewController!
+    weak var audioPlayer: AVAudioPlayer?
+    weak var viewController: GameScreenViewController!
     var play = true
     var gameStarted = false
     var matrix = [[Int]]()
@@ -19,7 +19,7 @@ class GameManager {
     var pathBlockCordinates = [Tuple]()
     var pathBlockCordinatesNotReversed = [Tuple]()
     var onPathMode = false
-    var scene: GameScene!
+    weak var scene: GameScene!
     var nextTime: Double?
     var gameSpeed: Float = 1
     var paused = false
@@ -296,6 +296,7 @@ class GameManager {
         updateScore()
         gameIsOver = true
         scene.animationDualButtonManager(buttonsEnabled: false)
+        scene.delocateMemory()
     }
     
     // this is run when game hasent started. fix for optimization.

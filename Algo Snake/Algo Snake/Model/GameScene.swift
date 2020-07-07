@@ -12,7 +12,7 @@ import UIKit
 class GameScene: SKScene {
     // Game construction
     let defaults = UserDefaults.standard
-    var viewController: GameScreenViewController!
+    weak var viewController: GameScreenViewController!
     var game: GameManager!
     var algorithimChoiceName: SKLabelNode!
     var gameBackground: SKShapeNode!
@@ -735,5 +735,14 @@ class GameScene: SKScene {
             self.viewController?.playButton.isEnabled = false
             self.viewController?.barrierButton.isEnabled = false
         }
+    }
+    
+    func delocateMemory() {
+        self.removeAllChildren()
+        self.removeAllActions()
+        self.viewController.removeFromParent()
+        self.scene?.removeFromParent()
+        self.game.viewController.removeFromParent()
+        self.viewController.dismiss(animated: true)
     }
 }
