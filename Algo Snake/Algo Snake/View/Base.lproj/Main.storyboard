@@ -677,69 +677,130 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jid-tj-SUa" userLabel="Left View" customClass="LeftUIView" customModule="Algo_Snake" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="296" height="414"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Sound, Design, Code, &amp; Implementation" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UAb-nG-HTZ">
-                                        <rect key="frame" x="65" y="16" width="165" height="48"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                        <color key="textColor" name="Text"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="By Álvaro Fernando Santillan" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y08-6j-khg">
-                                        <rect key="frame" x="31" y="69" width="232" height="22"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                        <color key="textColor" name="Text"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5bU-CR-ltO" userLabel="Linked-In" customClass="IconUIButton" customModule="Algo_Snake" customModuleProvider="target">
-                                        <rect key="frame" x="44" y="108" width="60" height="60"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" name="Social UI Button"/>
-                                        <state key="normal" image="Linked-In_Icon_Set"/>
-                                        <connections>
-                                            <action selector="linkedInButtonTapped:" destination="9gE-ur-Y08" eventType="touchUpInside" id="iBZ-nH-3qc"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dOa-dg-iZM" userLabel="Github" customClass="IconUIButton" customModule="Algo_Snake" customModuleProvider="target">
-                                        <rect key="frame" x="118" y="108" width="60" height="60"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" name="Social UI Button"/>
-                                        <state key="normal" image="Globe_Icon_Set"/>
-                                        <connections>
-                                            <action selector="personalWebisteButtonTapped:" destination="9gE-ur-Y08" eventType="touchUpInside" id="CfQ-zT-hfN"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bjA-tu-N8I" userLabel="Github" customClass="IconUIButton" customModule="Algo_Snake" customModuleProvider="target">
-                                        <rect key="frame" x="192" y="108" width="60" height="60"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" name="Social UI Button"/>
-                                        <state key="normal" image="GitHub_Icon_Set"/>
-                                        <connections>
-                                            <action selector="githubButtonTapped:" destination="9gE-ur-Y08" eventType="touchUpInside" id="ScO-5C-eJF"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pbF-dl-b7y" customClass="TextUIButton" customModule="Algo_Snake" customModuleProvider="target">
-                                        <rect key="frame" x="80" y="181" width="134" height="45"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" name="Social UI Button"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                        <state key="normal" title="Rate">
-                                            <color key="titleColor" name="Text"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="rateButtonTapped:" destination="9gE-ur-Y08" eventType="touchUpInside" id="sqk-Yn-f7s"/>
-                                        </connections>
-                                    </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xIX-3Z-EMF">
-                                        <rect key="frame" x="11" y="353" width="272" height="53"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <string key="text">Made from scratch with Love, Swift 5, Xcode, and a Stack Overflow post or 2. Copyright © 2019-2020 Álvaro F Santillan. All rights reserved.</string>
-                                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                        <color key="textColor" name="Text"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="XhU-bh-uND">
+                                        <rect key="frame" x="10" y="20" width="276" height="384"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sound, Design, Code, &amp; Implementation" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="UAb-nG-HTZ">
+                                                <rect key="frame" x="55.666666666666686" y="0.0" width="165" height="48"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                <color key="textColor" name="Text"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="H5F-gD-omS">
+                                                <rect key="frame" x="53.666666666666657" y="48" width="169" height="10"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                            </view>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="By Álvaro Fernando Santillan" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="y08-6j-khg">
+                                                <rect key="frame" x="29" y="58" width="218" height="22"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                <color key="textColor" name="Text"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gmU-JS-nk3">
+                                                <rect key="frame" x="18" y="80" width="240" height="10"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                            </view>
+                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kws-t9-gxm">
+                                                <rect key="frame" x="38" y="90" width="200" height="60"/>
+                                                <subviews>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5bU-CR-ltO" userLabel="Linked-In" customClass="IconUIButton" customModule="Algo_Snake" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
+                                                        <color key="backgroundColor" name="Social UI Button"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" secondItem="5bU-CR-ltO" secondAttribute="height" multiplier="1:1" id="85g-KK-Lln"/>
+                                                        </constraints>
+                                                        <state key="normal" image="Linked-In_Icon_Set"/>
+                                                        <connections>
+                                                            <action selector="linkedInButtonTapped:" destination="9gE-ur-Y08" eventType="touchUpInside" id="iBZ-nH-3qc"/>
+                                                        </connections>
+                                                    </button>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="i6x-9N-uhg">
+                                                        <rect key="frame" x="60" y="0.0" width="10" height="60"/>
+                                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                    </view>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dOa-dg-iZM" userLabel="Github" customClass="IconUIButton" customModule="Algo_Snake" customModuleProvider="target">
+                                                        <rect key="frame" x="70" y="0.0" width="60" height="60"/>
+                                                        <color key="backgroundColor" name="Social UI Button"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" secondItem="dOa-dg-iZM" secondAttribute="height" multiplier="1:1" id="pKC-hV-YG5"/>
+                                                        </constraints>
+                                                        <state key="normal" image="Globe_Icon_Set"/>
+                                                        <connections>
+                                                            <action selector="personalWebisteButtonTapped:" destination="9gE-ur-Y08" eventType="touchUpInside" id="CfQ-zT-hfN"/>
+                                                        </connections>
+                                                    </button>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RhV-0F-Jbl">
+                                                        <rect key="frame" x="130" y="0.0" width="10" height="60"/>
+                                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                    </view>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bjA-tu-N8I" userLabel="Github" customClass="IconUIButton" customModule="Algo_Snake" customModuleProvider="target">
+                                                        <rect key="frame" x="140" y="0.0" width="60" height="60"/>
+                                                        <color key="backgroundColor" name="Social UI Button"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" secondItem="bjA-tu-N8I" secondAttribute="height" multiplier="1:1" id="eiA-Fr-O5C"/>
+                                                        </constraints>
+                                                        <state key="normal" image="GitHub_Icon_Set"/>
+                                                        <connections>
+                                                            <action selector="githubButtonTapped:" destination="9gE-ur-Y08" eventType="touchUpInside" id="ScO-5C-eJF"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="v0P-FU-9Y9">
+                                                <rect key="frame" x="38" y="150" width="200" height="194.33333333333337"/>
+                                                <subviews>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="73F-cG-W98">
+                                                        <rect key="frame" x="0.0" y="0.0" width="155" height="10"/>
+                                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                    </view>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pbF-dl-b7y" customClass="TextUIButton" customModule="Algo_Snake" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="10" width="200" height="36"/>
+                                                        <color key="backgroundColor" name="Social UI Button"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                        <state key="normal" title="Rate">
+                                                            <color key="titleColor" name="Text"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="rateButtonTapped:" destination="9gE-ur-Y08" eventType="touchUpInside" id="sqk-Yn-f7s"/>
+                                                        </connections>
+                                                    </button>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r7n-vV-tEK">
+                                                        <rect key="frame" x="0.0" y="46" width="155" height="148.33333333333334"/>
+                                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                    </view>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstItem="pbF-dl-b7y" firstAttribute="centerX" secondItem="v0P-FU-9Y9" secondAttribute="centerX" id="KWO-0Y-yEz"/>
+                                                </constraints>
+                                            </stackView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" minimumFontSize="4" translatesAutoresizingMaskIntoConstraints="NO" id="xIX-3Z-EMF">
+                                                <rect key="frame" x="1.6666666666666572" y="344.33333333333331" width="272.66666666666674" height="39.666666666666686"/>
+                                                <string key="text">Made from scratch with Love, Swift 5, Xcode, and a Stack Overflow post or 2. Copyright © 2019-2020 Álvaro F Santillan. All rights reserved.</string>
+                                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                <color key="textColor" name="Text"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
                                 </subviews>
                                 <color key="backgroundColor" name="Left View Background"/>
+                                <constraints>
+                                    <constraint firstItem="RhV-0F-Jbl" firstAttribute="width" secondItem="Jid-tj-SUa" secondAttribute="width" multiplier="10/296" id="1OO-ae-ufb"/>
+                                    <constraint firstItem="y08-6j-khg" firstAttribute="width" secondItem="Jid-tj-SUa" secondAttribute="width" multiplier="218/296" id="7P3-Vc-esl"/>
+                                    <constraint firstAttribute="trailing" secondItem="XhU-bh-uND" secondAttribute="trailing" constant="10" id="BWp-gJ-ceJ"/>
+                                    <constraint firstItem="pbF-dl-b7y" firstAttribute="width" secondItem="Jid-tj-SUa" secondAttribute="width" multiplier="200/296" id="Dc4-nR-XGO"/>
+                                    <constraint firstItem="H5F-gD-omS" firstAttribute="height" secondItem="Jid-tj-SUa" secondAttribute="height" multiplier="10/414" id="Jvb-nf-dud"/>
+                                    <constraint firstItem="y08-6j-khg" firstAttribute="height" secondItem="Jid-tj-SUa" secondAttribute="height" multiplier="22/414" id="Pij-bN-Xew"/>
+                                    <constraint firstItem="i6x-9N-uhg" firstAttribute="width" secondItem="Jid-tj-SUa" secondAttribute="width" multiplier="10/296" id="Ske-WC-tiJ"/>
+                                    <constraint firstAttribute="bottom" secondItem="XhU-bh-uND" secondAttribute="bottom" constant="10" id="UA7-J1-ejb"/>
+                                    <constraint firstItem="gmU-JS-nk3" firstAttribute="height" secondItem="Jid-tj-SUa" secondAttribute="height" multiplier="10/414" id="acc-Wr-Hin"/>
+                                    <constraint firstItem="UAb-nG-HTZ" firstAttribute="width" secondItem="Jid-tj-SUa" secondAttribute="width" multiplier="165/296" id="b6c-NV-rU3"/>
+                                    <constraint firstItem="Kws-t9-gxm" firstAttribute="height" secondItem="Jid-tj-SUa" secondAttribute="height" multiplier="60/414" id="cmf-3e-xP2"/>
+                                    <constraint firstItem="73F-cG-W98" firstAttribute="height" secondItem="Jid-tj-SUa" secondAttribute="height" multiplier="10/414" id="kuy-YC-03s"/>
+                                    <constraint firstItem="XhU-bh-uND" firstAttribute="top" secondItem="Jid-tj-SUa" secondAttribute="top" constant="20" id="s9Q-b1-Pek"/>
+                                    <constraint firstItem="XhU-bh-uND" firstAttribute="leading" secondItem="Jid-tj-SUa" secondAttribute="leading" constant="10" id="un4-zG-Lwd"/>
+                                    <constraint firstItem="UAb-nG-HTZ" firstAttribute="height" secondItem="Jid-tj-SUa" secondAttribute="height" multiplier="48/414" id="xzb-vl-UPx"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
