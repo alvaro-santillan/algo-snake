@@ -30,7 +30,6 @@
 		387FD13B241DC51C0004FD78 /* MainScreenTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387FD13A241DC51C0004FD78 /* MainScreenTableViewCell.swift */; };
 		38B35F34248858D9009E2613 /* sfx_coin_single3.wav in Resources */ = {isa = PBXBuildFile; fileRef = 38B35F33248858D9009E2613 /* sfx_coin_single3.wav */; };
 		38B35F3624885B11009E2613 /* sfx_coin_double3.wav in Resources */ = {isa = PBXBuildFile; fileRef = 38B35F3524885B11009E2613 /* sfx_coin_double3.wav */; };
-		38EA8C5224B5002B0091003F /* test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EA8C5124B5002B0091003F /* test.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -59,7 +58,6 @@
 		387FD13A241DC51C0004FD78 /* MainScreenTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenTableViewCell.swift; sourceTree = "<group>"; };
 		38B35F33248858D9009E2613 /* sfx_coin_single3.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = sfx_coin_single3.wav; sourceTree = "<group>"; };
 		38B35F3524885B11009E2613 /* sfx_coin_double3.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = sfx_coin_double3.wav; sourceTree = "<group>"; };
-		38EA8C5124B5002B0091003F /* test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,7 +139,6 @@
 				382F0F1624AD527B0022E521 /* Custom Data Structures.swift */,
 				382F0F1C24AD70750022E521 /* Algorithms */,
 				3812394623C68E290066B3FA /* GameScene.swift */,
-				38EA8C5124B5002B0091003F /* test.swift */,
 				3812395823C68F450066B3FA /* Game.swift */,
 			);
 			path = Model;
@@ -258,7 +255,6 @@
 				382F0F1E24AD71990022E521 /* BreadthFirstSearch.swift in Sources */,
 				382F0F1924AD53660022E521 /* AlgorithmHelper.swift in Sources */,
 				3868F9822426B5EC008F7B34 /* SettingsScreenTableViewCell.swift in Sources */,
-				38EA8C5224B5002B0091003F /* test.swift in Sources */,
 				3868F97E24269985008F7B34 /* GameScreenViewController.swift in Sources */,
 				3803D89B2497F7D7002A6251 /* Custom UI Managers.swift in Sources */,
 				3812394723C68E290066B3FA /* GameScene.swift in Sources */,

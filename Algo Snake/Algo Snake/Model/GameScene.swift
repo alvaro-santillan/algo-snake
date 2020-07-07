@@ -736,13 +736,4 @@ class GameScene: SKScene {
             self.viewController?.barrierButton.isEnabled = false
         }
     }
-    
-    func delocateMemory() {
-        self.removeAllChildren()
-        self.removeAllActions()
-        self.viewController.removeFromParent()
-        self.scene?.removeFromParent()
-        self.game.viewController.removeFromParent()
-        self.viewController.dismiss(animated: true)
-    }
 }

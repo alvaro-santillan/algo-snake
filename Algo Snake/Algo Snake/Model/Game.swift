@@ -50,28 +50,28 @@ class GameManager {
         horizontalMaxBoundry = (scene.columnCount - 2)
         horizontalMinBoundry = 1
         
-        var node = scene.gameBoard.first(where: {$0.location == Tuple(x: 2, y: 7)})!.square
-        snakeBodyPos.append(SkNodeAndLocation(square: node, location: Tuple(x: 2, y: 7)))
+        weak var node = scene.gameBoard.first(where: {$0.location == Tuple(x: 2, y: 7)})!.square
+        snakeBodyPos.append(SkNodeAndLocation(square: node!, location: Tuple(x: 2, y: 7)))
         matrix[2][7] = 1
 
         node = scene.gameBoard.first(where: {$0.location == Tuple(x: 2, y: 6)})!.square
-        snakeBodyPos.append(SkNodeAndLocation(square: node, location: Tuple(x: 2, y: 6)))
+        snakeBodyPos.append(SkNodeAndLocation(square: node!, location: Tuple(x: 2, y: 6)))
         matrix[2][6] = 2
 
         node = scene.gameBoard.first(where: {$0.location == Tuple(x: 2, y: 5)})!.square
-        snakeBodyPos.append(SkNodeAndLocation(square: node, location: Tuple(x: 2, y: 5)))
+        snakeBodyPos.append(SkNodeAndLocation(square: node!, location: Tuple(x: 2, y: 5)))
         matrix[2][5] = 2
 
         node = scene.gameBoard.first(where: {$0.location == Tuple(x: 2, y: 4)})!.square
-        snakeBodyPos.append(SkNodeAndLocation(square: node, location: Tuple(x: 2, y: 4)))
+        snakeBodyPos.append(SkNodeAndLocation(square: node!, location: Tuple(x: 2, y: 4)))
         matrix[2][4] = 2
 
         node = scene.gameBoard.first(where: {$0.location == Tuple(x: 2, y: 3)})!.square
-        snakeBodyPos.append(SkNodeAndLocation(square: node, location: Tuple(x: 2, y: 3)))
+        snakeBodyPos.append(SkNodeAndLocation(square: node!, location: Tuple(x: 2, y: 3)))
         matrix[2][3] = 2
 
         node = scene.gameBoard.first(where: {$0.location == Tuple(x: 2, y: 2)})!.square
-        snakeBodyPos.append(SkNodeAndLocation(square: node, location: Tuple(x: 2, y: 2)))
+        snakeBodyPos.append(SkNodeAndLocation(square: node!, location: Tuple(x: 2, y: 2)))
         matrix[2][2] = 2
         
         gameStarted = true
@@ -296,7 +296,6 @@ class GameManager {
         updateScore()
         gameIsOver = true
         scene.animationDualButtonManager(buttonsEnabled: false)
-        scene.delocateMemory()
     }
     
     // this is run when game hasent started. fix for optimization.
@@ -308,8 +307,6 @@ class GameManager {
             // Implement wraping snake in god mode.
             // If head is in same position as the body the snake is dead.
             // The snake dies in corners becouse blocks are stacked.
-            
-
             
             if !(UserDefaults.standard.bool(forKey: "God Button On Setting")) {
                 if snakeBody.contains(snakeBodyPos[0]) {
