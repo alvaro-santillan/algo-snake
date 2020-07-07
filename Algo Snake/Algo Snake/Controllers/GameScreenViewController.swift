@@ -15,6 +15,8 @@ class GameScreenViewController: UIViewController {
     @IBOutlet weak var homeButton: UIButton!
     @IBOutlet weak var settingsButton: UIButton!
     
+    weak var mainScreenViewController: MainScreenViewController!
+    
     let defaults = UserDefaults.standard
     let legendData = UserDefaults.standard.array(forKey: "Legend Preferences") as! [[Any]]
     let scenee = SKScene()
@@ -23,6 +25,7 @@ class GameScreenViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         loadUserData()
+        homeButtonDisabler()
         loadButtonStyling()
         loadScoreButtonStyling()
         
@@ -38,6 +41,15 @@ class GameScreenViewController: UIViewController {
     
     func loadUserData() {
         defaults.bool(forKey: "Dark Mode On Setting") ? (overrideUserInterfaceStyle = .dark) : (overrideUserInterfaceStyle = .light)
+    }
+    
+    // If home button is pressed right as view loads a memory leak ocurse.
+    func homeButtonDisabler() {
+        homeButton.isEnabled = false
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            self.homeButton.isEnabled = true
+        }
     }
     
     func loadButtonStyling() {

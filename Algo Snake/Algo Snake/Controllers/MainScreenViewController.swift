@@ -11,6 +11,7 @@ import UIKit
 class MainScreenViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var segControl: UISegmentedControl!
     @IBOutlet weak var tableVIew: UITableView!
+    @IBOutlet weak var startButton: UIButton!
     @IBOutlet weak var lastScoreLabel: UITextField!
     @IBOutlet weak var highScoreLabel: UITextField!
     
@@ -82,7 +83,7 @@ class MainScreenViewController: UIViewController, UITableViewDelegate, UITableVi
         }
     }
     
-     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         var choice = Int()
         segControl.selectedSegmentIndex == 0 ? (choice = selectedPathAlgorithim) : (choice = selectedMazeAlgorithim)
         tableView.selectRow(at: [0, choice], animated: true, scrollPosition: UITableView.ScrollPosition.none)

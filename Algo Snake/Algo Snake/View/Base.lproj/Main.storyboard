@@ -238,6 +238,7 @@
                         <outlet property="highScoreLabel" destination="gJU-qy-YPl" id="ie6-zz-4zG"/>
                         <outlet property="lastScoreLabel" destination="FCi-3a-UgI" id="4mG-fI-T6J"/>
                         <outlet property="segControl" destination="yaF-nE-mbW" id="Nyz-H9-xgz"/>
+                        <outlet property="startButton" destination="JGo-DO-Zbt" id="Vwl-Ml-giD"/>
                         <outlet property="tableVIew" destination="ZpZ-XN-DRd" id="LEd-PV-iKZ"/>
                     </connections>
                 </viewController>
