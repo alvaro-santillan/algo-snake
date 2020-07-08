@@ -225,7 +225,7 @@ class GameManager {
                     displayPathSquareArray.removeLast()
                 }
                 pathBlockCordinates.remove(at: 0)
-                playSound(selectedSoundFileName: "sfx_coin_single3")
+//                playSound(selectedSoundFileName: "sfx_coin_single3")
                 onPathMode = true
             } else {
                 onPathMode = false
@@ -295,6 +295,7 @@ class GameManager {
         self.viewController?.scoreButton.layer.borderColor = UIColor.red.cgColor
         updateScore()
         gameIsOver = true
+        currentScore = 0
         scene.animationDualButtonManager(buttonsEnabled: false)
     }
     
@@ -345,6 +346,7 @@ class GameManager {
                     // Update the score
                     if !(UserDefaults.standard.bool(forKey: "God Button On Setting")) {
                         currentScore += 1
+                        scene.updateScoreButtonText()
                         updateScore()
                      }
                     
@@ -492,7 +494,7 @@ class GameManager {
         
         // Reset and present score variables on game menu.
         UserDefaults.standard.set(currentScore, forKey: "lastScore")
-         currentScore = 0
+//         currentScore = 0
     }
 }
 

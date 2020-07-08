@@ -99,8 +99,8 @@ class GameScene: SKScene {
             gameBackground!.fillColor = gameBackgroundColor
             gameBackground!.strokeColor = gameBackgroundColor
             algorithimChoiceName.fontColor = screenLabelColor
-            self.viewController?.scoreButton.layer.borderColor = scoreButtonColor.withAlphaComponent(0.8).cgColor
-            self.viewController?.scoreButton.layer.backgroundColor = scoreButtonColor.withAlphaComponent(0.5).cgColor
+//            self.viewController?.scoreButton.layer.borderColor = scoreButtonColor.withAlphaComponent(0.8).cgColor
+//            self.viewController?.scoreButton.layer.backgroundColor = scoreButtonColor.withAlphaComponent(0.5).cgColor
             
             // Check and respond to clear button interactions.
             clearButtonManager()
@@ -179,6 +179,7 @@ class GameScene: SKScene {
             
             for i in game.barrierNodesWaitingToBeDisplayed {
                 i.square.fillColor = barrierSquareColor
+//                updateScoreButtonText()
             }
         }
         
@@ -386,12 +387,16 @@ class GameScene: SKScene {
                         if !(IsSquareOccupied(squareLocation: squareLocation)) {
                             if self.viewController?.barrierButton.isEnabled == true {
                                 if defaults.bool(forKey: "Add Barrier Mode On Setting") {
+//                                    updateScoreButtonText()
                                     game.barrierNodesWaitingToBeDisplayed.append(SkNodeAndLocation(square: selectedSquare, location: squareLocation))
                                     selectedSquare.fillColor = barrierSquareColor
+                                    colorTheBarriers()
                                     game.matrix[squareLocation.x][squareLocation.y] = 7
                                 } else {
+//                                    updateScoreButtonText()
                                     game.barrierNodesWaitingToBeRemoved.append(SkNodeAndLocation(square: selectedSquare, location: squareLocation))
                                     selectedSquare.fillColor = gameboardSquareColor
+                                    colorTheBarriers()
                                     game.matrix[squareLocation.x][squareLocation.y] = 0
                                 }
                             }
@@ -502,6 +507,7 @@ class GameScene: SKScene {
             if !(game.foodPosition.contains(squareAndLocation)) && (game.snakeBodyPos[0] != squareAndLocation) {
                 squareAndLocation.square.run(.sequence([animationSequanceManager(animation: 2)]))
                 squareAndLocation.square.fillColor = visitedSquareColor
+                updateScoreButtonText()
             }
             animatedVisitedSquareCount += 1
             
@@ -535,6 +541,7 @@ class GameScene: SKScene {
             if !(game.foodPosition.contains(squareAndLocation)) && (game.snakeBodyPos[0] != squareAndLocation) {
                 squareAndLocation.square.run(.sequence([animationSequanceManager(animation: 2)]))
                 squareAndLocation.square.fillColor = queuedSquareColor
+                updateScoreButtonText()
             }
             animatedQueuedSquareCount += 1
         }
@@ -555,6 +562,7 @@ class GameScene: SKScene {
             if squareIndex != 0 && squareIndex != lastIndex {
                 square.run(.sequence([animationSequanceManager(animation: 2)]))
                 square.fillColor = pathSquareColor
+                updateScoreButtonText()
             }
 
             // runs one time.
@@ -643,6 +651,7 @@ class GameScene: SKScene {
         for i in (game.barrierNodesWaitingToBeDisplayed) {
             i.square.fillColor = barrierSquareColor
         }
+        updateScoreButtonText()
     }
     
     // Start: Animation helper function.
