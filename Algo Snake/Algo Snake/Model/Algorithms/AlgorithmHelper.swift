@@ -9,7 +9,7 @@
 import Foundation
 
 class AlgorithmHelper {
-    var scene: GameScene!
+    weak var scene: GameScene!
     var movePath = [Int]()
     var squareAndNoParentArrayPath = [(Tuple)]()
     var squareAndParentSquareTuplePath = [Tuple : Tuple]()

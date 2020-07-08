@@ -18,7 +18,7 @@ import Foundation
 import SpriteKit
 
 class BreadthFirstSearch {
-    var scene: GameScene!
+    weak var scene: GameScene!
     var conditionGreen = Bool()
     var conditionYellow = Bool()
     var conditionRed = Bool()

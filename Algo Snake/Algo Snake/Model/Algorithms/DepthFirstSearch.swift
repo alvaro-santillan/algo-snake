@@ -17,7 +17,7 @@ import Foundation
 import SpriteKit
 
 class DepthFirstSearch {
-    var scene: GameScene!
+    weak var scene: GameScene!
     var conditionGreen = Bool()
     var conditionYellow = Bool()
     var conditionRed = Bool()
