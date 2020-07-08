@@ -225,7 +225,7 @@ class GameManager {
                     displayPathSquareArray.removeLast()
                 }
                 pathBlockCordinates.remove(at: 0)
-//                playSound(selectedSoundFileName: "sfx_coin_single3")
+                playSound(selectedSoundFileName: "sfx_coin_single3")
                 onPathMode = true
             } else {
                 onPathMode = false
@@ -371,6 +371,7 @@ class GameManager {
                 let sound = try AVAudioPlayer(contentsOf: url)
                 self.audioPlayer = sound
                 sound.play()
+                print(sound, "sound play")
             } catch {
                 print("Error playing file")
             }

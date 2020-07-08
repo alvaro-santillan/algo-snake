@@ -94,6 +94,8 @@
 				383DB1A024AC591B0071EC65 /* Model */,
 				384607BC23E7ECCD001C944D /* Controllers */,
 				3812394D23C68E2C0066B3FA /* Assets.xcassets */,
+				38B35F33248858D9009E2613 /* sfx_coin_single3.wav */,
+				38B35F3524885B11009E2613 /* sfx_coin_double3.wav */,
 				383DB19C24AC56190071EC65 /* Fonts */,
 				383DB19F24AC57E90071EC65 /* Sounds */,
 				3812395223C68E2C0066B3FA /* Info.plist */,
@@ -125,8 +127,6 @@
 		383DB19F24AC57E90071EC65 /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
-				38B35F3524885B11009E2613 /* sfx_coin_double3.wav */,
-				38B35F33248858D9009E2613 /* sfx_coin_single3.wav */,
 			);
 			path = Sounds;
 			sourceTree = "<group>";
@@ -419,7 +419,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.alvarosantillan.Algo-Snake";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -438,7 +438,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.alvarosantillan.Algo-Snake";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
