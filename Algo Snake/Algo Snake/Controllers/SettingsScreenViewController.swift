@@ -28,6 +28,8 @@ class SettingsSceenViewController: UIViewController, UITableViewDelegate, UITabl
     @IBOutlet weak var stepOrPlayPauseButton: UIButton!
     @IBOutlet weak var darkOrLightModeButton: UIButton!
     
+    weak var gameScreenViewController: GameScreenViewController!
+    
     let defaults = UserDefaults.standard
     var legendData = UserDefaults.standard.array(forKey: "Legend Preferences") as! [[Any]]
     
@@ -159,5 +161,16 @@ class SettingsSceenViewController: UIViewController, UITableViewDelegate, UITabl
             })
         }
         tableVIew.reloadData()
+    }
+    
+    @IBAction func homeButtonTapped(_ sender: UIButton) {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        if let vc = appDelegate.window?.rootViewController {
+            self.gameScreenViewController = (vc.presentedViewController as? GameScreenViewController)
+
+            self.dismiss(animated: true) {
+                self.gameScreenViewController.dismiss(animated: true, completion: nil)
+            }
+        }
     }
 }

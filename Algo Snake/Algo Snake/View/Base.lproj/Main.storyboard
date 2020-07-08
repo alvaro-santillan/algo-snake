@@ -502,7 +502,7 @@
                                                     <color key="titleColor" name="Text"/>
                                                 </state>
                                                 <connections>
-                                                    <segue destination="BV1-FR-VrT" kind="show" id="Bhq-DF-cdl"/>
+                                                    <action selector="homeButtonTapped:" destination="x7L-u7-4Ti" eventType="touchUpInside" id="z8G-gu-PiH"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -983,6 +983,5 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="f62-Ey-MOA"/>
-        <segue reference="Bhq-DF-cdl"/>
     </inferredMetricsTieBreakers>
 </document>
