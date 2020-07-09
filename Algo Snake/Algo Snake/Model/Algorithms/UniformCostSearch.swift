@@ -1,8 +1,8 @@
 //
-//  DepthFirstSearch.swift
+//  UniformCostSearch.swift
 //  Algo Snake
 //
-//  Created by Álvaro Santillan on 7/1/20.
+//  Created by Álvaro Santillan on 7/9/20.
 //  Copyright © 2020 Álvaro Santillan. All rights reserved.
 //
 
@@ -16,7 +16,7 @@
 import Foundation
 import SpriteKit
 
-class DepthFirstSearch {
+class UniformCostSearch {
     weak var scene: GameScene!
     var conditionGreen = Bool()
     var conditionYellow = Bool()
@@ -42,69 +42,85 @@ class DepthFirstSearch {
         }
         fronteerSquareArray.append(innerFronterSKSquareArray)
     }
-
-    // DFS produces a dictionary in which each valid square points too only one parent.
+    
+    // Simulated priority queue using a simulated heap.
+    class PriorityQueue {
+        var heap:[Float : Tuple]  = [:]
+        
+        init(square: Tuple, cost: Float) {
+            // Add first square manually.
+            add(square: square, cost: cost)
+        }
+        
+        // Add a passed tuple to the frontier
+        func add(square: Tuple, cost: Float) {
+            heap[cost] = square
+        }
+        
+        // Return the lowest-cost tuple, and pop it off the frontier
+        func pop() -> (Float?, Tuple?) {
+            let minSquareAndCost = heap.min { a, b in a.key < b.key }
+            heap.removeValue(forKey: minSquareAndCost!.key)
+            return (minSquareAndCost?.key, minSquareAndCost?.value)
+        }
+    }
+        
+    // UCS produces a dictionary in which each valid square points too only one parent.
     // Then the dictionary is processed to create a valid path.
     // The nodes are traversed in order found in the dictionary parameter.
-    func depthFirstSearch(startSquare: Tuple, foodLocations: [SkNodeAndLocation], gameBoard: [Tuple : Dictionary<Tuple, Float>], returnPathCost: Bool, returnSquaresVisited: Bool) -> (([Int], [(Tuple)], Int, Int), [SkNodeAndLocation], [[SkNodeAndLocation]], [SkNodeAndLocation], [Bool]) {
+    func uniformCostSearch(startSquare: Tuple, foodLocations: [SkNodeAndLocation], gameBoard: [Tuple : Dictionary<Tuple, Float>], returnPathCost: Bool, returnSquaresVisited: Bool) -> (([Int], [(Tuple)], Int, Int), [SkNodeAndLocation], [[SkNodeAndLocation]], [SkNodeAndLocation], [Bool]) {
         let algorithmHelperObject = AlgorithmHelper(scene: scene)
         // Initalize variable and add first square manually.
         var visitedSquares = [Tuple]()
-        var fronterSquares = [startSquare]
+        // Initiate a priority queue class.
+        let priorityQueueClass = PriorityQueue(square: startSquare, cost: 0)
         var currentSquare = startSquare
+        var currentCost = Float()
         var visitedSquareCount = 1
         // Dictionary used to find a path, every square will have only one parent.
         var squareAndParentSquare = [startSquare : Tuple(x:-1, y:-1)]
-        
+
         // Break once the goal is reached (the goals parent is noted a cycle before when it was a new node.)
-        
+        // Note if statment bellow breaks for the while (bug to fix).
         while (!(foodLocations.contains(where: { $0.location == currentSquare }))) {
-            // Mark current node as visited. (If statement required due to first node.)
-            if !(visitedSquares.contains(currentSquare)) {
-                visitedSquares += [currentSquare]
-                visitedSquareBuilder(visitedX: currentSquare.y, visitedY: currentSquare.x)
-                visitedSquareCount += 1
+            // Set the path cost and the current square equal to the lowest path node in the priority queue.
+            // Pop the square as well (mark as visited)
+            (currentCost, currentSquare) = priorityQueueClass.pop() as! (Float, Tuple)
+            
+            // Break the loop one goalSquare is in sight (To-Do optimize this).
+            if (foodLocations.contains(where: { $0.location == currentSquare })) {
+                break
             }
             
-            // Repeat through all the nodes in the sub dictionary.
-            // Append to fronter and mark parent.
+            visitedSquares += [currentSquare]
+            visitedSquareBuilder(visitedX: currentSquare.y, visitedY: currentSquare.x)
+            visitedSquareCount += 1
+            
+            // Repeat through all the squares in the sub dictionary.
+            // Update the info stored for the child squares.
             var newFornterSquareHolder = [Tuple]()
             // If statment handles seg fault so that game can continue.
             if gameBoard[currentSquare] != nil {
-                for (prospectFronterSquare, _) in gameBoard[currentSquare]! {
-                    if !(visitedSquares.contains(prospectFronterSquare)) {
-                        if !(fronterSquares.contains(prospectFronterSquare)) {
-                            fronterSquares += [prospectFronterSquare]
-                            newFornterSquareHolder.append(Tuple(x: prospectFronterSquare.x, y: prospectFronterSquare.y))
-                            squareAndParentSquare[prospectFronterSquare] = currentSquare
+                for (prospectSquare, prospectSquareCost) in gameBoard[currentSquare]! {
+                    // Calculate the path cost to the new square.
+                    let prospectPathCost = currentCost + prospectSquareCost + 1
+                    
+                    // If the square has not been visited add to the add to the queue and mark its parent.
+                    if !(visitedSquares.contains(prospectSquare)) {
+                        if !(priorityQueueClass.heap.values.contains(prospectSquare)) {
+                            
+                            priorityQueueClass.add(square: prospectSquare, cost: prospectPathCost)
+                            newFornterSquareHolder.append(Tuple(x: prospectSquare.x, y: prospectSquare.y))
+                            squareAndParentSquare[prospectSquare] = currentSquare
                         }
                     }
                 }
-            }
-            fronteerSquaresBuilder(squareArray: newFornterSquareHolder)
-            
-            if fronterSquares.count != 0 {
-                currentSquare = fronterSquares.last!
-                fronterSquares.popLast()
             } else {
-                conditionGreen = false
-                conditionYellow = true
-                conditionRed = false
-                
-                if conditionYellow == true && squareAndParentSquare.count < 15 {
-                    conditionGreen = false
-                    conditionYellow = false
-                    conditionRed = true
-                }
-                
                 return(algorithmHelperObject.formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: currentSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited), visitedNodeArray: visitedSquareArray, fronteerSquareArray: fronteerSquareArray, pathSquareArray: pathSquareArray, conditions: [conditionGreen, conditionYellow, conditionRed])
             }
+            fronteerSquaresBuilder(squareArray: newFornterSquareHolder)
         }
-        // Genarate a path and optional statistics from the results of DFS.
-        conditionGreen = true
-        conditionYellow = false
-        conditionRed = false
-
+        // Genarate a path and optional statistics from the results of UCS.
         return(algorithmHelperObject.formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: currentSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited), visitedNodeArray: visitedSquareArray, fronteerSquareArray: fronteerSquareArray, pathSquareArray: pathSquareArray, conditions: [conditionGreen, conditionYellow, conditionRed])
     }
 }

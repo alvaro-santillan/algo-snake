@@ -15,7 +15,12 @@ class MainScreenViewController: UIViewController, UITableViewDelegate, UITableVi
     @IBOutlet weak var lastScoreLabel: UITextField!
     @IBOutlet weak var highScoreLabel: UITextField!
     
-    let pathFindingAlgorithmList = [["Player","0","0"], ["Coming Soon","0","0"], ["Breath First Search","1","0"], ["Depth First Search","1","0"], ["Coming Soon","0","0"], ["Coming Soon","0","0"], ["Coming Soon","0","0"]]
+    
+    //let pathFindingAlgorithmList = [["Player","0","0"], ["A-Star Search","1","1"], ["Breath First Search","1","0"], ["Depth First Search","1","0"], ["Dijkstra's Search","1","1"], ["Greedy Depth First Search","1","0"], ["Uniform Cost Search","1","1"]]
+    
+    //let mazeGenrationAlgorithimList = [["None","0","0"], ["Breadth-first search","1","0"], ["Depth-first search","1","0"], ["Eller's algorithm","1","1"], ["Hunt and kill algorithm","1","1"], ["Kruskal's algorithm","1","1"], ["Prim's algorithm","1","1"], ["Recursive backtracking algorithm","1","1"], ["Sidewinder algorithm","1","1"]]
+    
+    let pathFindingAlgorithmList = [["Player","0","0"], ["Coming Soon","0","0"], ["Breath First Search","1","0"], ["Depth First Search","1","0"], ["Coming Soon","0","0"], ["Uniform Cost Search","0","0"]]
     
     let mazeGenrationAlgorithimList = [["None","0","0"], ["Coming Soon","0","0"], ["Coming Soon","0","0"], ["Coming Soon","0","0"], ["Coming Soon","0","0"], ["Coming Soon","0","0"], ["Coming Soon","0","0"], ["Coming Soon","0","0"], ["Coming Soon","0","0"]]
     

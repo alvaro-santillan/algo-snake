@@ -17,8 +17,8 @@ class GameScene: SKScene {
     var algorithimChoiceName: SKLabelNode!
     var gameBackground: SKShapeNode!
     var gameBoard: [SkNodeAndLocation] = []
-    var rowCount = 5 // Temp gets updated when the gameboard gets created.
-    var columnCount = 5 // Temp gets updated when the gameboard gets created.
+    var rowCount = 15 // Temp gets updated when the gameboard gets created.
+    var columnCount = 15 // Temp gets updated when the gameboard gets created.
     let pathFindingAlgorithimChoice = UserDefaults.standard.integer(forKey: "Selected Path Finding Algorithim")
     
     // Game settings
@@ -243,6 +243,7 @@ class GameScene: SKScene {
         
         let squareWidth: CGFloat = 25
         // Creates the correct number of rows and columns based on screen size.
+        // temp removal
         let realRowCount = Int(((frame.size.height)/squareWidth).rounded(.up)) // 17
         let realColumnCount = Int(((frame.size.width)/squareWidth).rounded(.up)) // 30
         rowCount = realRowCount
@@ -423,7 +424,7 @@ class GameScene: SKScene {
                 } else {
                     squareAndLocation.square.run(.sequence([gameBoardSquareWait, animationSequanceManager(animation: 1)]), completion: {snakeBodyAnimationBegining()})
                 }
-                gameBoardSquareWait = .wait(forDuration: TimeInterval(squareIndex) * 0.006) // 0.003
+                gameBoardSquareWait = .wait(forDuration: TimeInterval(squareIndex) * 0.0006) // 0.003
             }
         }
         
@@ -434,7 +435,7 @@ class GameScene: SKScene {
             
             for (squareIndex, squareAndLocation) in game.snakeBodyPos.enumerated() {
                 squareAndLocation.square.run(.sequence([snakeBodySquareWait]), completion: {snakeBodyAnimationEnding(square: squareAndLocation.square, squareIndex: squareIndex, lastIndex: lastIndex)})
-                snakeBodySquareWait = .wait(forDuration: TimeInterval(squareIndex) * 0.085) // 0.085
+                snakeBodySquareWait = .wait(forDuration: TimeInterval(squareIndex) * 0.0085) // 0.085
             }
         }
         
@@ -577,7 +578,8 @@ class GameScene: SKScene {
                     // only when step mode is off should this run
                     if self.pathFindingAlgorithimChoice != 0 {
                         if !(UserDefaults.standard.bool(forKey: "Step Mode On Setting")) {
-                            if self.game.snakeBodyPos.count != 6 {
+                            // temp change from 6
+                            if self.game.snakeBodyPos.count != 2 {
                                 UserDefaults.standard.set(false, forKey: "Game Is Paused Setting")
                                 self.game.paused = false
                             }
@@ -687,6 +689,9 @@ class GameScene: SKScene {
                 // Dissble buttons for pathfinding animation.
                 animationDualButtonManager(buttonsEnabled: false)
                 pathFindingAnimationsAndSquareColoring()
+            } else {
+                // new
+                animationDualButtonManager(buttonsEnabled: true)
             }
         }
         
