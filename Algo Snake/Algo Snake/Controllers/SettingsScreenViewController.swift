@@ -169,7 +169,9 @@ class SettingsSceenViewController: UIViewController, UITableViewDelegate, UITabl
             self.gameScreenViewController = (vc.presentedViewController as? GameScreenViewController)
 
             self.dismiss(animated: true) {
-                self.gameScreenViewController.dismiss(animated: true, completion: nil)
+                if self.gameScreenViewController != nil {
+                    self.gameScreenViewController.dismiss(animated: true, completion: nil)
+                }
             }
         }
     }

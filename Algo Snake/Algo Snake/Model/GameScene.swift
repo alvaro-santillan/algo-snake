@@ -423,7 +423,7 @@ class GameScene: SKScene {
                 } else {
                     squareAndLocation.square.run(.sequence([gameBoardSquareWait, animationSequanceManager(animation: 1)]), completion: {snakeBodyAnimationBegining()})
                 }
-                gameBoardSquareWait = .wait(forDuration: TimeInterval(squareIndex) * 0.0003) // 0.003
+                gameBoardSquareWait = .wait(forDuration: TimeInterval(squareIndex) * 0.006) // 0.003
             }
         }
         
@@ -434,7 +434,7 @@ class GameScene: SKScene {
             
             for (squareIndex, squareAndLocation) in game.snakeBodyPos.enumerated() {
                 squareAndLocation.square.run(.sequence([snakeBodySquareWait]), completion: {snakeBodyAnimationEnding(square: squareAndLocation.square, squareIndex: squareIndex, lastIndex: lastIndex)})
-                snakeBodySquareWait = .wait(forDuration: TimeInterval(squareIndex) * 0.0085) // 0.085
+                snakeBodySquareWait = .wait(forDuration: TimeInterval(squareIndex) * 0.085) // 0.085
             }
         }
         
