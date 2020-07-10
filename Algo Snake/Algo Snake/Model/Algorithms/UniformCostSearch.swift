@@ -71,28 +71,31 @@ class UniformCostSearch {
     func uniformCostSearch(startSquare: Tuple, foodLocations: [SkNodeAndLocation], gameBoard: [Tuple : Dictionary<Tuple, Float>], returnPathCost: Bool, returnSquaresVisited: Bool) -> (([Int], [(Tuple)], Int, Int), [SkNodeAndLocation], [[SkNodeAndLocation]], [SkNodeAndLocation], [Bool]) {
         let algorithmHelperObject = AlgorithmHelper(scene: scene)
         // Initalize variable and add first square manually.
-        var visitedSquares = [Tuple]()
+        var visitedSquaresAndCost = [(square: Tuple, cost: Float)]()
         // Initiate a priority queue class.
-        let priorityQueueClass = PriorityQueue(square: startSquare, cost: 0)
+        let fronterPriorityQueueClass = PriorityQueue(square: startSquare, cost: 0)
         var currentSquare = startSquare
-        var currentCost = Float()
         var visitedSquareCount = 1
         // Dictionary used to find a path, every square will have only one parent.
         var squareAndParentSquare = [startSquare : Tuple(x:-1, y:-1)]
+        
+        // Potentential Trash
+        var currentCost = Float()
 
         // Break once the goal is reached (the goals parent is noted a cycle before when it was a new node.)
         // Note if statment bellow breaks for the while (bug to fix).
         while (!(foodLocations.contains(where: { $0.location == currentSquare }))) {
             // Set the path cost and the current square equal to the lowest path node in the priority queue.
             // Pop the square as well (mark as visited)
-            (currentCost, currentSquare) = priorityQueueClass.pop() as! (Float, Tuple)
+            (currentCost, currentSquare) = fronterPriorityQueueClass.pop() as! (Float, Tuple)
             
             // Break the loop one goalSquare is in sight (To-Do optimize this).
             if (foodLocations.contains(where: { $0.location == currentSquare })) {
+                // Looks like this is an optimization.
                 break
             }
             
-            visitedSquares.append(currentSquare)
+            visitedSquaresAndCost.append((currentSquare, currentCost))
             print(currentSquare, currentCost)
             visitedSquareBuilder(visitedX: currentSquare.y, visitedY: currentSquare.x)
             visitedSquareCount += 1
@@ -116,16 +119,24 @@ class UniformCostSearch {
                     }
                     
                     // If the square has not been visited add to the add to the queue and mark its parent.
-                    if !(visitedSquares.contains(prospectSquare)) {
-                        if !(priorityQueueClass.heap.values.contains(prospectSquare)) {
+                    if !(fronterPriorityQueueClass.heap.values.contains(prospectSquare)) {
+                        if !(visitedSquaresAndCost.contains(where: { $0.square == prospectSquare})) {
 //                            print("visited squares", visitedSquares)
 //                            print("heap", priorityQueueClass.heap.values)
 //                            print("prospect", prospectSquare, prospectPathCost)
 //                            print("")
 //                            print("")
-                            priorityQueueClass.add(square: prospectSquare, cost: prospectPathCost)
+                            fronterPriorityQueueClass.add(square: prospectSquare, cost: prospectPathCost)
                             newFornterSquareHolder.append(Tuple(x: prospectSquare.x, y: prospectSquare.y))
                             squareAndParentSquare[prospectSquare] = currentSquare
+                        } else {
+                            let tempIndex = (visitedSquaresAndCost.firstIndex(where: { $0.square == prospectSquare}))
+                            let temp = visitedSquaresAndCost[tempIndex!]
+                            if temp.cost > prospectPathCost {
+                                visitedSquaresAndCost[tempIndex!] = (prospectSquare, prospectPathCost)
+//                                newFornterSquareHolder.append(Tuple(x: prospectSquare.x, y: prospectSquare.y))
+                                squareAndParentSquare[prospectSquare] = currentSquare
+                            }
                         }
                     }
                 }
