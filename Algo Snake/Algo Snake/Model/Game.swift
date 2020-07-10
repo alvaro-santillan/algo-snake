@@ -377,7 +377,6 @@ class GameManager {
                 let sound = try AVAudioPlayer(contentsOf: url)
                 self.audioPlayer = sound
                 sound.play()
-                print(sound, "sound play")
             } catch {
                 print("Error playing file")
             }

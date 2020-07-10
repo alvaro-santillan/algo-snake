@@ -53,19 +53,19 @@ class AlgorithmHelper {
                     if isXIndex {
                         if (gameBoardMatrix[y][x+1] == 0 || gameBoardMatrix[y][x+1] == 3 || gameBoardMatrix[y][x+1] == 1) {
                             // Floats so that we can have duplicates keys in dictinaries (Swift dictionary workaround).
-                            vaildMoves[Tuple(x: x+1, y: y)] = 1.000001
+                            vaildMoves[Tuple(x: x+1, y: y)] = 1.1
                         }
                     }
                     // Left
                     if isXNefIndex {
                         if (gameBoardMatrix[y][x-1] == 0 || gameBoardMatrix[y][x-1] == 3 || gameBoardMatrix[y][x-1] == 1) {
-                            vaildMoves[Tuple(x: x-1, y: y)] = 1.000002
+                            vaildMoves[Tuple(x: x-1, y: y)] = 1.2
                         }
                     }
                     // Down
                     if isYIndex {
                         if (gameBoardMatrix[y+1][x] == 0 || gameBoardMatrix[y+1][x] == 3 || gameBoardMatrix[y+1][x] == 1) {
-                            vaildMoves[Tuple(x: x, y: y+1)] = 1.000003
+                            vaildMoves[Tuple(x: x, y: y+1)] = 1.3
                             }
                         }
                     // Append the valid move dictionary to a master dictionary to create a dictionary of dictionaries.

@@ -92,23 +92,37 @@ class UniformCostSearch {
                 break
             }
             
-            visitedSquares += [currentSquare]
+            visitedSquares.append(currentSquare)
+            print(currentSquare, currentCost)
             visitedSquareBuilder(visitedX: currentSquare.y, visitedY: currentSquare.x)
             visitedSquareCount += 1
             
             // Repeat through all the squares in the sub dictionary.
             // Update the info stored for the child squares.
             var newFornterSquareHolder = [Tuple]()
+            var prospectPathCost = Float()
             // If statment handles seg fault so that game can continue.
             if gameBoard[currentSquare] != nil {
                 for (prospectSquare, prospectSquareCost) in gameBoard[currentSquare]! {
                     // Calculate the path cost to the new square.
-                    let prospectPathCost = currentCost + prospectSquareCost + 1
+                    if prospectSquareCost == 1.1 {
+                        prospectPathCost = currentCost + 1
+                    } else if prospectSquareCost == 1.2 {
+                        prospectPathCost = currentCost + 1
+                    } else if prospectSquareCost == 1.3 {
+                        prospectPathCost = currentCost + 1
+                    } else {
+                        prospectPathCost = currentCost + prospectSquareCost
+                    }
                     
                     // If the square has not been visited add to the add to the queue and mark its parent.
                     if !(visitedSquares.contains(prospectSquare)) {
                         if !(priorityQueueClass.heap.values.contains(prospectSquare)) {
-                            
+//                            print("visited squares", visitedSquares)
+//                            print("heap", priorityQueueClass.heap.values)
+//                            print("prospect", prospectSquare, prospectPathCost)
+//                            print("")
+//                            print("")
                             priorityQueueClass.add(square: prospectSquare, cost: prospectPathCost)
                             newFornterSquareHolder.append(Tuple(x: prospectSquare.x, y: prospectSquare.y))
                             squareAndParentSquare[prospectSquare] = currentSquare
