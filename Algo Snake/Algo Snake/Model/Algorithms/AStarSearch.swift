@@ -1,8 +1,8 @@
 //
-//  UniformCostSearch.swift
+//  AStarSearch.swift
 //  Algo Snake
 //
-//  Created by Álvaro Santillan on 7/9/20.
+//  Created by Álvaro Santillan on 7/10/20.
 //  Copyright © 2020 Álvaro Santillan. All rights reserved.
 //
 
@@ -16,7 +16,7 @@
 import Foundation
 import SpriteKit
 
-class UniformCostSearch {
+class AStarSearch {
     weak var scene: GameScene!
     var conditionGreen = Bool()
     var conditionYellow = Bool()
@@ -65,11 +65,21 @@ class UniformCostSearch {
             return (minSquareAndCost?.value, minSquareAndCost?.key)
         }
     }
+    
+    func foodDistanceHuristic(prospectSquare: Tuple, foodLocations: [SkNodeAndLocation]) -> Int {
+        var foodDistances = [Int]()
+        for foodSquare in foodLocations {
+            let tempX = abs(prospectSquare.x - foodSquare.location.x)
+            let tempY = abs(prospectSquare.y - foodSquare.location.y)
+            foodDistances.append(tempX + tempY)
+        }
+        return 5*(foodDistances.min() ?? 0)
+    }
         
     // UCS produces a dictionary in which each valid square points too only one parent.
     // Then the dictionary is processed to create a valid path.
     // The nodes are traversed in order found in the dictionary parameter.
-    func uniformCostSearch(startSquare: Tuple, foodLocations: [SkNodeAndLocation], gameBoard: [Tuple : Dictionary<Tuple, Float>], returnPathCost: Bool, returnSquaresVisited: Bool) -> (([Int], [(Tuple)], Int, Int), [SkNodeAndLocation], [[SkNodeAndLocation]], [SkNodeAndLocation], [Bool]) {
+    func aStarSearch(startSquare: Tuple, foodLocations: [SkNodeAndLocation], gameBoard: [Tuple : Dictionary<Tuple, Float>], returnPathCost: Bool, returnSquaresVisited: Bool) -> (([Int], [(Tuple)], Int, Int), [SkNodeAndLocation], [[SkNodeAndLocation]], [SkNodeAndLocation], [Bool]) {
         let algorithmHelperObject = AlgorithmHelper(scene: scene)
         // Initalize variable and add first square manually.
         var visitedSquaresAndCost = [(square: Tuple, cost: Float)]()
@@ -111,14 +121,16 @@ class UniformCostSearch {
             if gameBoard[currentSquare] != nil {
                 for (prospectSquare, prospectSquareCost) in gameBoard[currentSquare]! {
                     // Calculate the path cost to the new square.
+                    let huristic = Float(foodDistanceHuristic(prospectSquare: prospectSquare, foodLocations: foodLocations))
+                    
                     if prospectSquareCost == 1.1 {
-                        prospectPathCost = currentCost + 1
+                        prospectPathCost = currentCost + 1 + huristic
                     } else if prospectSquareCost == 1.2 {
-                        prospectPathCost = currentCost + 1
+                        prospectPathCost = currentCost + 1 + huristic
                     } else if prospectSquareCost == 1.3 {
-                        prospectPathCost = currentCost + 1
+                        prospectPathCost = currentCost + 1 + huristic
                     } else {
-                        prospectPathCost = currentCost + prospectSquareCost
+                        prospectPathCost = currentCost + prospectSquareCost + huristic
                     }
                     
                     // If the square has not been visited add to the add to the queue and mark its parent.
