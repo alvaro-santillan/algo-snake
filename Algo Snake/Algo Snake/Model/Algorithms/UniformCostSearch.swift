@@ -45,23 +45,24 @@ class UniformCostSearch {
     
     // Simulated priority queue using a simulated heap.
     class PriorityQueue {
-        var heap:[Float : Tuple]  = [:]
+        var heap: [Tuple : Float] = [:]
         
-        init(square: Tuple, cost: Float) {
+        init(cost: Float, square: Tuple) {
             // Add first square manually.
             add(square: square, cost: cost)
         }
         
         // Add a passed tuple to the frontier
         func add(square: Tuple, cost: Float) {
-            heap[cost] = square
+            heap[square] = cost
+            
         }
         
         // Return the lowest-cost tuple, and pop it off the frontier
         func pop() -> (Float?, Tuple?) {
-            let minSquareAndCost = heap.min { a, b in a.key < b.key }
+            let minSquareAndCost = heap.min { a, b in a.value < b.value }
             heap.removeValue(forKey: minSquareAndCost!.key)
-            return (minSquareAndCost?.key, minSquareAndCost?.value)
+            return (minSquareAndCost?.value, minSquareAndCost?.key)
         }
     }
         
@@ -73,7 +74,7 @@ class UniformCostSearch {
         // Initalize variable and add first square manually.
         var visitedSquaresAndCost = [(square: Tuple, cost: Float)]()
         // Initiate a priority queue class.
-        let fronterPriorityQueueClass = PriorityQueue(square: startSquare, cost: 0)
+        let fronterPriorityQueueClass = PriorityQueue(cost: 0, square: startSquare)
         var currentSquare = startSquare
         var visitedSquareCount = 1
         // Dictionary used to find a path, every square will have only one parent.
@@ -87,7 +88,10 @@ class UniformCostSearch {
         while (!(foodLocations.contains(where: { $0.location == currentSquare }))) {
             // Set the path cost and the current square equal to the lowest path node in the priority queue.
             // Pop the square as well (mark as visited)
+            
+            // Add shortest in fronter to visited
             (currentCost, currentSquare) = fronterPriorityQueueClass.pop() as! (Float, Tuple)
+            visitedSquaresAndCost.append((currentSquare, currentCost))
             
             // Break the loop one goalSquare is in sight (To-Do optimize this).
             if (foodLocations.contains(where: { $0.location == currentSquare })) {
@@ -95,8 +99,7 @@ class UniformCostSearch {
                 break
             }
             
-            visitedSquaresAndCost.append((currentSquare, currentCost))
-            print(currentSquare, currentCost)
+            // step over this
             visitedSquareBuilder(visitedX: currentSquare.y, visitedY: currentSquare.x)
             visitedSquareCount += 1
             
@@ -119,13 +122,9 @@ class UniformCostSearch {
                     }
                     
                     // If the square has not been visited add to the add to the queue and mark its parent.
-                    if !(fronterPriorityQueueClass.heap.values.contains(prospectSquare)) {
+                    if !(fronterPriorityQueueClass.heap.keys.contains(prospectSquare)) {
                         if !(visitedSquaresAndCost.contains(where: { $0.square == prospectSquare})) {
-//                            print("visited squares", visitedSquares)
-//                            print("heap", priorityQueueClass.heap.values)
-//                            print("prospect", prospectSquare, prospectPathCost)
-//                            print("")
-//                            print("")
+                            // Add new node to fronter. mark parent
                             fronterPriorityQueueClass.add(square: prospectSquare, cost: prospectPathCost)
                             newFornterSquareHolder.append(Tuple(x: prospectSquare.x, y: prospectSquare.y))
                             squareAndParentSquare[prospectSquare] = currentSquare
@@ -146,6 +145,7 @@ class UniformCostSearch {
             fronteerSquaresBuilder(squareArray: newFornterSquareHolder)
         }
         // Genarate a path and optional statistics from the results of UCS.
+        print(visitedSquaresAndCost)
         return(algorithmHelperObject.formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: currentSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited), visitedNodeArray: visitedSquareArray, fronteerSquareArray: fronteerSquareArray, pathSquareArray: pathSquareArray, conditions: [conditionGreen, conditionYellow, conditionRed])
     }
 }
