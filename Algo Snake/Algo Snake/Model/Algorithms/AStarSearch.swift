@@ -61,8 +61,11 @@ class AStarSearch {
         // Return the lowest-cost tuple, and pop it off the frontier
         func pop() -> (Float?, Tuple?) {
             let minSquareAndCost = heap.min { a, b in a.value < b.value }
-            heap.removeValue(forKey: minSquareAndCost!.key)
-            return (minSquareAndCost?.value, minSquareAndCost?.key)
+            if heap.count != 0 {
+                heap.removeValue(forKey: minSquareAndCost!.key)
+                return (minSquareAndCost?.value, minSquareAndCost?.key)
+            }
+            return (-2.0, Tuple(x: -2, y: -2))
         }
     }
     
@@ -100,11 +103,29 @@ class AStarSearch {
             // Pop the square as well (mark as visited)
             
             // Add shortest in fronter to visited
+            let priviousCurrentSquare = currentSquare
             (currentCost, currentSquare) = fronterPriorityQueueClass.pop() as! (Float, Tuple)
+            
+            if currentCost == -2 {
+                conditionGreen = false
+                conditionYellow = false
+                conditionRed = true
+                
+                return(algorithmHelperObject.formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: priviousCurrentSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited), visitedNodeArray: visitedSquareArray, fronteerSquareArray: fronteerSquareArray, pathSquareArray: pathSquareArray, conditions: [conditionGreen, conditionYellow, conditionRed])
+            }
+            
             visitedSquaresAndCost.append((currentSquare, currentCost))
             
             // Break the loop one goalSquare is in sight (To-Do optimize this).
             if (foodLocations.contains(where: { $0.location == currentSquare })) {
+                if squareAndParentSquare.count < 45 {
+                    conditionGreen = false
+                    conditionYellow = true
+                    conditionRed = false
+                    
+                    return(algorithmHelperObject.formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: currentSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited), visitedNodeArray: visitedSquareArray, fronteerSquareArray: fronteerSquareArray, pathSquareArray: pathSquareArray, conditions: [conditionGreen, conditionYellow, conditionRed])
+                }
+                
                 // Looks like this is an optimization.
                 break
             }
@@ -152,8 +173,21 @@ class AStarSearch {
                     }
                 }
             } else {
+                conditionGreen = false
+                conditionYellow = true
+                conditionRed = false
+                
+                if conditionYellow == true && squareAndParentSquare.count < 15 {
+                    conditionGreen = false
+                    conditionYellow = false
+                    conditionRed = true
+                }
+                
                 return(algorithmHelperObject.formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: currentSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited), visitedNodeArray: visitedSquareArray, fronteerSquareArray: fronteerSquareArray, pathSquareArray: pathSquareArray, conditions: [conditionGreen, conditionYellow, conditionRed])
             }
+            conditionGreen = true
+            conditionYellow = false
+            conditionRed = false
             fronteerSquaresBuilder(squareArray: newFornterSquareHolder)
         }
         // Genarate a path and optional statistics from the results of UCS.

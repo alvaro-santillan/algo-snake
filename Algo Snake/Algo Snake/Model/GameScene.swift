@@ -579,7 +579,7 @@ class GameScene: SKScene {
                     if self.pathFindingAlgorithimChoice != 0 {
                         if !(UserDefaults.standard.bool(forKey: "Step Mode On Setting")) {
                             // temp change from 6
-                            if self.game.snakeBodyPos.count != 2 {
+                            if self.game.snakeBodyPos.count != 26 {
                                 UserDefaults.standard.set(false, forKey: "Game Is Paused Setting")
                                 self.game.paused = false
                             }

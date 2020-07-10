@@ -51,22 +51,22 @@ class GameManager {
         horizontalMinBoundry = 1
         
         // temp change
-        weak var node = scene.gameBoard.first(where: {$0.location == Tuple(x: 2, y: 3)})!.square
-//        weak var node = scene.gameBoard.first(where: {$0.location == Tuple(x: 2, y: 7)})!.square
-//        snakeBodyPos.append(SkNodeAndLocation(square: node!, location: Tuple(x: 2, y: 7)))
-//        matrix[2][7] = 1
-//
-//        node = scene.gameBoard.first(where: {$0.location == Tuple(x: 2, y: 6)})!.square
-//        snakeBodyPos.append(SkNodeAndLocation(square: node!, location: Tuple(x: 2, y: 6)))
-//        matrix[2][6] = 2
-//
-//        node = scene.gameBoard.first(where: {$0.location == Tuple(x: 2, y: 5)})!.square
-//        snakeBodyPos.append(SkNodeAndLocation(square: node!, location: Tuple(x: 2, y: 5)))
-//        matrix[2][5] = 2
-//
-//        node = scene.gameBoard.first(where: {$0.location == Tuple(x: 2, y: 4)})!.square
-//        snakeBodyPos.append(SkNodeAndLocation(square: node!, location: Tuple(x: 2, y: 4)))
-//        matrix[2][4] = 2
+//        weak var node = scene.gameBoard.first(where: {$0.location == Tuple(x: 2, y: 3)})!.square
+        weak var node = scene.gameBoard.first(where: {$0.location == Tuple(x: 2, y: 7)})!.square
+        snakeBodyPos.append(SkNodeAndLocation(square: node!, location: Tuple(x: 2, y: 7)))
+        matrix[2][7] = 1
+
+        node = scene.gameBoard.first(where: {$0.location == Tuple(x: 2, y: 6)})!.square
+        snakeBodyPos.append(SkNodeAndLocation(square: node!, location: Tuple(x: 2, y: 6)))
+        matrix[2][6] = 2
+
+        node = scene.gameBoard.first(where: {$0.location == Tuple(x: 2, y: 5)})!.square
+        snakeBodyPos.append(SkNodeAndLocation(square: node!, location: Tuple(x: 2, y: 5)))
+        matrix[2][5] = 2
+
+        node = scene.gameBoard.first(where: {$0.location == Tuple(x: 2, y: 4)})!.square
+        snakeBodyPos.append(SkNodeAndLocation(square: node!, location: Tuple(x: 2, y: 4)))
+        matrix[2][4] = 2
 
         node = scene.gameBoard.first(where: {$0.location == Tuple(x: 2, y: 3)})!.square
         snakeBodyPos.append(SkNodeAndLocation(square: node!, location: Tuple(x: 2, y: 3)))
@@ -456,10 +456,10 @@ class GameManager {
                 matrix[snakeBodyPos[1].location.x][snakeBodyPos[1].location.y] = 2
             }
             // Temporary removal
-//            matrix[snakeBodyPos[2].location.x][snakeBodyPos[2].location.y] = 2
-//            matrix[snakeBodyPos[3].location.x][snakeBodyPos[3].location.y] = 2
-//            matrix[snakeBodyPos[4].location.x][snakeBodyPos[4].location.y] = 2
-//            matrix[snakeBodyPos[5].location.x][snakeBodyPos[5].location.y] = 2
+            matrix[snakeBodyPos[2].location.x][snakeBodyPos[2].location.y] = 2
+            matrix[snakeBodyPos[3].location.x][snakeBodyPos[3].location.y] = 2
+            matrix[snakeBodyPos[4].location.x][snakeBodyPos[4].location.y] = 2
+            matrix[snakeBodyPos[5].location.x][snakeBodyPos[5].location.y] = 2
 //            for i in 0...(scene.rowCount-1) {
 //                print(matrix[i])
 //            }
