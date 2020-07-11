@@ -17,8 +17,8 @@ class GameScene: SKScene {
     var algorithimChoiceName: SKLabelNode!
     var gameBackground: SKShapeNode!
     var gameBoard: [SkNodeAndLocation] = []
-    var rowCount = 15 // Temp gets updated when the gameboard gets created.
-    var columnCount = 15 // Temp gets updated when the gameboard gets created.
+    var rowCount = 6 // Temp gets updated when the gameboard gets created.
+    var columnCount = 9 // Temp gets updated when the gameboard gets created.
     let pathFindingAlgorithimChoice = UserDefaults.standard.integer(forKey: "Selected Path Finding Algorithim")
     
     // Game settings

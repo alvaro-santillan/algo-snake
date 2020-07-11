@@ -30,6 +30,7 @@
 		387FD13B241DC51C0004FD78 /* MainScreenTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387FD13A241DC51C0004FD78 /* MainScreenTableViewCell.swift */; };
 		388DAEF324B792FD00DD4007 /* UniformCostSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388DAEF224B792FD00DD4007 /* UniformCostSearch.swift */; };
 		3899196F24B90CF90099EB5F /* AStarSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3899196E24B90CF80099EB5F /* AStarSearch.swift */; };
+		3899197124B93F0C0099EB5F /* DijkstrasSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3899197024B93F0C0099EB5F /* DijkstrasSearch.swift */; };
 		38B35F34248858D9009E2613 /* sfx_coin_single3.wav in Resources */ = {isa = PBXBuildFile; fileRef = 38B35F33248858D9009E2613 /* sfx_coin_single3.wav */; };
 		38B35F3624885B11009E2613 /* sfx_coin_double3.wav in Resources */ = {isa = PBXBuildFile; fileRef = 38B35F3524885B11009E2613 /* sfx_coin_double3.wav */; };
 /* End PBXBuildFile section */
@@ -60,6 +61,7 @@
 		387FD13A241DC51C0004FD78 /* MainScreenTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenTableViewCell.swift; sourceTree = "<group>"; };
 		388DAEF224B792FD00DD4007 /* UniformCostSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniformCostSearch.swift; sourceTree = "<group>"; };
 		3899196E24B90CF80099EB5F /* AStarSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AStarSearch.swift; sourceTree = "<group>"; };
+		3899197024B93F0C0099EB5F /* DijkstrasSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DijkstrasSearch.swift; sourceTree = "<group>"; };
 		38B35F33248858D9009E2613 /* sfx_coin_single3.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = sfx_coin_single3.wav; sourceTree = "<group>"; };
 		38B35F3524885B11009E2613 /* sfx_coin_double3.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = sfx_coin_double3.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -113,10 +115,11 @@
 			isa = PBXGroup;
 			children = (
 				382F0F1824AD53660022E521 /* AlgorithmHelper.swift */,
+				3899196E24B90CF80099EB5F /* AStarSearch.swift */,
 				382F0F1D24AD71990022E521 /* BreadthFirstSearch.swift */,
 				382F0F1A24AD58080022E521 /* DepthFirstSearch.swift */,
+				3899197024B93F0C0099EB5F /* DijkstrasSearch.swift */,
 				388DAEF224B792FD00DD4007 /* UniformCostSearch.swift */,
-				3899196E24B90CF80099EB5F /* AStarSearch.swift */,
 			);
 			path = Algorithms;
 			sourceTree = "<group>";
@@ -267,6 +270,7 @@
 				3812394723C68E290066B3FA /* GameScene.swift in Sources */,
 				387FD13B241DC51C0004FD78 /* MainScreenTableViewCell.swift in Sources */,
 				382F0F1B24AD58080022E521 /* DepthFirstSearch.swift in Sources */,
+				3899197124B93F0C0099EB5F /* DijkstrasSearch.swift in Sources */,
 				3812395923C68F450066B3FA /* Game.swift in Sources */,
 				3812394923C68E290066B3FA /* MainScreenViewController.swift in Sources */,
 				3812394123C68E290066B3FA /* AppDelegate.swift in Sources */,

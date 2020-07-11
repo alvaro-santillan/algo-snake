@@ -141,10 +141,12 @@ class GameManager {
     
     func pathSelector() {
         let sceleton = AlgorithmHelper(scene: scene)
-        let dfs = DepthFirstSearch(scene: scene)
-        let bfs = BreadthFirstSearch(scene: scene)
-        let ucs = UniformCostSearch(scene: scene)
         let ass = AStarSearch(scene: scene)
+        let bfs = BreadthFirstSearch(scene: scene)
+        let dfs = DepthFirstSearch(scene: scene)
+        let ds = DijkstrasSearch(scene: scene)
+        let ucs = UniformCostSearch(scene: scene)
+        
         
         let snakeHead = Tuple(x: snakeBodyPos[0].location.y, y: snakeBodyPos[0].location.x)
         let gameBoardDictionary = sceleton.gameBoardMatrixToDictionary(gameBoardMatrix: matrix)
@@ -157,6 +159,9 @@ class GameManager {
             pathManager()
         } else if scene.pathFindingAlgorithimChoice == 3 {
             nnnpath = dfs.depthFirstSearch(startSquare: snakeHead, foodLocations: foodPosition, gameBoard: gameBoardDictionary, returnPathCost: false, returnSquaresVisited: false)
+            pathManager()
+        } else if scene.pathFindingAlgorithimChoice == 4 {
+            nnnpath = ds.dijkstrasSearch(startSquare: snakeHead, foodLocations: foodPosition, gameBoard: gameBoardDictionary, returnPathCost: false, returnSquaresVisited: false)
             pathManager()
         } else if scene.pathFindingAlgorithimChoice == 5 {
             nnnpath = ucs.uniformCostSearch(startSquare: snakeHead, foodLocations: foodPosition, gameBoard: gameBoardDictionary, returnPathCost: false, returnSquaresVisited: false)
