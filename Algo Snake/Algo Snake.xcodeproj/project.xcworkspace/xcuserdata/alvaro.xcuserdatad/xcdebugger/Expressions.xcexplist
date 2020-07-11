@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "UniformCostSearch.uniformCostSearch(startSquare:foodLocations:gameBoard:returnPathCost:returnSquaresVisited:):UniformCostSearch.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "gameBoard[currentSquare!]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "UniformCostSearch.PriorityQueue.pop():UniformCostSearch.swift">
+      </ContextState>
+      <ContextState
+         contextName = "createBackground #1 () in GameScene.createGameBoard():GameScene.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "frame.size.height">
+            </PersistentString>
+            <PersistentString
+               value = "frame.size.width">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "GameManager.update(time:):Game.swift">
+      </ContextState>
+      <ContextState
+         contextName = "DijkstrasSearch.dijkstrasSearch(startSquare:foodLocations:gameBoard:returnPathCost:returnSquaresVisited:):DijkstrasSearch.swift">
+      </ContextState>
+      <ContextState
+         contextName = "colorSnake #1 () in GameManager.tempColor():Game.swift">
+      </ContextState>
+      <ContextState
+         contextName = "DepthFirstSearch.depthFirstSearch(startSquare:foodLocations:gameBoard:returnPathCost:returnSquaresVisited:):DepthFirstSearch.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "gameBoard[currentSquare]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "GameManager.pathManager():Game.swift">
+      </ContextState>
+      <ContextState
+         contextName = "AlgorithmHelper.findPath(squareAndParentSquare:currentSquare:):AlgorithmHelper.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "squareAndParentSquare[currentSquare]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "BreadthFirstSearch.breathFirstSearch(startSquare:foodLocations:gameBoard:returnPathCost:returnSquaresVisited:):BreadthFirstSearch.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "gameBoard[currentSquare]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

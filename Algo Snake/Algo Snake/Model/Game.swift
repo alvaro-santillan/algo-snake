@@ -147,6 +147,7 @@ class GameManager {
         let ds = DijkstrasSearch(scene: scene)
         let ucs = UniformCostSearch(scene: scene)
         
+        let dfsp = DepthFirstSearchPath(scene: scene)
         
         let snakeHead = Tuple(x: snakeBodyPos[0].location.y, y: snakeBodyPos[0].location.x)
         let gameBoardDictionary = sceleton.gameBoardMatrixToDictionary(gameBoardMatrix: matrix)
@@ -158,7 +159,9 @@ class GameManager {
             nnnpath = bfs.breathFirstSearch(startSquare: snakeHead, foodLocations: foodPosition, gameBoard: gameBoardDictionary, returnPathCost: false, returnSquaresVisited: false)
             pathManager()
         } else if scene.pathFindingAlgorithimChoice == 3 {
-            nnnpath = dfs.depthFirstSearch(startSquare: snakeHead, foodLocations: foodPosition, gameBoard: gameBoardDictionary, returnPathCost: false, returnSquaresVisited: false)
+            // temp modification
+//            nnnpath = dfs.depthFirstSearch(startSquare: snakeHead, foodLocations: foodPosition, gameBoard: gameBoardDictionary, returnPathCost: false, returnSquaresVisited: false)
+            nnnpath = dfsp.depthFirstSearchPath(startSquare: snakeHead, foodLocations: foodPosition, gameBoard: gameBoardDictionary, returnPathCost: false, returnSquaresVisited: false)
             pathManager()
         } else if scene.pathFindingAlgorithimChoice == 4 {
             nnnpath = ds.dijkstrasSearch(startSquare: snakeHead, foodLocations: foodPosition, gameBoard: gameBoardDictionary, returnPathCost: false, returnSquaresVisited: false)
