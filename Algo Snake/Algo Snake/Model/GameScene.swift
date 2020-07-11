@@ -17,8 +17,8 @@ class GameScene: SKScene {
     var algorithimChoiceName: SKLabelNode!
     var gameBackground: SKShapeNode!
     var gameBoard: [SkNodeAndLocation] = []
-    var rowCount = 8 // 7.5 Temp gets updated when the gameboard gets created.
-    var columnCount = 15 // 14 Temp gets updated when the gameboard gets created.
+    var rowCount = 7 // 7.5 Temp gets updated when the gameboard gets created.
+    var columnCount = 14 // 14 Temp gets updated when the gameboard gets created.
     let pathFindingAlgorithimChoice = UserDefaults.standard.integer(forKey: "Selected Path Finding Algorithim")
     
     // Game settings
@@ -244,10 +244,10 @@ class GameScene: SKScene {
         let squareWidth: CGFloat = 25
         // Creates the correct number of rows and columns based on screen size.
         // temp removal
-        let realRowCount = Int(((frame.size.height)/squareWidth).rounded(.up)) // 17
-        let realColumnCount = Int(((frame.size.width)/squareWidth).rounded(.up)) // 30
-        rowCount = realRowCount
-        columnCount = realColumnCount
+//        let realRowCount = Int(((frame.size.height)/squareWidth).rounded(.up)) // 17
+//        let realColumnCount = Int(((frame.size.width)/squareWidth).rounded(.up)) // 30
+//        rowCount = realRowCount
+//        columnCount = realColumnCount
         
         var matrix = [[Int]]()
         var row = [Int]()

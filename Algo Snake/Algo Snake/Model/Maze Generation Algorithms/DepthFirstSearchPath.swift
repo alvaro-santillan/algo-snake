@@ -55,6 +55,7 @@ class DepthFirstSearchPath {
         var visitedSquareCount = 1
         // Dictionary used to find a path, every square will have only one parent.
         var squareAndParentSquare = [startSquare : Tuple(x:-1, y:-1)]
+        var squareAndParentSquareMaze = [startSquare : Tuple(x:-1, y:-1)]
         
         // Break once the goal is reached (the goals parent is noted a cycle before when it was a new node.)
         
@@ -73,6 +74,8 @@ class DepthFirstSearchPath {
             if gameBoard[currentSquare] != nil {
                 for (prospectFronterSquare, _) in gameBoard[currentSquare]! {
                     if !(visitedSquares.contains(prospectFronterSquare)) {
+                        squareAndParentSquareMaze[prospectFronterSquare] = currentSquare
+                        
                         if !(fronterSquares.contains(prospectFronterSquare)) {
                             fronterSquares += [prospectFronterSquare]
                             newFornterSquareHolder.append(Tuple(x: prospectFronterSquare.x, y: prospectFronterSquare.y))
@@ -97,6 +100,7 @@ class DepthFirstSearchPath {
                     conditionRed = true
                 }
                 
+                print(squareAndParentSquareMaze)
                 return(algorithmHelperObject.formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: currentSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited), visitedNodeArray: visitedSquareArray, fronteerSquareArray: fronteerSquareArray, pathSquareArray: pathSquareArray, conditions: [conditionGreen, conditionYellow, conditionRed])
             }
         }
@@ -105,6 +109,7 @@ class DepthFirstSearchPath {
         conditionYellow = false
         conditionRed = false
 
+        print(squareAndParentSquareMaze)
         return(algorithmHelperObject.formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: currentSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited), visitedNodeArray: visitedSquareArray, fronteerSquareArray: fronteerSquareArray, pathSquareArray: pathSquareArray, conditions: [conditionGreen, conditionYellow, conditionRed])
     }
 }
