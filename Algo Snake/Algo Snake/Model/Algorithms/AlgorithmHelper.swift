@@ -85,7 +85,12 @@ class AlgorithmHelper {
         } else {
             squareAndParentSquareTuplePath[currentSquare] = squareAndParentSquare[currentSquare]
             squareAndNoParentArrayPath.append(Tuple(x: currentSquare.x, y: currentSquare.y))
-
+            
+            // Crash fix Dijstras trys to pathfind to food that can be accesed.
+            if (squareAndParentSquare[currentSquare] == nil) {
+                return (movePath, squareAndNoParentArrayPath, squareAndParentSquareTuplePath)
+            }
+            
             let xValue = currentSquare.x - squareAndParentSquare[currentSquare]!.x
             let yValue = currentSquare.y - squareAndParentSquare[currentSquare]!.y
             // 1 == left, 2 == up, 3 == right, 4 == down

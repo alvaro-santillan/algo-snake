@@ -94,6 +94,7 @@ class DijkstrasSearch {
 
         // Break once the goal is reached (the goals parent is noted a cycle before when it was a new node.)
         // Note if statment bellow breaks for the while (bug to fix).
+        // Issue since all gamesquares are added to queue. Unexsesable squares are visited.
         while (!(foodLocations.contains(where: { $0.location == currentSquare }))) {
             // Set the path cost and the current square equal to the lowest path node in the priority queue.
             // Pop the square as well (mark as visited)
