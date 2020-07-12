@@ -143,8 +143,8 @@ class GameManager {
         var matrix = [[Int]]()
         var row = [Int]()
         
-        for _ in 1...6 {
-            for _ in 1...13 {
+        for _ in 1...9 {
+            for _ in 1...15 {
                 row.append(0)
             }
             matrix.append(row)

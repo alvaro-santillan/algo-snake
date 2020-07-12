@@ -48,16 +48,20 @@ class DepthFirstSearchPath {
         var newSquareAndParentSquare = [Tuple : Tuple]()
         
         for i in squareAndParentSquare {
-            if i.key.x != 0 && i.key.y != 0 {
-                if i.value.x != 0 && i.value.y != 0 {
-                    let newChildX = i.key.x + (i.key.x - 1)
-                    let newChildY = i.key.y + (i.key.y - 1)
-                    let newParentX = i.value.x + (i.value.x - 1)
-                    let newParentY = i.value.y + (i.value.y - 1)
-                    
-                    print("Old", i.key.x, i.key.y, i.value.x, i.value.y)
-                    print("New", newChildX, newChildY, newParentX, newParentY)
-                    newSquareAndParentSquare[Tuple(x: newChildX, y: newChildY)] = Tuple(x: newParentX, y: newParentY)
+            if i.key.x != 0 {
+                if i.key.y != 0 {
+                    if i.value.x != 0 {
+                        if i.value.y != 0 {
+                            let newChildX = i.key.x + (i.key.x - 1)
+                            let newChildY = i.key.y + (i.key.y - 1)
+                            let newParentX = i.value.x + (i.value.x - 1)
+                            let newParentY = i.value.y + (i.value.y - 1)
+                            
+                            print("Old", i.key.x, i.key.y, i.value.x, i.value.y)
+                            print("New", newChildX, newChildY, newParentX, newParentY)
+                            newSquareAndParentSquare[Tuple(x: newChildX, y: newChildY)] = Tuple(x: newParentX, y: newParentY)
+                        }
+                    }
                 }
             }
         }
@@ -114,7 +118,7 @@ class DepthFirstSearchPath {
         
         // Break once the goal is reached (the goals parent is noted a cycle before when it was a new node.)
         
-        while (!(squareAndParentSquare.count == gameBoard.count)) {
+        while (!(squareAndParentSquareMaze.count == gameBoard.count)) {
             // Mark current node as visited. (If statement required due to first node.)
             if !(visitedSquares.contains(currentSquare)) {
                 visitedSquares += [currentSquare]
