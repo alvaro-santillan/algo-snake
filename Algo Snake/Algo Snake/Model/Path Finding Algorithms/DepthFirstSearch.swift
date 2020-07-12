@@ -60,6 +60,7 @@ class DepthFirstSearch {
         let algorithmHelperObject = AlgorithmHelper(scene: scene)
         // Initalize variable and add first square manually.
         
+        var finalGameBoard = gameBoard
         
         if maze.count != 0 {
             for i in maze {
@@ -69,6 +70,7 @@ class DepthFirstSearch {
                     mazeSquareBuilder(visitedX: i.y, visitedY: i.x)
                 }
             }
+            finalGameBoard = algorithmHelperObject.gameBoardMatrixToDictionary(gameBoardMatrix: scene.game.matrix)
         }
         
         
@@ -85,7 +87,7 @@ class DepthFirstSearch {
             // Mark current node as visited. (If statement required due to first node.)
             if !(visitedSquares.contains(currentSquare)) {
                 visitedSquares += [currentSquare]
-//                visitedSquareBuilder(visitedX: currentSquare.y, visitedY: currentSquare.x)
+                visitedSquareBuilder(visitedX: currentSquare.y, visitedY: currentSquare.x)
                 visitedSquareCount += 1
             }
             
@@ -93,8 +95,8 @@ class DepthFirstSearch {
             // Append to fronter and mark parent.
             var newFornterSquareHolder = [Tuple]()
             // If statment handles seg fault so that game can continue.
-            if gameBoard[currentSquare] != nil {
-                for (prospectFronterSquare, _) in gameBoard[currentSquare]! {
+            if finalGameBoard[currentSquare] != nil {
+                for (prospectFronterSquare, _) in finalGameBoard[currentSquare]! {
                     if !(visitedSquares.contains(prospectFronterSquare)) {
                         if !(fronterSquares.contains(prospectFronterSquare)) {
                             fronterSquares += [prospectFronterSquare]
@@ -104,7 +106,7 @@ class DepthFirstSearch {
                     }
                 }
             }
-//            fronteerSquaresBuilder(squareArray: newFornterSquareHolder)
+            fronteerSquaresBuilder(squareArray: newFornterSquareHolder)
             
             if fronterSquares.count != 0 {
                 currentSquare = fronterSquares.last!
@@ -120,7 +122,7 @@ class DepthFirstSearch {
                     conditionRed = true
                 }
                 
-                return(algorithmHelperObject.formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: currentSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited), visitedNodeArray: visitedSquareArray, fronteerSquareArray: fronteerSquareArray, pathSquareArray: pathSquareArray, conditions: [conditionGreen, conditionYellow, conditionRed])
+                return(algorithmHelperObject.formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: finalGameBoard, currentSquare: currentSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited), visitedNodeArray: visitedSquareArray, fronteerSquareArray: fronteerSquareArray, pathSquareArray: pathSquareArray, conditions: [conditionGreen, conditionYellow, conditionRed])
             }
         }
         // Genarate a path and optional statistics from the results of DFS.
@@ -128,6 +130,6 @@ class DepthFirstSearch {
         conditionYellow = false
         conditionRed = false
 
-        return(algorithmHelperObject.formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: currentSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited), visitedNodeArray: visitedSquareArray, fronteerSquareArray: fronteerSquareArray, pathSquareArray: pathSquareArray, conditions: [conditionGreen, conditionYellow, conditionRed])
+        return(algorithmHelperObject.formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: finalGameBoard, currentSquare: currentSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited), visitedNodeArray: visitedSquareArray, fronteerSquareArray: fronteerSquareArray, pathSquareArray: pathSquareArray, conditions: [conditionGreen, conditionYellow, conditionRed])
     }
 }
