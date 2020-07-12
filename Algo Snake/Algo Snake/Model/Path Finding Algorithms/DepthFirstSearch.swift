@@ -42,13 +42,31 @@ class DepthFirstSearch {
         }
         fronteerSquareArray.append(innerFronterSKSquareArray)
     }
+    
+    func mazeSquareBuilder(visitedX: Int, visitedY: Int) {
+        let squareSK = scene.gameBoard.first(where: {$0.location == Tuple(x: visitedX, y: visitedY)})?.square
+        visitedSquareArray.append(SkNodeAndLocation(square: squareSK!, location: Tuple(x: visitedX, y: visitedY)))
+    }
 
     // DFS produces a dictionary in which each valid square points too only one parent.
     // Then the dictionary is processed to create a valid path.
     // The nodes are traversed in order found in the dictionary parameter.
-    func depthFirstSearch(startSquare: Tuple, foodLocations: [SkNodeAndLocation], gameBoard: [Tuple : Dictionary<Tuple, Float>], returnPathCost: Bool, returnSquaresVisited: Bool) -> (([Int], [(Tuple)], Int, Int), [SkNodeAndLocation], [[SkNodeAndLocation]], [SkNodeAndLocation], [Bool]) {
+    func depthFirstSearch(startSquare: Tuple, foodLocations: [SkNodeAndLocation], maze: [Tuple : [Tuple]], gameBoard: [Tuple : Dictionary<Tuple, Float>], returnPathCost: Bool, returnSquaresVisited: Bool) -> (([Int], [(Tuple)], Int, Int), [SkNodeAndLocation], [[SkNodeAndLocation]], [SkNodeAndLocation], [Bool]) {
         let algorithmHelperObject = AlgorithmHelper(scene: scene)
         // Initalize variable and add first square manually.
+        
+        
+        if maze.count != 0 {
+            for i in maze {
+                mazeSquareBuilder(visitedX: i.key.y, visitedY: i.key.x)
+                let firstChild = maze[i.key]
+                for i in firstChild! {
+                    mazeSquareBuilder(visitedX: i.y, visitedY: i.x)
+                }
+            }
+        }
+        
+        
         var visitedSquares = [Tuple]()
         var fronterSquares = [startSquare]
         var currentSquare = startSquare
@@ -62,7 +80,7 @@ class DepthFirstSearch {
             // Mark current node as visited. (If statement required due to first node.)
             if !(visitedSquares.contains(currentSquare)) {
                 visitedSquares += [currentSquare]
-                visitedSquareBuilder(visitedX: currentSquare.y, visitedY: currentSquare.x)
+//                visitedSquareBuilder(visitedX: currentSquare.y, visitedY: currentSquare.x)
                 visitedSquareCount += 1
             }
             
@@ -81,7 +99,7 @@ class DepthFirstSearch {
                     }
                 }
             }
-            fronteerSquaresBuilder(squareArray: newFornterSquareHolder)
+//            fronteerSquaresBuilder(squareArray: newFornterSquareHolder)
             
             if fronterSquares.count != 0 {
                 currentSquare = fronterSquares.last!

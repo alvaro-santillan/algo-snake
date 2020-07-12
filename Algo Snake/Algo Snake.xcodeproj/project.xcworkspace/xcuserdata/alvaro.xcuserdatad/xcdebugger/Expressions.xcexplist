@@ -34,6 +34,17 @@
          contextName = "colorSnake #1 () in GameManager.tempColor():Game.swift">
       </ContextState>
       <ContextState
+         contextName = "AlgorithmHelper.gameBoardMatrixToDictionary(gameBoardMatrix:):AlgorithmHelper.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "gameBoardMatrix.count">
+            </PersistentString>
+            <PersistentString
+               value = "gameBoardMatrix[0].count">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "DepthFirstSearch.depthFirstSearch(startSquare:foodLocations:gameBoard:returnPathCost:returnSquaresVisited:):DepthFirstSearch.swift">
          <PersistentStrings>
             <PersistentString

@@ -15,6 +15,7 @@ class GameManager {
     var play = true
     var gameStarted = false
     var matrix = [[Int]]()
+//    var mazeMatrix = [[Int]]()
     var moveInstructions = [Int]()
     var pathBlockCordinates = [Tuple]()
     var pathBlockCordinatesNotReversed = [Tuple]()
@@ -138,6 +139,19 @@ class GameManager {
     var displayVisitedSquareArray = [SkNodeAndLocation]()
     var displayPathSquareArray = [SkNodeAndLocation]()
     
+    func emptyMazeMatrixMaker() -> [[Int]] {
+        var matrix = [[Int]]()
+        var row = [Int]()
+        
+        for _ in 1...6 {
+            for _ in 1...13 {
+                row.append(0)
+            }
+            matrix.append(row)
+            row = [Int]()
+        }
+        return matrix
+    }
     
     func pathSelector() {
         let sceleton = AlgorithmHelper(scene: scene)
@@ -150,7 +164,9 @@ class GameManager {
         let dfsp = DepthFirstSearchPath(scene: scene)
         
         let snakeHead = Tuple(x: snakeBodyPos[0].location.y, y: snakeBodyPos[0].location.x)
+        // temp change
         let gameBoardDictionary = sceleton.gameBoardMatrixToDictionary(gameBoardMatrix: matrix)
+        let mazeGameBoardDictionary = sceleton.gameBoardMatrixToDictionary(gameBoardMatrix: emptyMazeMatrixMaker())
         
         if scene.pathFindingAlgorithimChoice == 1 {
             nnnpath = ass.aStarSearch(startSquare: snakeHead, foodLocations: foodPosition, gameBoard: gameBoardDictionary, returnPathCost: false, returnSquaresVisited: false)
@@ -161,7 +177,9 @@ class GameManager {
         } else if scene.pathFindingAlgorithimChoice == 3 {
             // temp modification
 //            nnnpath = dfs.depthFirstSearch(startSquare: snakeHead, foodLocations: foodPosition, gameBoard: gameBoardDictionary, returnPathCost: false, returnSquaresVisited: false)
-            nnnpath = dfsp.depthFirstSearchPath(startSquare: snakeHead, foodLocations: foodPosition, gameBoard: gameBoardDictionary, returnPathCost: false, returnSquaresVisited: false)
+            let mazze = dfsp.depthFirstSearchPath(startSquare: snakeHead, foodLocations: foodPosition, gameBoard: mazeGameBoardDictionary, returnPathCost: false, returnSquaresVisited: false)
+            print(mazze)
+            nnnpath = dfs.depthFirstSearch(startSquare: snakeHead, foodLocations: foodPosition, maze: mazze, gameBoard: gameBoardDictionary, returnPathCost: false, returnSquaresVisited: false)
             pathManager()
         } else if scene.pathFindingAlgorithimChoice == 4 {
             nnnpath = ds.dijkstrasSearch(startSquare: snakeHead, foodLocations: foodPosition, gameBoard: gameBoardDictionary, returnPathCost: false, returnSquaresVisited: false)

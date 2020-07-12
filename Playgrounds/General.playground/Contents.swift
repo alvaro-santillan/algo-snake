@@ -1,4 +1,22 @@
 
+
+func mazeMatrix() {
+    var matrix = [[Int]]()
+    var row = [Int]()
+    
+    for x in 0...6 {
+        for y in 0...13 {
+            row.append(0)
+        }
+        matrix.append(row)
+        row = [Int]()
+    }
+    print(matrix)
+}
+
+mazeMatrix()
+
+
 struct Tuple: Hashable {
     var x: Int
     var y: Int
