@@ -64,10 +64,18 @@ class DepthFirstSearch {
         
         if maze.count != 0 {
             for i in maze {
-                mazeSquareBuilder(visitedX: i.key.y, visitedY: i.key.x)
+                if !(scene.game.snakeBodyPos.contains(where: { $0.location == Tuple(x: i.key.y, y: i.key.x) })) {
+                    if !(scene.game.foodPosition.contains(where: { $0.location == Tuple(x: i.key.x, y: i.key.y) })) {
+                        mazeSquareBuilder(visitedX: i.key.y, visitedY: i.key.x)
+                    }
+                }
                 let firstChild = maze[i.key]
                 for i in firstChild! {
-                    mazeSquareBuilder(visitedX: i.y, visitedY: i.x)
+                    if !(scene.game.snakeBodyPos.contains(where: { $0.location == Tuple(x: i.y, y: i.x) })) {
+                        if !(scene.game.foodPosition.contains(where: { $0.location == Tuple(x: i.x, y: i.y) })) {
+                            mazeSquareBuilder(visitedX: i.y, visitedY: i.x)
+                        }
+                    }
                 }
             }
             finalGameBoard = algorithmHelperObject.gameBoardMatrixToDictionary(gameBoardMatrix: scene.game.matrix)
