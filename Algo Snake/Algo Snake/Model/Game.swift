@@ -140,20 +140,6 @@ class GameManager {
     var displayVisitedSquareArray = [SkNodeAndLocation]()
     var displayPathSquareArray = [SkNodeAndLocation]()
     
-    func emptyMazeMatrixMaker() -> [[Int]] {
-        var matrix = [[Int]]()
-        var row = [Int]()
-        
-        for _ in 1...9 {
-            for _ in 1...15 {
-                row.append(0)
-            }
-            matrix.append(row)
-            row = [Int]()
-        }
-        return matrix
-    }
-    
     func pathSelector() {
         let sceleton = AlgorithmHelper(scene: scene)
         let ass = AStarSearch(scene: scene)
@@ -253,6 +239,20 @@ class GameManager {
     
     func bringOvermatrix(tempMatrix: [[Int]]) {
         matrix = tempMatrix
+    }
+    
+    func emptyMazeMatrixMaker() -> [[Int]] {
+        var matrix = [[Int]]()
+        var row = [Int]()
+        
+        for _ in 1...Int(ceil(Float(scene.rowCount)/2)) {
+            for _ in 1...Int(ceil(Float(scene.columnCount)/2)) {
+                row.append(0)
+            }
+            matrix.append(row)
+            row = [Int]()
+        }
+        return matrix
     }
     
     func runPredeterminedPath() {

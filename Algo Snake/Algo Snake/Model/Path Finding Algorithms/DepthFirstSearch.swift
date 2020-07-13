@@ -45,8 +45,6 @@ class DepthFirstSearch {
     
     func mazeSquareBuilder(visitedX: Int, visitedY: Int) {
         let squareSK = scene.gameBoard.first(where: {$0.location == Tuple(x: visitedX, y: visitedY)})?.square
-//        visitedSquareArray.append(SkNodeAndLocation(square: squareSK!, location: Tuple(x: visitedX, y: visitedY)))
-        
         scene.game.barrierNodesWaitingToBeDisplayed.append(SkNodeAndLocation(square: squareSK!, location: Tuple(x: visitedX, y: visitedY)))
         squareSK!.fillColor = scene.barrierSquareColor
         scene.colorTheBarriers()
@@ -80,7 +78,6 @@ class DepthFirstSearch {
             }
             finalGameBoard = algorithmHelperObject.gameBoardMatrixToDictionary(gameBoardMatrix: scene.game.matrix)
         }
-        
         
         var visitedSquares = [Tuple]()
         var fronterSquares = [startSquare]
