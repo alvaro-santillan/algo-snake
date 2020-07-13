@@ -43,6 +43,14 @@ class DijkstrasSearch {
         fronteerSquareArray.append(innerFronterSKSquareArray)
     }
     
+    func mazeSquareBuilder(visitedX: Int, visitedY: Int) {
+        let squareSK = scene.gameBoard.first(where: {$0.location == Tuple(x: visitedX, y: visitedY)})?.square
+        scene.game.barrierNodesWaitingToBeDisplayed.append(SkNodeAndLocation(square: squareSK!, location: Tuple(x: visitedX, y: visitedY)))
+        squareSK!.fillColor = scene.barrierSquareColor
+        scene.colorTheBarriers()
+        scene.game.matrix[visitedX][visitedY] = 7
+    }
+    
     // Simulated priority queue using a simulated heap.
     class PriorityQueue {
         var heap: [Tuple : Float] = [:]
@@ -72,8 +80,30 @@ class DijkstrasSearch {
     // UCS produces a dictionary in which each valid square points too only one parent.
     // Then the dictionary is processed to create a valid path.
     // The nodes are traversed in order found in the dictionary parameter.
-    func dijkstrasSearch(startSquare: Tuple, foodLocations: [SkNodeAndLocation], gameBoard: [Tuple : Dictionary<Tuple, Float>], returnPathCost: Bool, returnSquaresVisited: Bool) -> (([Int], [(Tuple)], Int, Int), [SkNodeAndLocation], [[SkNodeAndLocation]], [SkNodeAndLocation], [Bool]) {
+    func dijkstrasSearch(startSquare: Tuple, foodLocations: [SkNodeAndLocation], maze: [Tuple : [Tuple]], gameBoard: [Tuple : Dictionary<Tuple, Float>], returnPathCost: Bool, returnSquaresVisited: Bool) -> (([Int], [(Tuple)], Int, Int), [SkNodeAndLocation], [[SkNodeAndLocation]], [SkNodeAndLocation], [Bool]) {
         let algorithmHelperObject = AlgorithmHelper(scene: scene)
+        
+        var finalGameBoard = gameBoard
+        
+        if maze.count != 0 {
+            for i in maze {
+                if !(scene.game.snakeBodyPos.contains(where: { $0.location == Tuple(x: i.key.y, y: i.key.x) })) {
+                    if !(scene.game.foodPosition.contains(where: { $0.location == Tuple(x: i.key.x, y: i.key.y) })) {
+                        mazeSquareBuilder(visitedX: i.key.y, visitedY: i.key.x)
+                    }
+                }
+                let firstChild = maze[i.key]
+                for i in firstChild! {
+                    if !(scene.game.snakeBodyPos.contains(where: { $0.location == Tuple(x: i.y, y: i.x) })) {
+                        if !(scene.game.foodPosition.contains(where: { $0.location == Tuple(x: i.x, y: i.y) })) {
+                            mazeSquareBuilder(visitedX: i.y, visitedY: i.x)
+                        }
+                    }
+                }
+            }
+            finalGameBoard = algorithmHelperObject.gameBoardMatrixToDictionary(gameBoardMatrix: scene.game.matrix)
+        }
+        
         // Initalize variable and add first square manually.
         var visitedSquaresAndCost = [(square: Tuple, cost: Float)]()
         // Initiate a priority queue class.
@@ -86,7 +116,7 @@ class DijkstrasSearch {
         // Potentential Trash
         var currentCost = Float()
         
-        for i in gameBoard {
+        for i in finalGameBoard {
             if i.key != startSquare {
                 fronterPriorityQueueClass.add(square: i.key, cost: 999)
             }
@@ -109,7 +139,7 @@ class DijkstrasSearch {
                 conditionRed = true
                 
                 print(foodLocations)
-                return(algorithmHelperObject.formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: priviousCurrentSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited), visitedNodeArray: visitedSquareArray, fronteerSquareArray: fronteerSquareArray, pathSquareArray: pathSquareArray, conditions: [conditionGreen, conditionYellow, conditionRed])
+                return(algorithmHelperObject.formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: finalGameBoard, currentSquare: priviousCurrentSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited), visitedNodeArray: visitedSquareArray, fronteerSquareArray: fronteerSquareArray, pathSquareArray: pathSquareArray, conditions: [conditionGreen, conditionYellow, conditionRed])
             }
             
             visitedSquaresAndCost.append((currentSquare, currentCost))
@@ -122,7 +152,7 @@ class DijkstrasSearch {
                     conditionRed = false
                     
                     print(foodLocations)
-                    return(algorithmHelperObject.formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: currentSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited), visitedNodeArray: visitedSquareArray, fronteerSquareArray: fronteerSquareArray, pathSquareArray: pathSquareArray, conditions: [conditionGreen, conditionYellow, conditionRed])
+                    return(algorithmHelperObject.formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: finalGameBoard, currentSquare: currentSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited), visitedNodeArray: visitedSquareArray, fronteerSquareArray: fronteerSquareArray, pathSquareArray: pathSquareArray, conditions: [conditionGreen, conditionYellow, conditionRed])
                 }
                 
                 // Looks like this is an optimization.
@@ -138,8 +168,8 @@ class DijkstrasSearch {
             var newFornterSquareHolder = [Tuple]()
             var prospectPathCost = Float()
             // If statment handles seg fault so that game can continue.
-            if gameBoard[currentSquare] != nil {
-                for (prospectSquare, prospectSquareCost) in gameBoard[currentSquare]! {
+            if finalGameBoard[currentSquare] != nil {
+                for (prospectSquare, prospectSquareCost) in finalGameBoard[currentSquare]! {
                     // Calculate the path cost to the new square.
                     if prospectSquareCost == 1.1 {
                         prospectPathCost = currentCost + 1
@@ -190,7 +220,7 @@ class DijkstrasSearch {
                     conditionRed = true
                 }
                 print(foodLocations)
-                return(algorithmHelperObject.formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: currentSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited), visitedNodeArray: visitedSquareArray, fronteerSquareArray: fronteerSquareArray, pathSquareArray: pathSquareArray, conditions: [conditionGreen, conditionYellow, conditionRed])
+                return(algorithmHelperObject.formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: finalGameBoard, currentSquare: currentSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited), visitedNodeArray: visitedSquareArray, fronteerSquareArray: fronteerSquareArray, pathSquareArray: pathSquareArray, conditions: [conditionGreen, conditionYellow, conditionRed])
             }
             conditionGreen = true
             conditionYellow = false
@@ -199,6 +229,6 @@ class DijkstrasSearch {
         }
         // Genarate a path and optional statistics from the results of UCS.
         print(foodLocations)
-        return(algorithmHelperObject.formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: currentSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited), visitedNodeArray: visitedSquareArray, fronteerSquareArray: fronteerSquareArray, pathSquareArray: pathSquareArray, conditions: [conditionGreen, conditionYellow, conditionRed])
+        return(algorithmHelperObject.formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: finalGameBoard, currentSquare: currentSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited), visitedNodeArray: visitedSquareArray, fronteerSquareArray: fronteerSquareArray, pathSquareArray: pathSquareArray, conditions: [conditionGreen, conditionYellow, conditionRed])
     }
 }

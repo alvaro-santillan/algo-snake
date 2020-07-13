@@ -14,7 +14,9 @@ class GameManager {
     weak var viewController: GameScreenViewController!
     var play = true
     var gameStarted = false
+    var mazeGenerated = false
     var matrix = [[Int]]()
+//    var mazeMatrix = [[Int]]()
     var moveInstructions = [Int]()
     var pathBlockCordinates = [Tuple]()
     var pathBlockCordinatesNotReversed = [Tuple]()
@@ -123,6 +125,12 @@ class GameManager {
                 foodPosition.append(SkNodeAndLocation(square: node!, location: Tuple(x: randomY, y: randomX)))
             }
         }
+        if scene.mazeGeneratingAlgorithimChoice != 0 {
+            if mazeGenerated == false {
+                mazeSelector()
+                mazeGenerated = true
+            }
+        }
         pathSelector()
     }
         
@@ -138,6 +146,21 @@ class GameManager {
     var displayVisitedSquareArray = [SkNodeAndLocation]()
     var displayPathSquareArray = [SkNodeAndLocation]()
     
+    var mazze = [Tuple : [Tuple]]()
+    
+    func mazeSelector() {
+        let sceleton = AlgorithmHelper(scene: scene)
+        let dfsp = MazeDepthFirstSearch(scene: scene)
+        
+        let mazeGameBoardDictionary = sceleton.gameBoardMatrixToDictionary(gameBoardMatrix: emptyMazeMatrixMaker())
+        let snakeHead = Tuple(x: snakeBodyPos[0].location.y, y: snakeBodyPos[0].location.x)
+        
+        if scene.mazeGeneratingAlgorithimChoice == 1 {
+            mazze = dfsp.depthFirstSearchPath(startSquare: snakeHead, foodLocations: foodPosition, gameBoard: mazeGameBoardDictionary, returnPathCost: false, returnSquaresVisited: false)
+        } else {
+            // pass
+        }
+    }
     
     func pathSelector() {
         let sceleton = AlgorithmHelper(scene: scene)
@@ -147,26 +170,51 @@ class GameManager {
         let ds = DijkstrasSearch(scene: scene)
         let ucs = UniformCostSearch(scene: scene)
         
-        
         let snakeHead = Tuple(x: snakeBodyPos[0].location.y, y: snakeBodyPos[0].location.x)
         let gameBoardDictionary = sceleton.gameBoardMatrixToDictionary(gameBoardMatrix: matrix)
         
         if scene.pathFindingAlgorithimChoice == 1 {
-            nnnpath = ass.aStarSearch(startSquare: snakeHead, foodLocations: foodPosition, gameBoard: gameBoardDictionary, returnPathCost: false, returnSquaresVisited: false)
+            nnnpath = ass.aStarSearch(startSquare: snakeHead, foodLocations: foodPosition,  maze: mazze, gameBoard: gameBoardDictionary, returnPathCost: false, returnSquaresVisited: false)
             pathManager()
         } else if scene.pathFindingAlgorithimChoice == 2 {
-            nnnpath = bfs.breathFirstSearch(startSquare: snakeHead, foodLocations: foodPosition, gameBoard: gameBoardDictionary, returnPathCost: false, returnSquaresVisited: false)
+            nnnpath = bfs.breathFirstSearch(startSquare: snakeHead, foodLocations: foodPosition, maze: mazze, gameBoard: gameBoardDictionary, returnPathCost: false, returnSquaresVisited: false)
             pathManager()
         } else if scene.pathFindingAlgorithimChoice == 3 {
-            nnnpath = dfs.depthFirstSearch(startSquare: snakeHead, foodLocations: foodPosition, gameBoard: gameBoardDictionary, returnPathCost: false, returnSquaresVisited: false)
+            nnnpath = dfs.depthFirstSearch(startSquare: snakeHead, foodLocations: foodPosition, maze: mazze, gameBoard: gameBoardDictionary, returnPathCost: false, returnSquaresVisited: false)
             pathManager()
         } else if scene.pathFindingAlgorithimChoice == 4 {
-            nnnpath = ds.dijkstrasSearch(startSquare: snakeHead, foodLocations: foodPosition, gameBoard: gameBoardDictionary, returnPathCost: false, returnSquaresVisited: false)
+            nnnpath = ds.dijkstrasSearch(startSquare: snakeHead, foodLocations: foodPosition,  maze: mazze, gameBoard: gameBoardDictionary, returnPathCost: false, returnSquaresVisited: false)
             pathManager()
         } else if scene.pathFindingAlgorithimChoice == 5 {
-            nnnpath = ucs.uniformCostSearch(startSquare: snakeHead, foodLocations: foodPosition, gameBoard: gameBoardDictionary, returnPathCost: false, returnSquaresVisited: false)
+            nnnpath = ucs.uniformCostSearch(startSquare: snakeHead, foodLocations: foodPosition,  maze: mazze, gameBoard: gameBoardDictionary, returnPathCost: false, returnSquaresVisited: false)
             pathManager()
+        // No Algorithim Mode, Need clean up
         } else {
+            func mazeSquareBuilder(visitedX: Int, visitedY: Int) {
+                let squareSK = scene.gameBoard.first(where: {$0.location == Tuple(x: visitedX, y: visitedY)})?.square
+                scene.game.barrierNodesWaitingToBeDisplayed.append(SkNodeAndLocation(square: squareSK!, location: Tuple(x: visitedX, y: visitedY)))
+                squareSK!.fillColor = scene.barrierSquareColor
+                scene.colorTheBarriers()
+                scene.game.matrix[visitedX][visitedY] = 7
+            }
+            
+            if mazze.count != 0 {
+                for i in mazze {
+                    if !(scene.game.snakeBodyPos.contains(where: { $0.location == Tuple(x: i.key.y, y: i.key.x) })) {
+                        if !(scene.game.foodPosition.contains(where: { $0.location == Tuple(x: i.key.x, y: i.key.y) })) {
+                            mazeSquareBuilder(visitedX: i.key.y, visitedY: i.key.x)
+                        }
+                    }
+                    let firstChild = mazze[i.key]
+                    for i in firstChild! {
+                        if !(scene.game.snakeBodyPos.contains(where: { $0.location == Tuple(x: i.y, y: i.x) })) {
+                            if !(scene.game.foodPosition.contains(where: { $0.location == Tuple(x: i.x, y: i.y) })) {
+                                mazeSquareBuilder(visitedX: i.y, visitedY: i.x)
+                            }
+                        }
+                    }
+                }
+            }
             moveInstructions = []
         }
         
@@ -230,6 +278,20 @@ class GameManager {
     
     func bringOvermatrix(tempMatrix: [[Int]]) {
         matrix = tempMatrix
+    }
+    
+    func emptyMazeMatrixMaker() -> [[Int]] {
+        var matrix = [[Int]]()
+        var row = [Int]()
+        
+        for _ in 1...Int(ceil(Float(scene.rowCount)/2)) {
+            for _ in 1...Int(ceil(Float(scene.columnCount)/2)) {
+                row.append(0)
+            }
+            matrix.append(row)
+            row = [Int]()
+        }
+        return matrix
     }
     
     func runPredeterminedPath() {
@@ -311,6 +373,7 @@ class GameManager {
         self.viewController?.scoreButton.layer.borderColor = UIColor.red.cgColor
         updateScore()
         gameIsOver = true
+        mazeGenerated = false
         currentScore = 0
         scene.animationDualButtonManager(buttonsEnabled: false)
     }

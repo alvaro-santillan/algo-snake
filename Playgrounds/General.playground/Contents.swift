@@ -1,26 +1,70 @@
 
-import SpriteKit
-var a = SKShapeNode()
+
+func mazeMatrix() {
+    var matrix = [[Int]]()
+    var row = [Int]()
+    
+    for x in 0...6 {
+        for y in 0...13 {
+            row.append(0)
+        }
+        matrix.append(row)
+        row = [Int]()
+    }
+    print(matrix)
+}
+
+mazeMatrix()
+
 
 struct Tuple: Hashable {
     var x: Int
     var y: Int
 }
 
-struct SkNodeAndLocation: Hashable {
-    var square: SKShapeNode
-    var location: Tuple
-}
+var squareAndParentSquare = [Tuple(x:1, y:1) : Tuple(x:1, y:2),
+                             Tuple(x:1, y:2) : Tuple(x:2, y:2),
+                             Tuple(x:1, y:4) : Tuple(x:1, y:3),
+                             Tuple(x:2, y:1) : Tuple(x:3, y:1),
+                             Tuple(x:2, y:2) : Tuple(x:2, y:1),
+                             Tuple(x:2, y:4) : Tuple(x:1, y:4),
+                             Tuple(x:3, y:1) : Tuple(x:4, y:1),
+                             Tuple(x:3, y:3) : Tuple(x:3, y:4),
+                             Tuple(x:3, y:4) : Tuple(x:2, y:4),
+                             Tuple(x:4, y:1) : Tuple(x:4, y:2),
+                             Tuple(x:4, y:2) : Tuple(x:4, y:3),
+                             Tuple(x:4, y:3) : Tuple(x:3, y:3)]
 
-func huristic(prospectSquare: Tuple, foodLocations: [SkNodeAndLocation]) -> Int {
-    var foodDistances = [Int]()
-    for foodSquare in foodLocations {
-        let tempX = abs(prospectSquare.x - foodSquare.location.x)
-        let tempY = abs(prospectSquare.y - foodSquare.location.y)
-        foodDistances.append(tempX + tempY)
+// Grows path in both directions.
+func growMatrix(squareAndParentSquare: [Tuple : Tuple]) -> [Tuple : Tuple] {
+    var newSquareAndParentSquare = [Tuple : Tuple]()
+    
+    for i in squareAndParentSquare {
+        let newChildX = i.key.x + (i.key.x - 1)
+        let newChildY = i.key.y + (i.key.y - 1)
+        let newParentX = i.value.x + (i.value.x - 1)
+        let newParentY = i.value.y + (i.value.y - 1)
+        
+        newSquareAndParentSquare[Tuple(x: newChildX, y: newChildY)] = Tuple(x: newParentX, y: newParentY)
     }
-    return foodDistances.min() ?? 0
+    return newSquareAndParentSquare
 }
 
-var foodLocations = [SkNodeAndLocation(square: a, location: Tuple(x: 0, y: 0)),SkNodeAndLocation(square: a, location: Tuple(x: 4, y: 0))]
-print(huristic(prospectSquare: Tuple(x: 1, y: 4), foodLocations: foodLocations))
+func addMissingChildrenSquares(newSquareAndParentSquare: [Tuple : Tuple]) -> [Tuple : [Tuple]] {
+    var parentSquareAndChildren = [Tuple : [Tuple]]()
+    
+    for i in newSquareAndParentSquare {
+        if i.key.x == i.value.x {
+            let missingChild = Tuple(x: i.key.x, y: abs((i.key.y + i.value.y)/2))
+            parentSquareAndChildren[i.value] = [missingChild, i.key]
+        } else if i.key.y == i.value.y {
+            let missingChild = Tuple(x: abs((i.key.x + i.value.x)/2), y: i.key.y)
+            parentSquareAndChildren[i.value] = [missingChild, i.key]
+        }
+    }
+    return parentSquareAndChildren
+}
+
+let newSquareAndParentSquare = growMatrix(squareAndParentSquare: squareAndParentSquare)
+let parentSquareAndChildren = addMissingChildrenSquares(newSquareAndParentSquare: newSquareAndParentSquare)
+print(parentSquareAndChildren)

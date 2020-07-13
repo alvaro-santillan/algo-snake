@@ -29,8 +29,12 @@ class AlgorithmHelper {
         var isYIndex = Bool()
         var isXIndex = Bool()
         var isXNefIndex = Bool()
-        let xMax = scene.columnCount
-        let yMax = scene.rowCount
+        // temp change
+//        let xMax = scene.columnCount
+//        let yMax = scene.rowCount
+        let xMax = gameBoardMatrix[0].count
+        let yMax = gameBoardMatrix.count
+//        let xMax = gameBoardMatrix.
 
         // Loop through every cell in the maze.
         for(y, matrixRow) in gameBoardMatrix.enumerated() {
