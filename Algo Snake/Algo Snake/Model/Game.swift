@@ -214,7 +214,6 @@ class GameManager {
                         }
                     }
                 }
-//                finalGameBoard = algorithmHelperObject.gameBoardMatrixToDictionary(gameBoardMatrix: scene.game.matrix)
             }
             moveInstructions = []
         }
