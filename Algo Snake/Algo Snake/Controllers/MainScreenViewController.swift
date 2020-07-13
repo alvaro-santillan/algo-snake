@@ -22,7 +22,7 @@ class MainScreenViewController: UIViewController, UITableViewDelegate, UITableVi
     
     let pathFindingAlgorithmList = [["Player","0","0"], ["A Star Search","0","0"], ["Breath First Search","0","0"], ["Depth First Search","0","0"], ["Dijkstra`s Search","0","0"], ["Uniform Cost Search","0","0"]]
     
-    let mazeGenrationAlgorithimList = [["None","0","0"], ["Coming Soon","0","0"], ["Coming Soon","0","0"], ["Coming Soon","0","0"], ["Coming Soon","0","0"], ["Coming Soon","0","0"], ["Coming Soon","0","0"], ["Coming Soon","0","0"], ["Coming Soon","0","0"]]
+    let mazeGenrationAlgorithimList = [["None","0","0"], ["Depth First Search","0","0"]]
     
     let defaults = UserDefaults.standard
     var selectedPathAlgorithim = UserDefaults.standard.integer(forKey: "Selected Path Finding Algorithim")

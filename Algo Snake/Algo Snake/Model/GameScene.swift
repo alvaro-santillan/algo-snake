@@ -20,6 +20,7 @@ class GameScene: SKScene {
     var rowCount = 7 // 7.5 Temp gets updated when the gameboard gets created.
     var columnCount = 14 // 14 Temp gets updated when the gameboard gets created.
     let pathFindingAlgorithimChoice = UserDefaults.standard.integer(forKey: "Selected Path Finding Algorithim")
+    let mazeGeneratingAlgorithimChoice = UserDefaults.standard.integer(forKey: "Selected Maze Algorithim")
     
     // Game settings
     var pathFindingAnimationSpeed = Float()

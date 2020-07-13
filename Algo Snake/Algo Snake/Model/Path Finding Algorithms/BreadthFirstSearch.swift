@@ -43,13 +43,43 @@ class BreadthFirstSearch {
         }
         fronteerSquareArray.append(innerFronterSKSquareArray)
     }
+    
+    func mazeSquareBuilder(visitedX: Int, visitedY: Int) {
+        let squareSK = scene.gameBoard.first(where: {$0.location == Tuple(x: visitedX, y: visitedY)})?.square
+        scene.game.barrierNodesWaitingToBeDisplayed.append(SkNodeAndLocation(square: squareSK!, location: Tuple(x: visitedX, y: visitedY)))
+        squareSK!.fillColor = scene.barrierSquareColor
+        scene.colorTheBarriers()
+        scene.game.matrix[visitedX][visitedY] = 7
+    }
 
     // BFS produces a dictionary in which each valid square points too only one parent.
     // Then the dictionary is processed to create a valid path.
     // The nodes are traversed in order found in the dictionary parameter.
-    func breathFirstSearch(startSquare: Tuple, foodLocations: [SkNodeAndLocation], gameBoard: [Tuple : Dictionary<Tuple, Float>], returnPathCost: Bool, returnSquaresVisited: Bool) -> (([Int], [(Tuple)], Int, Int), [SkNodeAndLocation], [[SkNodeAndLocation]], [SkNodeAndLocation], [Bool]) {
+    func breathFirstSearch(startSquare: Tuple, foodLocations: [SkNodeAndLocation], maze: [Tuple : [Tuple]], gameBoard: [Tuple : Dictionary<Tuple, Float>], returnPathCost: Bool, returnSquaresVisited: Bool) -> (([Int], [(Tuple)], Int, Int), [SkNodeAndLocation], [[SkNodeAndLocation]], [SkNodeAndLocation], [Bool]) {
         let algorithmHelperObject = AlgorithmHelper(scene: scene)
         // Initalize variable and add first square manually.
+        
+        var finalGameBoard = gameBoard
+        
+        if maze.count != 0 {
+            for i in maze {
+                if !(scene.game.snakeBodyPos.contains(where: { $0.location == Tuple(x: i.key.y, y: i.key.x) })) {
+                    if !(scene.game.foodPosition.contains(where: { $0.location == Tuple(x: i.key.x, y: i.key.y) })) {
+                        mazeSquareBuilder(visitedX: i.key.y, visitedY: i.key.x)
+                    }
+                }
+                let firstChild = maze[i.key]
+                for i in firstChild! {
+                    if !(scene.game.snakeBodyPos.contains(where: { $0.location == Tuple(x: i.y, y: i.x) })) {
+                        if !(scene.game.foodPosition.contains(where: { $0.location == Tuple(x: i.x, y: i.y) })) {
+                            mazeSquareBuilder(visitedX: i.y, visitedY: i.x)
+                        }
+                    }
+                }
+            }
+            finalGameBoard = algorithmHelperObject.gameBoardMatrixToDictionary(gameBoardMatrix: scene.game.matrix)
+        }
+        
         var visitedSquares = [Tuple]()
         var fronterSquares = [startSquare]
         var currentSquare = startSquare
@@ -70,8 +100,8 @@ class BreadthFirstSearch {
             // Append to fronter and mark parent.
             var newFornterSquareHolder = [Tuple]()
             // If statment handles seg fault so that game can continue.
-            if gameBoard[currentSquare] != nil {
-                for (prospectFronterSquare, _) in gameBoard[currentSquare]! {
+            if finalGameBoard[currentSquare] != nil {
+                for (prospectFronterSquare, _) in finalGameBoard[currentSquare]! {
                     if !(visitedSquares.contains(prospectFronterSquare)) {
                         if !(fronterSquares.contains(prospectFronterSquare)){
                             fronterSquares += [prospectFronterSquare]
@@ -99,7 +129,7 @@ class BreadthFirstSearch {
                     conditionRed = true
                 }
                 
-                return(algorithmHelperObject.formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: currentSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited), visitedNodeArray: visitedSquareArray, fronteerSquareArray: fronteerSquareArray, pathSquareArray: pathSquareArray, conditions: [conditionGreen, conditionYellow, conditionRed])
+                return(algorithmHelperObject.formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: finalGameBoard, currentSquare: currentSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited), visitedNodeArray: visitedSquareArray, fronteerSquareArray: fronteerSquareArray, pathSquareArray: pathSquareArray, conditions: [conditionGreen, conditionYellow, conditionRed])
             }
         }
         // Genarate a path and optional statistics from the results of BFS.
@@ -107,6 +137,6 @@ class BreadthFirstSearch {
         conditionYellow = false
         conditionRed = false
         
-        return(algorithmHelperObject.formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: gameBoard, currentSquare: currentSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited), visitedNodeArray: visitedSquareArray, fronteerSquareArray: fronteerSquareArray, pathSquareArray: pathSquareArray, conditions: [conditionGreen, conditionYellow, conditionRed])
+        return(algorithmHelperObject.formatSearchResults(squareAndParentSquare: squareAndParentSquare, gameBoard: finalGameBoard, currentSquare: currentSquare, visitedSquareCount: visitedSquareCount, returnPathCost: returnPathCost, returnSquaresVisited: returnSquaresVisited), visitedNodeArray: visitedSquareArray, fronteerSquareArray: fronteerSquareArray, pathSquareArray: pathSquareArray, conditions: [conditionGreen, conditionYellow, conditionRed])
     }
 }
