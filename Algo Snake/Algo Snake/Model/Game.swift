@@ -161,7 +161,7 @@ class GameManager {
         let dfs = DepthFirstSearch(scene: scene)
         let ds = DijkstrasSearch(scene: scene)
         let ucs = UniformCostSearch(scene: scene)
-        let dfsp = DepthFirstSearchPath(scene: scene)
+        let dfsp = MazeDepthFirstSearch(scene: scene)
         var mazze = [Tuple : [Tuple]]()
         
         let snakeHead = Tuple(x: snakeBodyPos[0].location.y, y: snakeBodyPos[0].location.x)
