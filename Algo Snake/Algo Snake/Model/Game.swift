@@ -14,6 +14,7 @@ class GameManager {
     weak var viewController: GameScreenViewController!
     var play = true
     var gameStarted = false
+    var mazeGenerated = false
     var matrix = [[Int]]()
 //    var mazeMatrix = [[Int]]()
     var moveInstructions = [Int]()
@@ -160,8 +161,8 @@ class GameManager {
         let dfs = DepthFirstSearch(scene: scene)
         let ds = DijkstrasSearch(scene: scene)
         let ucs = UniformCostSearch(scene: scene)
-        
         let dfsp = DepthFirstSearchPath(scene: scene)
+        var mazze = [Tuple : [Tuple]]()
         
         let snakeHead = Tuple(x: snakeBodyPos[0].location.y, y: snakeBodyPos[0].location.x)
         // temp change
@@ -176,9 +177,10 @@ class GameManager {
             pathManager()
         } else if scene.pathFindingAlgorithimChoice == 3 {
             // temp modification
-//            nnnpath = dfs.depthFirstSearch(startSquare: snakeHead, foodLocations: foodPosition, gameBoard: gameBoardDictionary, returnPathCost: false, returnSquaresVisited: false)
-            let mazze = dfsp.depthFirstSearchPath(startSquare: snakeHead, foodLocations: foodPosition, gameBoard: mazeGameBoardDictionary, returnPathCost: false, returnSquaresVisited: false)
-            print(mazze)
+            if mazeGenerated == false {
+                mazze = dfsp.depthFirstSearchPath(startSquare: snakeHead, foodLocations: foodPosition, gameBoard: mazeGameBoardDictionary, returnPathCost: false, returnSquaresVisited: false)
+                mazeGenerated = true
+            }
             nnnpath = dfs.depthFirstSearch(startSquare: snakeHead, foodLocations: foodPosition, maze: mazze, gameBoard: gameBoardDictionary, returnPathCost: false, returnSquaresVisited: false)
             pathManager()
         } else if scene.pathFindingAlgorithimChoice == 4 {
