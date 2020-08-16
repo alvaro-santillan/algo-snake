@@ -607,15 +607,15 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="xDg-9d-HTP" firstAttribute="trailing" secondItem="WOg-PK-6B8" secondAttribute="trailing" id="00f-rl-UbW"/>
+                            <constraint firstItem="xDg-9d-HTP" firstAttribute="trailing" secondItem="DhK-yG-hbA" secondAttribute="trailing" id="00f-rl-UbW"/>
                             <constraint firstItem="gzl-h0-Vcb" firstAttribute="width" secondItem="DhK-yG-hbA" secondAttribute="width" multiplier="296/736" id="EfR-bA-5kU"/>
                             <constraint firstItem="xDg-9d-HTP" firstAttribute="top" secondItem="WOg-PK-6B8" secondAttribute="top" id="IfM-jk-wQ5"/>
                             <constraint firstItem="xDg-9d-HTP" firstAttribute="width" secondItem="DhK-yG-hbA" secondAttribute="width" multiplier="440/736" id="JCI-Gg-UsO"/>
                             <constraint firstItem="gzl-h0-Vcb" firstAttribute="top" secondItem="WOg-PK-6B8" secondAttribute="top" id="aJs-Sg-gg0"/>
                             <constraint firstItem="9kc-Gc-Rnt" firstAttribute="height" secondItem="DhK-yG-hbA" secondAttribute="height" multiplier="40/414" id="bDR-Mu-okg"/>
-                            <constraint firstItem="xDg-9d-HTP" firstAttribute="bottom" secondItem="WOg-PK-6B8" secondAttribute="bottom" id="bRi-DQ-FqA"/>
-                            <constraint firstItem="gzl-h0-Vcb" firstAttribute="bottom" secondItem="WOg-PK-6B8" secondAttribute="bottom" id="f5J-Rl-4gT"/>
-                            <constraint firstItem="gzl-h0-Vcb" firstAttribute="leading" secondItem="WOg-PK-6B8" secondAttribute="leading" id="sqs-Sg-Zzr"/>
+                            <constraint firstItem="xDg-9d-HTP" firstAttribute="bottom" secondItem="DhK-yG-hbA" secondAttribute="bottom" id="bRi-DQ-FqA"/>
+                            <constraint firstItem="gzl-h0-Vcb" firstAttribute="bottom" secondItem="DhK-yG-hbA" secondAttribute="bottom" id="f5J-Rl-4gT"/>
+                            <constraint firstItem="gzl-h0-Vcb" firstAttribute="leading" secondItem="DhK-yG-hbA" secondAttribute="leading" id="sqs-Sg-Zzr"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="WOg-PK-6B8"/>
                     </view>
@@ -941,7 +941,7 @@
                             <constraint firstItem="vbn-vY-beB" firstAttribute="width" secondItem="1O6-pw-nWf" secondAttribute="width" multiplier="440/736" id="lRz-fa-pef"/>
                             <constraint firstItem="Jid-tj-SUa" firstAttribute="top" secondItem="klF-hv-Frw" secondAttribute="top" id="nP9-cw-9um"/>
                             <constraint firstItem="Jid-tj-SUa" firstAttribute="leading" secondItem="klF-hv-Frw" secondAttribute="leading" id="ogG-FI-000"/>
-                            <constraint firstItem="vbn-vY-beB" firstAttribute="trailing" secondItem="klF-hv-Frw" secondAttribute="trailing" id="qcm-Bp-Jbz"/>
+                            <constraint firstItem="vbn-vY-beB" firstAttribute="trailing" secondItem="1O6-pw-nWf" secondAttribute="trailing" id="qcm-Bp-Jbz"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="klF-hv-Frw"/>
                     </view>
