@@ -53,6 +53,9 @@ class MainScreenViewController: UIViewController, UITableViewDelegate, UITableVi
             
             defaults.set(0, forKey: "Selected Path Finding Algorithim")
             defaults.set(0, forKey: "Selected Maze Algorithim")
+            // Bug fix: prevents nil nil from occupying gamescreen on first launch.
+            defaults.set("Player", forKey: "Selected Path Finding Algorithim Name")
+            defaults.set("None", forKey: "Selected Maze Algorithim Name")
             overrideUserInterfaceStyle = .dark
         }
     }

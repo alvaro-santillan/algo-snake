@@ -154,8 +154,8 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="328" height="32"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <segments>
-                                                    <segment title="Algorithim"/>
-                                                    <segment title="Barrier"/>
+                                                    <segment title="Path"/>
+                                                    <segment title="Maze"/>
                                                 </segments>
                                                 <connections>
                                                     <action selector="segmentedControllerTapped:" destination="BV1-FR-VrT" eventType="valueChanged" id="YQn-jb-5x6"/>

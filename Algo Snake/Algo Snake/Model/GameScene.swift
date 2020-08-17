@@ -223,7 +223,19 @@ class GameScene: SKScene {
         let mazeGenerationAlgorithimName = defaults.string(forKey: "Selected Maze Algorithim Name")
         
         algorithimChoiceName = SKLabelNode(fontNamed: "Dogica_Pixel")
-        algorithimChoiceName.text = "Path: \(pathFindingAlgorithimName ?? "Player"), Maze: \(mazeGenerationAlgorithimName ?? "None")"
+        
+        if pathFindingAlgorithimName == nil || mazeGenerationAlgorithimName == nil {
+            algorithimChoiceName.text = "Oops Something Went Wrong"
+        } else if pathFindingAlgorithimName == "Player" && mazeGenerationAlgorithimName == "None" {
+            algorithimChoiceName.text = "No Algorithm Selected"
+        } else if pathFindingAlgorithimName == "Player" {
+            algorithimChoiceName.text = "\(mazeGenerationAlgorithimName ?? "") Maze"
+        } else if mazeGenerationAlgorithimName == "None" {
+            algorithimChoiceName.text = "\(pathFindingAlgorithimName ?? "") Path"
+        } else {
+            algorithimChoiceName.text = "\(pathFindingAlgorithimName ?? "") Path & \(mazeGenerationAlgorithimName ?? "") Maze"
+        }
+        
         algorithimChoiceName.fontColor = screenLabelColor
         algorithimChoiceName.fontSize = 11
         algorithimChoiceName.horizontalAlignmentMode = .center
