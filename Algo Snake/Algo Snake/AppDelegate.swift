@@ -17,10 +17,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let defaultValue = ["highScore" : 0]
         UserDefaults.standard.register(defaults: defaultValue)
-        UserDefaults.standard.set(0, forKey: "Selected Path Finding Algorithim")
-        UserDefaults.standard.set(0, forKey: "Selected Maze Algorithim")
-        UserDefaults.standard.set("Player", forKey: "Selected Path Finding Algorithim Name")
-        UserDefaults.standard.set("None", forKey: "Selected Maze Algorithim Name")
+//        UserDefaults.standard.set(0, forKey: "Selected Path Finding Algorithim")
+//        UserDefaults.standard.set(0, forKey: "Selected Maze Algorithim")
+//        UserDefaults.standard.set("Player", forKey: "Selected Path Finding Algorithim Name")
+//        UserDefaults.standard.set("None", forKey: "Selected Maze Algorithim Name")
         UserDefaults.standard.set(true, forKey: "Game Is Paused Setting")
         return true
     }

@@ -50,6 +50,9 @@ class MainScreenViewController: UIViewController, UITableViewDelegate, UITableVi
             defaults.set(true, forKey: "Dark Mode On Setting")
             defaults.set(true, forKey: "Not First Launch")
             defaults.set(true, forKey: "Game Is Paused Setting")
+            
+            defaults.set(0, forKey: "Selected Path Finding Algorithim")
+            defaults.set(0, forKey: "Selected Maze Algorithim")
             overrideUserInterfaceStyle = .dark
         }
     }
