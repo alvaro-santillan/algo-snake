@@ -18,7 +18,7 @@ class GameScreenViewController: UIViewController {
     weak var mainScreenViewController: MainScreenViewController!
     
     let defaults = UserDefaults.standard
-    let legendData = UserDefaults.standard.array(forKey: "Legend Preferences") as! [[Any]]
+    var legendData = UserDefaults.standard.array(forKey: "Legend Preferences") as! [[Any]]
     let scenee = SKScene()
     var currentGame: GameManager?
     
@@ -74,7 +74,8 @@ class GameScreenViewController: UIViewController {
     }
     
     @IBAction func scoreButtonTapped(_ sender: UIButton) {
-        
+        // Bug Fix score button colors do not update to new colors.
+        legendData = UserDefaults.standard.array(forKey: "Legend Preferences") as! [[Any]]
         // If button tapped switch to next option.
         switch sender.tag {
             case 1:
